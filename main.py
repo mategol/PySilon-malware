@@ -121,7 +121,7 @@ async def on_raw_reaction_add(payload):
 
 @client.event
 async def on_reaction_add(reaction, user):
-    global tree_messages
+    global tree_messages, messages_from_sending_big_file
     if user.bot == False:
         try:
             if str(reaction) == '🔴':
@@ -134,6 +134,11 @@ async def on_reaction_add(reaction, user):
                 if reaction.message.content[:15] == '```End of tree.':
                     await reaction.message.channel.send(file=discord.File('tree.txt'))
                     os.system('del tree.txt')
+            elif str(reaction) == '✅':
+                if len(messages_from_sending_big_file) > 1:
+                    for i in messages_from_sending_big_file:
+                        await i.delete()
+                    messages_from_sending_big_file = []
         except: pass
 
 @client.event
@@ -147,7 +152,7 @@ async def on_raw_reaction_remove(payload):
 
 @client.event
 async def on_message(message):
-    global channel_ids, vc, working_directory, tree_messages
+    global channel_ids, vc, working_directory, tree_messages, messages_from_sending_big_file
     if message.author != client.user:
         if message.content == '.ss':
             await message.delete()
@@ -230,6 +235,8 @@ async def on_message(message):
                         if os.stat(target_file).st_size <= 8388608:
                             await message.channel.send(file=discord.File(target_file))
                         else:
+                            try: os.mkdir('temp')
+                            except: rmtree('temp'); os.mkdir('temp')
                             Split(target_file, 'temp').bysize(1024*1024*8)
                             splitted_files_to_send = os.listdir('temp')
                             for sfile in splitted_files_to_send:
@@ -246,7 +253,6 @@ async def on_message(message):
                             await reaction_msg.add_reaction('✅')
                     else:
                         reaction_msg = await message.channel.send('```❗ File or directory not found.```'); await reaction_msg.add_reaction('🔴')
-
             else:
                 reaction_msg = await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||'); await reaction_msg.add_reaction('🔴')
 
