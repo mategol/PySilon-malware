@@ -20,7 +20,6 @@ PySilon malware can do plenty of things, like:
 # Installation
 This malware is designed for Windows, however, you can prepare everything on Linux as well.
 ```
-git clone https://github.com/mategol/kesaro-python
+git clone https://github.com/mategol/pylison-python
 pip install -r requirements.txt
-python main.py
 ```
