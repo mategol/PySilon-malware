@@ -8,3 +8,5 @@ scipy
 pyautogui
 pynacl
 psutil
+pypiwin32
+pycryptodome
