@@ -34,7 +34,14 @@ This process consists of 3 stages:
 
 <img src="https://user-images.githubusercontent.com/44233157/203310675-fc589377-63f7-43f0-b69e-ec7bfaa75b5d.jpg" />
 
+> Then create 4 text-channels and 1 voice-channel for different use:<br />
+> • main -> for main KeyLogger output and general commands<br />
+> • spam-gaming -> for filtered KeyLogger output while target is (for example) playing game<br />
+> • recordings -> for storing microphone recordings<br />
+> • file-related -> for everything that is related to files<br />
+> • Live microphone -> for streaming live microphone input
 
+<img src="https://user-images.githubusercontent.com/44233157/203312123-2d5015a2-6a2e-46fd-8104-f1fc5ff409a9.jpg" />
 
 
 
