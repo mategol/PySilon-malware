@@ -20,4 +20,4 @@ with open(input_dir + '/manifest', 'r') as manifest:
 filename = ','.join(filename[::-1].split(',')[2:]).replace('1_', '', 1)[::-1]
 
 Merge(input_dir, '.', filename).merge(cleanup=True)
-print('Done')
+input('Done (press ENTER to quit)')
