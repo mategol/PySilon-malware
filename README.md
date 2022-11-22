@@ -27,7 +27,7 @@ This malware is designed for Windows, however, you can prepare everything on Lin
   `.ss` - take screenshot at any time<br />
   `.join` - join voice-channel and stream live microphone input<br />
   `.show <what-to-show>` - get list of running processes or available commands<br />
-  `.kill <process-ID>` - kill any running process<br />
+  `.kill <process-id>` - kill any running process<br />
 \* `.clear` - clear messages from file-related channel<br />
 \* `.pwd` - show working directory<br />
 \* `.tree` - show tree of working directory<br />
@@ -37,7 +37,7 @@ This malware is designed for Windows, however, you can prepare everything on Lin
 \* `.upload <type> [name]` - upload any file or zipped directory (also greater than 8MB ones) onto target PC<br />
 \* `.start <file>` - run any file on target PC<br />
 \* `.remove <file-or-dir>` - remove file or directory on target PC<br />
-  `.update` - update PySilon remotely<br />
+  `.update <access-code>` - update PySilon remotely<br />
   `.implode <access-code>` - remove PySilon from target PC and clean the "evidence"<br />
 
 <br />\* command available on file-related channel only
@@ -135,9 +135,15 @@ software_executable_name = software_registry_name.replace(' ', '') + '.exe'   # 
 > **This command makes BOT join voice-channel and stream live microphone input:**<br />
 <img src="https://user-images.githubusercontent.com/44233157/203397968-79001712-5fd1-43cd-a898-774c57c0c1e6.png" />
 
-### `.show`
+### `.show <what-to-show>`
+> **`<what-to-show>` - as typed, specifies the information that you want to obtain. These can be "`processes`" or "`commands`" at the moment *(without quotes)*.**<br />
+> **"`processes`" gives you a list of currently running processes on target PC.**<br />
+> **"`commands`" gives you a list of all available commands along with short brief about them.**<br />
+> **This command shows you specific types of information:**<br />
 
-### `.kill`
+### `.kill <process-id>`
+> **`<process-id>` - index of process attached after `.show processes` command**<br />
+> **This command kills running process:**<br />
 
 ### `.clear`
 > **This command clears messages from file-related channel:**<br />
@@ -173,7 +179,10 @@ software_executable_name = software_registry_name.replace(' ', '') + '.exe'   # 
 
 ### `.update <access-code>`
 > **`<access-code>` - secret password for authentication of potentially risky actions *(like errors shutting down the malware)*. Access Code is defined in 60th line of main.py**<br />
-> **This command updates already working malware remotely *(with executable prepared by you and splitted by splitter.py)*:**
+> **This command updates already working malware remotely *(with executable prepared by you and splitted by splitter.py)*:**<br />
 
+### `.implode <access-code>`
+> **`<access-code>` - secret password for authentication of potentially risky actions *(like errors shutting down the malware)*. Access Code is defined in 60th line of main.py**<br />
+> **This command completely removes PySilon malware from target PC and cleans possible evidence:**<br />
 
 
