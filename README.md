@@ -24,21 +24,21 @@ This malware is designed for Windows, however, you can prepare everything on Lin
 <a href="https://github.com/mategol/pysilon-python/edit/main/README.md#setup">`Follow the Setup instructions`</a>
 
 # Available commands
-  `.ss` - take screenshot at any time<br />
-  `.join` - join voice-channel and stream live microphone input<br />
-  `.show <what-to-show>` - get list of running processes or available commands<br />
-  `.kill <process-id>` - kill any running process<br />
-\* `.clear` - clear messages from file-related channel<br />
-\* `.pwd` - show working directory<br />
-\* `.tree` - show tree of working directory<br />
-\* `.ls` - list content of working directory<br />
-\* `.cd <dir>` - change working directory<br />
-\* `.download <file-or-dir>` - download any file or zipped directory (also greater than 8MB ones) from target PC<br />
-\* `.upload <type> [name]` - upload any file or zipped directory (also greater than 8MB ones) onto target PC<br />
-\* `.start <file>` - run any file on target PC<br />
-\* `.remove <file-or-dir>` - remove file or directory on target PC<br />
-  `.update <access-code>` - update PySilon remotely<br />
-  `.implode <access-code>` - remove PySilon from target PC and clean the "evidence"<br />
+  <a href="https://github.com/mategol/pysilon-python#ss">`.ss`</a> - take screenshot at any time<br />
+  <a href="https://github.com/mategol/pysilon-python#join">`.join`</a> - join voice-channel and stream live microphone input<br />
+  <a href="https://github.com/mategol/pysilon-python#show-what-to-show">`.show <what-to-show>`</a> - get list of running processes or available commands<br />
+  <a href="https://github.com/mategol/pysilon-python#kill-process-id">`.kill <process-id>`</a> - kill any running process<br />
+\* <a href="https://github.com/mategol/pysilon-python#clear">`.clear`</a> - clear messages from file-related channel<br />
+\* <a href="https://github.com/mategol/pysilon-python#pwd">`.pwd`</a> - show working directory<br />
+\* <a href="https://github.com/mategol/pysilon-python#tree">`.tree`</a> - show tree of working directory<br />
+\* <a href="https://github.com/mategol/pysilon-python#ls">`.ls`</a> - list content of working directory<br />
+\* <a href="https://github.com/mategol/pysilon-python#cd-directory">`.cd <dir>`</a> - change working directory<br />
+\* <a href="https://github.com/mategol/pysilon-python#download-file-or-directory">`.download <file-or-dir>`</a> - download any file or zipped directory (also greater than 8MB ones) from target PC<br />
+\* <a href="https://github.com/mategol/pysilon-python#upload-type-filename">`.upload <type> [name]`</a> - upload any file or zipped directory (also greater than 8MB ones) onto target PC<br />
+\* <a href="https://github.com/mategol/pysilon-python#start-file">`.start <file>`</a> - run any file on target PC<br />
+\* <a href="https://github.com/mategol/pysilon-python#remove-file-or-dir">`.remove <file-or-dir>`</a> - remove file or directory on target PC<br />
+  <a href="https://github.com/mategol/pysilon-python#update-access-code">`.update <access-code>`</a> - update PySilon remotely<br />
+  <a href="https://github.com/mategol/pysilon-python#implode-access-code">`.implode <access-code>`</a> - remove PySilon from target PC and clean the "evidence"<br />
 
 <br />\* command available on file-related channel only
 
@@ -165,9 +165,9 @@ software_executable_name = software_registry_name.replace(' ', '') + '.exe'   # 
 > **This command allows you to download a file or zipped directory from target PC:**<br />
   
 ### `.upload <type> [filename]`
-> **`<type>` - `"single"` or `"multiple"` *(without quotes)***<br />
-> **`"single"` means that you want to upload one file *(with size smaller than 8MB)***<br />
-> **`"multiple"` means that you want to upload multiple files *(prepared by splitter.py with total size greater than 8MB)***<br />
+> **`<type>` - "`single`" or "`multiple`" *(without quotes)***<br />
+> **"`single`" means that you want to upload one file *(with size smaller than 8MB)***<br />
+> **"`multiple`" means that you want to upload multiple files *(prepared by splitter.py with total size greater than 8MB)***<br />
 > **`[filename]` - name of uploaded file *(this option is required only wtih `type` of `multiple`)***<br />
 > **This command allows you to upload a file or zipped directory onto target PC:**<br />
 
