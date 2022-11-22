@@ -121,7 +121,13 @@ software_executable_name = software_registry_name.replace(' ', '') + '.exe'   # 
 
 <img src="https://user-images.githubusercontent.com/44233157/203323394-27ff946c-4a9b-4c83-ae77-9dec1fa14842.jpg" />
 
-> `Now, everything is set up for compiling the malware into Windows executable`
+> Last thing to do is set a secret password (line 60) for authenticating actions that can seriously affect the malware:
+```python
+access_code = ''   # Set access code for ".update" and ".implode" commands that can result in errors shutting down the malware
+```
+<br />
+
+> **`Now, everything is set up for compiling the malware into Windows executable`**
 
 <br />
 
