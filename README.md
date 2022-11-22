@@ -146,10 +146,14 @@ access_code = ''   # Set access code for ".update" and ".implode" commands that 
 > **"`processes`" gives you a list of currently running processes on target PC.**<br />
 > **"`commands`" gives you a list of all available commands along with short brief about them.**<br />
 > **This command shows you specific types of information:**<br />
+<img src="https://user-images.githubusercontent.com/44233157/203438468-43aed4e3-8d21-41a9-87a0-3630b58979b8.jpg" />
+
 
 ### `.kill <process-id>`
 > **`<process-id>` - index of process attached after `.show processes` command**<br />
 > **This command kills running process:**<br />
+<img src="https://user-images.githubusercontent.com/44233157/203439640-f7754516-be78-4e06-81f8-b22f08eeebd1.jpg" />
+
 
 ### `.clear`
 > **This command clears messages from file-related channel:**<br />
