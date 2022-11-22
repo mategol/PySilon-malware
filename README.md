@@ -42,23 +42,6 @@ This malware is designed for Windows, however, you can prepare everything on Lin
 
 <br />\* command available on file-related channel only
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Setup
 <b>This process consists of 3 stages:</b>
 > <a href="https://github.com/mategol/pysilon-python/edit/main/README.md#prepare-discord-server-and-discord-bot">1. Prepare Discord server and Discord BOT</a><br />
@@ -139,6 +122,41 @@ software_executable_name = software_registry_name.replace(' ', '') + '.exe'   # 
 <img src="https://user-images.githubusercontent.com/44233157/203323394-27ff946c-4a9b-4c83-ae77-9dec1fa14842.jpg" />
 
 > `Now, everything is set up for compiling the malware into Windows executable`
+
+<br />
+
+# Commands manual
+
+### .ss
+> This command takes a screenshot of target PC at any time:<br />
+<img src="https://user-images.githubusercontent.com/44233157/203397679-78bf53de-0a66-4ee2-811e-5b8cf10377dc.png" />
+
+### .join
+> This command makes BOT join voice-channel and stream live microphone input:<br />
+<img src="https://user-images.githubusercontent.com/44233157/203397968-79001712-5fd1-43cd-a898-774c57c0c1e6.png" />
+
+### .show
+
+### .kill
+
+### .clear
+> This command clears messages from file-related channel:<br />
+<img src="https://user-images.githubusercontent.com/44233157/203398296-c73b79e8-9f70-45ec-9607-586cd54767a6.png" />
+
+### .pwd
+> This command shows you working directory path:<br />
+
+### .tree
+> This command shows you file-and-directory structure of working directory:<br />
+
+### .ls
+> This command shows you content of working directory:<br />
+
+### .cd <directory>
+> This command changes working directory:<br />
+  
+### .download <file-or-directory>
+> This command allows you to download a file or zipped directory:<br />
 
 
 
