@@ -5,7 +5,7 @@ Advanced RAT malware written in Python, fully controllable through Discord.
 > Information and code provided on this repository are for educational purposes only. The creator is no way responsible for any direct or indirect damage caused due to the misusage of the information. Everything you do, you are doing at your own risk and responsibility.
 
 # Features
-PySilon malware can do plenty of things, like:
+### PySilon malware can do plenty of things, like:
 - log every key pressed on keyboard
 - take screenshots anytime you want
 - record microphone input (24/7) and save it in .wav files
@@ -18,16 +18,15 @@ PySilon malware can do plenty of things, like:
 - update itself (todo)
 
 # Preparation
-This malware is designed for Windows, however, you can prepare everything on Linux as well.
-```
-git clone https://github.com/mategol/pylison-python
-pip install -r requirements.txt
-```
+This malware is designed for Windows, however, you can prepare everything on Linux as well.<br />
+`git clone https://github.com/mategol/pylison-python`<br />
+`pip install -r requirements.txt`<br />
+<a href="https://github.com/mategol/pysilon-python/edit/main/README.md#setup">`Follow the Setup instructions`</a>
 
 # Setup
-This process consists of 3 stages:
-> 1. Prepare Discord server and Discord BOT<br />
-> 2. Set up required values in source code<br />
+<b>This process consists of 3 stages:</b>
+> <a href="https://github.com/mategol/pysilon-python/edit/main/README.md#prepare-discord-server-and-discord-bot">1. Prepare Discord server and Discord BOT</a><br />
+> <a href="https://github.com/mategol/pysilon-python/edit/main/README.md#set-up-required-values-in-source-code">2. Set up required values in source code</a><br />
 > 3. Compile malware to Windows executable<br />
 ### Prepare Discord server and Discord BOT
 > First of all, you need Discord server as environment for remote controlling PySilon. In order to do that, create new one:
@@ -99,7 +98,11 @@ software_executable_name = software_registry_name.replace(' ', '') + '.exe'   # 
 # As you can see, theese variables are set based on registry name by default. However you can just change it to string if you want
 ```
 
+> To set channel-IDs in lines 53-57, you need to copy them by right-clicking on channel and then 'Copy ID':
 
+<img src="https://user-images.githubusercontent.com/44233157/203323394-27ff946c-4a9b-4c83-ae77-9dec1fa14842.jpg" />
+
+> `Now, everything is set up for compiling the malware into Windows executable`
 
 
 
