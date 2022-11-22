@@ -29,17 +29,18 @@ This malware is designed for Windows, however, you can prepare everything on Lin
 `.show <what-to-show>` - get list of running processes or available commands<br />
 `.kill <process-ID>` - kill any running process<br />
 `.clear` - clear messages from file-related channel<br />
-`.pwd` - show working directory (file-related channel only)<br />
-`.tree` - show tree of working directory (file-related channel only)<br />
-`.ls` - list content of working directory (file-related channel only)<br />
-`.cd <dir>` - change working directory (file-related channel only)<br />
-`.download <file-or-dir>` - download any file or zipped directory (also greater than 8MB ones) from target PC (file-related channel only)<br />
-`.upload <type> [name]` - upload any file or zipped directory (also greater than 8MB ones) onto target PC (file-related channel only)<br />
-`.start <file>` - run any file on target PC (file-related channel only)<br />
-`.remove <file-or-dir>` - remove file or directory on target PC<br />
+`.pwd` - show working directory \*<br />
+`.tree` - show tree of working directory \*<br />
+`.ls` - list content of working directory \*<br />
+`.cd <dir>` - change working directory \*<br />
+`.download <file-or-dir>` - download any file or zipped directory (also greater than 8MB ones) from target PC \*<br />
+`.upload <type> [name]` - upload any file or zipped directory (also greater than 8MB ones) onto target PC \*<br />
+`.start <file>` - run any file on target PC \*<br />
+`.remove <file-or-dir>` - remove file or directory on target PC \*<br />
 `.update` - update PySilon remotely<br />
-`.implode <access-code>` - remove PySilon from target PC and clean the "evidence"
+`.implode <access-code>` - remove PySilon from target PC and clean the "evidence"<br />
 
+<br />\* command available on file-related channel only
 
 
 
