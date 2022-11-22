@@ -1,0 +1,9 @@
+discord.py
+pynput
+pillow
+filesplit
+pyaudio
+sounddevice
+scipy
+pyautogui
+pynacl
