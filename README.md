@@ -21,7 +21,7 @@ Advanced RAT malware written in Python, fully controllable through Discord.
 This malware is designed for Windows, however, you can prepare everything on Linux as well.<br />
 `git clone https://github.com/mategol/pylison-python`<br />
 `pip install -r requirements.txt`<br />
-<a href="https://github.com/mategol/pysilon-python/edit/main/README.md#setup">`Follow the Setup instructions`</a>
+<a href="https://github.com/mategol/pysilon-python#setup">`Follow the Setup instructions`</a>
 
 # Available commands
   <a href="https://github.com/mategol/pysilon-python#ss">`.ss`</a> - take screenshot at any time<br />
@@ -44,8 +44,8 @@ This malware is designed for Windows, however, you can prepare everything on Lin
 
 # Setup
 <b>This process consists of 3 stages:</b>
-> <a href="https://github.com/mategol/pysilon-python/edit/main/README.md#prepare-discord-server-and-discord-bot">1. Prepare Discord server and Discord BOT</a><br />
-> <a href="https://github.com/mategol/pysilon-python/edit/main/README.md#set-up-required-values-in-source-code">2. Set up required values in source code</a><br />
+> <a href="https://github.com/mategol/pysilon-python#prepare-discord-server-and-discord-bot">1. Prepare Discord server and Discord BOT</a><br />
+> <a href="https://github.com/mategol/pysilon-python#set-up-required-values-in-source-code">2. Set up required values in source code</a><br />
 > 3. Compile malware to Windows executable<br />
 ### Prepare Discord server and Discord BOT
 > First of all, you need Discord server as environment for remote controlling PySilon. In order to do that, create new one:
