@@ -55,5 +55,25 @@ This process consists of 3 stages:
 
 <img src="https://user-images.githubusercontent.com/44233157/203315507-95ded29a-d6db-4681-9715-c70c27aabd0f.png" />
 
+> Then, reset BOT-Token and copy it for later use:
+
+<img src="https://user-images.githubusercontent.com/44233157/203316364-71fd167d-bf0c-4592-90f3-992da45b6891.jpg" />
+
+> Then, go to "OAuth2" section and "URL Generator" tab:
+
+<img src="https://user-images.githubusercontent.com/44233157/203318137-fe379bb9-e94b-4572-80f4-783f32c2d81f.png" />
+
+> THen, check "bot" scope and "Administrator" permissions:
+
+<img src="https://user-images.githubusercontent.com/44233157/203318332-27c1a692-3e56-41e4-b7df-0f0289768806.png" />
+
+> Then, copy and open generated URL. New window will appear. Select "PySilon controller" server and BOT will join:
+
+<img src="https://user-images.githubusercontent.com/44233157/203319649-e4db527a-741e-4436-8bb1-d7fe674b0e2b.jpg" />
+
+> As you can see, BOT is now in the server:
+
+<img src="https://user-images.githubusercontent.com/44233157/203319836-e7aeb93f-3c22-491b-aea2-cd2aaa41d65d.png" />
+
 
 
