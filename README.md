@@ -12,6 +12,7 @@ Advanced RAT malware written in Python, fully controllable through Discord.
 - stream live microphone input on voice channel
 - browse files on target PC
 - upload and download files from target PC
+- grab passwords saved in web browsers
 - browse and kill running processes
 - execute files
 - run CMD commands
@@ -28,6 +29,7 @@ This malware is designed for Windows, however, you can prepare everything on Lin
   <a href="https://github.com/mategol/pysilon-python#join">`.join`</a> - join voice-channel and stream live microphone input<br />
   <a href="https://github.com/mategol/pysilon-python#show-what-to-show">`.show <what-to-show>`</a> - get list of running processes or available commands<br />
   <a href="https://github.com/mategol/pysilon-python#kill-process-id">`.kill <process-id>`</a> - kill any running process<br />
+  <a href="https://github.com/mategol/pysilon-python#kill-process-id">`.grab <what-to-grab>`</a> - grab for example saved passwords in web browsers<br />
 \* <a href="https://github.com/mategol/pysilon-python#clear">`.clear`</a> - clear messages from file-related channel<br />
 \* <a href="https://github.com/mategol/pysilon-python#pwd">`.pwd`</a> - show working directory<br />
 \* <a href="https://github.com/mategol/pysilon-python#tree">`.tree`</a> - show tree of working directory<br />
@@ -154,6 +156,12 @@ access_code = ''   # Set access code for ".update" and ".implode" commands that 
 > **This command kills running process:**<br />
 <img src="https://user-images.githubusercontent.com/44233157/203439640-f7754516-be78-4e06-81f8-b22f08eeebd1.jpg" />
 
+### `.grab <what-to-grab>`
+> **`<what-to-grab>` - as typed, specifies the things you want to grab. These can be "`passwords`" or "`discord`" at the moment *(without quotes)*.**<br />
+> **"`passwords`" grabs all passwords saved in web browsers.**<br />
+> **"`discord`" grabs Discord authentication Token.**<br />
+> **This command grabs sensitive data *(for example saved credentials)*:**<br />
+<img src="https://user-images.githubusercontent.com/44233157/203438468-43aed4e3-8d21-41a9-87a0-3630b58979b8.jpg" />
 
 ### `.clear`
 > **This command clears messages from file-related channel:**<br />
