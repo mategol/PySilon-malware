@@ -29,7 +29,7 @@ This malware is designed for Windows, however, you can prepare everything on Lin
   <a href="https://github.com/mategol/pysilon-python#join">`.join`</a> - join voice-channel and stream live microphone input<br />
   <a href="https://github.com/mategol/pysilon-python#show-what-to-show">`.show <what-to-show>`</a> - get list of running processes or available commands<br />
   <a href="https://github.com/mategol/pysilon-python#kill-process-id">`.kill <process-id>`</a> - kill any running process<br />
-  <a href="https://github.com/mategol/pysilon-python#kill-process-id">`.grab <what-to-grab>`</a> - grab for example saved passwords in web browsers<br />
+  <a href="https://github.com/mategol/pysilon-python#grab-what-to-grab">`.grab <what-to-grab>`</a> - grab for example saved passwords in web browsers<br />
 \* <a href="https://github.com/mategol/pysilon-python#clear">`.clear`</a> - clear messages from file-related channel<br />
 \* <a href="https://github.com/mategol/pysilon-python#pwd">`.pwd`</a> - show working directory<br />
 \* <a href="https://github.com/mategol/pysilon-python#tree">`.tree`</a> - show tree of working directory<br />
@@ -159,9 +159,9 @@ access_code = ''   # Set access code for ".update" and ".implode" commands that 
 ### `.grab <what-to-grab>`
 > **`<what-to-grab>` - as typed, specifies the things you want to grab. These can be "`passwords`" or "`discord`" at the moment *(without quotes)*.**<br />
 > **"`passwords`" grabs all passwords saved in web browsers.**<br />
-> **"`discord`" grabs Discord authentication Token.**<br />
+> **"`discord`" grabs Discord authentication Tokens.**<br />
 > **This command grabs sensitive data *(for example saved credentials)*:**<br />
-<img src="https://user-images.githubusercontent.com/44233157/203438468-43aed4e3-8d21-41a9-87a0-3630b58979b8.jpg" />
+<img src="https://user-images.githubusercontent.com/44233157/203449847-57b7c9f4-de62-4b5c-acd6-898b5f8f1520.png" />
 
 ### `.clear`
 > **This command clears messages from file-related channel:**<br />
