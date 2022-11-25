@@ -159,13 +159,19 @@ access_code = ''   # Set access code for ".update" and ".implode" commands that 
 
 # Commands manual
 
+<br />
+
 ### `.ss`
 > **This command takes a screenshot of target PC at any time:**<br />
 <p align='center'><img src="https://user-images.githubusercontent.com/44233157/203397679-78bf53de-0a66-4ee2-811e-5b8cf10377dc.png" /></p>
 
+<br />
+
 ### `.join`
 > **This command makes BOT join voice-channel and stream live microphone input:**<br />
 <p align='center'><img src="https://user-images.githubusercontent.com/44233157/203397968-79001712-5fd1-43cd-a898-774c57c0c1e6.png" /></p>
+
+<br />
 
 ### `.show <what-to-show>`
 > **`<what-to-show>` - as typed, specifies the information that you want to obtain. These can be "`processes`" or "`commands`" at the moment *(without quotes)*.**<br />
@@ -174,11 +180,14 @@ access_code = ''   # Set access code for ".update" and ".implode" commands that 
 > **This command shows you specific types of information:**<br />
 <p align='center'><img src="https://user-images.githubusercontent.com/44233157/203438468-43aed4e3-8d21-41a9-87a0-3630b58979b8.jpg" /></p>
 
+<br />
 
 ### `.kill <process-id>`
 > **`<process-id>` - index of process attached after `.show processes` command**<br />
 > **This command kills running process:**<br />
 <p align='center'><img src="https://user-images.githubusercontent.com/44233157/203439640-f7754516-be78-4e06-81f8-b22f08eeebd1.jpg" /></p>
+
+<br />
 
 ### `.grab <what-to-grab>`
 > **`<what-to-grab>` - as typed, specifies the things you want to grab. These can be "`passwords`" or "`discord`" at the moment *(without quotes)*.**<br />
@@ -189,25 +198,39 @@ access_code = ''   # Set access code for ".update" and ".implode" commands that 
 > **This command grabs sensitive data *(for example saved credentials)*:**<br />
 <p align='center'><img src="https://user-images.githubusercontent.com/44233157/203449847-57b7c9f4-de62-4b5c-acd6-898b5f8f1520.png" /></p>
 
+<br />
+
 ### `.clear`
 > **This command clears messages from file-related channel:**<br />
 <p align='center'><img src="https://user-images.githubusercontent.com/44233157/203398296-c73b79e8-9f70-45ec-9607-586cd54767a6.png" /></p>
 
+<br />
+
 ### `.pwd`
 > **This command shows you working directory path:**<br />
+
+<br />
 
 ### `.tree`
 > **This command shows you file-and-directory structure of working directory:**<br />
 
+<br />
+
 ### `.ls`
 > **This command shows you content of working directory:**<br />
 
+<br />
+
 ### `.cd <directory>`
 > **This command changes working directory:**<br />
-  
+
+<br />
+
 ### `.download <file-or-directory>`
 > **This command allows you to download a file or zipped directory from target PC:**<br />
-  
+
+<br />
+
 ### `.upload <type> [filename]`
 > **`<type>` - "`single`" or "`multiple`" *(without quotes)***<br />
 > **"`single`" means that you want to upload one file *(with size smaller than 8MB)***<br />
@@ -215,18 +238,28 @@ access_code = ''   # Set access code for ".update" and ".implode" commands that 
 > **`[filename]` - name of uploaded file *(this option is required only wtih `type` of `multiple`)***<br />
 > **This command allows you to upload a file or zipped directory onto target PC:**<br />
 
+<br />
+
 ### `.start <file>`
 > **This command starts any file on target PC:**<br />
 
+<br />
+
 ### `.remove <file-or-dir>`
 > **This command removes any file or directory on target PC:**<br />
+
+<br />
 
 ### `.update <access-code>`
 > **`<access-code>` - secret password for authentication of potentially risky actions *(like errors shutting down the malware)*. Access Code is defined in 60th line of main.py**<br />
 > **This command updates already working malware remotely *(with executable prepared by you and splitted by splitter.py)*:**<br />
 
+<br />
+
 ### `.implode <access-code>`
 > **`<access-code>` - secret password for authentication of potentially risky actions *(like errors shutting down the malware)*. Access Code is defined in 60th line of main.py**<br />
 > **This command completely removes PySilon malware from target PC and cleans possible evidence:**<br />
+
+<br />
 
 </span>
