@@ -10,3 +10,4 @@ pynacl
 psutil
 pypiwin32
 pycryptodome
+requests
