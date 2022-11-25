@@ -45,14 +45,19 @@ This malware is designed for Windows, however, you can prepare everything on Lin
 <br />\* command available on file-related channel only
 
 # Setup
+
 <b>This process consists of 3 stages:</b>
 > <a href="https://github.com/mategol/pysilon-python#prepare-discord-server-and-discord-bot">1. Prepare Discord server and Discord BOT</a><br />
 > <a href="https://github.com/mategol/pysilon-python#set-up-required-values-in-source-code">2. Set up required values in source code</a><br />
 > 3. Compile malware to Windows executable<br />
+
+<span align='center'>
+
 ### Prepare Discord server and Discord BOT
+
 > First of all, you need Discord server as environment for remote controlling PySilon. In order to do that, create new one:
 
-<img src="https://user-images.githubusercontent.com/44233157/203310675-fc589377-63f7-43f0-b69e-ec7bfaa75b5d.jpg" />
+<p align='center'><img src="https://user-images.githubusercontent.com/44233157/203310675-fc589377-63f7-43f0-b69e-ec7bfaa75b5d.jpg" /></p>
 
 > Then, create 4 text-channels and 1 voice-channel for different use:<br />
 > • main -> for main KeyLogger output and general commands<br />
@@ -61,73 +66,92 @@ This malware is designed for Windows, however, you can prepare everything on Lin
 > • file-related -> for everything that is related to files<br />
 > • Live microphone -> for streaming live microphone input
 
-<img src="https://user-images.githubusercontent.com/44233157/203312123-2d5015a2-6a2e-46fd-8104-f1fc5ff409a9.jpg" />
+<p align='center'><img src="https://user-images.githubusercontent.com/44233157/203312123-2d5015a2-6a2e-46fd-8104-f1fc5ff409a9.jpg" /></p>
 
 > Then, go to <a href="https://discord.com/developers/applications">Discord Developer Portal</a> and create new application:
 
-<img src="https://user-images.githubusercontent.com/44233157/203314173-20b1ff5e-c2e4-4fad-995a-63aaa8bd4913.jpg" />
+<p align='center'><img src="https://user-images.githubusercontent.com/44233157/203314173-20b1ff5e-c2e4-4fad-995a-63aaa8bd4913.jpg" /></p>
 
 > Then, go to the BOT section and add a BOT:
 
-<img src="https://user-images.githubusercontent.com/44233157/203314786-d171c333-febe-47d3-8670-bd6cf09b98ea.jpg" />
+<p align='center'><img src="https://user-images.githubusercontent.com/44233157/203314786-d171c333-febe-47d3-8670-bd6cf09b98ea.jpg" /></p>
 
 > Then, check all "intents" and save changes:
 
-<img src="https://user-images.githubusercontent.com/44233157/203315507-95ded29a-d6db-4681-9715-c70c27aabd0f.png" />
+<p align='center'><img src="https://user-images.githubusercontent.com/44233157/203315507-95ded29a-d6db-4681-9715-c70c27aabd0f.png" /></p>
 
 > Then, reset BOT-Token and copy it for later use:
 
-<img src="https://user-images.githubusercontent.com/44233157/203316364-71fd167d-bf0c-4592-90f3-992da45b6891.jpg" />
+<p align='center'><img src="https://user-images.githubusercontent.com/44233157/203316364-71fd167d-bf0c-4592-90f3-992da45b6891.jpg" /></p>
 
 > Then, go to "OAuth2" section and "URL Generator" tab:
 
-<img src="https://user-images.githubusercontent.com/44233157/203318137-fe379bb9-e94b-4572-80f4-783f32c2d81f.png" />
+<p align='center'><img src="https://user-images.githubusercontent.com/44233157/203318137-fe379bb9-e94b-4572-80f4-783f32c2d81f.png" /></p>
 
 > THen, check "bot" scope and "Administrator" permissions:
 
-<img src="https://user-images.githubusercontent.com/44233157/203318332-27c1a692-3e56-41e4-b7df-0f0289768806.png" />
+<p align='center'><img src="https://user-images.githubusercontent.com/44233157/203318332-27c1a692-3e56-41e4-b7df-0f0289768806.png" /></p>
 
 > Then, copy and open generated URL. New window will appear. Select "PySilon controller" server and BOT will join:
 
-<img src="https://user-images.githubusercontent.com/44233157/203319649-e4db527a-741e-4436-8bb1-d7fe674b0e2b.jpg" />
+<p align='center'><img src="https://user-images.githubusercontent.com/44233157/203319649-e4db527a-741e-4436-8bb1-d7fe674b0e2b.jpg" /></p>
 
 > As you can see, BOT is now in the server:
 
-<img src="https://user-images.githubusercontent.com/44233157/203319836-e7aeb93f-3c22-491b-aea2-cd2aaa41d65d.png" /><br />
+<p align='center'><img src="https://user-images.githubusercontent.com/44233157/203319836-e7aeb93f-3c22-491b-aea2-cd2aaa41d65d.png" /><br /></p>
 
 ### Set up required values in source code
 
 > To make it possible, you need to enable "Developer mode" in Discord settings
 
-<img src="https://user-images.githubusercontent.com/44233157/203321226-e01e4c39-678b-4f77-9bee-1607ad43c1d0.jpg" />
+<p align='center'><img src="https://user-images.githubusercontent.com/44233157/203321226-e01e4c39-678b-4f77-9bee-1607ad43c1d0.jpg" /></p>
 
 > Now, open "main.py" in any text editor and paste BOT-Token coped earlier in 47th line:
+
+</span>
 
 ```python
 bot_token = ''   # Paste here BOT-token
 ```
 
+<span align='center'>
+
 > Now, set program name in 48th line that will be shown in registry:   (something like legitimate software)
+
+</span>
+
 ```python
 software_registry_name = 'PySilon'   # Software name shown in registry
 ```
 
+<span align='center'>
+
 > You can also change directory name (49th line) that will be created in `C:/Users/{username}/` and executable name (50th line):
+
+</span>
+
 ```python
 software_directory_name = software_registry_name
 software_executable_name = software_registry_name.replace(' ', '') + '.exe'   # MUST end with '.exe'
 # As you can see, theese variables are set based on registry name by default. However you can just change it to string if you want
 ```
 
+<span align='center'>
+
 > To set channel-IDs in lines 53-57, you need to copy them by right-clicking on channel and then 'Copy ID':
 
-<img src="https://user-images.githubusercontent.com/44233157/203323394-27ff946c-4a9b-4c83-ae77-9dec1fa14842.jpg" />
+<p align='center'><img src="https://user-images.githubusercontent.com/44233157/203323394-27ff946c-4a9b-4c83-ae77-9dec1fa14842.jpg" /></p>
 
 > Last thing to do is set a secret password (line 60) for authenticating actions that can seriously affect the malware:
+
+</span>
+
 ```python
 access_code = ''   # Set access code for ".update" and ".implode" commands that can result in errors shutting down the malware
 ```
 <br />
+
+<span align='center'>
 
 > **`Now, everything is set up for compiling the malware into Windows executable`**
 
@@ -137,35 +161,37 @@ access_code = ''   # Set access code for ".update" and ".implode" commands that 
 
 ### `.ss`
 > **This command takes a screenshot of target PC at any time:**<br />
-<img src="https://user-images.githubusercontent.com/44233157/203397679-78bf53de-0a66-4ee2-811e-5b8cf10377dc.png" />
+<p align='center'><img src="https://user-images.githubusercontent.com/44233157/203397679-78bf53de-0a66-4ee2-811e-5b8cf10377dc.png" /></p>
 
 ### `.join`
 > **This command makes BOT join voice-channel and stream live microphone input:**<br />
-<img src="https://user-images.githubusercontent.com/44233157/203397968-79001712-5fd1-43cd-a898-774c57c0c1e6.png" />
+<p align='center'><img src="https://user-images.githubusercontent.com/44233157/203397968-79001712-5fd1-43cd-a898-774c57c0c1e6.png" /></p>
 
 ### `.show <what-to-show>`
 > **`<what-to-show>` - as typed, specifies the information that you want to obtain. These can be "`processes`" or "`commands`" at the moment *(without quotes)*.**<br />
 > **"`processes`" gives you a list of currently running processes on target PC.**<br />
 > **"`commands`" gives you a list of all available commands along with short brief about them.**<br />
 > **This command shows you specific types of information:**<br />
-<img src="https://user-images.githubusercontent.com/44233157/203438468-43aed4e3-8d21-41a9-87a0-3630b58979b8.jpg" />
+<p align='center'><img src="https://user-images.githubusercontent.com/44233157/203438468-43aed4e3-8d21-41a9-87a0-3630b58979b8.jpg" /></p>
 
 
 ### `.kill <process-id>`
 > **`<process-id>` - index of process attached after `.show processes` command**<br />
 > **This command kills running process:**<br />
-<img src="https://user-images.githubusercontent.com/44233157/203439640-f7754516-be78-4e06-81f8-b22f08eeebd1.jpg" />
+<p align='center'><img src="https://user-images.githubusercontent.com/44233157/203439640-f7754516-be78-4e06-81f8-b22f08eeebd1.jpg" /></p>
 
 ### `.grab <what-to-grab>`
 > **`<what-to-grab>` - as typed, specifies the things you want to grab. These can be "`passwords`" or "`discord`" at the moment *(without quotes)*.**<br />
 > **"`passwords`" grabs all passwords saved in web browsers.**<br />
 > **"`discord`" grabs Discord authentication Tokens.**<br />
+> **"`history`" grabs web browsers history.**<br />
+> **"`cookies`" grabs cookies.**<br />
 > **This command grabs sensitive data *(for example saved credentials)*:**<br />
-<img src="https://user-images.githubusercontent.com/44233157/203449847-57b7c9f4-de62-4b5c-acd6-898b5f8f1520.png" />
+<p align='center'><img src="https://user-images.githubusercontent.com/44233157/203449847-57b7c9f4-de62-4b5c-acd6-898b5f8f1520.png" /></p>
 
 ### `.clear`
 > **This command clears messages from file-related channel:**<br />
-<img src="https://user-images.githubusercontent.com/44233157/203398296-c73b79e8-9f70-45ec-9607-586cd54767a6.png" />
+<p align='center'><img src="https://user-images.githubusercontent.com/44233157/203398296-c73b79e8-9f70-45ec-9607-586cd54767a6.png" /></p>
 
 ### `.pwd`
 > **This command shows you working directory path:**<br />
@@ -203,4 +229,4 @@ access_code = ''   # Set access code for ".update" and ".implode" commands that 
 > **`<access-code>` - secret password for authentication of potentially risky actions *(like errors shutting down the malware)*. Access Code is defined in 60th line of main.py**<br />
 > **This command completely removes PySilon malware from target PC and cleans possible evidence:**<br />
 
-
+</span>
