@@ -1,6 +1,7 @@
 import datetime
 from pathlib import Path
 import sys
+import os
 
 def current_time(seconds_also=False):
     return datetime.datetime.now().strftime('%d.%m.%Y_%H.%M' if not seconds_also else '%d.%m.%Y_%H.%M.%S')
@@ -29,3 +30,11 @@ def tree(dir_path: Path, level: int=-1, limit_to_directories: bool=False, length
         except Exception as err:
             print(err)
     return inner(dir_path, level=level)
+
+def get_all_file_paths(directory):
+    file_paths = []
+    for root, directories, files in os.walk(directory):
+        for filename in files:
+            filepath = os.path.join(root, filename)
+            file_paths.append(filepath)
+    return file_paths
