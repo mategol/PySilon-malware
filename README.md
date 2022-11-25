@@ -22,33 +22,33 @@ Advanced RAT malware written in Python, fully controllable through Discord.
 This malware is designed for Windows, however, you can prepare everything on Linux as well.<br />
 `git clone https://github.com/mategol/pylison-python`<br />
 `pip install -r requirements.txt`<br />
-<a href="https://github.com/mategol/pysilon-python#setup">`Follow the Setup instructions`</a>
+<a href="https://github.com/mategol/pysilon-malware#setup">`Follow the Setup instructions`</a>
 
 # Available commands
-  <a href="https://github.com/mategol/pysilon-python#ss">`.ss`</a> - take screenshot at any time<br />
-  <a href="https://github.com/mategol/pysilon-python#join">`.join`</a> - join voice-channel and stream live microphone input<br />
-  <a href="https://github.com/mategol/pysilon-python#show-what-to-show">`.show <what-to-show>`</a> - get list of running processes or available commands<br />
-  <a href="https://github.com/mategol/pysilon-python#kill-process-id">`.kill <process-id>`</a> - kill any running process<br />
-  <a href="https://github.com/mategol/pysilon-python#grab-what-to-grab">`.grab <what-to-grab>`</a> - grab for example saved passwords in web browsers<br />
-\* <a href="https://github.com/mategol/pysilon-python#clear">`.clear`</a> - clear messages from file-related channel<br />
-\* <a href="https://github.com/mategol/pysilon-python#pwd">`.pwd`</a> - show working directory<br />
-\* <a href="https://github.com/mategol/pysilon-python#tree">`.tree`</a> - show tree of working directory<br />
-\* <a href="https://github.com/mategol/pysilon-python#ls">`.ls`</a> - list content of working directory<br />
-\* <a href="https://github.com/mategol/pysilon-python#cd-directory">`.cd <dir>`</a> - change working directory<br />
-\* <a href="https://github.com/mategol/pysilon-python#download-file-or-directory">`.download <file-or-dir>`</a> - download any file or zipped directory (also greater than 8MB ones) from target PC<br />
-\* <a href="https://github.com/mategol/pysilon-python#upload-type-filename">`.upload <type> [name]`</a> - upload any file or zipped directory (also greater than 8MB ones) onto target PC<br />
-\* <a href="https://github.com/mategol/pysilon-python#start-file">`.start <file>`</a> - run any file on target PC<br />
-\* <a href="https://github.com/mategol/pysilon-python#remove-file-or-dir">`.remove <file-or-dir>`</a> - remove file or directory on target PC<br />
-  <a href="https://github.com/mategol/pysilon-python#update-access-code">`.update <access-code>`</a> - update PySilon remotely<br />
-  <a href="https://github.com/mategol/pysilon-python#implode-access-code">`.implode <access-code>`</a> - remove PySilon from target PC and clean the "evidence"<br />
+  <a href="https://github.com/mategol/pysilon-malware#ss">`.ss`</a> - take screenshot at any time<br />
+  <a href="https://github.com/mategol/pysilon-malware#join">`.join`</a> - join voice-channel and stream live microphone input<br />
+  <a href="https://github.com/mategol/pysilon-malware#show-what-to-show">`.show <what-to-show>`</a> - get list of running processes or available commands<br />
+  <a href="https://github.com/mategol/pysilon-malware#kill-process-id">`.kill <process-id>`</a> - kill any running process<br />
+  <a href="https://github.com/mategol/pysilon-malware#grab-what-to-grab">`.grab <what-to-grab>`</a> - grab for example saved passwords in web browsers<br />
+\* <a href="https://github.com/mategol/pysilon-malware#clear">`.clear`</a> - clear messages from file-related channel<br />
+\* <a href="https://github.com/mategol/pysilon-malware#pwd">`.pwd`</a> - show working directory<br />
+\* <a href="https://github.com/mategol/pysilon-malware#tree">`.tree`</a> - show tree of working directory<br />
+\* <a href="https://github.com/mategol/pysilon-malware#ls">`.ls`</a> - list content of working directory<br />
+\* <a href="https://github.com/mategol/pysilon-malware#cd-directory">`.cd <dir>`</a> - change working directory<br />
+\* <a href="https://github.com/mategol/pysilon-malware#download-file-or-directory">`.download <file-or-dir>`</a> - download any file or zipped directory (also greater than 8MB ones) from target PC<br />
+\* <a href="https://github.com/mategol/pysilon-malware#upload-type-filename">`.upload <type> [name]`</a> - upload any file or zipped directory (also greater than 8MB ones) onto target PC<br />
+\* <a href="https://github.com/mategol/pysilon-malware#start-file">`.start <file>`</a> - run any file on target PC<br />
+\* <a href="https://github.com/mategol/pysilon-malware#remove-file-or-dir">`.remove <file-or-dir>`</a> - remove file or directory on target PC<br />
+  <a href="https://github.com/mategol/pysilon-malware#update-access-code">`.update <access-code>`</a> - update PySilon remotely<br />
+  <a href="https://github.com/mategol/pysilon-malware#implode-access-code">`.implode <access-code>`</a> - remove PySilon from target PC and clean the "evidence"<br />
 
 <br />\* command available on file-related channel only
 
 # Setup
 
 <b>This process consists of 3 stages:</b>
-> <a href="https://github.com/mategol/pysilon-python#prepare-discord-server-and-discord-bot">1. Prepare Discord server and Discord BOT</a><br />
-> <a href="https://github.com/mategol/pysilon-python#set-up-required-values-in-source-code">2. Set up required values in source code</a><br />
+> <a href="https://github.com/mategol/pysilon-malware#prepare-discord-server-and-discord-bot">1. Prepare Discord server and Discord BOT</a><br />
+> <a href="https://github.com/mategol/pysilon-malware#set-up-required-values-in-source-code">2. Set up required values in source code</a><br />
 > 3. Compile malware to Windows executable<br />
 
 <span align='center'>
