@@ -12,7 +12,8 @@ Advanced RAT malware written in Python, fully controllable through Discord.
 - stream live microphone input on voice channel
 - browse files on target PC
 - upload and download files from target PC
-- grab passwords saved in web browsers
+- grab history, cookies and passwords saved in web browsers
+- grab discord tokens and system information
 - browse and kill running processes
 - execute files
 - run CMD commands
