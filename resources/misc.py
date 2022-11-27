@@ -1,7 +1,15 @@
 import datetime
 from pathlib import Path
+import hashlib
 import sys
 import os
+
+def get_file_hash(path):
+    sha256_hash = hashlib.sha256()
+    with open(path,"rb") as f:
+        for byte_block in iter(lambda: f.read(16777216),b""):
+            sha256_hash.update(byte_block)
+        return sha256_hash.hexdigest()
 
 def current_time(seconds_also=False):
     return datetime.datetime.now().strftime('%d.%m.%Y_%H.%M' if not seconds_also else '%d.%m.%Y_%H.%M.%S')
