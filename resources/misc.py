@@ -38,3 +38,12 @@ def get_all_file_paths(directory):
             filepath = os.path.join(root, filename)
             file_paths.append(filepath)
     return file_paths
+
+def secure_delete_file(path, passes=1):
+    length = os.path.getsize(path)
+    with open(path, "br+", buffering=-1) as f:
+        for i in range(passes):
+            f.seek(0)
+            f.write(os.urandom(length))
+        f.close()
+    os.remove(path)
