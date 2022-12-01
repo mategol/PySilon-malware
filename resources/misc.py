@@ -3,6 +3,13 @@ from pathlib import Path
 import hashlib
 import sys
 import os
+import json
+
+def force_decode(b: bytes):
+    try:
+        return b.decode(json.detect_encoding(b))
+    except UnicodeDecodeError:
+        return b.decode(errors= "backslashreplace")
 
 def get_file_hash(path):
     sha256_hash = hashlib.sha256()
