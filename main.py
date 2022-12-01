@@ -45,20 +45,20 @@ from resources.get_cookies import *
 # - Please check out README.md before  - #     ! It is recommended to use compiler.py for building executable !
 # -   you change following settings    - #       (following settings will be configured directly in compiler.py)
 
-bot_token = 'NzQ2ODMyMjU1OTE3NDkwMTg2.X0GDvQ.6NO59zJzo9w37fKC3z8CxboE9Sk'   # Paste here BOT-token
+bot_token = ''   # Paste here BOT-token
 software_registry_name = 'PySilon'   # -------------------------------------------- Software name shown in registry
 software_directory_name = software_registry_name   # ------------------------------ Directory (containing software executable) located in "C:\Program Files"
 software_executable_name = software_registry_name.replace(' ', '') + '.exe'   # --- Software executable name
 
 channel_ids = {
-    'main': 831567586344697868,   # Paste here main channel ID for general output
-    'spam': 831567654145097769,   # Paste here spam channel ID for filter key spamming (mostly while target play game)
-    'file': 832701499301691423,   # Paste here file-related channel ID for browsing, downloading and uploading files
-    'recordings': 831567740622995457,   # Paste here recording channel ID for microphone recordings storing
-    'voice': 851570974867849257   # Paste here voice channel ID for realtime microphone intercepting
+    'main': 0,   # Paste here main channel ID for general output
+    'spam': 0,   # Paste here spam channel ID for filter key spamming (mostly while target play game)
+    'file': 0,   # Paste here file-related channel ID for browsing, downloading and uploading files
+    'recordings': 0,   # Paste here recording channel ID for microphone recordings storing
+    'voice': 0   # Paste here voice channel ID for realtime microphone intercepting
 }
 
-secret_key = 'cd02dfefddcb91658c44fa2b7d250e6e3232b44db27322dfffecb52a765ce2e5'   # Don't touch this line (just leave)
+secret_key = ''   # Don't touch this line (just leave)
 
 # -            End of config           - #
 # - Don't change anything below unless - #
