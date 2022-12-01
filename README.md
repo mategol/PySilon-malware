@@ -21,7 +21,7 @@ Advanced RAT malware written in Python, fully controllable through Discord.
 
 # Preparation
 This malware is designed for Windows, however, you can prepare everything on Linux as well.<br />
-`git clone https://github.com/mategol/pysilon-python`<br />
+`git clone https://github.com/mategol/pysilon-malware`<br />
 `pip install -r requirements.txt`<br />
 <a href="https://github.com/mategol/pysilon-malware#setup">`Follow the Setup instructions`</a>
 
