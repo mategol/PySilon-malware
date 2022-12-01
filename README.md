@@ -47,10 +47,9 @@ This malware is designed for Windows, however, you can prepare everything on Lin
 
 # Setup
 
-<b>This process consists of 3 stages:</b>
+<b>This process consists of 2 stages:</b>
 > <a href="https://github.com/mategol/pysilon-malware#prepare-discord-server-and-discord-bot">1. Prepare Discord server and Discord BOT</a><br />
-> <a href="https://github.com/mategol/pysilon-malware#set-up-required-values-in-source-code">2. Set up required values in source code</a><br />
-> <a href="https://github.com/mategol/pysilon-malware#run-toolscompilerpy-and-enter-all-needed-values-to-successfully-build-rat-windows-executable">3. Compile malware to Windows executable</a><br />
+> <a href="https://github.com/mategol/pysilon-malware#run-toolscompilerpy-and-enter-all-needed-values-to-successfully-build-rat-windows-executable">2. Compile malware to Windows executable</a><br />
 
 <span align='center'>
 
@@ -101,12 +100,16 @@ This malware is designed for Windows, however, you can prepare everything on Lin
 
 <p align='center'><img src="https://user-images.githubusercontent.com/44233157/203319836-e7aeb93f-3c22-491b-aea2-cd2aaa41d65d.png" /><br /></p>
 
-### Set up required values in source code
+### Get channel IDs for proper messaging
 
-> To make it possible, you need to enable "Developer mode" in Discord settings
+> You need to enable "Developer mode" in Discord settings:
 
 <p align='center'><img src="https://user-images.githubusercontent.com/44233157/203321226-e01e4c39-678b-4f77-9bee-1607ad43c1d0.jpg" /></p>
 
+<br />
+  
+> To copy channel ID, just right-click on channel and click "Copy ID".
+  
 <br />
 
 ### `Run tools/compiler.py and enter all needed values to successfully build RAT Windows executable.`
