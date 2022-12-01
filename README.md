@@ -50,7 +50,7 @@ This malware is designed for Windows, however, you can prepare everything on Lin
 <b>This process consists of 3 stages:</b>
 > <a href="https://github.com/mategol/pysilon-malware#prepare-discord-server-and-discord-bot">1. Prepare Discord server and Discord BOT</a><br />
 > <a href="https://github.com/mategol/pysilon-malware#set-up-required-values-in-source-code">2. Set up required values in source code</a><br />
-> 3. Compile malware to Windows executable<br />
+> <a href="https://github.com/mategol/pysilon-malware#run-toolscompilerpy-and-enter-all-needed-values-to-successfully-build-rat-windows-executable">3. Compile malware to Windows executable</a><br />
 
 <span align='center'>
 
