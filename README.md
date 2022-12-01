@@ -109,7 +109,7 @@ This malware is designed for Windows, however, you can prepare everything on Lin
 
 <br />
 
-> `Run tools/compiler.py and enter all needed values to successfully build RAT Windows executable.`
+### `Run tools/compiler.py and enter all needed values to successfully build RAT Windows executable.`
 
 <br />
 
@@ -215,6 +215,7 @@ This malware is designed for Windows, however, you can prepare everything on Lin
 
 ### `.remove <file-or-dir>`
 > **This command removes any file or directory on target PC:**<br />
+<p align='center'><img src="https://user-images.githubusercontent.com/44233157/204947262-7aca6073-2f2e-4af8-b96b-171a52738da0.png" /></p>
 
 <br />
 
@@ -224,7 +225,8 @@ This malware is designed for Windows, however, you can prepare everything on Lin
 <br />
 
 ### `.implode`
-> **This command completely removes PySilon malware from target PC and cleans possible evidence:**<br />
+> **This command completely removes PySilon malware from target PC and cleans possible evidence. It requires a key generated with tools/compiler.py at <a href="">this stage</a>:**<br />
+<p align='center'><img src="https://user-images.githubusercontent.com/44233157/204947559-2960d3a6-d259-4592-8b32-7e5193c4cae7.jpg" /></p>
 
 <br />
 
