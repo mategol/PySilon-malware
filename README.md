@@ -1,5 +1,21 @@
-# PySilon
-Advanced RAT malware written in Python, fully controllable through Discord.
+<span align='center'>
+
+# `PySilon`
+
+<p align='center'><img src="https://user-images.githubusercontent.com/44233157/205148071-ed0f810e-be71-4b18-8c6b-94e838ebda5d.png" width=500 /></p>
+
+`Advanced RAT malware written in Python, fully controllable through Discord.`
+  
+</span>
+
+# Table of contents
+- <a href="https://github.com/mategol/PySilon-malware#disclaimer">Disclaimer</a>
+- <a href="https://github.com/mategol/PySilon-malware#features">Features</a>
+- <a href="https://github.com/mategol/PySilon-malware#preparation">Preparation</a>
+- <a href="https://github.com/mategol/PySilon-malware#available-commands">Available commands</a>
+- <a href="https://github.com/mategol/PySilon-malware#setup">Setup</a>
+- <a href="https://github.com/mategol/PySilon-malware#run-toolscompilerpy-and-enter-all-needed-values-to-successfully-build-rat-windows-executable">Building executable</a>
+- <a href="https://github.com/mategol/PySilon-malware#commands-manual">Commands manual</a>
 
 # Disclaimer
 > Information and code provided on this repository are for educational purposes only. The creator is no way responsible for any direct or indirect damage caused due to the misusage of the information. Everything you do, you are doing at your own risk and responsibility.
@@ -17,7 +33,7 @@ Advanced RAT malware written in Python, fully controllable through Discord.
 - browse and kill running processes
 - execute files
 - run CMD commands
-- update itself (todo)
+- update itself
 
 # Preparation
 This malware is designed for Windows, however, you can prepare everything on Linux as well.<br />
