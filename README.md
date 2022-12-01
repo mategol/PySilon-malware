@@ -38,10 +38,10 @@ This malware is designed for Windows, however, you can prepare everything on Lin
 \* <a href="https://github.com/mategol/pysilon-malware#cd-directory">`.cd <dir>`</a> - change working directory<br />
 \* <a href="https://github.com/mategol/pysilon-malware#download-file-or-directory">`.download <file-or-dir>`</a> - download any file or zipped directory (also greater than 8MB ones) from target PC<br />
 \* <a href="https://github.com/mategol/pysilon-malware#upload-type-filename">`.upload <type> [name]`</a> - upload any file or zipped directory (also greater than 8MB ones) onto target PC<br />
-\* <a href="https://github.com/mategol/pysilon-malware#start-file">`.start <file>`</a> - run any file on target PC<br />
+\* <a href="https://github.com/mategol/pysilon-malware#execute-file">`.execute <file>`</a> - run any file on target PC<br />
 \* <a href="https://github.com/mategol/pysilon-malware#remove-file-or-dir">`.remove <file-or-dir>`</a> - remove file or directory on target PC<br />
-  <a href="https://github.com/mategol/pysilon-malware#update-access-code">`.update <access-code>`</a> - update PySilon remotely<br />
-  <a href="https://github.com/mategol/pysilon-malware#implode-access-code">`.implode <access-code>`</a> - remove PySilon from target PC and clean the "evidence"<br />
+  <a href="https://github.com/mategol/pysilon-malware#update">`.update`</a> - update PySilon remotely<br />
+  <a href="https://github.com/mategol/pysilon-malware#implode">`.implode`</a> - remove PySilon from target PC and clean the "evidence"<br />
 
 <br />\* command available on file-related channel only
 
@@ -107,49 +107,10 @@ This malware is designed for Windows, however, you can prepare everything on Lin
 
 <p align='center'><img src="https://user-images.githubusercontent.com/44233157/203321226-e01e4c39-678b-4f77-9bee-1607ad43c1d0.jpg" /></p>
 
-> Now, open "main.py" in any text editor and paste BOT-Token coped earlier in 47th line:
+<br />
 
-</span>
+> `Run tools/compiler.py and enter all needed values to successfully build RAT Windows executable.`
 
-```python
-bot_token = ''   # Paste here BOT-token
-```
-
-<span align='center'>
-
-> Now, set program name in 48th line that will be shown in registry:   (something like legitimate software)
-
-</span>
-
-```python
-software_registry_name = 'PySilon'   # Software name shown in registry
-```
-
-<span align='center'>
-
-> You can also change directory name (49th line) that will be created in `C:/Users/{username}/` and executable name (50th line):
-
-</span>
-
-```python
-software_directory_name = software_registry_name
-software_executable_name = software_registry_name.replace(' ', '') + '.exe'   # MUST end with '.exe'
-# As you can see, theese variables are set based on registry name by default. However you can just change it to string if you want
-```
-
-<span align='center'>
-
-> To set channel-IDs in lines 53-57, you need to copy them by right-clicking on channel and then 'Copy ID':
-
-<p align='center'><img src="https://user-images.githubusercontent.com/44233157/203323394-27ff946c-4a9b-4c83-ae77-9dec1fa14842.jpg" /></p>
-
-> Last thing to do is set a secret password (line 60) for authenticating actions that can seriously affect the malware:
-
-</span>
-
-```python
-access_code = ''   # Set access code for ".update" and ".implode" commands that can result in errors shutting down the malware
-```
 <br />
 
 <span align='center'>
@@ -209,16 +170,19 @@ access_code = ''   # Set access code for ".update" and ".implode" commands that 
 
 ### `.pwd`
 > **This command shows you working directory path:**<br />
+<p align='center'><img src="https://user-images.githubusercontent.com/44233157/204939055-3bc4da31-b72e-4eea-a153-7b5d712e40ff.png" /></p>
 
 <br />
 
 ### `.tree`
 > **This command shows you file-and-directory structure of working directory:**<br />
+<p align='center'><img src="https://user-images.githubusercontent.com/44233157/204939884-a44fb244-f837-4018-b64e-a12ebde2bbcb.jpg" /></p>
 
 <br />
 
 ### `.ls`
 > **This command shows you content of working directory:**<br />
+<p align='center'><img src="https://user-images.githubusercontent.com/44233157/204940025-5d1f145f-ebf3-463c-b5f0-48099897fbda.png" /></p>
 
 <br />
 
@@ -229,20 +193,23 @@ access_code = ''   # Set access code for ".update" and ".implode" commands that 
 
 ### `.download <file-or-directory>`
 > **This command allows you to download a file or zipped directory from target PC:**<br />
+<p align='center'><img src="https://user-images.githubusercontent.com/44233157/204940123-454bd16b-bcfd-460f-98bd-0455e0fae984.png" /></p>
 
 <br />
 
 ### `.upload <type> [filename]`
 > **`<type>` - "`single`" or "`multiple`" *(without quotes)***<br />
 > **"`single`" means that you want to upload one file *(with size smaller than 8MB)***<br />
-> **"`multiple`" means that you want to upload multiple files *(prepared by splitter.py with total size greater than 8MB)***<br />
+> **"`multiple`" means that you want to upload multiple files *(prepared by tools/splitter.py with total size greater than 8MB)***<br />
 > **`[filename]` - name of uploaded file *(this option is required only wtih `type` of `multiple`)***<br />
 > **This command allows you to upload a file or zipped directory onto target PC:**<br />
+<p align='center'><img src="https://user-images.githubusercontent.com/44233157/204941488-ba19a2b7-98aa-42fb-a70f-fd26fb93c2dc.jpg" /></p>
 
 <br />
 
-### `.start <file>`
+### `.execute <file>`
 > **This command starts any file on target PC:**<br />
+<p align='center'><img src="https://user-images.githubusercontent.com/44233157/204941945-33ddcf04-9825-400b-8111-8c1540c0208a.jpg" /></p>
 
 <br />
 
@@ -251,14 +218,12 @@ access_code = ''   # Set access code for ".update" and ".implode" commands that 
 
 <br />
 
-### `.update <access-code>`
-> **`<access-code>` - secret password for authentication of potentially risky actions *(like errors shutting down the malware)*. Access Code is defined in 60th line of main.py**<br />
+### `.update`
 > **This command updates already working malware remotely *(with executable prepared by you and splitted by splitter.py)*:**<br />
 
 <br />
 
-### `.implode <access-code>`
-> **`<access-code>` - secret password for authentication of potentially risky actions *(like errors shutting down the malware)*. Access Code is defined in 60th line of main.py**<br />
+### `.implode`
 > **This command completely removes PySilon malware from target PC and cleans possible evidence:**<br />
 
 <br />
