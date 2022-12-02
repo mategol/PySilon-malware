@@ -36,7 +36,7 @@
 - update itself (ToDo)
 
 # Preparation
-This malware is designed for Windows, however, you can prepare everything on Linux as well.<br />
+This malware is designed for Windows and because of some pip packages are available only on Windows, I'm afraid that you can't cmpile it on Linux (at least with compiler.py):<br />
 `git clone https://github.com/mategol/pysilon-malware`<br />
 `pip install -r requirements.txt`<br />
 <a href="https://github.com/mategol/pysilon-malware#setup">`Follow the Setup instructions`</a>
@@ -128,7 +128,7 @@ This malware is designed for Windows, however, you can prepare everything on Lin
   
 <br />
 
-### `Run tools/compiler.py and enter all needed values to successfully build RAT Windows executable.`
+### `Run compiler.py and enter all needed values to successfully build RAT Windows executable.`
 
 <br />
 
