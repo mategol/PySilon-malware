@@ -40,7 +40,6 @@ from resources.get_cookies import *
 
 
 
-
 # ----------- Begin of config ---------- #
 # - Please check out README.md before  - #     ! It is recommended to use compiler.py for building executable !
 # -   you change following settings    - #       (following settings will be configured directly in compiler.py)
