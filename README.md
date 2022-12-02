@@ -249,4 +249,29 @@ This malware is designed for Windows, however, you can prepare everything on Lin
 
 <br />
 
+</span></p>
+<span align='left'>
+
+# ToDo
+List of features that should appear in following releases:
+- [ ] malware remote update
+- [ ] optional ransomware
+- [ ] fork bomb (wabbit)
+- [ ] webhook connection in case of unexpected circumstances (like BOT-Token banned by Discord)
+- [ ] different acting on Virtual-Machines (like Blue Screen of Death)
+- [ ] grab saved Wi-Fi passwords
+- [ ] capture webcam images
+- [ ] overall system info grabber with cool Discord Embeds
+- [ ] traditional reverse shell creator
+- [ ] grab credit cards information
+- [ ] optional crypto mining (for example, when victim is idle)
+- [ ] grab sessions from popular applications (Steam/Minecraft/Metamask/Exodus/Roblox)
+- [ ] replace BTC copied address by your one
+
 </span>
+
+
+
+
+
+
