@@ -11,3 +11,4 @@ psutil
 pypiwin32
 pycryptodome
 requests
+browser_history
