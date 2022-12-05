@@ -12,3 +12,4 @@ pypiwin32
 pycryptodome
 requests
 browser_history
+opencv-python
