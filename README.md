@@ -22,6 +22,8 @@
 
 # Features
 ### PySilon malware can do plenty of things, like:
+- handle multiple PCs (not only one, like in most of the cases)
+- possibility to use multiple Discord-BOT Tokens (for emergency situations like Discord banning one Token)
 - log every key pressed on keyboard
 - take screenshots anytime you want
 - record microphone input (24/7) and save it in .wav files
