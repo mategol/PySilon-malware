@@ -40,9 +40,10 @@
 # Preparation
 This malware is designed for Windows and because of some pip packages are available only on Windows (maight be changed in future for Linux support), I'm afraid that you can't compile it on Linux (at least with compiler.py):<br /><br />
 `git clone https://github.com/mategol/pysilon-malware`<br />
-**Create Virtual Environment *(important)* - tutorial below**<br />
-**Install all requirements**<br />
-<a href="https://github.com/mategol/pysilon-malware#setup">`Follow the Setup instructions (also important)`</a>
+<a href="https://github.com/mategol/pysilon-malware#setup">`Follow the Setup instructions (important)`</a><br />
+<a href="https://github.com/mategol/pysilon-malware#building-standalone-executable">`Create Virtual Environment (important) - tutorial below`</a><br />
+<a href="https://github.com/mategol/pysilon-malware#now-install-all-requirements-with">`Install all requirements`</a><br />
+
 
 # Available commands
   <a href="https://github.com/mategol/pysilon-malware#ss">`.ss`</a> - take screenshot at any time<br />
@@ -62,14 +63,10 @@ This malware is designed for Windows and because of some pip packages are availa
   <a href="https://github.com/mategol/pysilon-malware#update">`.update`</a> - update PySilon remotely<br />
   <a href="https://github.com/mategol/pysilon-malware#implode">`.implode`</a> - remove PySilon from target PC and clean the "evidence"<br />
 
-<br />\* command available on file-related channel only
+\* command available on file-related channel only<br /><br />
 
 
 # Setup
-
-<b>This process consists of 2 stages:</b>
-> <a href="https://github.com/mategol/pysilon-malware#prepare-discord-server-and-discord-bot">1. Prepare Discord server and Discord BOT</a><br />
-> <a href="https://github.com/mategol/pysilon-malware#run-toolscompilerpy-and-enter-all-needed-values-to-successfully-build-rat-windows-executable">2. Compile malware to Windows executable</a><br />
 
 ### Creating a Discord Server for controlling the malware
 
