@@ -227,7 +227,7 @@ This malware is designed for Windows and because of some pip packages are availa
 > **"`history`" grabs web browsers history.**<br />
 > **"`cookies`" grabs cookies.**<br />
 > **This command grabs sensitive data *(for example saved credentials)*:**<br />
-<p align='center'><img src="https://user-images.githubusercontent.com/44233157/203449847-57b7c9f4-de62-4b5c-acd6-898b5f8f1520.png" /></p>
+<p align='center'><img src="https://user-images.githubusercontent.com/44233157/205966715-a753397c-df0c-4515-bc88-f44513e5b1e0.png" /></p>
 
 <br />
 
