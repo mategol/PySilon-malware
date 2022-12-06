@@ -14,7 +14,7 @@
 - <a href="https://github.com/mategol/PySilon-malware#preparation">Preparation</a>
 - <a href="https://github.com/mategol/PySilon-malware#available-commands">Available commands</a>
 - <a href="https://github.com/mategol/PySilon-malware#setup">Setup</a>
-- <a href="https://github.com/mategol/PySilon-malware#run-toolscompilerpy-and-enter-all-needed-values-to-successfully-build-rat-windows-executable">Building executable</a>
+- <a href="https://github.com/mategol/PySilon-malware#building-standalone-executable">Building executable</a>
 - <a href="https://github.com/mategol/PySilon-malware#commands-manual">Commands manual</a>
 
 # Disclaimer
