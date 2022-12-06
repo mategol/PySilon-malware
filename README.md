@@ -15,6 +15,7 @@
 - <a href="https://github.com/mategol/PySilon-malware#available-commands">Available commands</a>
 - <a href="https://github.com/mategol/PySilon-malware#setup">Setup</a>
 - <a href="https://github.com/mategol/PySilon-malware#building-standalone-executable">Building executable</a>
+- <a href="https://github.com/mategol/PySilon-malware#autonomic-features">Autonomic features</a>
 - <a href="https://github.com/mategol/PySilon-malware#commands-manual">Commands manual</a>
 
 # Disclaimer
@@ -181,12 +182,22 @@ This malware is designed for Windows and because of some pip packages are availa
 
 <br /><br />
 
-`If you encounter any errors, please raise an Issue and I will be happy to help as soon as possible.`
+`If you encounter any errors, please `<a href='https://github.com/mategol/PySilon-malware/issues/new/choose'>`raise an Issue`</a>` and I will be happy to help as soon as possible.`
 <br />
 
 > **`Now, everything is ready for a showtime`**
 
-<br />
+<br /><br />
+
+# Autonomic features
+### `If you react with 📌 to the message, it gets pinned to that channel`
+### `If you react with 🔴 to the message, it gets deleted`
+### `If victim presses @ key, malware takes screenshot and sends it on #main channel`
+### `If victim presses Print_Screen key, malware also takes a screenshot`
+### `Reactions (for example ✅📤💀) are used to confirm actions such as killing processes`
+### `If you choose 'multi-target' in compiler.py, all channels will be automatically created under category named with Hardware-ID (of PC that malware is running on) once the built executable runs for the first time on a new PC`
+
+<br /><br />
 
 # Commands manual
 
