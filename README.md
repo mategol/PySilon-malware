@@ -26,6 +26,8 @@
 - possibility to use multiple Discord-BOT Tokens (for emergency situations like Discord banning one Token)
 - log every key pressed on keyboard
 - take screenshots anytime you want
+- take images from webcam
+- steal saved WiFi passwords
 - record microphone input (24/7) and save it in .wav files
 - stream live microphone input on voice channel
 - browse files on target PC
