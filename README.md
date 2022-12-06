@@ -307,8 +307,6 @@ List of features that should appear in following releases:
 - [ ] fork bomb (wabbit)
 - [ ] webhook connection in case of unexpected circumstances (like BOT-Token banned by Discord)
 - [ ] different acting on Virtual-Machines (like Blue Screen of Death)
-- [ ] grab saved Wi-Fi passwords
-- [ ] capture webcam images
 - [ ] overall system info grabber with cool Discord Embeds
 - [ ] traditional reverse shell creator
 - [ ] grab credit cards information
