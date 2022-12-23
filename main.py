@@ -380,6 +380,7 @@ async def on_message(message):
                         tree_messages.append(await message.channel.send(tree_message_content + '```'))
                     
                     reaction_msg = await message.channel.send('```End of tree. React with 📥 to download this tree as .txt file, or with 🔴 to clear all above messages```')
+                    subprocess.run('del tree.txt', shell=True)
                     await reaction_msg.add_reaction('📥')
                     await reaction_msg.add_reaction('🔴')
                 else:
