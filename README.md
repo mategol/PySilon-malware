@@ -4,7 +4,7 @@
 
 <p align='center'><img src="https://user-images.githubusercontent.com/44233157/205148071-ed0f810e-be71-4b18-8c6b-94e838ebda5d.png" width=500 /></p>
 
-`Advanced RAT malware written in Python, fully controllable through Discord.`
+`Advanced RAT malware written in Python, fully controllable through Discord with dedicated GUI builder to make preparation easier.`
   
 </span>
 
@@ -41,12 +41,19 @@
 - update itself (ToDo)
 
 # Preparation
-This malware is designed for Windows and because of some pip packages are available only on Windows (maight be changed in future for Linux support), I'm afraid that you can't compile it on Linux (at least with compiler.py):<br /><br />
-`git clone https://github.com/mategol/pysilon-malware`<br />
-<a href="https://github.com/mategol/pysilon-malware#setup">`Follow the Setup instructions (important)`</a><br />
-<a href="https://github.com/mategol/pysilon-malware#building-standalone-executable">`Create Virtual Environment (important) - tutorial below`</a><br />
-<a href="https://github.com/mategol/pysilon-malware#now-install-all-requirements-with">`Install all requirements`</a><br />
+This malware is designed for Windows and because of some pip packages are available only on Windows (maight be changed in future for Linux support), I'm afraid that you can't compile it on Linux (at least with compiler.py):<br />
 
+### Automated, GUI way:
+`git clone https://github.com/mategol/pysilon-malware`<br />
+<a href="https://github.com/mategol/pysilon-malware#setup">`Create Discord BOT and server`</a><br />
+`Run the PySilon.bat either using CMD or double clicking on it`<br />
+
+### Manual way (obsolete):
+`git clone https://github.com/mategol/pysilon-malware`<br />
+<a href="https://github.com/mategol/pysilon-malware#setup">`Create Discord BOT and server`</a><br />
+<a href="https://github.com/mategol/PySilon-malware/blob/main/resources/resobuilding_executable_obsolete.md#building-standalone-executable">`Create Virtual Environment (important) - tutorial below`</a><br />
+<a href="https://github.com/mategol/PySilon-malware/blob/main/resources/resobuilding_executable_obsolete.md#building-standalone-executable">`Install all requirements`</a><br />
+`Run compiler_obsolete.py`<br />
 
 # Available commands
   <a href="https://github.com/mategol/pysilon-malware#ss">`.ss`</a> - take screenshot at any time<br />
@@ -117,70 +124,30 @@ This malware is designed for Windows and because of some pip packages are availa
 
 </span>
 
-### Continuation (single target)
-
-> Create 5 text-channels and 1 voice-channel for different use:<br />
-> • info -> for information about target PC<br />
-> • main -> for main KeyLogger output and general commands<br />
-> • spam-gaming -> for filtered KeyLogger output while target is (for example) playing game<br />
-> • recordings -> for storing microphone recordings<br />
-> • file-related -> for everything that is related to files<br />
-> • Live microphone -> for streaming live microphone input
-
-<p align='center'><img src="https://user-images.githubusercontent.com/44233157/205751962-eb6b48ab-78ba-4c4b-bff4-66fbfa9cb2dc.png" /></p>
-
-<br />
-<span align='center'>
-
-> To copy channel ID, just right-click on channel and click "Copy ID".
-
-</span><br />
-
 <span align='left'>
 
-### Continuation (multiple targets)
+### Continuation
 
 > Right-click on controller Server and click "Copy ID" (save for later use)
 
-</span>
-<span align='left'>
 <br />
 
 # Building standalone executable
 
-</span>
+### Run `PySilon.bat` and GUI will appear. Fill the needed information and click on `Generate source`, then `Compile`.
 
-### To be able to compile your malware, you need to create Python Virtual Environment:
-`python -m venv pysilon`
-<br /><br />
+<p align="center"><img src="https://user-images.githubusercontent.com/44233157/210283583-8eed0cdf-0bbe-453c-af16-695d48f6743d.png" /></p><br />
 
-### Then, activate it with:
-`pysilon\Scripts\activate.bat`
-<br /><br />
+Inside builder, you can `Load configuration` to save time between testing or you can `Load custom...` configuration from desired configuration-file, additionally, you can `Reset` the settings or `Save` them for later. When you `Generate source`, configuration will be automatically saved.
 
-### If you see "(pysilon)" at the beginning of CMD prompt, it means that so far so good.
-### Now, install all requirements with:
-`pip install -r requirements.txt`<br />
-`pip install pyinstaller`
-<br /><br />
-
-### Now, you are ready to run `compiler.py`:
-`python compiler.py`
-<br /><br />
-
-### You will be asked how do you want to build the malware:
-`[1] - single` -> RAT will be designed for only one target PC<br />
-`[2] - multiple` -> RAT will be designed to run on multiple PCs<br />
-> If you choose `[1]`, you will be prompted to specify channel-IDs for controlling the malware
-
-> But if you choose `[2]`, you will need to specify only Discord Server ID (+ BOT-token and naming info)
-
+### If you somehow cannot use GUI, you <a href="https://github.com/mategol/PySilon-malware/blob/main/resources/resobuilding_executable_obsolete.md#building-standalone-executable">must use the obsolete way</a> or wait for me to publish the CLI update of builder.
+  
 <br />
 
 ### Multiple Discord BOT tokens
-**You can add more than one BOT-token to malware in case of the first one getting banned by Discord (you can add up to three different tokens for now). If first token gets banned, PySilon will automatically run with another one (if you set them in compiler.py)**
+**You can add more than one BOT-token to malware in case of the first one getting banned by Discord (`Emergency token 1/2`). If first token gets banned, PySilon will automatically run with another one (if you set them in compiler.py)**
 
-<br /><br />
+<br />
 
 `If you encounter any errors, please `<a href='https://github.com/mategol/PySilon-malware/issues/new/choose'>`raise an Issue`</a>` and I will be happy to help as soon as possible.`
 <br />
@@ -315,7 +282,6 @@ This malware is designed for Windows and because of some pip packages are availa
 
 # ToDo
 List of features that should appear in following releases:
-- [ ] malware remote update
 - [ ] optional ransomware
 - [ ] fork bomb (wabbit)
 - [ ] webhook connection in case of unexpected circumstances (like BOT-Token banned by Discord)
@@ -329,9 +295,3 @@ List of features that should appear in following releases:
 - [ ] optimize the code to consume less resources/memory
 
 </span>
-
-
-
-
-
-
