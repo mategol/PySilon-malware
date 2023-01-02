@@ -43,7 +43,7 @@ import os
 #    pysilon\Scripts\activate.bat
 #    pip install -r requirements.txt
 #    pip install pyinstaller
-#    python compiler.py
+#    python compiler_obsolete.py
 #
 #
 #    IF YOU WANT TO HAVE LESS SIZE OF COMPILED EXECUTABLE RATHER THAN FEATURE OF CAPTURING WEBCAM IMAGES:
