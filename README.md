@@ -41,7 +41,7 @@
 - update itself (ToDo)
 
 # Preparation
-This malware is designed for Windows and because of some pip packages are available only on Windows (maight be changed in future for Linux support), I'm afraid that you can't compile it on Linux (at least with compiler.py):<br />
+This malware is designed for Windows and because of some pip packages are available only on Windows (might be changed in future for Linux support), I'm afraid that you can't compile it on Linux (at least with compiler.py):<br />
 
 ### Automated, GUI way:
 `git clone https://github.com/mategol/pysilon-malware`<br />
