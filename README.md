@@ -4,6 +4,12 @@
 
 Advanced RAT malware written in Python, fully controllable through Discord with dedicated GUI builder to make preparation easier.
   
+## Discord
+
+Join our discord to keep up with the progress, ask questions, recommend features and talk to like minded people!
+
+[![Discord](https://img.shields.io/discord/1114568569850699847?color=7289da&logo=discord&logoColor=white)](https://discord.gg/J7pYVqcntm)
+
 ## Showcase
 
 A little showcase of some things that PySilon is capable of:
