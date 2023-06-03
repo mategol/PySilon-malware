@@ -9,6 +9,7 @@
 </span>
 
 # Table of contents
+
 - <a href="https://github.com/mategol/PySilon-malware#disclaimer">Disclaimer</a>
 - <a href="https://github.com/mategol/PySilon-malware#features">Features</a>
 - <a href="https://github.com/mategol/PySilon-malware#preparation">Preparation</a>
@@ -19,10 +20,13 @@
 - <a href="https://github.com/mategol/PySilon-malware#commands-manual">Commands manual</a>
 
 # Disclaimer
+>
 > Information and code provided on this repository are for educational purposes only. The creator is no way responsible for any direct or indirect damage caused due to the misusage of the information. Everything you do, you are doing at your own risk and responsibility.
 
 # Features
+
 ### PySilon malware can do plenty of things, like:
+
 - handle multiple PCs (not only one, like in most of the cases)
 - possibility to use multiple Discord-BOT Tokens (for emergency situations like Discord banning one Token)
 - log every key pressed on keyboard
@@ -41,14 +45,17 @@
 - update itself (ToDo)
 
 # Preparation
+
 This malware is designed for Windows and because of some pip packages are available only on Windows (might be changed in future for Linux support), I'm afraid that you can't compile it on Linux (at least with compiler.py):<br />
 
-### Automated, GUI way:
+### Automated, GUI way
+
 `git clone https://github.com/mategol/pysilon-malware`<br />
 <a href="https://github.com/mategol/pysilon-malware#setup">`Create Discord BOT and server`</a><br />
 `Run the PySilon.bat either using CMD or double clicking on it`<br />
 
-### Manual way (obsolete):
+### Manual way (obsolete)
+
 `git clone https://github.com/mategol/pysilon-malware`<br />
 <a href="https://github.com/mategol/pysilon-malware#setup">`Create Discord BOT and server`</a><br />
 <a href="https://github.com/mategol/PySilon-malware/blob/main/resources/resobuilding_executable_obsolete.md#building-standalone-executable">`Create Virtual Environment (important) - tutorial below`</a><br />
@@ -56,24 +63,24 @@ This malware is designed for Windows and because of some pip packages are availa
 `Run compiler_obsolete.py`<br />
 
 # Available commands
-  <a href="https://github.com/mategol/pysilon-malware#ss">`.ss`</a> - take screenshot at any time<br />
-  <a href="https://github.com/mategol/pysilon-malware#join">`.join`</a> - join voice-channel and stream live microphone input<br />
-  <a href="https://github.com/mategol/pysilon-malware#show-what-to-show">`.show <what-to-show>`</a> - get list of running processes or available commands<br />
-  <a href="https://github.com/mategol/pysilon-malware#kill-process-id">`.kill <process-id>`</a> - kill any running process<br />
-  <a href="https://github.com/mategol/pysilon-malware#grab-what-to-grab">`.grab <what-to-grab>`</a> - grab for example saved passwords in web browsers<br />
-\* <a href="https://github.com/mategol/pysilon-malware#clear">`.clear`</a> - clear messages from file-related channel<br />
-\* <a href="https://github.com/mategol/pysilon-malware#pwd">`.pwd`</a> - show working directory<br />
-\* <a href="https://github.com/mategol/pysilon-malware#tree">`.tree`</a> - show tree of working directory<br />
-\* <a href="https://github.com/mategol/pysilon-malware#ls">`.ls`</a> - list content of working directory<br />
-\* <a href="https://github.com/mategol/pysilon-malware#cd-directory">`.cd <dir>`</a> - change working directory<br />
-\* <a href="https://github.com/mategol/pysilon-malware#download-file-or-directory">`.download <file-or-dir>`</a> - download any file or zipped directory (also greater than 8MB ones) from target PC<br />
-\* <a href="https://github.com/mategol/pysilon-malware#upload-type-filename">`.upload <type> [name]`</a> - upload any file or zipped directory (also greater than 8MB ones) onto target PC<br />
-\* <a href="https://github.com/mategol/pysilon-malware#execute-file">`.execute <file>`</a> - run any file on target PC<br />
-\* <a href="https://github.com/mategol/pysilon-malware#remove-file-or-dir">`.remove <file-or-dir>`</a> - remove file or directory on target PC<br />
-  <a href="https://github.com/mategol/pysilon-malware#update">`.update`</a> - update PySilon remotely<br />
-  <a href="https://github.com/mategol/pysilon-malware#implode">`.implode`</a> - remove PySilon from target PC and clean the "evidence"<br />
 
-\* command available on file-related channel only<br /><br />
+- [.ss](https://github.com/mategol/pysilon-malware#ss) - take screenshot at any time
+- [.join](https://github.com/mategol/pysilon-malware#join) - join voice-channel and stream live microphone input
+- [.show <what-to-show>](https://github.com/mategol/pysilon-malware#show-what-to-show) - get list of running processes or available commands
+- [.kill <process-id>](https://github.com/mategol/pysilon-malware#kill-process-id) - kill any running process
+- [.grab <what-to-grab>](https://github.com/mategol/pysilon-malware#grab-what-to-grab) - grab for example saved passwords in web browsers
+- [.clear](https://github.com/mategol/pysilon-malware#clear) - clear messages from file-related channel
+- [.pwd](https://github.com/mategol/pysilon-malware#pwd) - show working directory
+- [.tree](https://github.com/mategol/pysilon-malware#tree) - show tree of working directory
+- [.ls](https://github.com/mategol/pysilon-malware#ls) - list content of working directory
+- [.cd <dir>](https://github.com/mategol/pysilon-malware#cd-directory) - change working directory
+- [.download <file-or-dir>](https://github.com/mategol/pysilon-malware#download-file-or-directory) - download any file or zipped directory (also greater than 8MB ones) from target PC
+- [.upload <type> [name]](https://github.com/mategol/pysilon-malware#upload-type-filename) - upload any file or zipped directory (also greater than 8MB ones) onto target PC
+- [.execute <file>](https://github.com/mategol/pysilon-malware#execute-file) - run any file on target PC
+- [.remove <file-or-dir>](https://github.com/mategol/pysilon-malware#remove-file-or-dir) - remove file or directory on target PC
+- [.update](https://github.com/mategol/pysilon-malware#update) - update PySilon remotely
+ - [.implode](https://github.com/mategol/pysilon-malware#implode) - remove PySilon from target PC and clean the "evidence"
+ command available on file-related channel only
 
 
 # Setup
@@ -134,7 +141,7 @@ This malware is designed for Windows and because of some pip packages are availa
 
 # Building standalone executable
 
-### Run `PySilon.bat` and GUI will appear. Fill the needed information and click on `Generate source`, then `Compile`.
+### Run `PySilon.bat` and GUI will appear. Fill the needed information and click on `Generate source`, then `Compile`
 
 <p align="center"><img src="https://user-images.githubusercontent.com/44233157/210283583-8eed0cdf-0bbe-453c-af16-695d48f6743d.png" /></p><br />
 
@@ -145,6 +152,7 @@ Inside builder, you can `Load configuration` to save time between testing or you
 <br />
 
 ### Multiple Discord BOT tokens
+
 **You can add more than one BOT-token to malware in case of the first one getting banned by Discord (`Emergency token 1/2`). If first token gets banned, PySilon will automatically run with another one (if you set them in compiler.py)**
 
 <br />
@@ -157,6 +165,7 @@ Inside builder, you can `Load configuration` to save time between testing or you
 <br /><br />
 
 # Autonomic features
+
 ### `If you react with 📌 to the message, it gets pinned to that channel`
 ### `If you react with 🔴 to the message, it gets deleted`
 ### `If victim presses @ key, malware takes screenshot and sends it on #main channel`
@@ -171,18 +180,21 @@ Inside builder, you can `Load configuration` to save time between testing or you
 <br />
 
 ### `.ss`
+>
 > **This command takes a screenshot of target PC at any time:**<br />
 <p align='center'><img src="https://user-images.githubusercontent.com/44233157/203397679-78bf53de-0a66-4ee2-811e-5b8cf10377dc.png" /></p>
 
 <br />
 
 ### `.join`
+>
 > **This command makes BOT join voice-channel and stream live microphone input:**<br />
 <p align='center'><img src="https://user-images.githubusercontent.com/44233157/203397968-79001712-5fd1-43cd-a898-774c57c0c1e6.png" /></p>
 
 <br />
 
 ### `.show <what-to-show>`
+>
 > **`<what-to-show>` - as typed, specifies the information that you want to obtain. These can be "`processes`" or "`commands`" at the moment *(without quotes)*.**<br />
 > **"`processes`" gives you a list of currently running processes on target PC.**<br />
 > **"`commands`" gives you a list of all available commands along with short brief about them.**<br />
@@ -192,6 +204,7 @@ Inside builder, you can `Load configuration` to save time between testing or you
 <br />
 
 ### `.kill <process-id>`
+>
 > **`<process-id>` - index of process attached after `.show processes` command**<br />
 > **This command kills running process:**<br />
 <p align='center'><img src="https://user-images.githubusercontent.com/44233157/203439640-f7754516-be78-4e06-81f8-b22f08eeebd1.jpg" /></p>
@@ -199,6 +212,7 @@ Inside builder, you can `Load configuration` to save time between testing or you
 <br />
 
 ### `.grab <what-to-grab>`
+>
 > **`<what-to-grab>` - as typed, specifies the things you want to grab. These can be "`passwords`" or "`discord`" at the moment *(without quotes)*.**<br />
 > **"`passwords`" grabs all passwords saved in web browsers.**<br />
 > **"`discord`" grabs Discord authentication Tokens.**<br />
@@ -210,41 +224,48 @@ Inside builder, you can `Load configuration` to save time between testing or you
 <br />
 
 ### `.clear`
+>
 > **This command clears messages from file-related channel:**<br />
 <p align='center'><img src="https://user-images.githubusercontent.com/44233157/203398296-c73b79e8-9f70-45ec-9607-586cd54767a6.png" /></p>
 
 <br />
 
 ### `.pwd`
+>
 > **This command shows you working directory path:**<br />
 <p align='center'><img src="https://user-images.githubusercontent.com/44233157/204939055-3bc4da31-b72e-4eea-a153-7b5d712e40ff.png" /></p>
 
 <br />
 
 ### `.tree`
+>
 > **This command shows you file-and-directory structure of working directory:**<br />
 <p align='center'><img src="https://user-images.githubusercontent.com/44233157/204939884-a44fb244-f837-4018-b64e-a12ebde2bbcb.jpg" /></p>
 
 <br />
 
 ### `.ls`
+>
 > **This command shows you content of working directory:**<br />
 <p align='center'><img src="https://user-images.githubusercontent.com/44233157/204940025-5d1f145f-ebf3-463c-b5f0-48099897fbda.png" /></p>
 
 <br />
 
 ### `.cd <directory>`
+>
 > **This command changes working directory:**<br />
 
 <br />
 
 ### `.download <file-or-directory>`
+>
 > **This command allows you to download a file or zipped directory from target PC:**<br />
 <p align='center'><img src="https://user-images.githubusercontent.com/44233157/204940123-454bd16b-bcfd-460f-98bd-0455e0fae984.png" /></p>
 
 <br />
 
 ### `.upload <type> [filename]`
+>
 > **`<type>` - "`single`" or "`multiple`" *(without quotes)***<br />
 > **"`single`" means that you want to upload one file *(with size smaller than 8MB)***<br />
 > **"`multiple`" means that you want to upload multiple files *(prepared by tools/splitter.py with total size greater than 8MB)***<br />
@@ -255,33 +276,38 @@ Inside builder, you can `Load configuration` to save time between testing or you
 <br />
 
 ### `.execute <file>`
+>
 > **This command starts any file on target PC:**<br />
 <p align='center'><img src="https://user-images.githubusercontent.com/44233157/204941945-33ddcf04-9825-400b-8111-8c1540c0208a.jpg" /></p>
 
 <br />
 
 ### `.remove <file-or-dir>`
+>
 > **This command removes any file or directory on target PC:**<br />
 <p align='center'><img src="https://user-images.githubusercontent.com/44233157/204947262-7aca6073-2f2e-4af8-b96b-171a52738da0.png" /></p>
 
 <br />
 
 ### `.update`
+>
 > **This command updates already working malware remotely *(with executable prepared by you and splitted by splitter.py)*:**<br />
 
 <br />
 
 ### `.implode`
+>
 > **This command completely removes PySilon malware from target PC and cleans possible evidence. It requires a key generated with tools/compiler.py at <a href="https://github.com/mategol/pysilon-malware#run-toolscompilerpy-and-enter-all-needed-values-to-successfully-build-rat-windows-executable">this step</a>:**<br />
 <p align='center'><img src="https://user-images.githubusercontent.com/44233157/204947559-2960d3a6-d259-4592-8b32-7e5193c4cae7.jpg" /></p>
 
 <br />
 
 </span></p>
-<span align='left'>
 
 # ToDo
+
 List of features that should appear in following releases:
+
 - [ ] optional ransomware
 - [ ] fork bomb (wabbit)
 - [ ] webhook connection in case of unexpected circumstances (like BOT-Token banned by Discord)
@@ -294,4 +320,3 @@ List of features that should appear in following releases:
 - [ ] replace BTC copied address by your one
 - [ ] optimize the code to consume less resources/memory
 
-</span>
