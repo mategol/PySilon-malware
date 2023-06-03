@@ -10,14 +10,14 @@
 
 # Table of contents
 
-- <a href="https://github.com/mategol/PySilon-malware#disclaimer">Disclaimer</a>
-- <a href="https://github.com/mategol/PySilon-malware#features">Features</a>
-- <a href="https://github.com/mategol/PySilon-malware#preparation">Preparation</a>
-- <a href="https://github.com/mategol/PySilon-malware#available-commands">Available commands</a>
-- <a href="https://github.com/mategol/PySilon-malware#setup">Setup</a>
-- <a href="https://github.com/mategol/PySilon-malware#building-standalone-executable">Building executable</a>
-- <a href="https://github.com/mategol/PySilon-malware#autonomic-features">Autonomic features</a>
-- <a href="https://github.com/mategol/PySilon-malware#commands-manual">Commands manual</a>
+- [Disclaimer](https://github.com/mategol/PySilon-malware#disclaimer)
+- [Features](https://github.com/mategol/PySilon-malware#features)
+- [Preparation](https://github.com/mategol/PySilon-malware#preparation)
+- [Available commands](https://github.com/mategol/PySilon-malware#available-commands)
+- [Setup](https://github.com/mategol/PySilon-malware#setup)
+- [Building executable](https://github.com/mategol/PySilon-malware#building-standalone-executable)
+- [Autonomic features](https://github.com/mategol/PySilon-malware#autonomic-features)
+- [Commands manual](https://github.com/mategol/PySilon-malware#commands-manual)
 
 # Disclaimer
 >
@@ -77,9 +77,8 @@ This malware is designed for Windows and because of some pip packages are availa
 - [.execute (file)](https://github.com/mategol/pysilon-malware#execute-file) - run any file on target PC
 - [.remove (file-or-dir)](https://github.com/mategol/pysilon-malware#remove-file-or-dir) - remove file or directory on target PC
 - [.update](https://github.com/mategol/pysilon-malware#update) - update PySilon remotely
- - [.implode](https://github.com/mategol/pysilon-malware#implode) - remove PySilon from target PC and clean the "evidence"
+- [.implode](https://github.com/mategol/pysilon-malware#implode) - remove PySilon from target PC and clean the "evidence"
  command available on file-related channel only
-
 
 # Setup
 
@@ -129,53 +128,53 @@ This malware is designed for Windows and because of some pip packages are availa
 
 </span>
 
-<span align='left'>
-
 ### Continuation
 
 > Right-click on controller Server and click "Copy ID" (save for later use)
 
-<br />
-
 # Building standalone executable
 
-### Run `PySilon.bat` and GUI will appear. Fill the needed information and click on `Generate source`, then `Compile`
+## Run `PySilon.bat` and GUI will appear. Fill the needed information and click on `Generate source`, then `Compile`
 
 <p align="center"><img src="https://user-images.githubusercontent.com/44233157/210283583-8eed0cdf-0bbe-453c-af16-695d48f6743d.png" /></p><br />
 
-Inside builder, you can `Load configuration` to save time between testing or you can `Load custom...` configuration from desired configuration-file, additionally, you can `Reset` the settings or `Save` them for later. When you `Generate source`, configuration will be automatically saved.
-
-### If you somehow cannot use GUI, you <a href="https://github.com/mategol/PySilon-malware/blob/main/resources/resobuilding_executable_obsolete.md#building-standalone-executable">must use the obsolete way</a> or wait for me to publish the CLI update of builder.
+Inside builder, you can `Load configuration` to save time between testing or you can `Load custom...` configuration from desired configuration-file, additionally, you can `Reset` the settings or `Save` them for later. When you `Generate source`, configuration will be automatically saved.  
+If you (for some reason) cannot use GUI, you [must use the obsolete way](https://github.com/mategol/PySilon-malware/blob/main/resources/resobuilding_executable_obsolete.md#building-standalone-executable) or wait for me to publish the CLI update of builder
   
-<br />
+## Multiple Discord BOT tokens
 
-### Multiple Discord BOT tokens
-
-**You can add more than one BOT-token to malware in case of the first one getting banned by Discord (`Emergency token 1/2`). If first token gets banned, PySilon will automatically run with another one (if you set them in compiler.py)**
+**You can add more than one BOT-token to malware in case of the first one getting banned by Discord (```Emergency token 1/2```). If first token gets banned, PySilon will automatically run with another one (if you set them in compiler.py)**
 
 <br />
 
-`If you encounter any errors, please `<a href='https://github.com/mategol/PySilon-malware/issues/new/choose'>`raise an Issue`</a>` and I will be happy to help as soon as possible.`
+If you encounter any errors, please [open an Issue](https://github.com/mategol/PySilon-malware/issues/new/choose) and I'll be happy to help as soon as possible.
+
 <br />
 
 > **`Now, everything is ready for a showtime`**
 
 <br /><br />
 
-# Autonomic features
+## Autonomic features
 
-### `If you react with 📌 to the message, it gets pinned to that channel`
-### `If you react with 🔴 to the message, it gets deleted`
-### `If victim presses @ key, malware takes screenshot and sends it on #main channel`
-### `If victim presses Print_Screen key, malware also takes a screenshot`
-### `Reactions (for example ✅📤💀) are used to confirm actions such as killing processes`
-### `If you choose 'multi-target' in compiler.py, all channels will be automatically created under category named with Hardware-ID (of PC that malware is running on) once the built executable runs for the first time on a new PC`
+---------------------
 
-<br /><br />
+### If you react with 📌 to the message, it gets pinned to that channel
 
-# Commands manual
+### If you react with 🔴 to the message, it gets deleted
 
-<br />
+### If victim presses @ key, malware takes screenshot and sends it on #main channel
+
+### If victim presses Print_Screen key, malware also takes a screenshot
+
+### Reactions (for example ✅📤💀) are used to confirm actions such as killing processes
+
+### If you choose 'multi-target' in compiler.py, all channels will be automatically created under category named with Hardware-ID (of PC that malware is running on) once the built executable runs for the first time on a new PC
+
+---------------------
+---------------------
+
+## Commands manual
 
 ### `.ss`
 >
@@ -298,10 +297,6 @@ Inside builder, you can `Load configuration` to save time between testing or you
 > **This command completely removes PySilon malware from target PC and cleans possible evidence. It requires a key generated with tools/compiler.py at <a href="https://github.com/mategol/pysilon-malware#run-toolscompilerpy-and-enter-all-needed-values-to-successfully-build-rat-windows-executable">this step</a>:**<br />
 <p align='center'><img src="https://user-images.githubusercontent.com/44233157/204947559-2960d3a6-d259-4592-8b32-7e5193c4cae7.jpg" /></p>
 
-<br />
-
-</span></p>
-
 # ToDo
 
 List of features that should appear in following releases:
@@ -317,4 +312,3 @@ List of features that should appear in following releases:
 - [ ] grab sessions from popular applications (Steam/Minecraft/Metamask/Exodus/Roblox)
 - [ ] replace BTC copied address by your one
 - [ ] optimize the code to consume less resources/memory
-
