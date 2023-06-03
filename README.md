@@ -23,9 +23,7 @@
 >
 > Information and code provided on this repository are for educational purposes only. The creator is no way responsible for any direct or indirect damage caused due to the misusage of the information. Everything you do, you are doing at your own risk and responsibility.
 
-# Features
-
-### PySilon malware can do plenty of things, like:
+# Key Features
 
 - handle multiple PCs (not only one, like in most of the cases)
 - possibility to use multiple Discord-BOT Tokens (for emergency situations like Discord banning one Token)
@@ -48,19 +46,19 @@
 
 This malware is designed for Windows and because of some pip packages are available only on Windows (might be changed in future for Linux support), I'm afraid that you can't compile it on Linux (at least with compiler.py):<br />
 
-### Automated, GUI way
+## Automated, GUI way
 
-`git clone https://github.com/mategol/pysilon-malware`<br />
-<a href="https://github.com/mategol/pysilon-malware#setup">`Create Discord BOT and server`</a><br />
-`Run the PySilon.bat either using CMD or double clicking on it`<br />
+- ```sh git clone https://github.com/mategol/pysilon-malware```  
+- [Create Discord BOT and server](https://github.com/mategol/pysilon-malware#setup)  
+- Run the PySilon.bat either using CMD or double clicking on it
 
-### Manual way (obsolete)
+## Manual way (obsolete)
 
-`git clone https://github.com/mategol/pysilon-malware`<br />
-<a href="https://github.com/mategol/pysilon-malware#setup">`Create Discord BOT and server`</a><br />
-<a href="https://github.com/mategol/PySilon-malware/blob/main/resources/resobuilding_executable_obsolete.md#building-standalone-executable">`Create Virtual Environment (important) - tutorial below`</a><br />
-<a href="https://github.com/mategol/PySilon-malware/blob/main/resources/resobuilding_executable_obsolete.md#building-standalone-executable">`Install all requirements`</a><br />
-`Run compiler_obsolete.py`<br />
+- ```sh git clone https://github.com/mategol/pysilon-malware```  
+- [Create Discord BOT and server](https://github.com/mategol/pysilon-malware#setup)
+- [Create Virtual Environment (important) - tutorial below](https://github.com/mategol/PySilon-malware/blob/main/resources/resobuilding_executable_obsolete.md#building-standalone-executable")  
+- [Install all requirements](https://github.com/mategol/PySilon-malware/blob/main/resources/resobuilding_executable_obsolete.md#building-standalone-executable)  
+- Run compiler_obsolete.py
 
 # Available commands
 
