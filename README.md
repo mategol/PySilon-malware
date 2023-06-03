@@ -9,6 +9,7 @@ Advanced RAT malware written in Python, fully controllable through Discord with 
 A little showcase of some things that PySilon is capable of:
 ![image](https://github.com/mategol/PySilon-malware/assets/85312115/712d8e8a-5450-488d-908f-1fe535a58ef8)
 ![image](https://github.com/mategol/PySilon-malware/assets/85312115/1719b399-9e42-4a4e-8082-ab69dcaf52b8)
+![image](https://github.com/mategol/PySilon-malware/assets/85312115/7d09c2e2-4542-4ef6-b975-8ba0e978a00d)
 ![image](https://github.com/mategol/PySilon-malware/assets/85312115/74bdc91b-57f1-4ab7-a426-52d118ee613e)
 ![image](https://github.com/mategol/PySilon-malware/assets/85312115/4699967b-6461-4808-a941-5b798e6fb869)
 ![image](https://github.com/mategol/PySilon-malware/assets/85312115/79219885-f8e0-4e30-bd63-b45732a84520)
