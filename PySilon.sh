@@ -36,7 +36,21 @@ if [ $install_python = 'y' ]; then
     wine ./python-3.11.3-amd64.exe
 fi
 
+echo -e "\e[36m[#] Initializing the virtual environment...\e[0m"
+wine python -m pip install --upgrade venv
+wine python -m venv pysilon
+wine call "pysilon\\Scripts\\activate.bat"
+
 echo -e "\e[36m[#] Installing PIP requirements...\e[0m"
+wine pip install --upgrade pillow pyinstaller
 wine python -m pip install -r requirements.txt
+
 echo -e "\e[36m[#] Running compiler.py\e[0m"
 wine python compiler.py
+
+echo -e "\e[33m###################################\e[0m"
+echo -e "\e[33m# Software terminated.            #\e[0m"
+echo -e "\e[33m#                                 #\e[0m"
+echo -e "\e[33m# Give me a star on Github!       #\e[0m"
+echo -e "\e[33m# mategol/PySilon-malware         #\e[0m"
+echo -e "\e[33m###################################\e[0m"
