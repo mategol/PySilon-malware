@@ -15,14 +15,14 @@ else
     exit
 fi
 
-if [ $package_manager = 'apt' ]; then
+if [ $package_manager = 'a' ]; then
     sudo apt update -y && sudo apt install wine -y
-elif [ $package_manager = 'dnf' ]; then
+elif [ $package_manager = 'd' ]; then
     sudo dnf update -y && sudo dnf install wine -y
-elif [ $package_manager = 'pacman' ]; then
+elif [ $package_manager = 'p' ]; then
     sudo pacman -Sy wine --noconfirm
 else
-    echo -e "\e[31m[x] Skipping.\e[0m"
+    echo -e "\e[31m[x] Enter press or invalid input, skipping.\e[0m"
 fi
 
 echo -e "[+] Install Python inside of wine? \e[32m[y]es\e[0m/\e[31m[n]o\e[0m"
