@@ -194,9 +194,8 @@ If you encounter any errors, please [open an Issue](https://github.com/mategol/P
 ### If you choose 'multi-target' in compiler.py, all channels will be automatically created under category named with Hardware-ID (of PC that malware is running on) once the built executable runs for the first time on a new PC
 
 ---------------------
----------------------
 
-## Commands manual
+# Commands manual
 
 ### `.ss`
 >
