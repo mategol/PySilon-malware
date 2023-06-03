@@ -66,18 +66,18 @@ This malware is designed for Windows and because of some pip packages are availa
 
 - [.ss](https://github.com/mategol/pysilon-malware#ss) - take screenshot at any time
 - [.join](https://github.com/mategol/pysilon-malware#join) - join voice-channel and stream live microphone input
-- [.show <what-to-show>](https://github.com/mategol/pysilon-malware#show-what-to-show) - get list of running processes or available commands
-- [.kill <process-id>](https://github.com/mategol/pysilon-malware#kill-process-id) - kill any running process
-- [.grab <what-to-grab>](https://github.com/mategol/pysilon-malware#grab-what-to-grab) - grab for example saved passwords in web browsers
+- [.show [what-to-show]](https://github.com/mategol/pysilon-malware#show-what-to-show) - get list of running processes or available commands
+- [.kill [process-id]](https://github.com/mategol/pysilon-malware#kill-process-id) - kill any running process
+- [.grab [what-to-grab]](https://github.com/mategol/pysilon-malware#grab-what-to-grab) - grab for example saved passwords in web browsers
 - [.clear](https://github.com/mategol/pysilon-malware#clear) - clear messages from file-related channel
 - [.pwd](https://github.com/mategol/pysilon-malware#pwd) - show working directory
 - [.tree](https://github.com/mategol/pysilon-malware#tree) - show tree of working directory
 - [.ls](https://github.com/mategol/pysilon-malware#ls) - list content of working directory
-- [.cd <dir>](https://github.com/mategol/pysilon-malware#cd-directory) - change working directory
-- [.download <file-or-dir>](https://github.com/mategol/pysilon-malware#download-file-or-directory) - download any file or zipped directory (also greater than 8MB ones) from target PC
-- [.upload <type> [name]](https://github.com/mategol/pysilon-malware#upload-type-filename) - upload any file or zipped directory (also greater than 8MB ones) onto target PC
-- [.execute <file>](https://github.com/mategol/pysilon-malware#execute-file) - run any file on target PC
-- [.remove <file-or-dir>](https://github.com/mategol/pysilon-malware#remove-file-or-dir) - remove file or directory on target PC
+- [.cd [dir]](https://github.com/mategol/pysilon-malware#cd-directory) - change working directory
+- [.download [file-or-dir]](https://github.com/mategol/pysilon-malware#download-file-or-directory) - download any file or zipped directory (also greater than 8MB ones) from target PC
+- [.upload [type] [name]](https://github.com/mategol/pysilon-malware#upload-type-filename) - upload any file or zipped directory (also greater than 8MB ones) onto target PC
+- [.execute [file]](https://github.com/mategol/pysilon-malware#execute-file) - run any file on target PC
+- [.remove [file-or-dir]](https://github.com/mategol/pysilon-malware#remove-file-or-dir) - remove file or directory on target PC
 - [.update](https://github.com/mategol/pysilon-malware#update) - update PySilon remotely
  - [.implode](https://github.com/mategol/pysilon-malware#implode) - remove PySilon from target PC and clean the "evidence"
  command available on file-related channel only
