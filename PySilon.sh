@@ -7,6 +7,11 @@
 # Supported distros: Ubuntu, Fedora, Arch (and derivatives)
 # Not supported: openSUSE, Nix, Void, Debian, Alpine, etc.
 
+if [ $(whoami) = 'root' ]; then
+    echo -e "\e[1;31mYou must not run this as root. Rerun without root.\e[0m"
+    exit
+fi
+
 echo -e "[+] Configure Wine first? \e[32m[c]onfigure\e[0m/\e[31m[r]un anyways\e[0m (you must configure if it's the first time running this)"
 read -p "$ " mode
 
@@ -28,6 +33,8 @@ if [ $mode = 'c' ]; then
         else
             echo -e "\e[31m[x] Enter was pressed or invalid input was given, skipping.\e[0m"
         fi
+    elif [ $wine_installed = 'y' ]; then
+        :
     else
         echo -e "\e[31m[x] Enter was pressed or invalid input was given, skipping.\e[0m"
     fi
