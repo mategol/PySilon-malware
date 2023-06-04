@@ -15,6 +15,7 @@ fi
 echo -e "[+] Configure Wine first? \e[32m[c]onfigure\e[0m/\e[31m[r]un anyways\e[0m (you must configure if it's the first time running this)"
 read -p "$ " mode
 
+# If configuration mode was selected, do these:
 if [ $mode = 'c' ]; then
     # Ask if wine is installed
     echo -e "[+] Do you have wine already installed? \e[32m[y]es\e[0m/\e[31m[n]o\e[0m (defaults to yes)"
@@ -24,6 +25,7 @@ if [ $mode = 'c' ]; then
         echo -e "[+] Select your package manager (\e[34m[a]pt\e[0m, \e[34m[d]nf\e[0m, \e[34m[p]acman\e[0m) or hit \e[34menter\e[0m to skip."
         read -p "$ " package_manager
 
+        # Install wine using the selected package manager
         if [ $package_manager = 'a' ]; then
             sudo apt update -y && sudo apt install wine -y
         elif [ $package_manager = 'd' ]; then
@@ -54,23 +56,15 @@ if [ $mode = 'c' ]; then
         echo -e "\e[31m[x] Enter was pressed or invalid input was given, skipping.\e[0m"
     fi
 
-    # Ask to create a new venv (or keep the existing, in case it already exists)
-    echo -e "[+] Create new virtual environment? \e[32m[y]es\e[0m/\e[34menter\e[0m to skip (say yes if it's the first time running this)."
-    read -p "$ " create_venv
-    if [ $create_venv = 'y' ]; then
-        wine pip install wheel setuptools
-        wine python -m venv pysilon
-    fi
-
-    # Initializing venv
-    echo -e "\e[36m[#] Initializing the virtual environment...\e[0m"
-    wine call "pysilon\\Scripts\\activate.bat"
-
-    # Install requirements.txt in the venv
+    # Install requirements.txt
     echo -e "\e[36m[#] Installing PIP requirements.txt...\e[0m"
+    wine pip install wheel setuptools
     wine python -m pip install -r requirements.txt
+
+# If run mode was selected, continue
 elif [ $mode = 'r' ]; then
     :
+# If no mode was selected, display error and continue
 else
     echo -e "\e[31mInvalid input, proceeding to the execuion of builder.py anyways.\e[0m"
 fi
