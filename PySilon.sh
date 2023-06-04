@@ -61,7 +61,6 @@ if [ $mode = 'c' ]; then
 
     # Install requirements.txt in the venv
     echo -e "\e[36m[#] Installing PIP requirements.txt...\e[0m"
-    wine pip install --upgrade pyinstaller
     wine python -m pip install -r requirements.txt
 elif [ $mode = 'r' ]; then
     :
