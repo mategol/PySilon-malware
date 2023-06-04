@@ -50,15 +50,27 @@ if [ $mode = 'c' ]; then
         echo -e "\e[36m[#] Fetching Python for Windows...\e[0m"
         wget https://www.python.org/ftp/python/3.10.8/python-3.10.8-amd64.exe # Change link for a different version (3.10.8 works fine under wine)
         echo -e "\e[36m[#] Launching Python installer through Wine...\e[0m"
-        echo -e "\e[1;35m[i] Make sure to add Python to PATH in the installer!\e[0m"
+        echo -e "\e[1;35m[i] Make sure to add Python to PATH and go to \"Customize Installation > Next > Install for all users\" in the installer!\e[0m"
         wine ./python-3.10.8-amd64.exe # Change version to the version set in the above link
     else
         echo -e "\e[31m[x] Enter was pressed or invalid input was given, skipping.\e[0m"
     fi
 
+    # Ask to create a new venv (or keep the existing, in case it already exists)
+    echo -e "[+] Create new virtual environment? \e[32m[y]es\e[0m/\e[34menter\e[0m to skip (say yes if it's the first time running this)."
+    read -p "$ " create_venv
+    if [ $create_venv = 'y' ]; then
+        wine python -m pip install wheel setuptools
+        wine python -m venv pysilon
+    fi
+
+    # Initializing venv
+    echo -e "\e[36m[#] Initializing the virtual environment...\e[0m"
+    wine call "pysilon\\Scripts\\activate.bat"
+
     # Install requirements.txt
     echo -e "\e[36m[#] Installing PIP requirements.txt...\e[0m"
-    wine pip install wheel setuptools
+    wine python -m pip install wheel setuptools
     wine python -m pip install -r requirements.txt
 
 # If run mode was selected, continue
