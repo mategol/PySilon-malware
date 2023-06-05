@@ -166,7 +166,7 @@ async def on_raw_reaction_add(payload):
     message = await client.get_channel(payload.channel_id).fetch_message(payload.message_id)
     reaction = discord.utils.get(message.reactions, emoji=payload.emoji.name)
     user = payload.member
-    
+  
     if user.bot == False:
         if str(reaction) == '📌':
             if message.channel.id in channel_ids.values():
