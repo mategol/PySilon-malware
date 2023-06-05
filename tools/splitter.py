@@ -18,7 +18,7 @@ input_file = get_manual_path(True)
 print(' Select output directory...', end='\r')
 output_directory = get_manual_path(False)
 
-Split(input_file, output_directory).bysize(1024*1024*8)
+Split(input_file, output_directory).bysize(1024*1024*25)
 splitted_files_to_send = os.listdir(output_directory)
 for sfile in splitted_files_to_send:
     if sfile != 'manifest':
