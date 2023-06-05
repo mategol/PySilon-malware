@@ -23,9 +23,8 @@ filenames = {
     'mc_recc': 'microphone_recording.py',
     'process': 'process.py',
     'rev_shl': 'reverse_shell.py',
-    'webcam_': 'webcam.py',
-    'hlpr_': 'helper.py'
-}
+    'webcam_': 'webcam.py'
+    }
 
 default_modules = [
     'from urllib.request import urlopen\n'
