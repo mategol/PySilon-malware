@@ -7,7 +7,7 @@
 # Supported distros: Ubuntu, Fedora, Arch (and derivatives)
 # Not supported: openSUSE, Nix, Void, Debian, Alpine, etc.
 
-if [ $(whoami) = 'root' ]; then
+if [ $(whoami) == 'root' ]; then
     echo -e "\e[1;31mYou must not run this as root. Rerun without root.\e[0m"
     exit
 fi
@@ -16,28 +16,28 @@ echo -e "[+] Configure Wine first? \e[32m[c]onfigure\e[0m/\e[31m[r]un anyways\e[
 read -p "$ " mode
 
 # If configuration mode was selected, do these:
-if [ $mode = 'c' ]; then
+if [ "$mode" == 'c' ]; then
     # Ask if wine is installed
     echo -e "[+] Do you have wine already installed? \e[32m[y]es\e[0m/\e[31m[n]o\e[0m (defaults to yes)"
     read -p "$ " wine_installed
     # If wine is not installed, show prompt to choose package manager
-    if [ $wine_installed = 'n' ]; then
+    if [ "$wine_installed" == 'n' ]; then
         echo -e "[+] Select your package manager (\e[34m[a]pt\e[0m, \e[34m[d]nf\e[0m, \e[34m[p]acman\e[0m) or hit \e[34menter\e[0m to skip."
         read -p "$ " package_manager
 
         # Install wine using the selected package manager
-        if [ $package_manager = 'a' ]; then
+        if [ "$package_manager" == 'a' ]; then
             sudo apt update -y && sudo apt install wine -y
-        elif [ $package_manager = 'd' ]; then
+        elif [ "$package_manager" == 'd' ]; then
             sudo dnf update -y && sudo dnf install wine -y
-        elif [ $package_manager = 'p' ]; then
+        elif [ "$package_manager" == 'p' ]; then
             sudo pacman -Sy wine --noconfirm
-        elif [ -z $package_manager ]; then
+        elif [ -z "$package_manager" ]; then
             echo -e "\e[34m[-] Enter was pressed, skipping.\e[0m"
         else
             echo -e "\e[31m[x] Invalid input was given, skipping.\e[0m"
         fi
-    elif [ $wine_installed = 'y' ]; then
+    elif [ "$wine_installed" == 'y' ]; then
         :
     else
         echo -e "\e[31m[x] Enter was pressed or other invalid input was given, skipping.\e[0m"
@@ -48,13 +48,13 @@ if [ $mode = 'c' ]; then
     read -p "$ " install_python
 
     # If user entered 'y', download and install Python in Wine
-    if [ $install_python = 'y' ]; then
+    if [ "$install_python" == 'y' ]; then
         echo -e "\e[36m[#] Fetching Python for Windows...\e[0m"
-        wget https://www.python.org/ftp/python/3.10.8/python-3.10.8-amd64.exe # Change link for a different version (3.10.8 works fine under wine)
+        wget https://www.python.org/ftp/python/3.10.8/python-3.10.8-amd64.exe -O python-3.x.x-amd64.exe # Change link for a different version (3.10.8 works fine under wine)
         echo -e "\e[36m[#] Launching Python installer through Wine...\e[0m"
         echo -e "\e[1;35m[i] Make sure to add Python to PATH and go to \"Customize Installation > Next > Install for all users\" in the installer!\e[0m"
-        wine ./python-3.10.8-amd64.exe # Change version to the version set in the above link
-    elif [ -z $install_python ]; then
+        wine ./python-3.x.x-amd64.exe # Change version to the version set in the above link
+    elif [ -z "$install_python" ]; then
         echo -e "\e[34m[-] Enter was pressed, skipping.\e[0m"
     else
         echo -e "\e[31m[x] Invalid input was given, skipping.\e[0m"
@@ -63,10 +63,10 @@ if [ $mode = 'c' ]; then
     # Ask to create a new venv (or keep the existing, in case it already exists)
     echo -e "[+] Create new virtual environment? \e[32m[y]es\e[0m/\e[34menter\e[0m to skip (say yes if it's the first time running this)."
     read -p "$ " create_venv
-    if [ $create_venv = 'y' ]; then
+    if [ "$create_venv" == 'y' ]; then
         wine python -m pip install wheel setuptools
         wine python -m venv pysilon
-    elif [ -z $create_venv ]; then
+    elif [ -z "$create_venv" ]; then
         echo -e "\e[34m[-] Enter was pressed, skipping.\e[0m"
     else
         echo -e "\e[31m[x] Invalid input was given, skipping.\e[0m"
@@ -82,7 +82,7 @@ if [ $mode = 'c' ]; then
     wine python -m pip install -r requirements.txt
 
 # If run mode was selected, continue
-elif [ $mode = 'r' ]; then
+elif [ "$mode" == 'r' ]; then
     :
 # If no mode was selected, display error and continue
 else
