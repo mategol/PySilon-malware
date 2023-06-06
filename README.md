@@ -8,7 +8,7 @@ Advanced RAT malware written in Python, fully controllable through Discord with 
 
 Join our discord to keep up with the progress, ask questions, recommend features and talk to like minded people!
 
-[![Discord](https://img.shields.io/discord/1114568569850699847?color=7289da&logo=discord&logoColor=white)](https://discord.gg/J7pYVqcntm)
+[![Discord](https://img.shields.io/discord/1114568569850699847?color=7289da&logo=discord&logoColor=white)](https://discord.gg/pysilon)
 
 ## Showcase
 
