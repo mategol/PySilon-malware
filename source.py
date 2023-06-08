@@ -188,7 +188,7 @@ async def on_reaction_add(reaction, user):
         if reaction.message.channel.id in channel_ids.values():
             try:
                 if str(reaction) == '💀' and expectation == 'implosion':
-                    await reaction.message.channel.send('```PySilon will try to implode after sending this message. So if there\'s no more messages, the cleanup was successfull.```')
+                    await reaction.message.channel.send('```PySilon will try to implode after sending this message. So if there\'s no more messages, the cleanup was successful.```')
 # [pysilon_var] !registry_implosion 5
                     secure_delete_file('PySilon.key', 10)
                     try: rmtree('rec_')
