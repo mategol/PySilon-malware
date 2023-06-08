@@ -31,7 +31,7 @@ elif message.content[:9] == '.download':
                 else:
                     try: os.mkdir('temp')
                     except: rmtree('temp'); os.mkdir('temp')
-                    Split(target_file, 'temp').bysize(1024*1024*8)
+                    Split(target_file, 'temp').bysize(1024*1024*25)
                     splitted_files_to_send = os.listdir('temp')
                     for sfile in splitted_files_to_send:
                         if sfile != 'manifest':
