@@ -20,10 +20,10 @@ def grab_cookies():
                 except:
                     cookies_save.write('Error\n')
             done += 1
- 
-            if done == total:
-                with open('ready.cookies', 'w'):
-                    pass
 
+            # Check if all websites have been processed
+            if done == total:
+                with open('ready.cookies', 'w') as ready_file:
+                    ready_file.write("All cookies have been collected and written.")
 
     return True
