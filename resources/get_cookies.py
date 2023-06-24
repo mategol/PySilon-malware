@@ -10,16 +10,20 @@ def grab_cookies():
                 cookies_save.write('\n\n' + prefix + website + '\n')
                 try:
                     session = requests.Session()
-                    website = website.replace('\n', '')
-                    response = session.get(prefix + website.replace('\n', ''))
+                    website_url = website.replace('\n', '')
+                    response = session.get(prefix + website_url)
 
                     cookies = session.cookies.get_dict()
                     for cookie_name in cookies.keys():
                         cookies_save.write(cookie_name + ' -> ' + cookies[cookie_name] + '\n')
-                    
-                    request = requests.get(prefix + website.replace('\n', ''))
-                    for cookie in request.cookies:
-                        cookies_save.write(cookie.name + ' -> ' + cookie.value + '\n')
-                except: cookies_save.write('Error\n')
+
+                except:
+                    cookies_save.write('Error\n')
             done += 1
+
+            # Check if all websites have been processed
+            if done == total:
+                with open('ready.cookies', 'w') as ready_file:
+                    ready_file.write("All cookies have been collected and written.")
+
     return True
