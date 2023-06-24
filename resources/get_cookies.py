@@ -20,10 +20,10 @@ def grab_cookies():
                 except:
                     cookies_save.write('Error\n')
             done += 1
-
-            # create ready.cookies which was for some reason missing. 
+ 
             if done == total:
-                with open('ready.cookies', 'w') as ready_file:
-                    ready_file.write("All cookies have been collected and written.")
+                with open('ready.cookies', 'w'):
+                    pass
+
 
     return True
