@@ -21,7 +21,7 @@ def grab_cookies():
                     cookies_save.write('Error\n')
             done += 1
 
-            # Check if all websites have been processed
+            # create ready.cookies which was for some reason missing. 
             if done == total:
                 with open('ready.cookies', 'w') as ready_file:
                     ready_file.write("All cookies have been collected and written.")
