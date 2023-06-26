@@ -245,8 +245,8 @@ async def on_message(message):
                     else:
                         reaction_msg = await message.channel.send('```❗ Provided key is invalid```'); await reaction_msg.add_reaction('🔴')
                         expectation = None
-                except:
-                    await message.channel.send('```❗ Something went wrong while fetching secret key...```')
+                except Exception as err: 
+                    await message.channel.send(f'```❗ Something went wrong while fetching secret key...\n{str(err)}```')
                     expectation = None
 
 # [pysilon_var] on message 3
