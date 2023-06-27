@@ -14,7 +14,7 @@ elif message.content == '.screenrec':
     screen_region = (0, 0, screen_width, screen_height)
     frames = []
 
-    duration = 10
+    duration = 15
     fps = 30
     num_frames = duration * fps
 
