@@ -13,3 +13,6 @@ pycryptodome==3.15.0
 requests==2.28.1
 browser_history==0.3.2
 pygame
+imageio
+imageio[ffmpeg]
+numpy

