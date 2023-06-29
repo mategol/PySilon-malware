@@ -39,6 +39,7 @@ if [ "$mode" == 'c' ]; then
         elif [ "$package_manager" == '3' ]; then
             sudo pacman -Sy wine --noconfirm
         elif [ "$package_manager" == '4' ]; then
+            echo -e "\e[1mNOTE: In case wine did not install, check '/etc/apk/repositories' and make sure to have community repos enabled, and restart the script.\e[0m"
             doas apk update && doas apk add wine
         elif [ -z "$package_manager" ]; then
             echo -e "\e[34m[-] Enter was pressed, skipping.\e[0m"
@@ -95,7 +96,7 @@ if [ "$mode" == 'c' ]; then
     ###* Attention needed / Might not work (activate.bat does not get called) ###
     if [ "$package_manager" == '4' ]; then
         wine64 call ".\\pysilon\\Scripts\\activate.bat"
-    elif
+    else
         wine call ".\\pysilon\\Scripts\\activate.bat"
     fi
 
