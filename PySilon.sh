@@ -39,7 +39,7 @@ if [ "$mode" == 'c' ]; then
         elif [ "$package_manager" == '3' ]; then
             sudo pacman -Sy wine --noconfirm
         elif [ "$package_manager" == '4' ]; then
-            sudo apk update && sudo apk add wine
+            doas apk update && doas apk add wine
         elif [ -z "$package_manager" ]; then
             echo -e "\e[34m[-] Enter was pressed, skipping.\e[0m"
         else
