@@ -279,7 +279,7 @@ else:
     Label(settings_canvas, text='Emergency Token 1:', justify=RIGHT, anchor=E).grid(row=5, padx=(30, 5), pady=2, sticky=E)
     Label(settings_canvas, text='Emergency Token 2:', justify=RIGHT, anchor=E).grid(row=6, padx=(30, 5), pady=2, sticky=E)
     Label(settings_canvas, text='Registry Name*:', justify=RIGHT, anchor=E).grid(row=7, padx=(30, 5), pady=2, sticky=E)
-    Label(settings_canvas, text='Directory Name*:', justify=RIGHT, anchor=E).grid(row=8, padx=(30, 5), pady=2, sticky=E)
+    Label(settings_canvas, text='Folder Name*:', justify=RIGHT, anchor=E).grid(row=8, padx=(30, 5), pady=2, sticky=E)
     Label(settings_canvas, text='Executable name*:', justify=RIGHT, anchor=E).grid(row=9, padx=(30, 5), pady=2, sticky=E)
     Label(settings_canvas, text='Icon*:', justify=RIGHT, anchor=E).grid(row=10, padx=(30, 5), pady=2, sticky=E)
     
