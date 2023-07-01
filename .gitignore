@@ -6,3 +6,4 @@ __pycache__/compiler.cpython-310.pyc
 dist/source_prepared.exe
 custom_imports.txt
 configuration.ini
+pysilon

