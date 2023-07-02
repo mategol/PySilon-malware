@@ -32,13 +32,16 @@ if [ "$mode" == 'c' ]; then
         read -p "$ " package_manager
 
         # Install wine using the selected package manager
-        if [ "$package_manager" == '1' ]; then
-            sudo apt update -y && sudo apt install wine -y
-        elif [ "$package_manager" == '2' ]; then
+        if [ "$package_manager" == '1' ]; then # Ubuntu
+            sudo dpkg --add-architecture i386
+            sudo apt update -y
+            sudo apt install --install-recommends winehq-stable -y
+            sudo apt install wine -y
+        elif [ "$package_manager" == '2' ]; then # Fedora
             sudo dnf update -y && sudo dnf install wine -y
-        elif [ "$package_manager" == '3' ]; then
+        elif [ "$package_manager" == '3' ]; then # Arch
             sudo pacman -Sy wine --noconfirm
-        elif [ "$package_manager" == '4' ]; then
+        elif [ "$package_manager" == '4' ]; then # Alpine
             echo -e "\e[1mNOTE: In case wine did not install, check '/etc/apk/repositories' and make sure to have community repos enabled, and restart the script.\e[0m"
             doas apk update && doas apk add wine
         elif [ -z "$package_manager" ]; then
