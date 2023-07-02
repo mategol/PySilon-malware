@@ -34,8 +34,6 @@ if [ "$mode" == 'c' ]; then
         # Install wine using the selected package manager
         if [ "$package_manager" == '1' ]; then # Ubuntu
             sudo dpkg --add-architecture i386
-            sudo mkdir -pm755 /etc/apt/keyrings
-            sudo wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
             sudo apt update -y
             sudo apt install --install-recommends winehq-stable -y
             sudo apt install wine -y
