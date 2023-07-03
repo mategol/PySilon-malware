@@ -256,8 +256,8 @@ if len(sys.argv) > 1:
         cli = 'soon' # CLI mode will be added soon...
 else:
     root = Tk()
-    root.geometry('1000x950')
-    root.resizable(False, False)
+    root.geometry('700x600')
+    root.resizable(True, True)
     root.iconbitmap('resources/icons/icon.ico')
     root.title('PySilon builder')
 
