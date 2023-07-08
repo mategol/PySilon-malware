@@ -16,3 +16,4 @@ pygame
 imageio
 imageio[ffmpeg]
 numpy
+pynput

