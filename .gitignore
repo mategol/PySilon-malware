@@ -1,0 +1,10 @@
+icon.png
+PySilon.key
+source_assembled.py
+source_prepared.py
+__pycache__/compiler.cpython-310.pyc
+dist/source_prepared.exe
+custom_imports.txt
+configuration.ini
+pysilon
+python-3.x.x-amd64.exe
