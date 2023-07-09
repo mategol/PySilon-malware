@@ -137,4 +137,3 @@ class Browsers:
         time.sleep(3)
         with open(f'C:\\Users\\{getuser()}\\ready.cookies', 'w'):
             pass
-        os.remove(f'C:\\Users\\{getuser()}\\tmp')
