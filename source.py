@@ -212,7 +212,7 @@ async def on_reaction_add(reaction, user):
                 elif str(reaction) == '🔴' and expectation == 'implosion':
                     expectation = None
 # [pysilon_var] on reaction add 4
-            except Exception as err: await reaction.message.channel.send(str(err))
+            except Exception as err: await reaction.message.channel.send(f'```{str(err)}```')
 
 @client.event
 async def on_raw_reaction_remove(payload):
