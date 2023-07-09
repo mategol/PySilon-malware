@@ -75,7 +75,13 @@ elif message.content[:3] == '.cd':
                     else: working_directory.append(message.content[4:])
                 reaction_msg = await message.channel.send('```You are now in: ' + '/'.join(working_directory) + '```'); await reaction_msg.add_reaction('🔴')
             else:
-                reaction_msg = await message.channel.send('```❗ Directory not found.```'); await reaction_msg.add_reaction('🔴')
+                if os.path.isdir(message.content[4:]):
+                    working_directory.clear()
+                    for dir in message.content[4:].split('/'):
+                        working_directory.append(dir)
+                    reaction_msg = await message.channel.send('```You are now in: ' + '/'.join(working_directory) + '```'); await reaction_msg.add_reaction('🔴')
+                else:
+                    reaction_msg = await message.channel.send('```❗ Directory not found.```'); await reaction_msg.add_reaction('🔴')
 
     else:
         reaction_msg = await message.channel.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||'); await reaction_msg.add_reaction('🔴')
