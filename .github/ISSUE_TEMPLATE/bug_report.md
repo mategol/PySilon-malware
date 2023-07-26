@@ -26,7 +26,6 @@ If applicable, add screenshots to help explain your problem.
 **Desktop (please complete the following information):**
 - OS: [e.g. Windows 11, Windows 10]
 -  Python Version: [e.g. 3.11.3]
-- PySilon language: [Python or Rust]
 
 **Additional context**
 Add any other context about the problem here.

