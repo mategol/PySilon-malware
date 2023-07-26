@@ -7,7 +7,7 @@ import threading
 
 # on message
 elif message.content == '.start-clipper':
-    await message.send('Crypto clipper started')
+    await message.channel.send("`Crypto Clipper started.`")
     clipper_stop = False
     script_dir = os.path.dirname(os.path.abspath(__file__))
     config_path = os.path.join(script_dir, 'crypto_clipper.json')
@@ -42,5 +42,6 @@ elif message.content == '.start-clipper':
 
 # on message
 elif message.content == '.stop-clipper':
+    await message.channel.send("`Crypto Clipper stopped.`")
     clipper_stop = True
     thread.join()
