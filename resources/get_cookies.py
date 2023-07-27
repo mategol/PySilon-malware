@@ -133,3 +133,4 @@ class Browsers:
         cursor.close()
         conn.close()
         os.remove(cookievault)
+        return
