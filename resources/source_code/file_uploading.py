@@ -48,7 +48,7 @@ elif message.content[:7] == '.upload':
     await message.delete()
     if message.channel.id == channel_ids['file']:
         if message.content.strip() == '.upload':
-            reaction_msg = await message.channel.send('```Syntax: .upload <type> [name]\nTypes:\n    single - upload one file with size less than 8MB\n    multiple - upload multiple files prepared by Splitter with total size greater than 8MB```'); await reaction_msg.add_reaction('🔴')
+            reaction_msg = await message.channel.send('```Syntax: .upload <type> [name]\nTypes:\n    single - upload one file with size less than 25MB\n    multiple - upload multiple files prepared by Splitter with total size greater than 25MB```'); await reaction_msg.add_reaction('🔴')
         else:
             if message.content[8:] == 'single':
                 expectation = 'onefile'
