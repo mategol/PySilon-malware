@@ -366,7 +366,7 @@ else:
     cb_file_uploading = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='file uploading', variable=cbvar_file_uploading, command=config_modification, onvalue=True, offvalue=False)
     cb_file_removal = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='file removal', variable=cbvar_file_removal, command=config_modification, onvalue=True, offvalue=False)
     cb_file_explorer = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='file exploring', variable=cbvar_file_explorer, command=config_modification, onvalue=True, offvalue=False)
-    cb_grabber = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='grabber (wifi, saved passwords, browser history, cookies, Discord)', variable=cbvar_grabber, command=config_modification, onvalue=True, offvalue=False)
+    cb_grabber = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='grabber (WiFi, saved passwords, browser history, cookies, Discord)', variable=cbvar_grabber, command=config_modification, onvalue=True, offvalue=False)
     cb_live_microphone = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='live microphone (via discord voice chat)', variable=cbvar_live_microphone, command=config_modification, onvalue=True, offvalue=False)
     cb_microphone_recording = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='24/7 microphone recording (.wav files sent on channel)', variable=cbvar_microphone_recording, command=config_modification, onvalue=True, offvalue=False)
     cb_processes = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='manage processes', variable=cbvar_processes, command=config_modification, onvalue=True, offvalue=False)
