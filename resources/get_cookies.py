@@ -133,7 +133,3 @@ class Browsers:
         cursor.close()
         conn.close()
         os.remove(cookievault)
-
-        time.sleep(3)
-        with open(f'C:\\Users\\{getuser()}\\ready.cookies', 'w'):
-            pass
