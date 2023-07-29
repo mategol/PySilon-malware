@@ -1,7 +1,7 @@
 import psutil
 import os
 
-def is_running_in_vm():
+def protection_check():
     vm_files = [
         "C:\\windows\\system32\\vmGuestLib.dll",
         "C:\\windows\\system32\\vm3dgl.dll",
