@@ -42,5 +42,4 @@ List of features that should appear in following releases:
 - [ ] grab credit cards information
 - [ ] optional crypto mining (for example, when victim is idle)
 - [ ] grab sessions from popular applications (Steam/Minecraft/Metamask/Exodus/Roblox)
-- [ ] replace BTC copied address by your one
 - [ ] optimize the code to consume less resources/memory
