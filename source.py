@@ -133,7 +133,7 @@ messages_to_send, files_to_send, embeds_to_send = [], [], []
 processes_messages, processes_list, process_to_kill = [], [], ''
 files_to_merge, expectation, one_file_attachment_message = [[], [], []], None, None
 cookies_thread, implode_confirmation, cmd_messages = None, None, []
-send_recordings, input_blocked = True, False
+send_recordings, input_blocked, clipper_stop = True, False, True
 latest_messages_in_recordings = []
 # [pysilon_var] !registry 0
 
