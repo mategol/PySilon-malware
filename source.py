@@ -33,9 +33,9 @@ import ctypes
 import re
 import json
 import psutil
-from resources.anti_vm import is_running_in_vm
+from resources.protections import protection_check
 
-if is_running_in_vm():
+if protection_check():
     os._exit(0)
 
 
