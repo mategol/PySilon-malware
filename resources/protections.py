@@ -10,7 +10,7 @@ def is_running_in_vm():
         "C:\\windows\\system32\\vmsrvc.dll",
         "C:\\windows\\system32\\drivers\\vmsrvc.sys"
     ]
-    vm_processes = [ # these are vmware but might add other ones later if I find any
+    blacklisted_processes = [
         'vmtoolsd.exe', 
         'vmwaretray.exe', 
         'vmwareuser.exe'
@@ -41,7 +41,7 @@ def is_running_in_vm():
     ]
 
     for process in psutil.process_iter(['pid', 'name']):
-        if process.info['name'].lower() in vm_processes:
+        if process.info['name'].lower() in blacklisted_processes:
             return True
     for file_path in vm_files:
         if os.path.exists(file_path):
