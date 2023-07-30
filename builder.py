@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import filedialog
 from PIL import ImageTk, Image
 import configparser
+import shutil
 import compiler
 import sys
 import os
@@ -194,6 +195,22 @@ def assemble_source_code():
     save_configuration()
     config = configparser.ConfigParser(); config.read(config_path)
 
+    try: shutil.rmtree('resources/source_code/tmp')
+    except: pass
+    os.mkdir('resources/source_code/tmp')
+    for file in filenames.keys():
+        shutil.copy(f'resources/source_code/{filenames[file]}', f'resources/source_code/tmp/{filenames[file]}')
+        with open(f'resources/source_code/tmp/{filenames[file]}', 'r', encoding='utf-8') as get_raw_source:
+            source_unlogged = get_raw_source.readlines()
+        with open(f'resources/source_code/{filenames[file]}', 'w', encoding='utf-8') as log_source:
+            for line_number, line in enumerate(source_unlogged):
+                if len(line.lstrip()) > 0:
+                    if line.lstrip()[:6] == '#.log ':
+                        log_source.write(' '*(len(line)-len(line.lstrip()))+f'{line.lstrip()[:-1]}({filenames[file]}:{line_number})*\n')
+                        #log_source.write(' '*(len(line)-len(line.lstrip()))+f'{line.lstrip()[:-1].replace(f"({filenames[file]}:{line_number-1})", "")}\n')
+                    else:
+                        log_source.write(line)
+    
     for individual_functionality in config['FUNCTIONALITY'].keys():
         if config['FUNCTIONALITY'][individual_functionality] == 'True':
             with open('resources/source_code/' + filenames[individual_functionality], 'r', encoding='utf-8') as copy_function:
@@ -229,6 +246,11 @@ def assemble_source_code():
                 else:
                     source_assembled.write(base_line)
     
+    for file in filenames.keys():
+        os.system(f'del resources\\source_code\\{filenames[file]}')
+        shutil.copy(f'resources/source_code/tmp/{filenames[file]}', f'resources/source_code/{filenames[file]}')
+    shutil.rmtree('resources/source_code/tmp')
+
     generate_source_btn['state'] = DISABLED
     generate_source_btn['text'] = 'Source generated'
     if status != 'compiled': compile_btn['state'] = NORMAL
