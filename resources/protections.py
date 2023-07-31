@@ -49,3 +49,10 @@ def protection_check():
 
 
     return False
+
+def fake_mutex_code(exe_name: str) -> bool:
+    for process in psutil.process_iter(['pid', 'name']):
+        if process.info['name'].lower() == exe_name:
+            return True
+        
+    return False
