@@ -17,10 +17,15 @@
 ##                                                                           ##
 ###############################################################################
 
-with open('PySilon.log', 'w', encoding='utf-8') as create_logs_file: pass
 import time
+import os
+try: os.mkdir('logs')
+except: pass
+logs_file_name = f'executed_at_{time.strftime("%Y-%m-%d_%H-%M-%S")}.log'
+with open(f'logs/{logs_file_name}', 'w', encoding='utf-8') as create_logs_file: pass
+
 def log(entry): 
-    with open('PySilon.log', 'a', encoding='utf-8') as log_entry: log_entry.write(f'[{time.strftime("%Y.%m.%d-%H:%M:%S")}] {entry}\n')
+    with open(f'logs/{logs_file_name}', 'a', encoding='utf-8') as log_entry: log_entry.write(f'[{time.strftime("%Y.%m.%d-%H:%M:%S")}] {entry}\n')
 
 # [pysilon_var] $modules 0
 from resources.protections import protection_check
@@ -37,7 +42,6 @@ import asyncio
 import psutil
 import json
 import sys
-import os
 import re
 #.log Imported modules
 
