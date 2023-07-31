@@ -10,7 +10,7 @@ def get_file_hash(path):
             sha256_hash.update(byte_block)
         return sha256_hash.hexdigest()
 
-def compile():
+def compile(debug_mode):
     config = configparser.ConfigParser()
     if 'configuration.ini' in os.listdir('.'): config.read('configuration.ini')
     else: input('Configuration file not found! Press ENTER to terminate...'); sys.exit(0)
@@ -36,9 +36,9 @@ def compile():
             elif line.startswith('    \'voice\':'): edit_source_code.write('    \'voice\': ' + config['SETTINGS']['voice_channel'] + '\n')
             elif line.startswith('secret_key'): edit_source_code.write('secret_key = \'' + get_file_hash('PySilon.key') + '\'\n')
             elif line.startswith('guild_id'): edit_source_code.write('guild_id = ' + config['SETTINGS']['server_id']+ '\n')
-            elif line.lstrip().startswith('#.log '):
+            elif line.lstrip().startswith('#.log ') and debug_mode:
                 edit_source_code.write(' '*(len(line)-len(line.lstrip())) + 'log(\'' + f'{line.lstrip()[:(-1 if line[-2]!="*" else -3)].replace("#.log ", "")}' + (' (' if line[-2]!='*' else '->') + f'source_assembled.py:{line_number})' + '\')\n')
-            elif line.startswith('#') or line.replace(' ', '') == '\n': pass
+            elif line.startswith('#') or line.replace(' ', '') == '\n' or line.lstrip().startswith('#.log '): pass
             else: edit_source_code.write(line)
 
     os.system(compiling_command)
