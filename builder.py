@@ -254,6 +254,7 @@ def assemble_source_code():
                     else: source_assembled.write('\n')
                     if base_line == '# [pysilon_var] bottom 0\n' and config['FUNCTIONALITY']['keylogr'] == 'False':
                         source_assembled.write('for token in bot_tokens:\n    try:\n        client.run(token)\n    except: pass')
+                elif '# [pysilon_mark] !logs' in base_line: pass
                 else:
                     source_assembled.write(base_line)
     
