@@ -19,13 +19,14 @@
 
 import time
 import os
-try: os.mkdir('logs')
-except: pass
-logs_file_name = f'executed_at_{time.strftime("%Y-%m-%d_%H-%M-%S")}.log'
-with open(f'logs/{logs_file_name}', 'w', encoding='utf-8') as create_logs_file: pass
 
-def log(entry): 
-    with open(f'logs/{logs_file_name}', 'a', encoding='utf-8') as log_entry: log_entry.write(f'[{time.strftime("%Y.%m.%d-%H:%M:%S")}] {entry}\n')
+try: os.mkdir('logs') # [pysilon_mark] !logs
+except: pass # [pysilon_mark] !logs
+logs_file_name = f'executed_at_{time.strftime("%Y-%m-%d_%H-%M-%S")}.log' # [pysilon_mark] !logs
+with open(f'logs/{logs_file_name}', 'w', encoding='utf-8') as create_logs_file: pass # [pysilon_mark] !logs
+
+def log(entry):  # [pysilon_mark] !logs
+    with open(f'logs/{logs_file_name}', 'a', encoding='utf-8') as log_entry: log_entry.write(f'[{time.strftime("%Y.%m.%d-%H:%M:%S")}] {entry}\n') # [pysilon_mark] !logs
 
 # [pysilon_var] $modules 0
 from resources.protections import protection_check, fake_mutex_code
