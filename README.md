@@ -33,8 +33,7 @@ If you like this project, you can donate to support us developing this malware. 
 
 List of features that should appear in following releases:
 
-- [ ] optional ransomware
-- [ ] fork bomb (wabbit)
+- [ ] optional ransomware 
 - [ ] webhook connection in case of unexpected circumstances (like BOT-Token banned by Discord)
 - [ ] different acting on Virtual-Machines (like Blue Screen of Death)
 - [ ] overall system info grabber with cool Discord Embeds
