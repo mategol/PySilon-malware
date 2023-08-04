@@ -40,6 +40,7 @@ import subprocess
 import threading
 import discord
 import asyncio
+import base64
 import psutil
 import json
 import sys
