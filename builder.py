@@ -399,7 +399,7 @@ else:
     cbvar_forkbmb = BooleanVar(value=True)
 
     def open_crypto_clipper_config():
-        json_file_path = 'crypto_clipper.json'
+        json_file_path = 'resources/crypto_clipper.json'
         if os.path.exists(json_file_path):
             subprocess.Popen(['notepad.exe', json_file_path])
 
