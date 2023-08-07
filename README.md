@@ -62,13 +62,13 @@ Join our discord to keep up with the progress, ask questions, recommend features
 
 --------------------
 
-# Preparation
-This malware is designed for Windows and because of some pip packages are available only on Windows (maight be changed in future for Linux support), I'm afraid that you can't compile it on Linux (at least with compiler.py):<br />
+# Preparation<br />
 
 `git clone https://github.com/mategol/pysilon-malware`<br />
 `cd pysilon-malware`<br />
 <a href="https://github.com/mategol/pysilon-malware#setup">`Create Discord BOT and server`</a><br />
-`Run the PySilon.bat either from Command Line or double clicking on it`<br />
+***Windows:*** `Run the PySilon.bat either from Command Line or double clicking on it`<br />
+***Linux:*** `Run the PySilon.sh from Command Line`<br />
 
 --------------------
 
