@@ -10,6 +10,12 @@
 
 --------------------
 
+## Wiki
+
+Read our extensive Wiki for more information and detailed building instructions.
+
+[![E-Z.HOST - Yaw](https://img.shields.io/badge/wiki-link-blue?&logo=gitbook&logoColor=white)](https://github.com/mategol/PySilon-malware/wiki)
+
 ## Discord
 
 Join our discord to keep up with the progress, ask questions, recommend features and talk to like minded people!
