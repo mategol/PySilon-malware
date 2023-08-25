@@ -14,7 +14,7 @@
 
 Join our discord to keep up with the progress, ask questions, recommend features and talk to like minded people!
 
-[![Discord](https://img.shields.io/discord/1114568569850699847?color=7289da&logo=discord&logoColor=white)](https://discord.gg/DYUzz2Y7ax)
+![Matrix](https://img.shields.io/matrix/pysilon%3Amatrix.org?server_fqdn=matrix.org&style=plastic&logo=matrix)
 
 --------------------
 
