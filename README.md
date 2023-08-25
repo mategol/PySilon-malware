@@ -10,9 +10,9 @@
 
 --------------------
 
-## Discord
+## Matrix server
 
-Join our discord to keep up with the progress, ask questions, recommend features and talk to like minded people!
+Join our Matrix to keep up with the progress, ask questions, recommend features and talk to like minded people!
 
 ![Matrix](https://img.shields.io/matrix/pysilon%3Amatrix.org?server_fqdn=matrix.org&style=plastic&logo=matrix)
 
