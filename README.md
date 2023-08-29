@@ -20,7 +20,7 @@ Read our extensive Wiki for more information and detailed building instructions.
 
 Join our discord to keep up with the progress, ask questions, recommend features and talk to like minded people!
 
-[![Discord](https://img.shields.io/discord/1114568569850699847?style=for-the-badge&color=7289da&logo=discord&logoColor=white)](https://discord.gg/pysilon)
+[![Discord](https://img.shields.io/discord/1144304250202107995?style=for-the-badge&color=7289da&logo=discord&logoColor=white)](https://discord.gg/ecgAKgssGe)
 
 --------------------
 
