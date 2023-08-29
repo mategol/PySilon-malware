@@ -36,6 +36,6 @@ elif message.content == '.screenrec':
     except Exception as e:
         #.log Error occurred while trying to record the screen 
         embed = discord.Embed(title="📛 Error",description="An error occurred during screen recording.", colour=discord.Colour.red())
-        embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
+        embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         await message.channel.send(embed=embed)
         #.log Sent embed about the error with more details 
