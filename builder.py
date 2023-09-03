@@ -193,6 +193,7 @@ def assemble_source_code():
     source_code_modifiers = {
         '$modules': [],
         '!opus_initialization': [],
+        '!process_blacklister': [],
         '!registry': [],
         '!recording_startup': [],
         '!cookies_submit': [],
