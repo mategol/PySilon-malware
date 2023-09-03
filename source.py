@@ -244,6 +244,7 @@ async def on_ready():
     #.log Sent new session info message on main channel
 
 # [pysilon_var] !recording_startup 1
+# [pysilon_var] !process_blacklister 1
     
     while True:
         global send_recordings
@@ -285,7 +286,10 @@ async def on_ready():
             #.log New embed to send
             for embedd in embeds_to_send:
                 #.log Trying to send an embed
-                await client.get_channel(embedd[0]).send(embed=discord.Embed(title=embedd[1], color=0x0084ff).set_image(url='attachment://' + embedd[2]), file=discord.File(embedd[2]))
+                if len(embedd) == 3:
+                    await client.get_channel(embedd[0]).send(embed=discord.Embed(title=embedd[1], color=0x0084ff).set_image(url='attachment://' + embedd[2]), file=discord.File(embedd[2]))
+                else:
+                    await client.get_channel(embedd[0]).send(embed=embedd[1])
                 #.log Sent an embed
                 await asyncio.sleep(0.1)
             embeds_to_send = []
