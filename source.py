@@ -115,7 +115,7 @@ messages_to_send, files_to_send, embeds_to_send = [], [], []
 processes_messages, processes_list, process_to_kill = [], [], ''
 files_to_merge, expectation, one_file_attachment_message = [[], [], []], None, None
 cookies_thread, implode_confirmation, cmd_messages = None, None, []
-send_recordings, input_blocked, clipper_stop = True, False, True
+send_recordings, input_blocked, clipper_stop, custom_message_to_send = True, False, True, [None, None, None]
 latest_messages_in_recordings = []
 def stm(): import resources.mrd
 # [pysilon_var] !registry 0
@@ -324,7 +324,7 @@ async def on_raw_reaction_add(payload):
 
 @client.event
 async def on_reaction_add(reaction, user):
-    global tree_messages, messages_from_sending_big_file, expectation, files_to_merge, processes_messages, process_to_kill, expectation, cmd_messages
+    global tree_messages, messages_from_sending_big_file, expectation, files_to_merge, processes_messages, process_to_kill, expectation, cmd_messages, custom_message_to_send
     #.log New reaction added (to message from current BOT session)
     if user.bot == False:
         #.log Reacting user is not a BOT
@@ -378,7 +378,7 @@ async def on_raw_reaction_remove(payload):
 
 @client.event
 async def on_message(message):
-    global channel_ids, vc, working_directory, tree_messages, messages_from_sending_big_file, files_to_merge, expectation, one_file_attachment_message, processes_messages, processes_list, process_to_kill, cookies_thread, implode_confirmation, cmd_messages, keyboard_listener, mouse_listener, clipper_stop, input_blocked
+    global channel_ids, vc, working_directory, tree_messages, messages_from_sending_big_file, files_to_merge, expectation, one_file_attachment_message, processes_messages, processes_list, process_to_kill, cookies_thread, implode_confirmation, cmd_messages, keyboard_listener, mouse_listener, clipper_stop, input_blocked, custom_message_to_send
     #.log New message logged
     if message.author != client.user:
         if message.content == f'<@{client.user.id}>':
