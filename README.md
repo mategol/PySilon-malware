@@ -68,6 +68,10 @@ Join our discord to keep up with the progress, ask questions, recommend features
 
 --------------------
 
+
+
+--------------------
+
 # Preparation<br />
 
 `git clone https://github.com/mategol/pysilon-malware`<br />
@@ -92,7 +96,9 @@ Join our discord to keep up with the progress, ask questions, recommend features
 <a href="https://github.com/mategol/pysilon-malware#upload-type-filename">`.upload <type> [name]`</a> - upload any file or zipped directory (also greater than 8MB ones) onto target PC<br />
 <a href="https://github.com/mategol/pysilon-malware#download-file-or-directory">`.download <file-or-dir>`</a> - download any file or zipped directory (also greater than 8MB ones) from target PC<br />
 <a href="https://github.com/mategol/pysilon-malware#show-what-to-show">`.show <what-to-show>`</a> - get list of running processes or available commands<br />
-<a href="https://github.com/mategol/pysilon-malware#kill-process-id">`.kill <process-id>`</a> - kill any running process<br />
+<a href="https://github.com/mategol/pysilon-malware#kill-process-id">`.kill <process-name-or-id>`</a> - kill any running process<br />
+<a href="https://github.com/mategol/pysilon-malware#kill-process-id">`.foreground`</a> - get active window process name<br />
+<a href="https://github.com/mategol/pysilon-malware#kill-process-id">`.msg title="<title>" text="<text>" style=<style>`</a> - send a message to victim and get the response<br />
 <a href="https://github.com/mategol/pysilon-malware#execute-file">`.execute <file>`</a> - run any file on target PC<br />
 <a href="https://github.com/mategol/pysilon-malware#ss">`.start-clipper`</a> - start crypto-clipper (swap crypto currency wallet addresses to your ones, `.stop-clipper` to stop it)<br />
 <a href="https://github.com/mategol/pysilon-malware#ss">`.bsod`</a> - trigger Blue Screen of Death<br />
