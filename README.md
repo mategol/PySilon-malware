@@ -48,6 +48,9 @@ Join our discord to keep up with the progress, ask questions, recommend features
 - log every key pressed on *keyboard*
 - take *screenshots* anytime you want
 - record *screen* anytime you want
+- disable processes
+- *communicate* with the victim in several ways
+- use *Text-To-Speech* on victim's PC
 - take images from *webcam*
 - *block* the *mouse* and *keyboard*
 - steal saved *WiFi* passwords
@@ -65,10 +68,6 @@ Join our discord to keep up with the progress, ask questions, recommend features
 - *Anti-VM* (PySilon wont run on Virtual Machines, f.ex.: VirtualBox, VMWare)
 - run *CMD* commands
 - ***Debug Mode*** for easier testing and `contribution`
-
---------------------
-
-
 
 --------------------
 
