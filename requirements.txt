@@ -18,3 +18,5 @@ imageio[ffmpeg]
 numpy
 pynput
 pyperclip
+html2image
+pyttsx3
