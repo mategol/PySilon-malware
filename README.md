@@ -14,13 +14,19 @@
 
 Read our extensive Wiki for more information and detailed building instructions.
 
-[![E-Z.HOST - Yaw](https://img.shields.io/badge/wiki-link-blue?style=for-the-badge&logo=gitbook&logoColor=white)](https://github.com/mategol/PySilon-malware/wiki)
+[![Wiki](https://img.shields.io/badge/wiki-link-blue?style=for-the-badge&logo=gitbook&logoColor=white)](https://github.com/mategol/PySilon-malware/wiki)
 
 ## Discord
 
 Join our discord to keep up with the progress, ask questions, recommend features and talk to like minded people!
 
 [![Discord](https://img.shields.io/discord/1144304250202107995?style=for-the-badge&color=7289da&logo=discord&logoColor=white)](https://discord.gg/ecgAKgssGe)
+
+## Telegram
+
+Join our Telegram channel to always stay up-to-date with the most recent updates!
+
+[![Wiki](https://img.shields.io/badge/telegram-pysilon-blue?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/pysilon)
 
 --------------------
 
