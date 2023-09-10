@@ -317,6 +317,12 @@ def config_modification(var=None, index=None, mode=None):
         generate_source_btn['text'] = 'Generate source'
         compile_btn['state'] = DISABLED
 
+def show_tooltip(event):
+    tooltip_label.place(x= 30, y= 450)
+
+def hide_tooltip(event):
+    tooltip_label.place_forget()
+
 if len(sys.argv) > 1:
     if sys.argv[1] == '--cli':
         cli = 'soon' # CLI mode will be added soon...
@@ -353,6 +359,9 @@ else:
 
     debug_mode_btn = Button(settings_canvas, text='Debug mode [OFF]', fg='gray', state=NORMAL, width=12, height=1, command=debug_toggle)
     debug_mode_btn.grid(row=15, column=1, padx=(5, 5), pady=10, sticky=NSEW, rowspan=2)
+    tooltip_label = Label(root, text="Note: Debug mode should only be used for development or testing!", relief=RIDGE, borderwidth=2, background="#0A0A10")
+    debug_mode_btn.bind("<Enter>", show_tooltip)
+    debug_mode_btn.bind("<Leave>", hide_tooltip)
 
     var_server_id = StringVar()
     var_bot_token_1 = StringVar()
