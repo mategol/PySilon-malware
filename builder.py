@@ -116,7 +116,7 @@ def recommended_configuration():
     cbvar_inputbl.set(True)
     cbvar_bluesod.set(True)
     cbvar_crclipr.set(False)
-    cbvar_forkbmb.set(False)
+    cbvar_forkbmb.set(True)
     cbvar_messger.set(True)
     cbvar_txtspee.set(True)
     cbvar_disclaimer.set(False)
