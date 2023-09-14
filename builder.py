@@ -75,6 +75,7 @@ def load_configuration(is_custom):
     registry_name.delete(0, END); registry_name.insert(0, config['SETTINGS']['registry_name'])
     directory_name.delete(0, END); directory_name.insert(0, config['SETTINGS']['directory_name'])
     executable_name.delete(0, END); executable_name.insert(0, config['SETTINGS']['executable_name'])
+    cbvar_custom_icon.set(config['SETTINGS']['custom_icon'])
     change_icon(config['SETTINGS']['icon_path'])
 
     cbvar_keylogger.set(config['FUNCTIONALITY']['keylogr'])
@@ -119,7 +120,7 @@ def recommended_configuration():
     cbvar_forkbmb.set(True)
     cbvar_messger.set(True)
     cbvar_txtspee.set(True)
-    cbvar_disclaimer.set(False)
+    cbvar_custom_icon.set(True)
 
 def reset_configuration():
     server_id.delete(0, END)
@@ -150,6 +151,7 @@ def reset_configuration():
     cbvar_forkbmb.set(True)
     cbvar_messger.set(True)
     cbvar_txtspee.set(True)
+    cbvar_custom_icon.set(True)
     cbvar_disclaimer.set(False)
 
     change_icon('resources/icons/icon.ico')
@@ -174,6 +176,7 @@ def save_configuration():
     config['SETTINGS']['file-related_channel'] = ('True' if (cbvar_file_explorer.get() or cbvar_file_downloading.get() or cbvar_file_uploading.get() or cbvar_file_removal.get()) else 'False')
     config['SETTINGS']['recordings_channel'] = str(cbvar_microphone_recording.get())
     config['SETTINGS']['voice_channel'] = str(cbvar_live_microphone.get())
+    config['SETTINGS']['custom_icon'] = str(cbvar_custom_icon.get())
     config['SETTINGS']['icon_path'] = window_icon
 
     config['FUNCTIONALITY']['keylogr'] = str(cbvar_keylogger.get())
@@ -367,6 +370,7 @@ else:
     my_canvas.pack(anchor=NW)
 
     settings_canvas = Canvas(root, width=1, height=1, bd=0)
+    cbvar_custom_icon = BooleanVar(value=True)
     Label(settings_canvas, text='General settings:', justify=RIGHT, anchor=E).grid(row=2, padx=(30, 5), pady=(30, 2), sticky=E)
     Label(settings_canvas, text='Server ID*:', justify=RIGHT, anchor=E).grid(row=3, padx=(30, 5), pady=2, sticky=E)
     Label(settings_canvas, text='Bot Token*:', justify=RIGHT, anchor=E).grid(row=4, padx=(30, 5), pady=2, sticky=E)
@@ -375,7 +379,7 @@ else:
     Label(settings_canvas, text='Registry Name*:', justify=RIGHT, anchor=E).grid(row=7, padx=(30, 5), pady=2, sticky=E)
     Label(settings_canvas, text='Folder Name*:', justify=RIGHT, anchor=E).grid(row=8, padx=(30, 5), pady=2, sticky=E)
     Label(settings_canvas, text='Executable name*:', justify=RIGHT, anchor=E).grid(row=9, padx=(30, 5), pady=2, sticky=E)
-    Label(settings_canvas, text='Icon*:', justify=RIGHT, anchor=E).grid(row=10, padx=(30, 5), pady=2, sticky=E)
+    Checkbutton(settings_canvas, selectcolor='#0A0A10', text='Custom Icon*:', variable=cbvar_custom_icon, command=config_modification, justify=RIGHT, anchor=E, onvalue=True, offvalue=False).grid(row=10, padx=(30, 5), pady=2, sticky=E)
     
     icon_photo = PhotoImage(file='icon.png')
     icon_btn = Button(settings_canvas, image=icon_photo, state=NORMAL, width=120, height=120, command=change_icon)
