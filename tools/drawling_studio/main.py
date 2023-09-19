@@ -1,7 +1,44 @@
-import tkinter as tk
-from tkinter import filedialog
 from PIL import Image, ImageDraw, ImageTk
+from tkinter import filedialog
+import tkinter as tk
+import functools
+import threading
 import json
+import os
+
+class drawling_menu:
+    def __init__(self):
+        self.root = tk.Tk()
+        self.root.title(f'DrawlingStudio - choose file to edit')
+        self.root.configure(bg='#0A0A10')
+        self.root.tk_setPalette(background='#0A0A10', foreground='white', activeBackground='#0A0A10', activeForeground='white')
+        self.root.geometry('400x500')
+
+        project_position = [0, -1]
+        for project_name in os.listdir('saves'):
+            if os.path.isfile(f'saves/{project_name}'):
+                project_name = project_name.replace('.drawdata', '')
+                resolution = Image.open(f'saves/previews/{project_name}.png').size
+                aspect_ratio = resolution[0 if resolution[0] > resolution[1] else 1]/resolution[0 if resolution[0] < resolution[1] else 1]
+                exec(f'''self.photo_{project_name} = ImageTk.PhotoImage((Image.open(f'saves/previews/{project_name}.png')).resize(((100 if resolution[0] > resolution[1] else int(100/aspect_ratio)), (100 if resolution[1] > resolution[0] else int(100/aspect_ratio)))))''')
+                exec(f'self.photo = self.photo_{project_name}')
+                
+                if project_position[1] == 2:
+                    project_position[0] += 1
+                    project_position[1] = -1
+                project_position[1] += 1
+
+                action_with_arg = functools.partial(self.open_project, project_name)
+                tk.Button(self.root, text=project_name, bd=3, image=self.photo, command=action_with_arg, compound=tk.TOP).grid(row=project_position[0], column=project_position[1], padx=10, pady=10)
+
+
+        self.root.mainloop()
+    
+
+    def open_project(self, project_name):
+        threading.Thread(target=drawling_studio, args=(project_name,)).start()
+        self.root.destroy()
+
 
 class drawling_studio:
     def __init__(self, saved_file):
@@ -15,7 +52,7 @@ class drawling_studio:
         self.canvas_width, self.canvas_height = self.settings['resolution'][0], self.settings['resolution'][1]
 
         root = tk.Tk()
-        root.title(f'{saved_file} - {"BITMAP" if self.settings["mode"] == "bmp" else "IMAGE"} - {self.settings["resolution"][0]}x{self.settings["resolution"][1]}')
+        root.title(f'DrawlingStudio -> {saved_file}.drawdata - {"BITMAP" if self.settings["mode"] == "bmp" else "IMAGE"} - {self.settings["resolution"][0]}x{self.settings["resolution"][1]}')
 
         self.zoom = min(800 // self.canvas_width, 800 // self.canvas_height)
 
@@ -114,4 +151,6 @@ class drawling_studio:
             temp = read_bytes.read(10000)
         print(bytes(temp)[::-1])
 
+
+drawling_menu()
 drawling_studio(input('Project name: '))
