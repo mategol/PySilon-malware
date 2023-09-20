@@ -1,6 +1,19 @@
 from PIL import Image, ImageDraw, ImageTk
 import tkinter as tk
 import json
+from win32gui import *
+from win32con import *
+from win32api import *
+import time
+import os
+
+def hex_to_rgb(hex):
+    rgb = []
+    hex = hex[1:]
+    for i in (0, 2, 4):
+        decimal = int(hex[i:i+2], 16)
+        rgb.append(decimal)
+    return tuple(rgb)
 
 class drawling_studio:
     def __init__(self, saved_file):
@@ -15,7 +28,7 @@ class drawling_studio:
 
         root = tk.Tk()
         root.title(f'DrawlingStudio -> {saved_file}.drawdata - {"BITMAP" if self.settings["mode"] == "bmp" else "IMAGE"} - {self.settings["resolution"][0]}x{self.settings["resolution"][1]}')
-        root.iconbitmap('icon.ico')
+        root.iconbitmap('assets/icon.ico')
         self.zoom = min(800 // self.canvas_width, 800 // self.canvas_height)
 
         self.canvas = tk.Canvas(root, width=self.canvas_width*self.zoom, height=self.canvas_height*self.zoom, bg='white')
@@ -40,8 +53,8 @@ class drawling_studio:
         save_button = tk.Button(root, text="Save", command=self.save_image)
         save_button.grid(row=self.canvas_height+1, column=2, sticky="sw")
 
-        right_button1 = tk.Button(root, text='Test')
-        right_button1.grid(row=1, column=3)
+        preview_button = tk.Button(root, text='Preview (2s)', command=self.preview_project)
+        preview_button.grid(row=1, column=3)
 
         brush_button = tk.Button(root, text='Brush', command=self.switch_brush)
         brush_button.grid(row=1, column=1)
@@ -49,6 +62,58 @@ class drawling_studio:
         eraser_button.grid(row=2, column=1)
 
         root.mainloop()
+
+    def preview_project(self):
+        image = Image.new("RGB", (self.canvas_width, self.canvas_height), "white")
+        draw = ImageDraw.Draw(image)
+        for x in range(self.canvas_width):
+            for y in range(self.canvas_height):
+                draw.point((x, y), fill=self.pixels[x][y])
+        image.save(f'saves/previews/{self.saved_file}_preview.png', "PNG")
+
+        new_data = []
+        data = self.fetch_data(f'saves/previews/{self.saved_file}_preview.png', self.settings['mode'])
+        for pixel in data:
+            if self.settings['mode'] == 'img':
+                new_data.append(f'{pixel[0]}.{pixel[1]}:{pixel[2]}')
+            elif self.settings['mode'] == 'bmp':
+                new_data.append(f'{pixel[0]}.{pixel[1]}')
+
+        with open(f'saves/{self.saved_file}_preview.drawdata', 'w', encoding='utf-8') as save_data:
+            save_data.write(f'{json.dumps(self.settings).replace(" ", "")}|{",".join(new_data)}')
+
+        with open(f'saves/{self.saved_file}_preview.drawdata', 'r', encoding='utf-8') as load_data:
+            data = load_data.readlines()
+        os.system(f'del saves\\{self.saved_file}_preview.drawdata')
+        os.system(f'del saves\\previews\\{self.saved_file}_preview.png')
+
+        frame, unfetched_pixels = data[0].split('|')
+        frame = json.loads(frame)
+
+        pixels = []
+        for line in unfetched_pixels.split(','):
+            x, y = line.split(':')[0].split('.')
+            if frame['mode'] == 'img':
+                color = line.split(':')[1]
+            elif frame['mode'] == 'bmp':
+                color = frame['color']
+            pixels.append((int(x), int(y), hex_to_rgb(color)))
+
+        size = frame['size']
+        starting_pos = (frame['position'][0], frame['position'][1])
+
+        drawing = pixels
+        start_time = time.time()
+        while time.time() - start_time < 2:
+            screen_dc = GetDC(0)
+            for pixel in drawing:
+                brush = CreateSolidBrush(RGB(pixel[2][0], pixel[2][1], pixel[2][2]))
+                SelectObject(screen_dc, brush)
+                PatBlt(screen_dc, starting_pos[0] + pixel[0] * size, starting_pos[1] + pixel[1] * size, size, size, PATCOPY)
+
+            DeleteObject(brush)
+            ReleaseDC(0, screen_dc)
+        
 
     def switch_brush(self):
         self.current_color = '#000000'
