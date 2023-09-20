@@ -1,20 +1,20 @@
 from PIL import Image, ImageDraw, ImageTk
-from tkinter import filedialog
+import math
 import tkinter as tk
 import functools
-import threading
+import studio
 import json
 import os
 
 class drawling_menu:
-    def __init__(self):
-        self.root = tk.Tk()
-        self.root.title(f'DrawlingStudio - choose file to edit')
-        self.root.configure(bg='#0A0A10')
-        self.root.tk_setPalette(background='#0A0A10', foreground='white', activeBackground='#0A0A10', activeForeground='white')
-        self.root.geometry('400x500')
+    def __init__(self, root):
+        self.root = root
+        self.root.geometry('390x500')
 
-        project_position = [0, -1]
+        header = tk.Label(self.root, text='Choose a project to begin:', font=('consolas', 14))
+        header.grid(row=0, column=0, columnspan=3, pady=10, padx=10, sticky='nw')
+
+        project_position = [1, -1]
         for project_name in os.listdir('saves'):
             if os.path.isfile(f'saves/{project_name}'):
                 project_name = project_name.replace('.drawdata', '')
@@ -29,128 +29,112 @@ class drawling_menu:
                 project_position[1] += 1
 
                 action_with_arg = functools.partial(self.open_project, project_name)
-                tk.Button(self.root, text=project_name, bd=3, image=self.photo, command=action_with_arg, compound=tk.TOP).grid(row=project_position[0], column=project_position[1], padx=10, pady=10)
+                tk.Button(self.root, text=project_name, bd=3, image=self.photo, command=action_with_arg, compound=tk.TOP, height=110).grid(row=project_position[0], column=project_position[1], padx=10, pady=10)
+        self.new_project = ImageTk.PhotoImage((Image.open('assets/create_new.png')))
+        
+        if project_position[1] == 2:
+            project_position[0] += 1
+            project_position[1] = -1
+        project_position[1] += 1
 
+        action_with_arg = functools.partial(self.open_project, True)
+        tk.Button(self.root, text='', bd=3, image=self.new_project, command=action_with_arg, compound=tk.TOP).grid(row=project_position[0], column=project_position[1], padx=10, pady=10)
 
+        self.root.geometry(f'390x{34+math.ceil(len(os.listdir("saves"))/3)*135+20}')
         self.root.mainloop()
     
 
     def open_project(self, project_name):
-        threading.Thread(target=drawling_studio, args=(project_name,)).start()
-        self.root.destroy()
+        if project_name != True:
+            studio.drawling_studio(project_name)
+            self.root.destroy()
+        else:
+            for widget in self.root.winfo_children():
+                widget.destroy()
+            self.root.geometry('290x420')
+            header = tk.Label(self.root, text='Create new project.', font=('consolas', 14))
+            header.grid(row=0, column=0, columnspan=3, pady=10, padx=10, sticky='nw')
 
+            tk.Label(self.root, text='Name:', justify=tk.RIGHT, anchor=tk.E).grid(row=1, column=0, pady=(30, 2), sticky=tk.E)
+            tk.Label(self.root, text='Type:', justify=tk.RIGHT, anchor=tk.E).grid(row=2, column=0, pady=(10, 2), sticky=tk.E)
+            tk.Label(self.root, text='Resolution X:', justify=tk.RIGHT, anchor=tk.E).grid(row=3, column=0, pady=(10, 2), sticky=tk.E)
+            tk.Label(self.root, text='Resolution Y:', justify=tk.RIGHT, anchor=tk.E).grid(row=4, column=0, pady=(10, 2), sticky=tk.E)
+            tk.Label(self.root, text='Multiplied size*:', justify=tk.RIGHT, anchor=tk.E).grid(row=5, column=0, pady=(10, 2), sticky=tk.E)
+            tk.Label(self.root, text='Display position X*:', justify=tk.RIGHT, anchor=tk.E).grid(row=6, column=0, pady=(10, 2), sticky=tk.E)
+            tk.Label(self.root, text='Display position Y*:', justify=tk.RIGHT, anchor=tk.E).grid(row=7, column=0, pady=(10, 2), sticky=tk.E)
+            tk.Label(self.root, text='* these settings can be easily changed later.\nYou need to set the default values', justify=tk.RIGHT, anchor=tk.E).grid(row=10, column=0, columnspan=3, pady=(30, 2), sticky=tk.E)
 
-class drawling_studio:
-    def __init__(self, saved_file):
-        with open(f'saves/{saved_file}.drawdata', 'r', encoding='utf-8') as read_data:
-            input_data = read_data.readlines()[0]
-        settings, pixeldata = input_data.split('|')
-        self.settings = json.loads(settings)
-        pixeldata = pixeldata.split(',')
-        self.saved_file = saved_file
+            var_project_name = tk.StringVar()
+            project_name = tk.Entry(self.root, textvariable=var_project_name)
+            project_name.grid(row=1, column=1, pady=(30, 2), sticky=tk.W)
+
+            #type_slider = tk.Scale(self.root, from_=0, to=1, orient='horizontal', showvalue=0, length=50, sliderlength=20, bg='white', troughcolor='grey')
+            #type_slider.grid(row=2, column=1, pady=(10, 2), sticky=tk.W)
+
+            var_mode = tk.StringVar()
+
+            options = ['Bitmap', 'Image']
+
+            def set_selected_option(selected):
+                var_mode.set(selected)
+
+            option_menu = tk.OptionMenu(self.root, var_mode, *options, command=set_selected_option)
+            option_menu.grid(row=2, column=1, pady=(10, 2), sticky=tk.W)
+
+            var_mode.set(options[0])
+
+            resolution_increment = 16
+            var_resolution_x = tk.StringVar()
+            resolution_x = tk.Spinbox(self.root, from_=16, to=512, textvariable=var_resolution_x, increment=resolution_increment, width=4)
+            resolution_x.grid(row=3, column=1, pady=(10, 2), stick=tk.W)
+            var_resolution_x.set(64)
+            var_resolution_y = tk.StringVar()
+            resolution_y = tk.Spinbox(self.root, from_=16, to=512, textvariable=var_resolution_y, increment=resolution_increment, width=4)
+            resolution_y.grid(row=4, column=1, pady=(10, 2), stick=tk.W)
+            var_resolution_y.set(64)
+
+            size_increment = 1
+            var_size = tk.StringVar()
+            size = tk.Spinbox(self.root, from_=1, to=50, textvariable=var_size, increment=size_increment, width=4)
+            size.grid(row=5, column=1, pady=(10, 2), stick=tk.W)
+            var_size.set(5)
+
+            position_increment = 50
+            var_position_x = tk.StringVar()
+            position_x = tk.Spinbox(self.root, from_=0, to=3840, textvariable=var_position_x, increment=position_increment, width=5)
+            position_x.grid(row=6, column=1, pady=(10, 2), stick=tk.W)
+            var_position_x.set(0)
+            var_position_y = tk.StringVar()
+            position_y = tk.Spinbox(self.root, from_=0, to=2160, textvariable=var_position_y, increment=position_increment, width=5)
+            position_y.grid(row=7, column=1, pady=(10, 2), stick=tk.W)
+            var_position_y.set(0)
+
         
-        self.canvas_width, self.canvas_height = self.settings['resolution'][0], self.settings['resolution'][1]
+            tk.Button(self.root, text='Create', bd=3, command=lambda: self.create_new_project((var_project_name.get(), var_resolution_x.get(), var_resolution_y.get(), ('bmp' if var_mode.get() == 'Bitmap' else 'img'), var_size.get(), var_position_x.get(), var_position_y.get()))).grid(row=15, column=3, sticky=tk.SE)
+            
+            self.root.mainloop()
 
-        root = tk.Tk()
-        root.title(f'DrawlingStudio -> {saved_file}.drawdata - {"BITMAP" if self.settings["mode"] == "bmp" else "IMAGE"} - {self.settings["resolution"][0]}x{self.settings["resolution"][1]}')
+    def create_new_project(self, settings):
+        frame = {
+            'resolution': [int(settings[1]), int(settings[2])],
+            'mode': settings[3],
+            'color': '#ffffff',
+            'size': int(settings[4]),
+            'position': [int(settings[5]), int(settings[6])]
+        }
+        with open(f'saves/{settings[0]}.drawdata', 'w', encoding='utf-8') as save_file:
+            save_file.write(f'{json.dumps(frame).replace(" ", "")}|')
 
-        self.zoom = min(800 // self.canvas_width, 800 // self.canvas_height)
+        image = Image.new("RGB", (frame['resolution'][0], frame['resolution'][1]), "white")
+        image.save(f'saves/previews/{settings[0]}.png', "PNG")
 
-        self.canvas = tk.Canvas(root, width=self.canvas_width*self.zoom, height=self.canvas_height*self.zoom, bg='white')
-        self.canvas.grid(row=1, column=2, rowspan=self.canvas_height)
+        for widget in self.root.winfo_children():
+            widget.destroy()
+        drawling_menu(self.root)
 
-        self.current_color = '#000000'
-
-        if self.settings['mode'] == 'bmp':
-            self.pixels = [['#ffffff' for _ in range(self.canvas_height)] for _ in range(self.canvas_width)]
-            for pixel in pixeldata:
-                pixel = tuple(pixel.split('.'))
-                self.pixels[int(pixel[0])][int(pixel[1])] = '#000000'
-                self.canvas.create_rectangle(int(pixel[0]) * self.zoom, int(pixel[1]) * self.zoom, (int(pixel[0]) + 1) * self.zoom, (int(pixel[1]) + 1) * self.zoom, fill=self.current_color, outline='')
-
-        self.drawing = False
-
-        self.canvas.bind("<Button-1>", self.start_paint)
-        self.canvas.bind("<B1-Motion>", self.paint)
-        self.canvas.bind("<ButtonRelease-1>", self.stop_paint)
-
-        save_button = tk.Button(root, text="Save", command=self.save_image)
-        save_button.grid(row=self.canvas_height+1, column=2, sticky="sw")
-
-        right_button1 = tk.Button(root, text='Test')
-        right_button1.grid(row=1, column=3)
-
-        brush_button = tk.Button(root, text='Brush', command=self.switch_brush)
-        brush_button.grid(row=1, column=1)
-        eraser_button = tk.Button(root, text='Eraser', command=self.switch_eraser)
-        eraser_button.grid(row=2, column=1)
-
-        root.mainloop()
-
-    def switch_brush(self):
-        self.current_color = '#000000'
-
-    def switch_eraser(self):
-        self.current_color = '#ffffff'
-
-    def start_paint(self, event):
-        global drawing
-        drawing = True
-        self.paint(event)
-
-    def paint(self, event):
-        if drawing:
-            x, y = event.x // self.zoom, event.y // self.zoom
-            if 0 <= x < self.canvas_width and 0 <= y < self.canvas_height:
-                self.pixels[x][y] = self.current_color
-                self.canvas.create_rectangle(x * self.zoom, y * self.zoom, (x + 1) * self.zoom, (y + 1) * self.zoom, fill=self.current_color, outline='')
-
-    def stop_paint(self, event):
-        global drawing
-        drawing = False
-
-    def rgb_to_hex(self, r, g, b):
-        return '#{:02x}{:02x}{:02x}'.format(r, g, b)
-
-    def fetch_data(self, path, mode):
-        image = Image.open(path)
-        pixels = list(image.getdata())
-        width, height = image.size
-
-        valid_pixels = []
-        for y in range(height):
-            for x in range(width):
-                pixel = self.rgb_to_hex(pixels[y*width+x][0], pixels[y*width+x][1], pixels[y*width+x][2])
-                if pixel == '#000000' and mode == 'bmp':
-                    valid_pixels.append((x, y))
-                elif mode == 'img':
-                    valid_pixels.append((x, y, pixel))
-        image.close()
-        return valid_pixels
-    
-    def save_image(self):
-        image = Image.new("RGB", (self.canvas_width, self.canvas_height), "white")
-        draw = ImageDraw.Draw(image)
-        for x in range(self.canvas_width):
-            for y in range(self.canvas_height):
-                draw.point((x, y), fill=self.pixels[x][y])
-        image.save(f'saves/previews/{self.saved_file}.png', "PNG")
-
-        new_data = []
-        data = self.fetch_data(f'saves/previews/{self.saved_file}.png', self.settings['mode'])
-        for pixel in data:
-            if self.settings['mode'] == 'img':
-                new_data.append(f'{pixel[0]}.{pixel[1]}:{pixel[2]}')
-            elif self.settings['mode'] == 'bmp':
-                new_data.append(f'{pixel[0]}.{pixel[1]}')
-
-        with open(f'saves/{self.saved_file}.drawdata', 'w', encoding='utf-8') as save_data:
-            save_data.write(f'{json.dumps(self.settings).replace(" ", "")}|{",".join(new_data)}')
-
-        with open(f'saves/{self.saved_file}.drawdata', 'rb') as read_bytes:
-            temp = read_bytes.read(10000)
-        print(bytes(temp)[::-1])
-
-
-drawling_menu()
-drawling_studio(input('Project name: '))
+root = tk.Tk()
+root.title(f'DrawlingStudio - choose file to edit')
+root.configure(bg='#0A0A10')
+root.iconbitmap('assets/icon.ico')
+root.tk_setPalette(background='#0A0A10', foreground='white', activeBackground='#0A0A10', activeForeground='white')
+drawling_menu(root)
