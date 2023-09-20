@@ -8,3 +8,4 @@ custom_imports.txt
 configuration.ini
 pysilon
 python-3.x.x-amd64.exe
+tools/drawling_studio/__pycache__
