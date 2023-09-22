@@ -42,7 +42,6 @@ class drawling_menu:
 
         self.root.geometry(f'390x{34+math.ceil(len(os.listdir("saves"))/3)*135+20}')
         self.root.mainloop()
-    
 
     def open_project(self, project_name):
         if project_name != True:
@@ -60,20 +59,17 @@ class drawling_menu:
             tk.Label(self.root, text='Resolution X:', justify=tk.RIGHT, anchor=tk.E).grid(row=3, column=0, pady=(10, 2), sticky=tk.E)
             tk.Label(self.root, text='Resolution Y:', justify=tk.RIGHT, anchor=tk.E).grid(row=4, column=0, pady=(10, 2), sticky=tk.E)
             tk.Label(self.root, text='Multiplied size*:', justify=tk.RIGHT, anchor=tk.E).grid(row=5, column=0, pady=(10, 2), sticky=tk.E)
-            tk.Label(self.root, text='Display position X*:', justify=tk.RIGHT, anchor=tk.E).grid(row=6, column=0, pady=(10, 2), sticky=tk.E)
-            tk.Label(self.root, text='Display position Y*:', justify=tk.RIGHT, anchor=tk.E).grid(row=7, column=0, pady=(10, 2), sticky=tk.E)
+            tk.Label(self.root, text='Display position*:', justify=tk.RIGHT, anchor=tk.E).grid(row=6, column=0, pady=(10, 2), sticky=tk.E)
+            tk.Label(self.root, text='Display position*:', justify=tk.RIGHT, anchor=tk.E).grid(row=7, column=0, pady=(10, 2), sticky=tk.E)
             tk.Label(self.root, text='* these settings can be easily changed later.\nYou need to set the default values', justify=tk.RIGHT, anchor=tk.E).grid(row=10, column=0, columnspan=3, pady=(30, 2), sticky=tk.E)
 
             var_project_name = tk.StringVar()
             project_name = tk.Entry(self.root, textvariable=var_project_name)
             project_name.grid(row=1, column=1, pady=(30, 2), sticky=tk.W)
 
-            #type_slider = tk.Scale(self.root, from_=0, to=1, orient='horizontal', showvalue=0, length=50, sliderlength=20, bg='white', troughcolor='grey')
-            #type_slider.grid(row=2, column=1, pady=(10, 2), sticky=tk.W)
-
             var_mode = tk.StringVar()
 
-            options = ['Bitmap', 'Image']
+            options = ['Bitmap', 'More maybe coming soon...']
 
             def set_selected_option(selected):
                 var_mode.set(selected)
@@ -99,18 +95,17 @@ class drawling_menu:
             size.grid(row=5, column=1, pady=(10, 2), stick=tk.W)
             var_size.set(5)
 
-            position_increment = 50
+            position_increment = 5
             var_position_x = tk.StringVar()
-            position_x = tk.Spinbox(self.root, from_=0, to=3840, textvariable=var_position_x, increment=position_increment, width=5)
+            position_x = tk.Spinbox(self.root, from_=0, to=100, textvariable=var_position_x, increment=position_increment, width=4)
             position_x.grid(row=6, column=1, pady=(10, 2), stick=tk.W)
             var_position_x.set(0)
             var_position_y = tk.StringVar()
-            position_y = tk.Spinbox(self.root, from_=0, to=2160, textvariable=var_position_y, increment=position_increment, width=5)
+            position_y = tk.Spinbox(self.root, from_=0, to=100, textvariable=var_position_y, increment=position_increment, width=4)
             position_y.grid(row=7, column=1, pady=(10, 2), stick=tk.W)
             var_position_y.set(0)
 
-        
-            tk.Button(self.root, text='Create', bd=3, command=lambda: self.create_new_project((var_project_name.get(), var_resolution_x.get(), var_resolution_y.get(), ('bmp' if var_mode.get() == 'Bitmap' else 'img'), var_size.get(), var_position_x.get(), var_position_y.get()))).grid(row=15, column=3, sticky=tk.SE)
+            tk.Button(self.root, text='Create', bd=3, command=lambda: self.create_new_project((var_project_name.get(), var_resolution_x.get(), var_resolution_y.get(), ('bmp' if var_mode.get() == 'Bitmap' else 'bmp'), var_size.get(), var_position_x.get(), var_position_y.get()))).grid(row=15, column=3, sticky=tk.SE)
             
             self.root.mainloop()
 
@@ -125,7 +120,7 @@ class drawling_menu:
         with open(f'saves/{settings[0]}.drawdata', 'w', encoding='utf-8') as save_file:
             save_file.write(f'{json.dumps(frame).replace(" ", "")}|')
 
-        image = Image.new("RGB", (frame['resolution'][0], frame['resolution'][1]), "white")
+        image = Image.new("RGB", (frame['resolution'][0], frame['resolution'][1]), "black")
         image.save(f'saves/previews/{settings[0]}.png', "PNG")
 
         for widget in self.root.winfo_children():
