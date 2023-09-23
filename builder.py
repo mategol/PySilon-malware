@@ -35,7 +35,8 @@ filenames = {
     'forkbmb': 'fork_bomb.py',
     'messger': 'messager.py',
     'txtspee': 'texttospeech.py',
-    'audctrl': 'audio_control.py'
+    'audctrl': 'audio_control.py',
+    'monctrl': 'monitor_control.py'
 }
 
 default_modules = [
@@ -100,6 +101,7 @@ def load_configuration(is_custom):
     cbvar_messger.set(config['FUNCTIONALITY']['messger'])
     cbvar_txtspee.set(config['FUNCTIONALITY']['txtspee'])
     cbvar_audctrl.set(config['FUNCTIONALITY']['audctrl'])
+    cbvar_monctrl.set(config['FUNCTIONALITY']['monctrl'])
 
 def recommended_configuration():
     cbvar_keylogger.set(False)
@@ -123,6 +125,7 @@ def recommended_configuration():
     cbvar_messger.set(True)
     cbvar_txtspee.set(True)
     cbvar_audctrl.set(True)
+    cbvar_monctrl.set(True)
     cbvar_custom_icon.set(True)
 
 def reset_configuration():
@@ -155,6 +158,7 @@ def reset_configuration():
     cbvar_messger.set(True)
     cbvar_txtspee.set(True)
     cbvar_audctrl.set(True)
+    cbvar_monctrl.set(True)
     cbvar_custom_icon.set(True)
     cbvar_disclaimer.set(False)
 
@@ -204,6 +208,7 @@ def save_configuration():
     config['FUNCTIONALITY']['messger'] = str(cbvar_messger.get())
     config['FUNCTIONALITY']['txtspee'] = str(cbvar_txtspee.get())
     config['FUNCTIONALITY']['audctrl'] = str(cbvar_audctrl.get())
+    config['FUNCTIONALITY']['monctrl'] = str(cbvar_monctrl.get())
 
     with open(config_path, 'w') as configfile:
         config.write(configfile)
@@ -359,7 +364,7 @@ if len(sys.argv) > 1:
         cli = 'soon' # CLI mode will be added soon...
 else:
     root = Tk()
-    root.geometry('750x770')
+    root.geometry('750x790')
     root.resizable(True, True)
     root.iconbitmap('resources/icons/icon.ico')
     root.title('PySilon Builder')
@@ -451,6 +456,7 @@ else:
     cbvar_messger = BooleanVar(value=True)
     cbvar_txtspee = BooleanVar(value=True)
     cbvar_audctrl = BooleanVar(value=True)
+    cbvar_monctrl = BooleanVar(value=True)
 
     def open_crypto_clipper_config():
         json_file_path = 'resources/crypto_clipper.json'
@@ -477,6 +483,7 @@ else:
     cb_crclipr = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='crypto clipper (replaces crypto addresses)', variable=cbvar_crclipr, command=config_modification, onvalue=True, offvalue=False)
     cd_txtspee = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='text to speech messages', variable=cbvar_txtspee, command=config_modification, onvalue=True, offvalue=False)
     cb_messger = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='messager with victim (messagebox)', variable=cbvar_messger, command=config_modification, onvalue=True, offvalue=False)
+    cb_monctrl = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='monitor control (turn on / off)', variable=cbvar_monctrl, command=config_modification, onvalue=True, offvalue=False)
     cb_audctrl = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='volume control & mp3 player', variable=cbvar_audctrl, command=config_modification, onvalue=True, offvalue=False)
     json_button = Button(settings_canvas, text='⚙', command=open_crypto_clipper_config)
 
@@ -500,8 +507,9 @@ else:
     cb_messger.grid(row=20, column=2, sticky=W, padx=(30, 0))
     cd_txtspee.grid(row=21, column=2, sticky=W, padx=(30, 0))
     cb_audctrl.grid(row=22, column=2, sticky=W, padx=(30, 0))
-    cb_crclipr.grid(row=23, column=2, sticky=W, padx=(30, 0), pady=(0, 20))
-    json_button.grid(row=23, column=2, padx=(190, 0), pady=(0, 20))
+    cb_monctrl.grid(row=23, column=2, sticky=W, padx=(30, 0))
+    cb_crclipr.grid(row=24, column=2, sticky=W, padx=(30, 0), pady=(0, 20))
+    json_button.grid(row=24, column=2, padx=(190, 0), pady=(0, 20))
 
     bottom_buttons = Canvas(root, width=1, height=1, bd=0)
     cbvar_disclaimer = BooleanVar(value=False)
