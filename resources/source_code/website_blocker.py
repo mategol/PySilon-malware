@@ -1,4 +1,4 @@
-import ctypes, platform
+import ctypes
 from urllib.parse import urlparse
 # end of imports
 
