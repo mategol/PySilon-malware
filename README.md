@@ -51,28 +51,39 @@ Join our Telegram channel to always stay up-to-date with the most recent updates
 ### PySilon malware can do plenty of things, like:
 - handle multiple PCs (not only one, like in most of the cases)
 - UAC Bypass (gain *Administrative permissions* on startup)
-- log every key pressed on *keyboard*
+- log every key pressed on *keyboard* (keylogger)
 - take *screenshots* anytime you want
 - record *screen* anytime you want
-- disable processes
+- elevate itself to *critical process* (will trigger *Blue Screen of Death* when killed)
+- directly *manipulate* **victim's PC graphics** (display custom "things"->[bitmaps, images, texts, glitch effects])
+- turn **off**/**on** *monitors* of victim's PC
+- completely **break Windows** (victim won't be able to start PC)
+- **block** access to any *website*
+- browse and kill running *processes*
+- disable processes (make certain processes **impossible** to run)
 - *communicate* with the victim in several ways
 - use *Text-To-Speech* on victim's PC
 - take images from *webcam*
 - *block* the *mouse* and *keyboard*
 - steal saved *WiFi* passwords
+- manipulate *Windows sounds* settings (change the *volume*)
+- play **audio files** on victim's PC (in background)
 - record *microphone* input (24/7) and save it in *.wav* files
 - stream live *microphone* input on voice channel
 - browse *files* on target PC
 - upload and download *files* from target PC
+- remove *files* from target PC
+- execute *files* on target PC
 - grab *history*, *cookies* and *passwords* saved in web browsers
-- grab *discord tokens* and system information
-- browse and kill running *processes*
-- execute files
+- grab *discord tokens*
+- grab system information
 - replace copied *crypto currency wallet* addresses to your [configured] ones
+- trigger *jumpscares*
+- change the *wallpaper* of *victim's Desktop*
 - trigger *Blue Screen of Death*
 - execute *fork bomb* (crash the PC)
-- *Anti-VM* (PySilon wont run on Virtual Machines, f.ex.: VirtualBox, VMWare)
-- run *CMD* commands
+- *Anti-VM* (PySilon won't run on Virtual Machines, f.ex.: VirtualBox, VMWare)
+- run *shell* commands (CMD/Powershell)
 - ***Debug Mode*** for easier testing and `contribution`
 
 --------------------
