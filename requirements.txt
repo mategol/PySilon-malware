@@ -20,3 +20,6 @@ pynput
 pyperclip
 html2image
 pyttsx3
+pycaw
+comtypes
+monitorcontrol
