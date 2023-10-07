@@ -400,7 +400,8 @@ help = {
         'download': ['➡️ `.download <file-or-directory-name>`', 'Downloads specified file or folder. Options:\n🔹file-or-directory-name - name of file or directory that you want to download'],
         'upload': ['➡️ `.upload <type> <name>`', 'Uploads a file to victim\'s PC. Options:\n🔹type - single/multiple files whether it\'s smaller or larger than 25MB (single=smaller, multiple=larger)\n🔹name - name of uploaded file on victim\'s PC'],
         'execute': ['➡️ `.execute <file-name>`', 'Execute specified file on the victim\'s PC'],
-        'remove': ['➡️ `.remove <file-or-directory-name>`', 'Removes the specified file or directory. Options:\n🔹file-or-directory-name - name of file or directory that you want to remove']
+        'remove': ['➡️ `.remove <file-or-directory-name>`', 'Removes the specified file or directory. Options:\n🔹file-or-directory-name - name of file or directory that you want to remove'],
+        'key': ['➡️ `.key <what-to-type>`', 'Simulates typing on the victim\'s PC. Options:🔹ALTF4 - performs the Alt+F4 shortcut\n🔹ALTTAB - performs the Alt+Tab shortcut'],
     },
     'commands2': {
         'blacklist': ['➡️ `.blacklist <process-name>`', 'Adds the specified process to the blacklist.'],
