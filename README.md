@@ -154,7 +154,6 @@ Join our Telegram channel to always stay up-to-date with the most recent updates
 
 List of features that should appear in following releases:
 
-- [ ] optional ransomware
 - [ ] webhook connection in case of unexpected circumstances (like BOT-Token banned by Discord)
 - [ ] overall system info grabber with cool Discord Embeds
 - [ ] traditional reverse shell creator
