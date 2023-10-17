@@ -20,7 +20,7 @@ Read our extensive Wiki for more information and detailed building instructions.
 
 Join our discord to keep up with the progress, ask questions, recommend features and talk to like minded people!
 
-[![Discord](https://img.shields.io/discord/1161751731621875764?style=for-the-badge&color=7289da&logo=discord&logoColor=white)](https://discord.gg/FEpC5CCYud)
+[![Discord](https://img.shields.io/discord/1163805789530628148?style=for-the-badge&color=7289da&logo=discord&logoColor=white)](https://discord.gg/9jWDkUmM)
 
 ## Telegram
 
