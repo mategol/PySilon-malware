@@ -24,9 +24,10 @@ Join our discord to keep up with the progress, ask questions, recommend features
 
 ## Telegram
 
-Join our Telegram channel to always stay up-to-date with the most recent updates!
+Join our Telegram channels to always stay up-to-date with the most recent updates and interact with the community!
 
-[![Wiki](https://img.shields.io/badge/telegram-pysilon-blue?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/pysilon)
+[![Telegram - Channel](https://img.shields.io/badge/pysilon-announcements-blue?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/pysilon)
+[![Telegram - Group](https://img.shields.io/badge/pysilon-community-blue?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/+8razFyklyFw2OWU0)
 
 --------------------
 
