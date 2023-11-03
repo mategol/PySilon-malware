@@ -16,15 +16,16 @@ Read our extensive Wiki for more information and detailed building instructions.
 
 [![Wiki](https://img.shields.io/badge/wiki-link-blue?style=for-the-badge&logo=gitbook&logoColor=white)](https://github.com/mategol/PySilon-malware/wiki)
 
-## Telegram Group
+## PySilon Community
 
-Join our Telegram group for suppork, to ask questions, recommend features and talk to like minded people!
+Join our Telegram and Discord servers for suppork, to ask questions, recommend features and talk to like minded people!
 
 [![Telegram - Group](https://img.shields.io/badge/pysilon-community-blue?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/+8razFyklyFw2OWU0)
+[![Discord](https://img.shields.io/discord/1169041829631639662?style=for-the-badge&color=7289da&logo=discord&logoColor=white)](https://discord.gg/JKfNcsdagF)
 
 ## Telegram Channel
 
-Join our Telegram channels to always stay up-to-date with the most recent updates and interact with the community!
+Subscribe to our Telegram channels to always stay up-to-date with the most recent updates and interact with the community!
 
 [![Telegram - Channel](https://img.shields.io/badge/pysilon-announcements-blue?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/pysilon)
 
