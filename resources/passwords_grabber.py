@@ -109,6 +109,7 @@ def main():
 def grab_passwords():
     global file_name, nanoseconds
     file_name, nanoseconds = 116444736000000000, 10000000
+    result = {}
     try: result = main()
     except: time.sleep(1)
 
