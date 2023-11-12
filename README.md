@@ -108,7 +108,7 @@ Subscribe to our Telegram channels to always stay up-to-date with the most recen
 <a href="https://github.com/mategol/pysilon-malware#ss">                         `.display mode="<display-mode>" [preset="<preset-name>"]`</a> - directly manipulate victim's PC graphics (display custom "things"->[bitmaps, images, texts, glitch effects])<br />
 <a href="https://github.com/mategol/pysilon-malware#ss">                         `.monitors-disable`</a> - turn off all monitors<br />
 <a href="https://github.com/mategol/pysilon-malware#ss">                         `.monitors-enable`</a> - turn on all monitors<br />
-<a href="https://github.com/mategol/pysilon-malware#ss">                         `.windows-break`</a> - destroy Windows by overwriting the boot manager *(Dangerous)*<br />
+<a href="https://github.com/mategol/pysilon-malware#ss">                         `.break-windows`</a> - destroy Windows by overwriting the boot manager *(Dangerous)*<br />
 <a href="https://github.com/mategol/pysilon-malware#ss">                         `.website-block <website>`</a> - block specified website from being accessed from any browser<br />
 <a href="https://github.com/mategol/pysilon-malware#ss">                         `.website-unblock <website>`</a> - unblock access to previously blocked website<br />
 <a href="https://github.com/mategol/pysilon-malware#show-what-to-show">          `.show <what-to-show>`</a> - get list of running processes or available commands<br />
