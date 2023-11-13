@@ -118,7 +118,7 @@ Subscribe to our Telegram channels to always stay up-to-date with the most recen
 <a href="https://github.com/mategol/pysilon-malware#kill-process-id">            `.foreground`</a> - get active window process name<br />
 <a href="https://github.com/mategol/pysilon-malware#kill-process-id">            `.msg title="<title>" text="<text>" style=<style>`</a> - send a message to victim and get the response<br />
 <a href="https://github.com/mategol/pysilon-malware#ss">                         `.tts <message>`</a> - plays a *Text-to-Speech* message on victim's PC<br />
-<a href="https://github.com/mategol/pysilon-malware#ss">                         `.webcam`</a> - take a picture from connected webcam<br />
+<a href="https://github.com/mategol/pysilon-malware#ss">                         `.webcam <action>`</a> -  use connected webcam (currently supports photos shooting)<br />
 <a href="https://github.com/mategol/pysilon-malware#ss">                         `.block-input`</a> - block the mouse and keyboard(`.unblock-input` to unblock it)<br />
 <a href="https://github.com/mategol/pysilon-malware#grab-what-to-grab">          `.grab <what-to-grab>`</a> - grab for example saved passwords in web browsers<br />
 <a href="https://github.com/mategol/pysilon-malware#ss">                         `.volume <value>`</a> - change the audio output volume on victim's PC<br />
