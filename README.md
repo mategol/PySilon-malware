@@ -114,7 +114,7 @@ Subscribe to our Telegram channels to always stay up-to-date with the most recen
 <a href="https://github.com/mategol/pysilon-malware#show-what-to-show">          `.show <what-to-show>`</a> - get list of running processes or available commands<br />
 <a href="https://github.com/mategol/pysilon-malware#kill-process-id">            `.kill <process-name-or-id>`</a> - kill any running process<br />
 <a href="https://github.com/mategol/pysilon-malware#ss">                         `.blacklist <process-name>`</a> - adds specified process to the blacklist (victim won't be able to run it)<br />
-<a href="https://github.com/mategol/pysilon-malware#ss">                         `.whitelist <process-name>`</a> -removes specified process from the blacklist (victim will be able to run it) <br />
+<a href="https://github.com/mategol/pysilon-malware#ss">                         `.whitelist <process-name>`</a> - removes specified process from the blacklist (victim will be able to run it) <br />
 <a href="https://github.com/mategol/pysilon-malware#kill-process-id">            `.foreground`</a> - get active window process name<br />
 <a href="https://github.com/mategol/pysilon-malware#kill-process-id">            `.msg title="<title>" text="<text>" style=<style>`</a> - send a message to victim and get the response<br />
 <a href="https://github.com/mategol/pysilon-malware#ss">                         `.tts <message>`</a> - plays a *Text-to-Speech* message on victim's PC<br />
