@@ -24,3 +24,4 @@ pycaw
 comtypes
 monitorcontrol
 cryptography
+pypiwin32
