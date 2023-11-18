@@ -102,7 +102,6 @@ Subscribe to our Telegram channels to always stay up-to-date with the most recen
 <a href="https://github.com/mategol/pysilon-malware#ss">                         `.ss`</a> - take screenshot at any time<br />
 <a href="https://github.com/mategol/pysilon-malware#ss">                         `.screenrec`</a> - record the screen for 15 seconds<br />
 <a href="https://github.com/mategol/pysilon-malware#ss">                         `.critical-enable`</a> - elevates the process to critical status (`.critical-disable` to undo)<br />
-<a href="https://github.com/mategol/pysilon-malware#ss">                         `.display mode="<display-mode>" [preset="<preset-name>"]`</a> - directly manipulate victim's PC graphics (display custom "things"->[bitmaps, images, texts, glitch effects])<br />
 <a href="https://github.com/mategol/pysilon-malware#ss">                         `.display-graphic`</a> - manipulate low-level graphics by displaying pixels prepared in DrawlingStudio<br />
 <a href="https://github.com/mategol/pysilon-malware#ss">                         `.display-glitch <name>`</a> - display specified screen glitch<br />
 <a href="https://github.com/mategol/pysilon-malware#ss">                         `.monitors-off`</a> - turn off all monitors (`.monitors-on` to turn back on)<br />
