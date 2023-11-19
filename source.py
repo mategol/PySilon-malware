@@ -7,8 +7,8 @@ from urllib.request import urlopen
 
 client = commands.Bot(command_prefix=['.'], intents=discord.Intents.all(), case_insensitive=True)
 
-bot_token = "MTE2NzU2MTY1NDg0Njg4NTkzMQ.Gd-63C.IwtjiBRtAEMmEqOycJJPpCc2W7TB0Q5fc4H2tA"
-guild_id = 1164178618361057290
+bot_token = ""
+guild_id = int
 auto = 'auto'
 channel_ids = {                                                    
     'info': '',                                                  
