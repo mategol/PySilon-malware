@@ -70,7 +70,7 @@ def force_decode(b: bytes):
     try:
         return b.decode(json.detect_encoding(b))
     except UnicodeDecodeError:
-        return b.decode(errors= "backslashreplace")
+        return b.decode(errors="backslashreplace")
     
 def current_time(with_seconds=False):
     return datetime.datetime.now().strftime('%d.%m.%Y_%H.%M' if not with_seconds else '%d.%m.%Y_%H.%M.%S')
@@ -79,22 +79,21 @@ def current_time(with_seconds=False):
 async def bot_status(ctx):
     await client.get_channel(channel_ids['main']).send(ctx.author.mention)
 
-@client.command(name="dc")
+@client.command(name="rm-category")
 async def delete_category(ctx, category_id):
-  try:
-    category_id = int(category_id)
-    category = discord.utils.get(ctx.guild.categories, id=category_id)
-
-    if not category:
-      await ctx.send('Invalid category id.')
-      return
-
-    for channel in category.channels:
-      await channel.delete()
-
-    await category.delete()
-
-  except ValueError:
-    await ctx.send('Invalid category id.')
+    if ctx.message.channel.id in channel_ids.values():
+        try:
+            category_id = int(category_id)
+            category = discord.utils.get(ctx.guild.categories, id=category_id)
+            if not category:
+                await ctx.send('`' + category_id + ' is not a category!`')
+                return
+            for channel in category.channels:
+                await channel.delete()
+            await category.delete()
+        except:
+            await ctx.send('`An error has occurred.`')
+    else:
+        return
 
 # [pysilon] commands
