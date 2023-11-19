@@ -10,8 +10,16 @@ class Builder:
 
         self.create_buttons()
 
+
+
         self.canvas = tk.Canvas(self.master, bg="#0A0A10", border=0, highlightthickness=0)
         self.canvas.place(x=0,y=40,width=700,height=460)
+
+        self.image = ImageTk.PhotoImage(Image.open("gui_background.jpg"))
+        #self.canvas.create_image(10, 10, image = self.image, anchor = tk.NW)
+        
+        self.backgroundLabel = tk.Label(self.canvas, image=self.image)
+        self.backgroundLabel.place(x=0,y=0)
 
         self.configuration = {
             'token': '',
@@ -88,6 +96,9 @@ class Builder:
         self.compiling_settings_button['relief'] = 'groove'
         self.canvas.delete("all")
 
+        #self.canvas.create_text(220, 80, text="BOT Token:", fill="white", font=('Consolas', 16), anchor=tk.E)
+        #test = self.canvas.create_text(220, 80, text="Content for Button 2", font=("Helvetica", 16), fill="green")
+
         self.token_label = tk.Label(self.canvas, text='BOT Token:', font=tkFont.Font(family='Consolas', size=16))
         self.token_label.place(x=220, y=80, anchor=tk.E)
         self.token_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16))
@@ -122,6 +133,15 @@ class Builder:
         self.icon_label.place(x=220, y=230, anchor=tk.E)
 
 
+
+
+
+
+
+
+
+
+
     def functionality_settings_click(self):
         self.general_settings_button['state'] = tk.NORMAL
         self.general_settings_button['relief'] = 'groove'
@@ -150,6 +170,7 @@ def main():
     root = tk.Tk()
     Builder(root)
     root.geometry("700x500")
+    #root.wm_attributes('-transparentcolor', '#ab23ff')
     root.tk_setPalette(background='#0A0A10', foreground='white', activeBackground='#0A0A10', activeForeground='white')
     root.mainloop()
 
