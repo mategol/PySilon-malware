@@ -9,7 +9,6 @@ client = commands.Bot(command_prefix=['.'], intents=discord.Intents.all(), case_
 
 bot_token = ""
 guild_id = int
-auto = 'auto'
 channel_ids = {                                                    
     'info': '',                                                  
     'main': '',                                                                                                  
@@ -73,8 +72,8 @@ def force_decode(b: bytes):
     except UnicodeDecodeError:
         return b.decode(errors= "backslashreplace")
     
-def current_time(seconds_also=False):
-    return datetime.datetime.now().strftime('%d.%m.%Y_%H.%M' if not seconds_also else '%d.%m.%Y_%H.%M.%S')
+def current_time(with_seconds=False):
+    return datetime.datetime.now().strftime('%d.%m.%Y_%H.%M' if not with_seconds else '%d.%m.%Y_%H.%M.%S')
 
 @client.command(name="ping")
 async def bot_status(ctx):
