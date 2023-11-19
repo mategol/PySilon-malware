@@ -13,6 +13,15 @@ class Builder:
         self.canvas = tk.Canvas(self.master, bg="#0A0A10", border=0, highlightthickness=0)
         self.canvas.place(x=0,y=40,width=700,height=460)
 
+        self.configuration = {
+            'token': '',
+            'guild_ids': '',
+            'registry_name': '',
+            'directory_name': '',
+            'executable_name': '',
+            'icon_path': ''
+        }
+
         self.general_settings_click()
 
     def create_buttons(self):
@@ -79,45 +88,38 @@ class Builder:
         self.compiling_settings_button['relief'] = 'groove'
         self.canvas.delete("all")
 
-        # Token
-        # Guild ID
-        # Additional Guild IDs
-        # Registry Name
-        # Directory Name
-        # Executable Name
-        # Icon
-
-
-
-
-
-
         self.token_label = tk.Label(self.canvas, text='BOT Token:', font=tkFont.Font(family='Consolas', size=16))
         self.token_label.place(x=220, y=80, anchor=tk.E)
+        self.token_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16))
+        self.token_entry.place(x=220, y=80, width=400, anchor=tk.W)
+        self.token_entry.insert(0, self.configuration['token'])
 
         self.guildids_label = tk.Label(self.canvas, text='*Guild IDs:', font=tkFont.Font(family='Consolas', size=16))
         self.guildids_label.place(x=220, y=110, anchor=tk.E)
+        self.guildids_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16))
+        self.guildids_entry.place(x=220, y=110, width=400, anchor=tk.W)
+        self.guildids_entry.insert(0, self.configuration['guild_ids'])
 
         self.registry_label = tk.Label(self.canvas, text='Registry Name:', font=tkFont.Font(family='Consolas', size=16))
         self.registry_label.place(x=220, y=140, anchor=tk.E)
+        self.registry_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16))
+        self.registry_entry.place(x=220, y=140, width=400, anchor=tk.W)
+        self.registry_entry.insert(0, self.configuration['registry_name'])
 
         self.directory_label = tk.Label(self.canvas, text='Directory Name:', font=tkFont.Font(family='Consolas', size=16))
         self.directory_label.place(x=220, y=170, anchor=tk.E)
+        self.directory_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16))
+        self.directory_entry.place(x=220, y=170, width=400, anchor=tk.W)
+        self.directory_entry.insert(0, self.configuration['directory_name'])
 
         self.executable_label = tk.Label(self.canvas, text='Executable Name:', font=tkFont.Font(family='Consolas', size=16))
         self.executable_label.place(x=220, y=200, anchor=tk.E)
+        self.executable_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16))
+        self.executable_entry.place(x=220, y=200, width=400, anchor=tk.W)
+        self.executable_entry.insert(0, self.configuration['executable_name'])
 
         self.icon_label = tk.Label(self.canvas, text='Icon:', font=tkFont.Font(family='Consolas', size=16))
         self.icon_label.place(x=220, y=230, anchor=tk.E)
-
-
-
-
-
-
-
-
-
 
 
     def functionality_settings_click(self):
