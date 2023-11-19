@@ -3,8 +3,8 @@ from win32print import *
 from win32gui import *
 from win32con import *
 from win32api import *
-from math import *
 import random
+import math
 import json
 import time
 import os
@@ -182,10 +182,10 @@ def flash_screen(effect):
     elif effect == 'hypnotic_spirals':
         for angle in range(0, 180, 1):
             radius = 1000
-            x1 = int(x / 2 + radius * cos(radians(angle)))
-            y1 = int(y / 2 - radius * sin(radians(angle)))
-            x2 = int(x / 2 + radius * cos(radians(angle + 180)))
-            y2 = int(y / 2 - radius * sin(radians(angle + 180)))
+            x1 = int(x / 2 + radius * math.cos(math.radians(angle)))
+            y1 = int(y / 2 - radius * math.sin(math.radians(angle)))
+            x2 = int(x / 2 + radius * math.cos(math.radians(angle + 180)))
+            y2 = int(y / 2 - radius * math.sin(math.radians(angle + 180)))
             color = RGB(random.randrange(1), random.randrange(1), random.randrange(1))
             pen = CreatePen(PS_SOLID, 1, color)
             SelectObject(hdc, pen)
