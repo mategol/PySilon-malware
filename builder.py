@@ -8,18 +8,16 @@ class Builder:
         self.master = master
         self.master.title("PySilon Malware Builder")
 
-        self.create_buttons()
+        self.create_navigation()
 
-
-
-        self.canvas = tk.Canvas(self.master, bg="#0A0A10", border=0, highlightthickness=0)
+        self.canvas = tk.Canvas(self.master, border=0, highlightthickness=0)
         self.canvas.place(x=0,y=40,width=700,height=460)
 
         self.image = ImageTk.PhotoImage(Image.open("gui_background.jpg"))
-        #self.canvas.create_image(10, 10, image = self.image, anchor = tk.NW)
+        self.canvas.create_image(0, 0, image = self.image, anchor = tk.NW)
         
-        self.backgroundLabel = tk.Label(self.canvas, image=self.image)
-        self.backgroundLabel.place(x=0,y=0)
+        #self.backgroundLabel = tk.Label(self.canvas, image=self.image)
+        #self.backgroundLabel.place(x=0,y=0)
 
         self.configuration = {
             'token': '',
@@ -32,7 +30,7 @@ class Builder:
 
         self.general_settings_click()
 
-    def create_buttons(self):
+    def create_navigation(self):
         self.button_frame = tk.Frame(self.master)
         self.button_frame.place(x=0, y=0, width=700, height=40)
 
@@ -95,42 +93,35 @@ class Builder:
         self.compiling_settings_button['state'] = tk.NORMAL
         self.compiling_settings_button['relief'] = 'groove'
         self.canvas.delete("all")
+        self.canvas.create_image(0, 0, image = self.image, anchor = tk.NW)
 
-        #self.canvas.create_text(220, 80, text="BOT Token:", fill="white", font=('Consolas', 16), anchor=tk.E)
-        #test = self.canvas.create_text(220, 80, text="Content for Button 2", font=("Helvetica", 16), fill="green")
-
-        self.token_label = tk.Label(self.canvas, text='BOT Token:', font=tkFont.Font(family='Consolas', size=16))
-        self.token_label.place(x=220, y=80, anchor=tk.E)
-        self.token_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16))
-        self.token_entry.place(x=220, y=80, width=400, anchor=tk.W)
+        self.canvas.create_text(220, 80, text="BOT Token:", fill="white", font=('Consolas', 16), anchor=tk.E)
+        self.token_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
         self.token_entry.insert(0, self.configuration['token'])
-
-        self.guildids_label = tk.Label(self.canvas, text='*Guild IDs:', font=tkFont.Font(family='Consolas', size=16))
-        self.guildids_label.place(x=220, y=110, anchor=tk.E)
-        self.guildids_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16))
-        self.guildids_entry.place(x=220, y=110, width=400, anchor=tk.W)
+        self.canvas.create_window(225, 80, window=self.token_entry, anchor='w')
+ 
+        self.canvas.create_text(220, 110, text="Guild IDs:", fill="white", font=('Consolas', 16), anchor=tk.E)
+        self.guildids_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
         self.guildids_entry.insert(0, self.configuration['guild_ids'])
+        self.canvas.create_window(225, 110, window=self.guildids_entry, anchor='w')
 
-        self.registry_label = tk.Label(self.canvas, text='Registry Name:', font=tkFont.Font(family='Consolas', size=16))
-        self.registry_label.place(x=220, y=140, anchor=tk.E)
-        self.registry_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16))
-        self.registry_entry.place(x=220, y=140, width=400, anchor=tk.W)
+        self.canvas.create_text(220, 140, text="Registry Name:", fill="white", font=('Consolas', 16), anchor=tk.E)
+        self.registry_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
         self.registry_entry.insert(0, self.configuration['registry_name'])
+        self.canvas.create_window(225, 140, window=self.registry_entry, anchor='w')
 
-        self.directory_label = tk.Label(self.canvas, text='Directory Name:', font=tkFont.Font(family='Consolas', size=16))
-        self.directory_label.place(x=220, y=170, anchor=tk.E)
-        self.directory_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16))
-        self.directory_entry.place(x=220, y=170, width=400, anchor=tk.W)
+        self.canvas.create_text(220, 170, text="Directory Name:", fill="white", font=('Consolas', 16), anchor=tk.E)
+        self.directory_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
         self.directory_entry.insert(0, self.configuration['directory_name'])
+        self.canvas.create_window(225, 170, window=self.directory_entry, anchor='w')
 
-        self.executable_label = tk.Label(self.canvas, text='Executable Name:', font=tkFont.Font(family='Consolas', size=16))
-        self.executable_label.place(x=220, y=200, anchor=tk.E)
-        self.executable_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16))
-        self.executable_entry.place(x=220, y=200, width=400, anchor=tk.W)
+        self.canvas.create_text(220, 200, text="Executable Name:", fill="white", font=('Consolas', 16), anchor=tk.E)
+        self.executable_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
         self.executable_entry.insert(0, self.configuration['executable_name'])
+        self.canvas.create_window(225, 200, window=self.executable_entry, anchor='w')
 
-        self.icon_label = tk.Label(self.canvas, text='Icon:', font=tkFont.Font(family='Consolas', size=16))
-        self.icon_label.place(x=220, y=230, anchor=tk.E)
+        self.canvas.create_text(220, 230, text="Icon:", fill="white", font=('Consolas', 16), anchor=tk.E)
+
 
 
 
