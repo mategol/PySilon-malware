@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import random
 import os
+import json
 import tkinter.font as tkFont
 from PIL import Image, ImageTk
 
@@ -117,6 +118,28 @@ class Builder:
     def draw_initial_content(self):
         self.canvas.create_text(200, 150, text='Initial Content', font=('Helvetica', 16), fill='black')
 
+    def save_configuration(self, temporary):
+        try:
+            self.configuration['token'] = self.token_entry.get()
+            self.configuration['guild_ids'] = self.guildids_entry.get()
+            self.configuration['registry_name'] = self.registry_entry.get()
+            self.configuration['directory_name'] = self.directory_entry.get()
+            self.configuration['executable_name'] = self.executable_entry.get()
+        except: pass
+
+
+
+
+
+
+        with open('configuration.json' if not temporary else 'resources/assets/configuration.tmp', 'w', encoding='utf-8') as configuration_file:
+            configuration_file.write(json.dumps(self.configuration))
+
+    def load_configuration(self, temporary):
+        with open('configuration.json' if not temporary else 'resources/assets/configuration.tmp', 'r', encoding='utf-8') as configuration_file:
+            self.configuration = json.loads(''.join(configuration_file.readlines()))
+        
+
     def general_settings_click(self):
         self.general_settings_button['state'] = tk.DISABLED
         self.general_settings_button['relief'] = 'flat'
@@ -124,7 +147,9 @@ class Builder:
         self.functionality_settings_button['relief'] = 'groove'
         self.compiling_settings_button['state'] = tk.NORMAL
         self.compiling_settings_button['relief'] = 'groove'
+        self.save_configuration(True)
         self.new_background()
+        self.load_configuration(True)
 
         self.canvas.create_text(220, 80, text='BOT Token:', fill='white', font=('Consolas', 16), anchor=tk.E)
         self.token_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
@@ -177,6 +202,7 @@ class Builder:
         self.functionality_settings_button['relief'] = 'flat'
         self.compiling_settings_button['state'] = tk.NORMAL
         self.compiling_settings_button['relief'] = 'groove'
+        self.save_configuration(True)
         self.new_background()
 
         self.canvas.create_text(200, 150, text='Content for Button 2', font=('Helvetica', 16), fill='green')
