@@ -2,6 +2,7 @@ icon.png
 PySilon.key
 source_assembled.py
 source_prepared.py
+resources/modules/__pycache__
 __pycache__/compiler.cpython-310.pyc
 dist/source_prepared.exe
 custom_imports.txt
