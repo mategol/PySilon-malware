@@ -1,23 +1,19 @@
 import tkinter as tk
 from tkinter import ttk
+import random
+import os
 import tkinter.font as tkFont
 from PIL import Image, ImageTk
 
 class Builder:
     def __init__(self, master):
         self.master = master
-        self.master.title("PySilon Malware Builder")
+        self.master.title('PySilon Malware Builder')
 
         self.create_navigation()
 
         self.canvas = tk.Canvas(self.master, border=0, highlightthickness=0)
         self.canvas.place(x=0,y=40,width=700,height=460)
-
-        self.image = ImageTk.PhotoImage(Image.open("resources/assets/builder_backgrounds/1.jpg"))
-        self.canvas.create_image(0, 0, image = self.image, anchor = tk.NW)
-        
-        #self.backgroundLabel = tk.Label(self.canvas, image=self.image)
-        #self.backgroundLabel.place(x=0,y=0)
 
         self.configuration = {
             'token': '',
@@ -25,10 +21,46 @@ class Builder:
             'registry_name': '',
             'directory_name': '',
             'executable_name': '',
-            'icon_path': ''
+            'icon_path': '',
+            'functionalities': {
+                'keylogr': True,
+                'scrnsht': True,
+                'regstry': True,
+                'f_downl': True,
+                'f_upldg': True,
+                'f_rmval': True,
+                'f_explr': True,
+                'f_encrp': True,
+                'grabber': True,
+                'mc_live': True,
+                'mc_recc': True,
+                'process': True,
+                'rev_shl': True,
+                'webcam_': True,
+                'scrnrec': True,
+                'inputbl': True,
+                'bluesod': True,
+                'crclipr': True,
+                'forkbmb': True,
+                'messger': True,
+                'txtspee': True,
+                'audctrl': True,
+                'monctrl': True,
+                'webbloc': True,
+                'jmpscar': True,
+                'keystrk': True,
+                'scrnman': True
+            }
         }
 
         self.general_settings_click()
+
+    def new_background(self, demand=None):
+        self.canvas.delete('all')
+        selected_background = random.randint(1, len(os.listdir("resources/assets/builder_backgrounds")))
+        if demand != None: selected_background = demand
+        self.image = ImageTk.PhotoImage(Image.open(f'resources/assets/builder_backgrounds/{selected_background}.jpg'))
+        self.canvas.create_image(0, 0, image=self.image, anchor=tk.NW)
 
     def create_navigation(self):
         self.button_frame = tk.Frame(self.master)
@@ -83,7 +115,7 @@ class Builder:
         horizontal_separator.place(x=455, y=39, height=1, width=245)
         
     def draw_initial_content(self):
-        self.canvas.create_text(200, 150, text="Initial Content", font=("Helvetica", 16), fill="black")
+        self.canvas.create_text(200, 150, text='Initial Content', font=('Helvetica', 16), fill='black')
 
     def general_settings_click(self):
         self.general_settings_button['state'] = tk.DISABLED
@@ -92,35 +124,34 @@ class Builder:
         self.functionality_settings_button['relief'] = 'groove'
         self.compiling_settings_button['state'] = tk.NORMAL
         self.compiling_settings_button['relief'] = 'groove'
-        self.canvas.delete("all")
-        self.canvas.create_image(0, 0, image = self.image, anchor = tk.NW)
+        self.new_background()
 
-        self.canvas.create_text(220, 80, text="BOT Token:", fill="white", font=('Consolas', 16), anchor=tk.E)
+        self.canvas.create_text(220, 80, text='BOT Token:', fill='white', font=('Consolas', 16), anchor=tk.E)
         self.token_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
         self.token_entry.insert(0, self.configuration['token'])
         self.canvas.create_window(225, 80, window=self.token_entry, anchor='w')
  
-        self.canvas.create_text(220, 110, text="Guild IDs:", fill="white", font=('Consolas', 16), anchor=tk.E)
+        self.canvas.create_text(220, 110, text='Guild IDs:', fill='white', font=('Consolas', 16), anchor=tk.E)
         self.guildids_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
         self.guildids_entry.insert(0, self.configuration['guild_ids'])
         self.canvas.create_window(225, 110, window=self.guildids_entry, anchor='w')
 
-        self.canvas.create_text(220, 140, text="Registry Name:", fill="white", font=('Consolas', 16), anchor=tk.E)
+        self.canvas.create_text(220, 140, text='Registry Name:', fill='white', font=('Consolas', 16), anchor=tk.E)
         self.registry_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
         self.registry_entry.insert(0, self.configuration['registry_name'])
         self.canvas.create_window(225, 140, window=self.registry_entry, anchor='w')
 
-        self.canvas.create_text(220, 170, text="Directory Name:", fill="white", font=('Consolas', 16), anchor=tk.E)
+        self.canvas.create_text(220, 170, text='Directory Name:', fill='white', font=('Consolas', 16), anchor=tk.E)
         self.directory_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
         self.directory_entry.insert(0, self.configuration['directory_name'])
         self.canvas.create_window(225, 170, window=self.directory_entry, anchor='w')
 
-        self.canvas.create_text(220, 200, text="Executable Name:", fill="white", font=('Consolas', 16), anchor=tk.E)
+        self.canvas.create_text(220, 200, text='Executable Name:', fill='white', font=('Consolas', 16), anchor=tk.E)
         self.executable_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
         self.executable_entry.insert(0, self.configuration['executable_name'])
         self.canvas.create_window(225, 200, window=self.executable_entry, anchor='w')
 
-        self.canvas.create_text(220, 230, text="Icon:", fill="white", font=('Consolas', 16), anchor=tk.E)
+        self.canvas.create_text(220, 230, text='Icon:', fill='white', font=('Consolas', 16), anchor=tk.E)
 
 
 
@@ -134,18 +165,21 @@ class Builder:
 
 
     def functionality_settings_click(self):
+
+
+
+
+
+
         self.general_settings_button['state'] = tk.NORMAL
         self.general_settings_button['relief'] = 'groove'
         self.functionality_settings_button ['state'] = tk.DISABLED
         self.functionality_settings_button['relief'] = 'flat'
         self.compiling_settings_button['state'] = tk.NORMAL
         self.compiling_settings_button['relief'] = 'groove'
-        self.canvas.delete("all")
+        self.new_background()
 
-        self.token_label.destroy()
-        self.guildid_label.destroy()
-
-        self.canvas.create_text(200, 150, text="Content for Button 2", font=("Helvetica", 16), fill="green")
+        self.canvas.create_text(200, 150, text='Content for Button 2', font=('Helvetica', 16), fill='green')
 
     def compiling_settings_click(self):
         self.general_settings_button['state'] = tk.NORMAL
@@ -154,16 +188,16 @@ class Builder:
         self.functionality_settings_button['relief'] = 'groove'
         self.compiling_settings_button['state'] = tk.DISABLED
         self.compiling_settings_button['relief'] = 'flat'
-        self.canvas.delete("all")
-        self.canvas.create_text(200, 150, text="Content for Button 3", font=("Helvetica", 16), fill="red")
+        self.new_background()
+        self.canvas.create_text(200, 150, text='Content for Button 3', font=('Helvetica', 16), fill='red')
 
 def main():
     root = tk.Tk()
     Builder(root)
-    root.geometry("700x500")
+    root.geometry('700x500')
     #root.wm_attributes('-transparentcolor', '#ab23ff')
     root.tk_setPalette(background='#0A0A10', foreground='white', activeBackground='#0A0A10', activeForeground='white')
     root.mainloop()
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
