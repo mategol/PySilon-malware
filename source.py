@@ -65,6 +65,8 @@ async def on_ready():
                 channel_ids['info'] = channel.id
             elif channel.name == 'main':
                 channel_ids['main'] = channel.id
+            elif channel.name == 'file-related':
+                channel_ids['file'] = channel.id
 
 def force_decode(b: bytes):
     try:
