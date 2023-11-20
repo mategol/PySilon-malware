@@ -2,3 +2,4 @@ discord.py
 discord
 datetime
 pillow
+getmac
