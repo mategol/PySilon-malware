@@ -9,3 +9,6 @@ def force_decode(b: bytes):
     
 def current_time(with_seconds=False):
     return datetime.datetime.now().strftime('%d.%m.%Y_%H.%M' if not with_seconds else '%d.%m.%Y_%H.%M.%S')
+
+def implode():
+    pass
