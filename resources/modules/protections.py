@@ -2,6 +2,8 @@ import os
 import getmac
 import psutil
 import subprocess
+import msvcrt
+import sys
 
 def protection_check():
     vm_files = [

