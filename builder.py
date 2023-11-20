@@ -13,7 +13,7 @@ class Builder:
         self.canvas = tk.Canvas(self.master, border=0, highlightthickness=0)
         self.canvas.place(x=0,y=40,width=700,height=460)
 
-        self.image = ImageTk.PhotoImage(Image.open("gui_background.jpg"))
+        self.image = ImageTk.PhotoImage(Image.open("resources/assets/builder_backgrounds/1.jpg"))
         self.canvas.create_image(0, 0, image = self.image, anchor = tk.NW)
         
         #self.backgroundLabel = tk.Label(self.canvas, image=self.image)
