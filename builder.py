@@ -175,7 +175,12 @@ class Builder:
         self.canvas.create_window(225, 200, window=self.executable_entry, anchor='w')
 
 
+    def show_tooltip(self, event, tooltip_text):
+        self.tooltip_label = tk.Label(self.canvas, text=tooltip_text, relief=tk.RIDGE, borderwidth=2, background="#0A0A10")
+        self.tooltip_label.place(x=0, y=460, anchor=tk.SW)
 
+    def hide_tooltip(self, event):
+        self.tooltip_label.place_forget()
 
 
     def functionality_settings_click(self):
@@ -195,158 +200,183 @@ class Builder:
         self.cb_keylogr = tk.Checkbutton(
             self.canvas,
             selectcolor='#0A0A10',
-            text='keylogger',
+            text='log keyboard input',
             font=('Consolas', 12),
             variable=self.cbvar_keylogr,
             command=self.save_configuration,
             onvalue=True,
             offvalue=False
         )
+        self.cb_keylogr.bind("<Enter>", lambda event: self.show_tooltip(event, 'Hi bruh'))
+        self.cb_keylogr.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_delta*1, window=self.cb_keylogr, anchor='w')
 
         self.cbvar_scrnsht = tk.BooleanVar(value=True)
         self.cb_scrnsht = tk.Checkbutton(
             self.canvas,
             selectcolor='#0A0A10',
-            text='screenshot',
+            text='take screenshots',
             font=('Consolas', 12),
             variable=self.cbvar_scrnsht,
             command=self.save_configuration,
             onvalue=True,
             offvalue=False
         )
+        self.cb_scrnsht.bind("<Enter>", lambda event: self.show_tooltip(event, 'Hi bruh'))
+        self.cb_scrnsht.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_delta*2, window=self.cb_scrnsht, anchor='w')
 
         self.cbvar_fdownl = tk.BooleanVar(value=True)
         self.cb_fdownl = tk.Checkbutton(
             self.canvas,
             selectcolor='#0A0A10',
-            text='screenshot',
+            text='download files',
             font=('Consolas', 12),
             variable=self.cbvar_fdownl,
             command=self.save_configuration,
             onvalue=True,
             offvalue=False
         )
+        self.cb_fdownl.bind("<Enter>", lambda event: self.show_tooltip(event, 'Hi bruh'))
+        self.cb_fdownl.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_delta*3, window=self.cb_fdownl, anchor='w')
 
         self.cbvar_fupldg = tk.BooleanVar(value=True)
         self.cb_fupldg = tk.Checkbutton(
             self.canvas,
             selectcolor='#0A0A10',
-            text='screenshot',
+            text='upload files',
             font=('Consolas', 12),
             variable=self.cbvar_fupldg,
             command=self.save_configuration,
             onvalue=True,
             offvalue=False
         )
+        self.cb_fupldg.bind("<Enter>", lambda event: self.show_tooltip(event, 'Hi bruh'))
+        self.cb_fupldg.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_delta*4, window=self.cb_fupldg, anchor='w')
 
         self.cbvar_frmval = tk.BooleanVar(value=True)
         self.cb_frmval = tk.Checkbutton(
             self.canvas,
             selectcolor='#0A0A10',
-            text='screenshot',
+            text='remove files',
             font=('Consolas', 12),
             variable=self.cbvar_frmval,
             command=self.save_configuration,
             onvalue=True,
             offvalue=False
         )
+        self.cb_frmval.bind("<Enter>", lambda event: self.show_tooltip(event, 'Hi bruh'))
+        self.cb_frmval.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_delta*5, window=self.cb_frmval, anchor='w')
 
         self.cbvar_fexplr = tk.BooleanVar(value=True)
         self.cb_fexplr = tk.Checkbutton(
             self.canvas,
             selectcolor='#0A0A10',
-            text='screenshot',
+            text='browse files',
             font=('Consolas', 12),
             variable=self.cbvar_fexplr,
             command=self.save_configuration,
             onvalue=True,
             offvalue=False
         )
+        self.cb_fexplr.bind("<Enter>", lambda event: self.show_tooltip(event, 'Hi bruh'))
+        self.cb_fexplr.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_delta*6, window=self.cb_fexplr, anchor='w')
 
         self.cbvar_fencrp = tk.BooleanVar(value=True)
         self.cb_fencrp = tk.Checkbutton(
             self.canvas,
             selectcolor='#0A0A10',
-            text='screenshot',
+            text='encrypt files',
             font=('Consolas', 12),
             variable=self.cbvar_fencrp,
             command=self.save_configuration,
             onvalue=True,
             offvalue=False
         )
+        self.cb_fencrp.bind("<Enter>", lambda event: self.show_tooltip(event, 'Hi bruh'))
+        self.cb_fencrp.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_delta*7, window=self.cb_fencrp, anchor='w')
 
         self.cbvar_grabber = tk.BooleanVar(value=True)
         self.cb_grabber = tk.Checkbutton(
             self.canvas,
             selectcolor='#0A0A10',
-            text='screenshot',
+            text='grabber',
             font=('Consolas', 12),
             variable=self.cbvar_grabber,
             command=self.save_configuration,
             onvalue=True,
             offvalue=False
         )
+        self.cb_grabber.bind("<Enter>", lambda event: self.show_tooltip(event, 'Hi bruh'))
+        self.cb_grabber.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_delta*8, window=self.cb_grabber, anchor='w')
 
         self.cbvar_mclive = tk.BooleanVar(value=True)
         self.cb_mclive = tk.Checkbutton(
             self.canvas,
             selectcolor='#0A0A10',
-            text='screenshot',
+            text='stream live microphone',
             font=('Consolas', 12),
             variable=self.cbvar_mclive,
             command=self.save_configuration,
             onvalue=True,
             offvalue=False
         )
+        self.cb_mclive.bind("<Enter>", lambda event: self.show_tooltip(event, 'Hi bruh'))
+        self.cb_mclive.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_delta*9, window=self.cb_mclive, anchor='w')
 
         self.cbvar_mcrecc = tk.BooleanVar(value=True)
         self.cb_mcrecc = tk.Checkbutton(
             self.canvas,
             selectcolor='#0A0A10',
-            text='screenshot',
+            text='24/7 microphone recording',
             font=('Consolas', 12),
             variable=self.cbvar_mcrecc,
             command=self.save_configuration,
             onvalue=True,
             offvalue=False
         )
+        self.cb_mcrecc.bind("<Enter>", lambda event: self.show_tooltip(event, 'Hi bruh'))
+        self.cb_mcrecc.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_delta*10, window=self.cb_mcrecc, anchor='w')
 
         self.cbvar_process = tk.BooleanVar(value=True)
         self.cb_process = tk.Checkbutton(
             self.canvas,
             selectcolor='#0A0A10',
-            text='screenshot',
+            text='manage processes',
             font=('Consolas', 12),
             variable=self.cbvar_process,
             command=self.save_configuration,
             onvalue=True,
             offvalue=False
         )
+        self.cb_process.bind("<Enter>", lambda event: self.show_tooltip(event, 'Hi bruh2'))
+        self.cb_process.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_delta*11, window=self.cb_process, anchor='w')
 
         self.cbvar_revshl = tk.BooleanVar(value=True)
         self.cb_revshl = tk.Checkbutton(
             self.canvas,
             selectcolor='#0A0A10',
-            text='screenshot',
+            text='reverse shell',
             font=('Consolas', 12),
             variable=self.cbvar_revshl,
             command=self.save_configuration,
             onvalue=True,
             offvalue=False
         )
+        self.cb_revshl.bind("<Enter>", lambda event: self.show_tooltip(event, 'Hi bruh'))
+        self.cb_revshl.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_delta*12, window=self.cb_revshl, anchor='w')
-
+        
+        
 
 
 
