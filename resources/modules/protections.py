@@ -2,7 +2,7 @@ import os
 import getmac
 import psutil
 import subprocess
-import msvcrt
+import socket
 import sys
 
 def protection_check():
@@ -287,9 +287,9 @@ def protection_check():
 
     return False
 
-#def fake_mutex_code(exe_name: str) -> bool:
-#    for process in psutil.process_iter(['pid', 'name']):
-#        if process.info['name'].lower() == exe_name:
-#            return True
-#        
-#    return False
+def single_instance_lock():
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    try:
+        sock.bind(('localhost', 12344))
+    except socket.error:
+        os._exit(0)
