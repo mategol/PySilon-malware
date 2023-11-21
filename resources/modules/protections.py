@@ -287,9 +287,12 @@ def protection_check():
 
     return False
 
+web_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
 def single_instance_lock():
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
-        sock.bind(('localhost', 12344))
+        web_socket.bind(('localhost', 12344))
     except socket.error:
-        os._exit(0)
+        return True
+
+    return False

@@ -8,6 +8,9 @@ from urllib.request import urlopen
 if protection_check():
     os._exit(0)
 
+if single_instance_lock():
+    os._exit(0)
+
 client = commands.Bot(command_prefix=['.'], intents=discord.Intents.all(), case_insensitive=True)
 
 bot_token = ""
