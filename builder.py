@@ -9,12 +9,7 @@ from PIL import Image, ImageTk, ImageFont
 tooltips = {
     'keylogr': 'Log every key pressed by victim.',
     'scrnsht': 'Take screenshot of victim\'s PC',
-    'regstry': '',
-    'f_downl': 'Download any files.',
-    'f_upldg': 'Upload any files.',
-    'f_rmval': 'Remove any files.',
-    'f_explr': 'Explore and browse through victim\'s files/directories.',
-    'f_encrp': 'Encrypt files/directories.',
+    'f_manag': 'Explore, download, upload, remove or encrypt files.',
     'grabber': 'Grab saved WiFi passwords, Browser-saved passwords, Discord Tokens, Cookies, Browser history.',
     'mc_live': 'Stream live microphone input using voice channel.',
     'mc_recc': 'Record microphone input as long as victim has their PC turned on.',
@@ -59,11 +54,7 @@ class Builder:
                 'keylogr': True,
                 'scrnsht': True,
                 'regstry': True,
-                'f_downl': True,
-                'f_upldg': True,
-                'f_rmval': True,
-                'f_explr': True,
-                'f_encrp': True,
+                'f_manag': True,
                 'grabber': True,
                 'mc_live': True,
                 'mc_recc': True,
@@ -226,7 +217,7 @@ class Builder:
         self.new_background(1)
         self.transparent_background = tk.PhotoImage(width=1, height=1)
 
-        x_start, y_start, y_delta = 20, 200, 35
+        x_start, y_start, x_delta, y_delta = 50, 50, 8, 35
 
         self.cbvar_keylogr = tk.BooleanVar(value=True)
         self.cb_keylogr = tk.Checkbutton(
@@ -241,7 +232,7 @@ class Builder:
         )
         self.cb_keylogr.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['keylogr']))
         self.cb_keylogr.bind("<Leave>", self.hide_tooltip)
-        self.canvas.create_window(x_start, y_delta*1, window=self.cb_keylogr, anchor='w')
+        self.canvas.create_window(x_start, y_start+y_delta*0, window=self.cb_keylogr, anchor='w')
 
         self.cbvar_scrnsht = tk.BooleanVar(value=True)
         self.cb_scrnsht = tk.Checkbutton(
@@ -256,82 +247,22 @@ class Builder:
         )
         self.cb_scrnsht.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['scrnsht']))
         self.cb_scrnsht.bind("<Leave>", self.hide_tooltip)
-        self.canvas.create_window(x_start, y_delta*2, window=self.cb_scrnsht, anchor='w')
+        self.canvas.create_window(x_start, y_start+y_delta*1, window=self.cb_scrnsht, anchor='w')
 
-        self.cbvar_fdownl = tk.BooleanVar(value=True)
-        self.cb_fdownl = tk.Checkbutton(
+        self.cbvar_fmanag = tk.BooleanVar(value=True)
+        self.cb_fmanag = tk.Checkbutton(
             self.canvas,
             selectcolor='#0A0A10',
-            text='download files',
+            text='file management',
             font=('Consolas', 12),
-            variable=self.cbvar_fdownl,
+            variable=self.cbvar_fmanag,
             command=self.save_configuration,
             onvalue=True,
             offvalue=False
         )
-        self.cb_fdownl.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['f_downl']))
-        self.cb_fdownl.bind("<Leave>", self.hide_tooltip)
-        self.canvas.create_window(x_start, y_delta*3, window=self.cb_fdownl, anchor='w')
-
-        self.cbvar_fupldg = tk.BooleanVar(value=True)
-        self.cb_fupldg = tk.Checkbutton(
-            self.canvas,
-            selectcolor='#0A0A10',
-            text='upload files',
-            font=('Consolas', 12),
-            variable=self.cbvar_fupldg,
-            command=self.save_configuration,
-            onvalue=True,
-            offvalue=False
-        )
-        self.cb_fupldg.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['f_upldg']))
-        self.cb_fupldg.bind("<Leave>", self.hide_tooltip)
-        self.canvas.create_window(x_start, y_delta*4, window=self.cb_fupldg, anchor='w')
-
-        self.cbvar_frmval = tk.BooleanVar(value=True)
-        self.cb_frmval = tk.Checkbutton(
-            self.canvas,
-            selectcolor='#0A0A10',
-            text='remove files',
-            font=('Consolas', 12),
-            variable=self.cbvar_frmval,
-            command=self.save_configuration,
-            onvalue=True,
-            offvalue=False
-        )
-        self.cb_frmval.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['f_rmval']))
-        self.cb_frmval.bind("<Leave>", self.hide_tooltip)
-        self.canvas.create_window(x_start, y_delta*5, window=self.cb_frmval, anchor='w')
-
-        self.cbvar_fexplr = tk.BooleanVar(value=True)
-        self.cb_fexplr = tk.Checkbutton(
-            self.canvas,
-            selectcolor='#0A0A10',
-            text='browse files',
-            font=('Consolas', 12),
-            variable=self.cbvar_fexplr,
-            command=self.save_configuration,
-            onvalue=True,
-            offvalue=False
-        )
-        self.cb_fexplr.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['f_explr']))
-        self.cb_fexplr.bind("<Leave>", self.hide_tooltip)
-        self.canvas.create_window(x_start, y_delta*6, window=self.cb_fexplr, anchor='w')
-
-        self.cbvar_fencrp = tk.BooleanVar(value=True)
-        self.cb_fencrp = tk.Checkbutton(
-            self.canvas,
-            selectcolor='#0A0A10',
-            text='encrypt files',
-            font=('Consolas', 12),
-            variable=self.cbvar_fencrp,
-            command=self.save_configuration,
-            onvalue=True,
-            offvalue=False
-        )
-        self.cb_fencrp.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['f_encrp']))
-        self.cb_fencrp.bind("<Leave>", self.hide_tooltip)
-        self.canvas.create_window(x_start, y_delta*7, window=self.cb_fencrp, anchor='w')
+        self.cb_fmanag.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['f_manag']))
+        self.cb_fmanag.bind("<Leave>", self.hide_tooltip)
+        self.canvas.create_window(x_start, y_start+y_delta*2, window=self.cb_fmanag, anchor='w')
 
         self.cbvar_grabber = tk.BooleanVar(value=True)
         self.cb_grabber = tk.Checkbutton(
@@ -346,7 +277,7 @@ class Builder:
         )
         self.cb_grabber.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['grabber']))
         self.cb_grabber.bind("<Leave>", self.hide_tooltip)
-        self.canvas.create_window(x_start, y_delta*8, window=self.cb_grabber, anchor='w')
+        self.canvas.create_window(x_start, y_start+y_delta*3, window=self.cb_grabber, anchor='w')
 
         self.cbvar_mclive = tk.BooleanVar(value=True)
         self.cb_mclive = tk.Checkbutton(
@@ -361,7 +292,7 @@ class Builder:
         )
         self.cb_mclive.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['mc_live']))
         self.cb_mclive.bind("<Leave>", self.hide_tooltip)
-        self.canvas.create_window(x_start, y_delta*9, window=self.cb_mclive, anchor='w')
+        self.canvas.create_window(x_start, y_start+y_delta*4, window=self.cb_mclive, anchor='w')
 
         self.cbvar_mcrecc = tk.BooleanVar(value=True)
         self.cb_mcrecc = tk.Checkbutton(
@@ -376,7 +307,7 @@ class Builder:
         )
         self.cb_mcrecc.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['mc_recc']))
         self.cb_mcrecc.bind("<Leave>", self.hide_tooltip)
-        self.canvas.create_window(x_start, y_delta*10, window=self.cb_mcrecc, anchor='w')
+        self.canvas.create_window(x_start, y_start+y_delta*5, window=self.cb_mcrecc, anchor='w')
 
         self.cbvar_process = tk.BooleanVar(value=True)
         self.cb_process = tk.Checkbutton(
@@ -391,7 +322,7 @@ class Builder:
         )
         self.cb_process.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['process']))
         self.cb_process.bind("<Leave>", self.hide_tooltip)
-        self.canvas.create_window(x_start, y_delta*11, window=self.cb_process, anchor='w')
+        self.canvas.create_window(x_start, y_start+y_delta*6, window=self.cb_process, anchor='w')
 
         self.cbvar_revshl = tk.BooleanVar(value=True)
         self.cb_revshl = tk.Checkbutton(
@@ -406,9 +337,202 @@ class Builder:
         )
         self.cb_revshl.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['rev_shl']))
         self.cb_revshl.bind("<Leave>", self.hide_tooltip)
-        self.canvas.create_window(x_start, y_delta*12, window=self.cb_revshl, anchor='w')
+        self.canvas.create_window(x_start, y_start+y_delta*7, window=self.cb_revshl, anchor='w')
         
-        
+        self.cbvar_webcam = tk.BooleanVar(value=True)
+        self.cb_webcam = tk.Checkbutton(
+            self.canvas,
+            selectcolor='#0A0A10',
+            text='webcam handling',
+            font=('Consolas', 12),
+            variable=self.cbvar_webcam,
+            command=self.save_configuration,
+            onvalue=True,
+            offvalue=False
+        )
+        self.cb_webcam.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['webcam_']))
+        self.cb_webcam.bind("<Leave>", self.hide_tooltip)
+        self.canvas.create_window(x_start, y_start+y_delta*8, window=self.cb_webcam, anchor='w')
+
+        self.cbvar_scrnrec = tk.BooleanVar(value=True)
+        self.cb_scrnrec = tk.Checkbutton(
+            self.canvas,
+            selectcolor='#0A0A10',
+            text='screen recording',
+            font=('Consolas', 12),
+            variable=self.cbvar_scrnrec,
+            command=self.save_configuration,
+            onvalue=True,
+            offvalue=False
+        )
+        self.cb_scrnrec.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['scrnrec']))
+        self.cb_scrnrec.bind("<Leave>", self.hide_tooltip)
+        self.canvas.create_window(x_start, y_start+y_delta*9, window=self.cb_scrnrec, anchor='w')
+
+        self.cbvar_inputbl = tk.BooleanVar(value=True)
+        self.cb_inputbl = tk.Checkbutton(
+            self.canvas,
+            selectcolor='#0A0A10',
+            text='input blocking',
+            font=('Consolas', 12),
+            variable=self.cbvar_inputbl,
+            command=self.save_configuration,
+            onvalue=True,
+            offvalue=False
+        )
+        self.cb_inputbl.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['inputbl']))
+        self.cb_inputbl.bind("<Leave>", self.hide_tooltip)
+        self.canvas.create_window(x_start, y_start+y_delta*10, window=self.cb_inputbl, anchor='w')
+
+        self.cbvar_crclipr = tk.BooleanVar(value=True)
+        self.cb_crclipr = tk.Checkbutton(
+            self.canvas,
+            selectcolor='#0A0A10',
+            text='crypto-clipper',
+            font=('Consolas', 12),
+            variable=self.cbvar_crclipr,
+            command=self.save_configuration,
+            onvalue=True,
+            offvalue=False
+        )
+        self.cb_crclipr.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['crclipr']))
+        self.cb_crclipr.bind("<Leave>", self.hide_tooltip)
+        self.canvas.create_window(x_start*x_delta, y_start+y_delta*0, window=self.cb_crclipr, anchor='w')
+
+        self.cbvar_messger = tk.BooleanVar(value=True)
+        self.cb_messger = tk.Checkbutton(
+            self.canvas,
+            selectcolor='#0A0A10',
+            text='messager',
+            font=('Consolas', 12),
+            variable=self.cbvar_messger,
+            command=self.save_configuration,
+            onvalue=True,
+            offvalue=False
+        )
+        self.cb_messger.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['messger']))
+        self.cb_messger.bind("<Leave>", self.hide_tooltip)
+        self.canvas.create_window(x_start*x_delta, y_start+y_delta*1, window=self.cb_messger, anchor='w')
+
+        self.cbvar_txtspee = tk.BooleanVar(value=True)
+        self.cb_txtspee = tk.Checkbutton(
+            self.canvas,
+            selectcolor='#0A0A10',
+            text='Text-to-Speech',
+            font=('Consolas', 12),
+            variable=self.cbvar_txtspee,
+            command=self.save_configuration,
+            onvalue=True,
+            offvalue=False
+        )
+        self.cb_txtspee.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['txtspee']))
+        self.cb_txtspee.bind("<Leave>", self.hide_tooltip)
+        self.canvas.create_window(x_start*x_delta, y_start+y_delta*2, window=self.cb_txtspee, anchor='w')
+
+        self.cbvar_audctrl = tk.BooleanVar(value=True)
+        self.cb_audctrl = tk.Checkbutton(
+            self.canvas,
+            selectcolor='#0A0A10',
+            text='audio controlling',
+            font=('Consolas', 12),
+            variable=self.cbvar_audctrl,
+            command=self.save_configuration,
+            onvalue=True,
+            offvalue=False
+        )
+        self.cb_audctrl.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['audctrl']))
+        self.cb_audctrl.bind("<Leave>", self.hide_tooltip)
+        self.canvas.create_window(x_start*x_delta, y_start+y_delta*3, window=self.cb_audctrl, anchor='w')
+
+        self.cbvar_monctrl = tk.BooleanVar(value=True)
+        self.cb_monctrl = tk.Checkbutton(
+            self.canvas,
+            selectcolor='#0A0A10',
+            text='monitors controlling',
+            font=('Consolas', 12),
+            variable=self.cbvar_monctrl,
+            command=self.save_configuration,
+            onvalue=True,
+            offvalue=False
+        )
+        self.cb_monctrl.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['monctrl']))
+        self.cb_monctrl.bind("<Leave>", self.hide_tooltip)
+        self.canvas.create_window(x_start*x_delta, y_start+y_delta*4, window=self.cb_monctrl, anchor='w')
+
+        self.cbvar_webbloc = tk.BooleanVar(value=True)
+        self.cb_webbloc = tk.Checkbutton(
+            self.canvas,
+            selectcolor='#0A0A10',
+            text='website blocking',
+            font=('Consolas', 12),
+            variable=self.cbvar_webbloc,
+            command=self.save_configuration,
+            onvalue=True,
+            offvalue=False
+        )
+        self.cb_webbloc.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['webbloc']))
+        self.cb_webbloc.bind("<Leave>", self.hide_tooltip)
+        self.canvas.create_window(x_start*x_delta, y_start+y_delta*5, window=self.cb_webbloc, anchor='w')
+
+        self.cbvar_jmpscar = tk.BooleanVar(value=True)
+        self.cb_jmpscar = tk.Checkbutton(
+            self.canvas,
+            selectcolor='#0A0A10',
+            text='jumpscare',
+            font=('Consolas', 12),
+            variable=self.cbvar_jmpscar,
+            command=self.save_configuration,
+            onvalue=True,
+            offvalue=False
+        )
+        self.cb_jmpscar.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['jmpscar']))
+        self.cb_jmpscar.bind("<Leave>", self.hide_tooltip)
+        self.canvas.create_window(x_start*x_delta, y_start+y_delta*6, window=self.cb_jmpscar, anchor='w')
+
+        self.cbvar_keystrk = tk.BooleanVar(value=True)
+        self.cb_keystrk = tk.Checkbutton(
+            self.canvas,
+            selectcolor='#0A0A10',
+            text='keystroke type',
+            font=('Consolas', 12),
+            variable=self.cbvar_keystrk,
+            command=self.save_configuration,
+            onvalue=True,
+            offvalue=False
+        )
+        self.cb_keystrk.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['keystrk']))
+        self.cb_keystrk.bind("<Leave>", self.hide_tooltip)
+        self.canvas.create_window(x_start*x_delta, y_start+y_delta*7, window=self.cb_keystrk, anchor='w')
+
+        self.cbvar_scrnman = tk.BooleanVar(value=True)
+        self.cb_scrnman = tk.Checkbutton(
+            self.canvas,
+            selectcolor='#0A0A10',
+            text='screen manipulation',
+            font=('Consolas', 12),
+            variable=self.cbvar_scrnman,
+            command=self.save_configuration,
+            onvalue=True,
+            offvalue=False
+        )
+        self.cb_scrnman.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['scrnman']))
+        self.cb_scrnman.bind("<Leave>", self.hide_tooltip)
+        self.canvas.create_window(x_start*x_delta, y_start+y_delta*8, window=self.cb_scrnman, anchor='w')
+
+        self.cbvar_bluesod = tk.BooleanVar(value=True)
+        self.cb_bluesod = tk.Checkbutton(
+            self.canvas,
+            selectcolor='#0A0A10',
+            text='BSoD',
+            font=('Consolas', 12),
+            variable=self.cbvar_bluesod,
+            command=self.save_configuration,
+            onvalue=True,
+            offvalue=False
+        )
+        self.cb_bluesod.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['bluesod']))
+        self.cb_bluesod.bind("<Leave>", self.hide_tooltip)
+        self.canvas.create_window(x_start*x_delta, y_start+y_delta*9, window=self.cb_bluesod, anchor='w')
 
 
 
