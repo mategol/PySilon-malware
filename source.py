@@ -71,6 +71,12 @@ async def on_ready():
             elif channel.name == 'file-related':
                 channel_ids['file'] = channel.id
 
+@client.event
+async def on_message(ctx):
+    print(ctx.content)
+    if ctx.channel.id in channel_ids.values():
+        await client.process_commands(ctx)
+
 @client.command(name="ping")
 async def bot_status(ctx):
     await client.get_channel(channel_ids['main']).send(ctx.author.mention)
