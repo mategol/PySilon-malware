@@ -177,7 +177,7 @@ class Builder:
         self.compiling_settings_button['state'] = tk.NORMAL
         self.compiling_settings_button['relief'] = 'groove'
         self.save_configuration(True)
-        self.new_background()
+        self.new_background(1)
         self.load_configuration(True)
 
         self.canvas.create_text(230, 140, text='BOT Token:', fill='white', font=('Consolas', 16), anchor=tk.E)
@@ -253,7 +253,7 @@ class Builder:
         self.compiling_settings_button['state'] = tk.NORMAL
         self.compiling_settings_button['relief'] = 'groove'
         self.save_configuration(True)
-        self.new_background(1)
+        self.new_background(2)
         self.transparent_background = tk.PhotoImage(width=1, height=1)
 
         x_start, y_start, x_delta, y_delta = 50, 50, 8, 35
@@ -582,7 +582,7 @@ class Builder:
         self.functionality_settings_button['relief'] = 'groove'
         self.compiling_settings_button['state'] = tk.DISABLED
         self.compiling_settings_button['relief'] = 'flat'
-        self.new_background()
+        self.new_background(3)
         self.canvas.create_text(200, 150, text='Content for Button 3', font=('Helvetica', 16), fill='red')
 
         # Icon
