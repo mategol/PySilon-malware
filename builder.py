@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import random
 import os
+import pyperclip
 import json
 import tkinter.font as tkFont
 from PIL import Image, ImageTk, ImageFont
@@ -172,30 +173,41 @@ class Builder:
         self.new_background()
         self.load_configuration(True)
 
-        self.canvas.create_text(220, 80, text='BOT Token:', fill='white', font=('Consolas', 16), anchor=tk.E)
+        self.canvas.create_text(220, 140, text='BOT Token:', fill='white', font=('Consolas', 16), anchor=tk.E)
         self.token_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
         self.token_entry.insert(0, self.configuration['token'])
-        self.canvas.create_window(225, 80, window=self.token_entry, anchor='w')
+        self.canvas.create_window(225, 140, window=self.token_entry, anchor='w')
+        self.paste_token_icon = tk.PhotoImage(file='resources/assets/builder_elements/paste_icon.png')
+        self.paste_token_button = tk.Button(
+            self.canvas,
+            image=self.paste_token_icon,
+            disabledforeground='white',
+            relief='flat',
+            width=15,
+            height=15,
+            command=self.paste_token
+            )
+        self.canvas.create_window(630, 140, window=self.paste_token_button, anchor='w')
  
-        self.canvas.create_text(220, 110, text='Guild IDs:', fill='white', font=('Consolas', 16), anchor=tk.E)
+        self.canvas.create_text(220, 170, text='Guild IDs:', fill='white', font=('Consolas', 16), anchor=tk.E)
         self.guildids_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
         self.guildids_entry.insert(0, self.configuration['guild_ids'])
-        self.canvas.create_window(225, 110, window=self.guildids_entry, anchor='w')
+        self.canvas.create_window(225, 170, window=self.guildids_entry, anchor='w')
 
-        self.canvas.create_text(220, 140, text='Registry Name:', fill='white', font=('Consolas', 16), anchor=tk.E)
+        self.canvas.create_text(220, 200, text='Registry Name:', fill='white', font=('Consolas', 16), anchor=tk.E)
         self.registry_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
         self.registry_entry.insert(0, self.configuration['registry_name'])
-        self.canvas.create_window(225, 140, window=self.registry_entry, anchor='w')
+        self.canvas.create_window(225, 200, window=self.registry_entry, anchor='w')
 
-        self.canvas.create_text(220, 170, text='Directory Name:', fill='white', font=('Consolas', 16), anchor=tk.E)
+        self.canvas.create_text(220, 230, text='Directory Name:', fill='white', font=('Consolas', 16), anchor=tk.E)
         self.directory_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
         self.directory_entry.insert(0, self.configuration['directory_name'])
-        self.canvas.create_window(225, 170, window=self.directory_entry, anchor='w')
+        self.canvas.create_window(225, 230, window=self.directory_entry, anchor='w')
 
-        self.canvas.create_text(220, 200, text='Executable Name:', fill='white', font=('Consolas', 16), anchor=tk.E)
+        self.canvas.create_text(220, 260, text='Executable Name:', fill='white', font=('Consolas', 16), anchor=tk.E)
         self.executable_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
         self.executable_entry.insert(0, self.configuration['executable_name'])
-        self.canvas.create_window(225, 200, window=self.executable_entry, anchor='w')
+        self.canvas.create_window(225, 260, window=self.executable_entry, anchor='w')
 
 
     def show_tooltip(self, event, tooltip_text):
@@ -205,6 +217,8 @@ class Builder:
     def hide_tooltip(self, event):
         self.tooltip_label.place_forget()
 
+    def paste_token(self):
+        self.token_entry.insert(0, pyperclip.paste())
 
     def functionality_settings_click(self):
         self.general_settings_button['state'] = tk.NORMAL
