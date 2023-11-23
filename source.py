@@ -21,6 +21,7 @@ client = commands.Bot(command_prefix=['.'], intents=discord.Intents.all(), case_
 
 # temp area for needed variables, mategol you should add something to do this automatically in the builder ig :p
 turned_off = False
+clipper_stop = False
 # end of area
 
 bot_token = ""
