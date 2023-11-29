@@ -74,23 +74,22 @@ class Builder:
 
  
         if self.malware_latest_version == self.configuration['malware_version']:
-            version_indicator = [f'Up to date (v{self.configuration["malware_version"]})', 'green', 700, 460]
+            version_indicator = [f'Up to date (v{self.configuration["malware_version"]})', 'lime', 700, 0]
         elif self.malware_latest_version != None:
-            version_indicator = [f'Outdated version (v{self.configuration["malware_version"]}). Latest: v{self.malware_latest_version}', 'gold', 675, 460]
+            version_indicator = [f'Outdated version (v{self.configuration["malware_version"]}). Latest: v{self.malware_latest_version}', 'gold', 675, 0]
             self.download_icon = tk.PhotoImage(file='resources/assets/builder_elements/download_icon.png')
             self.download = tk.Button(
                 self.canvas,
                 image=self.download_icon,
                 disabledforeground='white',
                 relief='flat',
-
                 command=self.open_pysilon_github
                 )
-            self.canvas.create_window(700, 460, window=self.download, anchor=tk.SE)
+            self.canvas.create_window(700, 0, window=self.download, anchor=tk.NE)
         else:
-            version_indicator = ['Couldn\'t determine latest version.', 'red', 700, 460]
+            version_indicator = ['Couldn\'t determine latest version.', 'red', 700, 0]
 
-        self.canvas.create_text(version_indicator[2], version_indicator[3], text=version_indicator[0], fill=version_indicator[1], font=('Consolas', 10), anchor=tk.SE)
+        self.canvas.create_text(version_indicator[2], version_indicator[3], text=version_indicator[0], fill=version_indicator[1], font=('Consolas', 10), anchor=tk.NE)
 
 
 
