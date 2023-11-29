@@ -196,7 +196,18 @@ class Builder:
                 'scrnman': self.cbvar_scrnman.get()
             }
             print(self.malware_configuration['functionalities'])
+        except Exception as error: pass
+        try:
+            self.malware_configuration['anti_vm'] = {
+                'enabled': self.cbvar_antivm.get(),
+                'FilesCheck': self.cbvar_filecheck.get(),
+                'ProcessesCheck': self.cbvar_processcheck.get(),
+                'HardwareIDsCheck': self.cbvar_hwidcheck.get(),
+                'MacAddressesCheck': self.cbvar_maccheck.get()
+            }
+            print('yay')
         except Exception as error: print(error)
+        print(self.malware_configuration)
 
         with open('configuration.json' if not temporary else 'resources/assets/configuration.tmp', 'w', encoding='utf-8') as configuration_file:
             configuration_file.write(json.dumps(self.malware_configuration))
@@ -644,72 +655,76 @@ class Builder:
                 self.advanced_settings.geometry('300x200')
                 self.advanced_settings.title('Advanced Settings (Anti-VM)')
 
-                advanced_canvas = tk.Canvas(self.advanced_settings, border=0, highlightthickness=0)
-                advanced_canvas.place(x=0,y=0,width=300,height=200)
+                self.advanced_canvas = tk.Canvas(self.advanced_settings, border=0, highlightthickness=0)
+                self.advanced_canvas.place(x=0,y=0,width=300,height=200)
 
-                cbvar_filecheck = tk.BooleanVar(value=True)
-                cb_filecheck = tk.Checkbutton(
-                    advanced_canvas,
+                self.cbvar_filecheck = tk.BooleanVar(value=True)
+                self.cb_filecheck = tk.Checkbutton(
+                    self.advanced_canvas,
                     selectcolor='#0A0A10',
                     text='FilesCheck',
                     font=('Consolas', 12),
-                    variable=cbvar_filecheck,
+                    variable=self.cbvar_filecheck,
                     onvalue=True,
                     offvalue=False
                 )
-                cb_filecheck.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['advanced_antivm']['FilesCheck']))
-                cb_filecheck.bind("<Leave>", self.hide_tooltip)
-                advanced_canvas.create_window(25, 25, window=cb_filecheck, anchor=tk.NW)
+                self.cb_filecheck.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['advanced_antivm']['FilesCheck']))
+                self.cb_filecheck.bind("<Leave>", self.hide_tooltip)
+                self.cbvar_filecheck.set(self.malware_configuration['anti_vm']['FilesCheck'])
+                self.advanced_canvas.create_window(25, 25, window=self.cb_filecheck, anchor=tk.NW)
 
-                cbvar_processcheck = tk.BooleanVar(value=True)
-                cb_processcheck = tk.Checkbutton(
-                    advanced_canvas,
+                self.cbvar_processcheck = tk.BooleanVar(value=True)
+                self.cb_processcheck = tk.Checkbutton(
+                    self.advanced_canvas,
                     selectcolor='#0A0A10',
                     text='ProcessesCheck',
                     font=('Consolas', 12),
-                    variable=cbvar_processcheck,
+                    variable=self.cbvar_processcheck,
                     onvalue=True,
                     offvalue=False
                 )
-                cb_processcheck.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['advanced_antivm']['ProcessesCheck']))
-                cb_processcheck.bind("<Leave>", self.hide_tooltip)
-                advanced_canvas.create_window(25, 55, window=cb_processcheck, anchor=tk.NW)
+                self.cb_processcheck.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['advanced_antivm']['ProcessesCheck']))
+                self.cb_processcheck.bind("<Leave>", self.hide_tooltip)
+                self.cbvar_processcheck.set(self.malware_configuration['anti_vm']['ProcessesCheck'])
+                self.advanced_canvas.create_window(25, 55, window=self.cb_processcheck, anchor=tk.NW)
 
-                cbvar_hwidcheck = tk.BooleanVar(value=True)
-                cb_hwidcheck = tk.Checkbutton(
-                    advanced_canvas,
+                self.cbvar_hwidcheck = tk.BooleanVar(value=True)
+                self.cb_hwidcheck = tk.Checkbutton(
+                    self.advanced_canvas,
                     selectcolor='#0A0A10',
                     text='HardwareIDsCheck',
                     font=('Consolas', 12),
-                    variable=cbvar_hwidcheck,
+                    variable=self.cbvar_hwidcheck,
                     onvalue=True,
                     offvalue=False
                 )
-                cb_hwidcheck.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['advanced_antivm']['HardwareIDsCheck']))
-                cb_hwidcheck.bind("<Leave>", self.hide_tooltip)
-                advanced_canvas.create_window(25, 85, window=cb_hwidcheck, anchor=tk.NW)
+                self.cb_hwidcheck.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['advanced_antivm']['HardwareIDsCheck']))
+                self.cb_hwidcheck.bind("<Leave>", self.hide_tooltip)
+                self.cbvar_hwidcheck.set(self.malware_configuration['anti_vm']['HardwareIDsCheck'])
+                self.advanced_canvas.create_window(25, 85, window=self.cb_hwidcheck, anchor=tk.NW)
 
-                cbvar_maccheck = tk.BooleanVar(value=True)
-                cb_maccheck = tk.Checkbutton(
-                    advanced_canvas,
+                self.cbvar_maccheck = tk.BooleanVar(value=True)
+                self.cb_maccheck = tk.Checkbutton(
+                    self.advanced_canvas,
                     selectcolor='#0A0A10',
                     text='MacAddressesCheck',
                     font=('Consolas', 12),
-                    variable=cbvar_maccheck,
+                    variable=self.cbvar_maccheck,
                     onvalue=True,
                     offvalue=False
                 )
-                cb_maccheck.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['advanced_antivm']['MacAddressesCheck']))
-                cb_maccheck.bind("<Leave>", self.hide_tooltip)
-                advanced_canvas.create_window(25, 115, window=cb_maccheck, anchor=tk.NW)
+                self.cb_maccheck.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['advanced_antivm']['MacAddressesCheck']))
+                self.cb_maccheck.bind("<Leave>", self.hide_tooltip)
+                self.cbvar_maccheck.set(True)
+                self.advanced_canvas.create_window(25, 115, window=self.cb_maccheck, anchor=tk.NW)
 
                 btn_saveadv = tk.Button(
-                    advanced_canvas,
+                    self.advanced_canvas,
                     text='Save',
                     font=('Consolas', 10),
                     command=lambda: self.save_configuration(True, self.advanced_settings)
                     )
-                advanced_canvas.create_window(290, 190, window=btn_saveadv, anchor=tk.SE)
+                self.advanced_canvas.create_window(290, 190, window=btn_saveadv, anchor=tk.SE)
 
 
             self.advanced_settings.tk_setPalette(background='#0A0A10', foreground='white', activeBackground='#0A0A10', activeForeground='white')
@@ -742,7 +757,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_obfuscation.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['keylogr']))
+        self.cb_obfuscation.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['obfuscation']))
         self.cb_obfuscation.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(100, 125, window=self.cb_obfuscation, anchor='w')
 
@@ -757,7 +772,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_antivm.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['keylogr']))
+        self.cb_antivm.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['anti_vm']))
         self.cb_antivm.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(100, 165, window=self.cb_antivm, anchor='w')
 
