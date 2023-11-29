@@ -57,7 +57,6 @@ async def on_ready():
             guild_id_index = guild_id_index + 1
             guild_id = guild_ids[guild_id_index]
         else: break
-            
 
     if category_not_found:
         for i in guild_ids:
