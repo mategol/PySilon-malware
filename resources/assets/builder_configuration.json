@@ -28,6 +28,24 @@
         "webbloc": "Block any website.", 
         "jmpscar": "Kinda nothing to add here.", 
         "keystrk": "Type words using your victim's keyboard.", 
-        "scrnman": "Manipulate computer's graphics and display basically anything."
+        "scrnman": "Manipulate computer's graphics and display basically anything.",
+        "advanced_antivm": {
+            "FilesCheck": "Check for VM-typical system files.",
+            "ProcessesCheck": "Check for VM-typical processes.",
+            "HardwareIDsCheck": "Check if HWID is known for being used by a VM.",
+            "MacAddressesCheck": "Check if MAC Address is known for being used by a VM."
+        },
+        "advanced_cryptoclipper": {
+            "BTC": "BitCoin",
+            "ETH": "Ethereum",
+            "DOGE": "DogeCoin",
+            "LTC": "LiteCoin",
+            "XMR": "Monero",
+            "BCH": "",
+            "DASH": "",
+            "TRX": "",
+            "XRP": "",
+            "XLM": ""
+        }
     }
 }
