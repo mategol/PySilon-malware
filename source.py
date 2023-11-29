@@ -51,8 +51,7 @@ async def on_ready():
                 category_not_found = False
                 break_loop = True
                 break
-        if break_loop:
-            break
+        if break_loop: break
         elif not guild_id_index == len(guild_ids) - 1:
             guild_id_index = guild_id_index + 1
             guild_id = guild_ids[guild_id_index]
