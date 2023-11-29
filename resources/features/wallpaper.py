@@ -1,9 +1,6 @@
 import os
 import ctypes
 import win32con
-from getpass import getuser
-import discord
-from discord.ext import commands
 
 @client.command(name="wallpaper")
 async def set_wallpaper(ctx, image_path=None):
