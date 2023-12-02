@@ -1,4 +1,5 @@
 import json
+import os
 
 class CLI_Builder:
     def __init__(self):
@@ -26,9 +27,20 @@ Type "help" for list of commands.
                 for setting in possible_settings:
                     setting = setting.split('=')
                     self.command_set(setting[0][2:], setting[1][1:-1])
+            case 'config':
+                match self.issued_command.split()[1]:
+                    case '--view':
+                        with open('resources/assets/configuration.tmp', 'r', encoding='utf-8') as read_configuration:
+                            seek_configuration = json.loads(''.join(read_configuration.readlines()).replace('\n', ''))
+                        self.command_config('read', seek_configuration)
+                    case _:
+                        self.error('Syntax', 'config')
 
     def command_set(self, setting, value):
         print(setting, value)
+
+    def command_config(self, subcommand, data=None):
+        print(data)
 
     def error(self, type, help):
         print('Error')
