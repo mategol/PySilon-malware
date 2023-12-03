@@ -1,8 +1,7 @@
 <span align='center'>
 
-# `PySilon Malware`
+<img src="https://github.com/mategol/PySilon-malware/assets/44233157/31beb6e9-9e8e-4aac-9d5a-772848e172cd" width=100%/>
 
-<p align='center'><img src="https://user-images.githubusercontent.com/44233157/205148071-ed0f810e-be71-4b18-8c6b-94e838ebda5d.png" width=500 /></p>
 
 `Advanced RAT malware written in Python, fully controllable through Discord with dedicated GUI builder to make preparation easier.`
 
