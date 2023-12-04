@@ -84,18 +84,38 @@ class Builder:
                     'logicTransformer': True,
                     'removeTypeHints': True,
                     'fstrToFormatSeq': True,
-                    'encodeStrings': True,
-                    'stringCollector': True,
+                    'encodeStrings': [
+                        True, 
+                        'b64lzma'  # mode
+                    ],
+                    'stringCollector': [
+                        True, 
+                        -1,  # sample_size
+                        512  # max_samples
+                    ],
                     'floatsToComplex': True,
-                    'intObfuscator': True,
-                    'renamer': True,
-                    'typeAliasTransformer': True,
+                    'intObfuscator': [
+                        True, 
+                        'bits'  # mode
+                    ],
+                    'renamer': [
+                        True,
+                        "f'{kind}{get_counter(kind)}'"  # rename_format
+                    ],
+                    'typeAliasTransformer': [
+                        True, 
+                        ["str", "int", "float", "filter", "bool", "bytes", "map", "range"]  # classes_to_alias
+                    ],
                     'replaceAttribSet': True,
                     'dynamicCodeObjLauncher': True,
                     'varCollector': True,
                     'unicodeTransformer': True,
                     'compileFinalFiles': True,
-                    'packInPyz': True,
+                    'packInPyz': [
+                        True, 
+                        '__main__.py',  # bootstrap_file
+                        True  # encrypt
+                    ],
                 }
             }
         }
