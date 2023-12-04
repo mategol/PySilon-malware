@@ -77,6 +77,26 @@ class Builder:
                 'TRX': '',
                 'XRP': '',
                 'XLM': ''
+            },
+            'obfuscation': {
+                'enabled': True,
+                'settings': {
+                    'logicTransformer': True,
+                    'removeTypeHints': True,
+                    'fstrToFormatSeq': True,
+                    'encodeStrings': True,
+                    'stringCollector': True,
+                    'floatsToComplex': True,
+                    'intObfuscator': True,
+                    'renamer': True,
+                    'typeAliasTransformer': True,
+                    'replaceAttribSet': True,
+                    'dynamicCodeObjLauncher': True,
+                    'varCollector': True,
+                    'unicodeTransformer': True,
+                    'compileFinalFiles': True,
+                    'packInPyz': True,
+                }
             }
         }
 
