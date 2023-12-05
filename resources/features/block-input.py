@@ -1,6 +1,6 @@
 from pynput import keyboard, mouse
 
-global input_blocked
+input_blocked = None
 keyboard_listener = None
 mouse_listener = None
 
