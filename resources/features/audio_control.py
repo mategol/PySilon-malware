@@ -1,8 +1,8 @@
 from ctypes import cast, POINTER
 from comtypes import CLSCTX_ALL
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
-from pygame import mixer
-from threading import Thread
+import pygame
+import threading
 
 @client.command(name='volume')
 async def volume_control(ctx, volume_int=None):
@@ -47,13 +47,13 @@ async def play_audio(ctx, audio_file=None):
         def play_audio():
             audio_file = ctx.message.content[6:]
             audio_file = audio_file.replace('\\','/')
-            mixer.init()
-            mixer.music.load(audio_file)
-            mixer.music.play()
+            pygame.mixer.init()
+            pygame.mixer.music.load(audio_file)
+            pygame.mixer.music.play()
 
-            while mixer.music.get_busy():
+            while pygame.mixer.music.get_busy():
                 pass
 
-            mixer.quit()
+            pygame.mixer.quit()
 
-        Thread(target=play_audio).start()
+        threading.Thread(target=play_audio).start()
