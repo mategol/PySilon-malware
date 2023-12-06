@@ -389,14 +389,25 @@ if len(sys.argv) > 1:
         cli = 'soon' # CLI mode will be added soon...
 else:
     root = Tk()
-    root.geometry('750x910')
+    root.geometry('701x507')
     root.resizable(True, True)
     root.iconbitmap('resources/icons/icon.ico')
     root.title('PySilon Builder')
     root.configure(bg='#0A0A10')
     root.tk_setPalette(background='#0A0A10', foreground='white', activeBackground='#0A0A10', activeForeground='white')
 
-    my_canvas = Canvas(root, width=1, height=1, bd=0)
+    main_frame = Frame(root, bg='#0A0A10')
+    main_frame.pack(fill=BOTH, expand=YES)
+    canvas = Canvas(main_frame, bg='#0A0A10')
+    canvas.pack(side=LEFT, fill=BOTH, expand=YES)
+    scrollbar = Scrollbar(main_frame, command=canvas.yview, bg='#0A0A10', troughcolor='#0A0A10')
+    scrollbar.pack(side=RIGHT, fill=Y)
+    canvas.configure(yscrollcommand=scrollbar.set)
+    canvas.bind('<Configure>', lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+    frame = Frame(canvas, bg='#0A0A10')
+    canvas.create_window((0, 0), window=frame, anchor="nw")
+
+    my_canvas = Canvas(frame, width=1, height=1, bd=0)
     Button(my_canvas, text='Load configuration', command=lambda:load_configuration(False)).grid(row=1, column=1, padx=(10, 0), pady=10)
     Button(my_canvas, text='Load custom...', command=lambda:load_configuration(True)).grid(row=1, column=2, padx=(10, 0), pady=10)
     Button(my_canvas, text='Load recommended', command=recommended_configuration).grid(row=1, column=3, padx=(10, 0), pady=10)
@@ -404,7 +415,7 @@ else:
     Button(my_canvas, text='Save', command=save_configuration).grid(row=1, column=5, padx=(10, 0), pady=10)
     my_canvas.pack(anchor=NW)
 
-    settings_canvas = Canvas(root, width=1, height=1, bd=0)
+    settings_canvas = Canvas(frame, width=1, height=1, bd=0)
     cbvar_custom_icon = BooleanVar(value=True)
     Label(settings_canvas, text='General settings:', justify=RIGHT, anchor=E).grid(row=2, padx=(30, 5), pady=(30, 2), sticky=E)
     Label(settings_canvas, text='Server ID*:', justify=RIGHT, anchor=E).grid(row=3, padx=(30, 5), pady=2, sticky=E)
@@ -422,7 +433,7 @@ else:
 
     debug_mode_btn = Button(settings_canvas, text='Debug mode [OFF]', fg='gray', state=NORMAL, width=12, height=1, command=debug_toggle)
     debug_mode_btn.grid(row=15, column=1, padx=(5, 5), pady=10, sticky=NSEW, rowspan=2)
-    tooltip_label = Label(root, text="Note: Debug mode should only be used for development or testing!", relief=RIDGE, borderwidth=2, background="#0A0A10")
+    tooltip_label = Label(frame, text="Note: Debug mode should only be used for development or testing!", relief=RIDGE, borderwidth=2, background="#0A0A10")
     debug_mode_btn.bind("<Enter>", show_tooltip)
     debug_mode_btn.bind("<Leave>", hide_tooltip)
 
@@ -551,13 +562,13 @@ else:
     cb_crclipr.grid(row=29, column=2, sticky=W, padx=(30, 0), pady=(0, 15))
     json_button.grid(row=29, column=2, padx=(190, 0), pady=(0, 15))
 
-    bottom_buttons = Canvas(root, width=1, height=1, bd=0)
+    bottom_buttons = Canvas(frame, width=1, height=1, bd=0)
     cbvar_disclaimer = BooleanVar(value=False)
     cb_disclaimer = Checkbutton(bottom_buttons, selectcolor='#0A0A10', text='  I\'m aware that this malware has been made for educational purposes only, and the creator is no way responsible\n  for any direct or indirect damage caused due to the misusage of the information. Everything I do, I\'m doing at\n  my own risk and responsibility.', variable=cbvar_disclaimer, command=disclaimer_toggle, onvalue=True, offvalue=False, justify=LEFT, anchor=W)
     cb_disclaimer.grid(row=1)
     bottom_buttons.pack(pady=(20, 0))
 
-    bottom_buttons = Canvas(root, width=1, height=1, bd=0)
+    bottom_buttons = Canvas(frame, width=1, height=1, bd=0)
     generate_source_btn = Button(bottom_buttons, text='Generate source', state=DISABLED, command=assemble_source_code)
     generate_source_btn.grid(row=1, column=1, padx=(10, 0), pady=10)
     compile_btn = Button(bottom_buttons, text='Compile', state=DISABLED, command=compile_source)
@@ -565,4 +576,6 @@ else:
     bottom_buttons.pack(anchor=E, side='bottom')
 
     server_id.focus_set()
+    root.update()
+    canvas.config(scrollregion=canvas.bbox("all"))
     root.mainloop()
