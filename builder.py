@@ -249,7 +249,7 @@ class Builder:
         if close != False:
             close.destroy()
 
-    def configuration_editor(self, file):
+    def configuration_editor(self, file, highlight=['0.0', '1.0']):
         cfg_editor = tk.Tk()
         cfg_editor.geometry('400x500')
         cfg_editor.title('Configuration Editor')
