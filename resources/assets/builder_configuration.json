@@ -3,7 +3,7 @@
     "use_sizes": "standard",
     "window_sizes": {
         "standard": {
-            "root": {"resolution": [700, 500]},
+            "root": {"resolution": ["700", "500"]},
             "navigation": {
                 "height": 40,
                 "font_size": 10,

