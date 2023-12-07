@@ -1,5 +1,58 @@
 {
     "malware_version": "4.0",
+    "window_sizes": {
+        "standard": {
+            "root_resolution": [700, 500],
+            "navigation": {
+                "height": 40,
+                "font_size": 10,
+                "buttons": [
+                    {"pos_x": 0, "pos_y": 0, "width": 135, "height": 40},
+                    {"pos_x": 135, "pos_y": 0, "width": 175, "height": 40},
+                    {"pos_x": 310, "pos_y": 0, "width": 145, "height": 40},
+                ]},
+                "banner": {"pos_x": 455, "pos_y": 0, "width": 245, "height": 40},
+                "dividers": [
+                    {"pos_x": 455, "pos_y": 0, "width": 1, "height": 40},
+                    {"pos_x": 455, "pos_y": 0, "width": 245, "height": 1}
+                ],
+            "canvas": {
+                "geometry": {"pos_x": 0, "pos_y": 40, "width": 700, "height": 460}
+            },
+            "general_settings": {
+                "font_size": 16,
+                "token_paste_button": {"pos_x": 640, "pos_y": 140, "width": 15, "height": 15},
+                "labels": [
+                    {"pos_x": 230, "pos_y": 140},
+                    {"pos_x": 230, "pos_y": 170},
+                    {"pos_x": 230, "pos_y": 200},
+                    {"pos_x": 230, "pos_y": 230},
+                    {"pos_x": 230, "pos_y": 260},
+                    {"pos_x": 230, "pos_y": 290}
+                ],
+                "entries": [
+                    {"pos_x": 235, "pos_y": 140, "width": 33},
+                    {"pos_x": 235, "pos_y": 170, "width": 33},
+                    {"pos_x": 235, "pos_y": 200, "width": 33},
+                    {"pos_x": 235, "pos_y": 230, "width": 33},
+                    {"pos_x": 235, "pos_y": 260, "width": 28},
+                    {"pos_x": 235, "pos_y": 290, "width": 33}
+                ]
+            },
+            "functionality_settings": {
+                "font_size": 12,
+                "checkbox_list": {"x_start": 50, "y_start": 50, "x_delta": 8, "y_delta": 35}
+            },
+            "compiling_settings": {
+                "font_size": 14,
+                "checkboxes": [
+                    {"pos_x": 100, "pos_y": 125},
+                    {"pos_x": 100, "pos_y": 165}
+                ]
+            }
+
+        }
+    },
     "tooltips": {
         "token_entry": "Token obtained from Discord Developer Portal.", 
         "guildids_entry": "Target server IDs that will be used by PySilon. You can add more servers by separating them with semicolon(;).", 
