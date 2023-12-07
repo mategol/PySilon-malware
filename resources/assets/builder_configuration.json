@@ -1,5 +1,6 @@
 {
     "malware_version": "4.0",
+    "use_sizes": "standard",
     "window_sizes": {
         "standard": {
             "root": {"resolution": [700, 500]},
@@ -9,7 +10,7 @@
                 "buttons": [
                     {"pos_x": 0, "pos_y": 0, "width": 135, "height": 40},
                     {"pos_x": 135, "pos_y": 0, "width": 175, "height": 40},
-                    {"pos_x": 310, "pos_y": 0, "width": 145, "height": 40},
+                    {"pos_x": 310, "pos_y": 0, "width": 145, "height": 40}
                 ]},
                 "banner": {"pos_x": 455, "pos_y": 0, "width": 245, "height": 40},
                 "dividers": [
@@ -52,7 +53,6 @@
                     {"pos_x": 100, "pos_y": 165}
                 ]
             }
-
         }
     },
     "tooltips": {

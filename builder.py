@@ -9,15 +9,19 @@ import tkinter.font as tkFont
 from PIL import Image, ImageTk, ImageFont
 import requests
 
+with open('resources/assets/builder_configuration.json', 'r', encoding='utf-8') as load_configuration:
+    builder_configuration = json.loads(''.join(load_configuration.readlines()).replace('\n', ''))
+
 
 
 class Builder:
+    global builder_configuration
     def __init__(self, master):
         self.master = master
         self.master.title('PySilon Malware Builder')
 
         with open('resources/assets/builder_configuration.json', 'r', encoding='utf-8') as load_configuration:
-            self.configuration = json.loads(''.join(load_configuration.readlines()).replace('\n', ''))
+            builder_configuration = json.loads(''.join(load_configuration.readlines()).replace('\n', ''))
 
         try: self.malware_latest_version = json.loads(requests.get('https://raw.githubusercontent.com/mategol/PySilon-malware/v4-dev/resources/assets/builder_configuration.json').text.replace('\n', ''))['malware_version']
         except: self.malware_latest_version = None
@@ -131,10 +135,10 @@ class Builder:
         self.canvas.create_text(0, 460, text='Hover on elements to get more info.', fill='white', font=('Consolas', 10), anchor=tk.SW)
 
  
-        if self.malware_latest_version == self.configuration['malware_version']:
-            version_indicator = [f'Up to date (v{self.configuration["malware_version"]})', 'lime', 700, 0]
+        if self.malware_latest_version == builder_configuration['malware_version']:
+            version_indicator = [f'Up to date (v{builder_configuration["malware_version"]})', 'lime', 700, 0]
         elif self.malware_latest_version != None:
-            version_indicator = [f'Outdated version (v{self.configuration["malware_version"]}). Latest: v{self.malware_latest_version}', 'gold', 675, 0]
+            version_indicator = [f'Outdated version (v{builder_configuration["malware_version"]}). Latest: v{self.malware_latest_version}', 'gold', 675, 0]
             self.download_icon = tk.PhotoImage(file='resources/assets/builder_elements/download_icon.png')
             self.download = tk.Button(
                 self.canvas,
@@ -317,7 +321,7 @@ class Builder:
         self.canvas.create_text(230, 140, text='BOT Token:', fill='white', font=('Consolas', 16), anchor=tk.E)
         self.token_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
         self.token_entry.insert(0, self.malware_configuration['token'])
-        self.token_entry.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['token_entry']))
+        self.token_entry.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['token_entry']))
         self.token_entry.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(235, 140, window=self.token_entry, anchor='w')
         self.paste_token_icon = tk.PhotoImage(file='resources/assets/builder_elements/paste_icon.png')
@@ -335,28 +339,28 @@ class Builder:
         self.canvas.create_text(230, 170, text='Guild IDs:', fill='white', font=('Consolas', 16), anchor=tk.E)
         self.guildids_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
         self.guildids_entry.insert(0, self.malware_configuration['guild_ids'])
-        self.guildids_entry.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['guildids_entry']))
+        self.guildids_entry.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['guildids_entry']))
         self.guildids_entry.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(235, 170, window=self.guildids_entry, anchor='w')
 
         self.canvas.create_text(230, 200, text='Registry Name:', fill='white', font=('Consolas', 16), anchor=tk.E)
         self.registry_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
         self.registry_entry.insert(0, self.malware_configuration['registry_name'])
-        self.registry_entry.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['registry_entry']))
+        self.registry_entry.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['registry_entry']))
         self.registry_entry.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(235, 200, window=self.registry_entry, anchor='w')
 
         self.canvas.create_text(230, 230, text='Directory Name:', fill='white', font=('Consolas', 16), anchor=tk.E)
         self.directory_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
         self.directory_entry.insert(0, self.malware_configuration['directory_name'])
-        self.directory_entry.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['directory_entry']))
+        self.directory_entry.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['directory_entry']))
         self.directory_entry.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(235, 230, window=self.directory_entry, anchor='w')
 
         self.canvas.create_text(230, 260, text='Executable Name:', fill='white', font=('Consolas', 16), anchor=tk.E)
         self.executable_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=28)
         self.executable_entry.insert(0, self.malware_configuration['executable_name'])
-        self.executable_entry.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['executable_entry']))
+        self.executable_entry.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['executable_entry']))
         self.executable_entry.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(235, 260, window=self.executable_entry, anchor='w')
         self.canvas.create_text(580, 260, text='.exe', fill='white', font=('Consolas', 16), anchor=tk.W)
@@ -364,7 +368,7 @@ class Builder:
         self.canvas.create_text(230, 290, text='Implode Password:', fill='white', font=('Consolas', 16), anchor=tk.E)
         self.implode_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33, show='*')
         self.implode_entry.insert(0, self.malware_configuration['implode_secret'])
-        self.implode_entry.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['implode_entry']))
+        self.implode_entry.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['implode_entry']))
         self.implode_entry.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(235, 290, window=self.implode_entry, anchor='w')
 
@@ -393,7 +397,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_keylogr.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['keylogr']))
+        self.cb_keylogr.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['keylogr']))
         self.cb_keylogr.bind("<Leave>", self.hide_tooltip)
         self.cbvar_keylogr.set(self.malware_configuration['functionalities']['keylogr'])
         self.canvas.create_window(x_start, y_start+y_delta*0, window=self.cb_keylogr, anchor='w')
@@ -409,7 +413,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_scrnsht.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['scrnsht']))
+        self.cb_scrnsht.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['scrnsht']))
         self.cb_scrnsht.bind("<Leave>", self.hide_tooltip)
         self.cbvar_scrnsht.set(self.malware_configuration['functionalities']['scrnsht'])
         self.canvas.create_window(x_start, y_start+y_delta*1, window=self.cb_scrnsht, anchor='w')
@@ -425,7 +429,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_fmanag.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['f_manag']))
+        self.cb_fmanag.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['f_manag']))
         self.cb_fmanag.bind("<Leave>", self.hide_tooltip)
         self.cbvar_fmanag.set(self.malware_configuration['functionalities']['f_manag'])
         self.canvas.create_window(x_start, y_start+y_delta*2, window=self.cb_fmanag, anchor='w')
@@ -441,7 +445,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_grabber.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['grabber']))
+        self.cb_grabber.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['grabber']))
         self.cb_grabber.bind("<Leave>", self.hide_tooltip)
         self.cbvar_grabber.set(self.malware_configuration['functionalities']['grabber'])
         self.canvas.create_window(x_start, y_start+y_delta*3, window=self.cb_grabber, anchor='w')
@@ -457,7 +461,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_mclive.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['mc_live']))
+        self.cb_mclive.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['mc_live']))
         self.cb_mclive.bind("<Leave>", self.hide_tooltip)
         self.cbvar_mclive.set(self.malware_configuration['functionalities']['mc_live'])
         self.canvas.create_window(x_start, y_start+y_delta*4, window=self.cb_mclive, anchor='w')
@@ -473,7 +477,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_mcrecc.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['mc_recc']))
+        self.cb_mcrecc.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['mc_recc']))
         self.cb_mcrecc.bind("<Leave>", self.hide_tooltip)
         self.cbvar_mcrecc.set(self.malware_configuration['functionalities']['mc_recc'])
         self.canvas.create_window(x_start, y_start+y_delta*5, window=self.cb_mcrecc, anchor='w')
@@ -489,7 +493,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_process.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['process']))
+        self.cb_process.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['process']))
         self.cb_process.bind("<Leave>", self.hide_tooltip)
         self.cbvar_process.set(self.malware_configuration['functionalities']['process'])
         self.canvas.create_window(x_start, y_start+y_delta*6, window=self.cb_process, anchor='w')
@@ -505,7 +509,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_revshl.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['rev_shl']))
+        self.cb_revshl.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['rev_shl']))
         self.cb_revshl.bind("<Leave>", self.hide_tooltip)
         self.cbvar_revshl.set(self.malware_configuration['functionalities']['rev_shl'])
         self.canvas.create_window(x_start, y_start+y_delta*7, window=self.cb_revshl, anchor='w')
@@ -521,7 +525,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_webcam.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['webcam_']))
+        self.cb_webcam.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['webcam_']))
         self.cb_webcam.bind("<Leave>", self.hide_tooltip)
         self.cbvar_webcam.set(self.malware_configuration['functionalities']['webcam_'])
         self.canvas.create_window(x_start, y_start+y_delta*8, window=self.cb_webcam, anchor='w')
@@ -537,7 +541,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_scrnrec.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['scrnrec']))
+        self.cb_scrnrec.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['scrnrec']))
         self.cb_scrnrec.bind("<Leave>", self.hide_tooltip)
         self.cbvar_scrnrec.set(self.malware_configuration['functionalities']['scrnrec'])
         self.canvas.create_window(x_start, y_start+y_delta*9, window=self.cb_scrnrec, anchor='w')
@@ -553,7 +557,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_inputbl.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['inputbl']))
+        self.cb_inputbl.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['inputbl']))
         self.cb_inputbl.bind("<Leave>", self.hide_tooltip)
         self.cbvar_inputbl.set(self.malware_configuration['functionalities']['inputbl'])
         self.canvas.create_window(x_start, y_start+y_delta*10, window=self.cb_inputbl, anchor='w')
@@ -569,7 +573,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_crclipr.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['crclipr']))
+        self.cb_crclipr.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['crclipr']))
         self.cb_crclipr.bind("<Leave>", self.hide_tooltip)
         self.cbvar_crclipr.set(self.malware_configuration['functionalities']['crclipr'])
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*0, window=self.cb_crclipr, anchor='w')
@@ -585,7 +589,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_messger.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['messger']))
+        self.cb_messger.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['messger']))
         self.cb_messger.bind("<Leave>", self.hide_tooltip)
         self.cbvar_messger.set(self.malware_configuration['functionalities']['messger'])
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*1, window=self.cb_messger, anchor='w')
@@ -601,7 +605,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_txtspee.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['txtspee']))
+        self.cb_txtspee.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['txtspee']))
         self.cb_txtspee.bind("<Leave>", self.hide_tooltip)
         self.cbvar_txtspee.set(self.malware_configuration['functionalities']['txtspee'])
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*2, window=self.cb_txtspee, anchor='w')
@@ -617,7 +621,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_audctrl.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['audctrl']))
+        self.cb_audctrl.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['audctrl']))
         self.cb_audctrl.bind("<Leave>", self.hide_tooltip)
         self.cbvar_audctrl.set(self.malware_configuration['functionalities']['audctrl'])
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*3, window=self.cb_audctrl, anchor='w')
@@ -633,7 +637,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_monctrl.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['monctrl']))
+        self.cb_monctrl.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['monctrl']))
         self.cb_monctrl.bind("<Leave>", self.hide_tooltip)
         self.cbvar_monctrl.set(self.malware_configuration['functionalities']['monctrl'])
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*4, window=self.cb_monctrl, anchor='w')
@@ -649,7 +653,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_webbloc.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['webbloc']))
+        self.cb_webbloc.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['webbloc']))
         self.cb_webbloc.bind("<Leave>", self.hide_tooltip)
         self.cbvar_webbloc.set(self.malware_configuration['functionalities']['webbloc'])
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*5, window=self.cb_webbloc, anchor='w')
@@ -665,7 +669,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_jmpscar.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['jmpscar']))
+        self.cb_jmpscar.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['jmpscar']))
         self.cb_jmpscar.bind("<Leave>", self.hide_tooltip)
         self.cbvar_jmpscar.set(self.malware_configuration['functionalities']['jmpscar'])
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*6, window=self.cb_jmpscar, anchor='w')
@@ -681,7 +685,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_keystrk.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['keystrk']))
+        self.cb_keystrk.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['keystrk']))
         self.cb_keystrk.bind("<Leave>", self.hide_tooltip)
         self.cbvar_keystrk.set(self.malware_configuration['functionalities']['keystrk'])
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*7, window=self.cb_keystrk, anchor='w')
@@ -697,7 +701,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_scrnman.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['scrnman']))
+        self.cb_scrnman.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['scrnman']))
         self.cb_scrnman.bind("<Leave>", self.hide_tooltip)
         self.cbvar_scrnman.set(self.malware_configuration['functionalities']['scrnman'])
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*8, window=self.cb_scrnman, anchor='w')
@@ -713,7 +717,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_bluesod.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['bluesod']))
+        self.cb_bluesod.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['bluesod']))
         self.cb_bluesod.bind("<Leave>", self.hide_tooltip)
         self.cbvar_bluesod.set(self.malware_configuration['functionalities']['bluesod'])
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*9, window=self.cb_bluesod, anchor='w')
@@ -741,7 +745,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_obfuscation.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['obfuscation']))
+        self.cb_obfuscation.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['obfuscation']))
         self.cb_obfuscation.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(100, 125, window=self.cb_obfuscation, anchor='w')
 
@@ -756,7 +760,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_antivm.bind("<Enter>", lambda event: self.show_tooltip(event, self.configuration['tooltips']['anti_vm']))
+        self.cb_antivm.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['anti_vm']))
         self.cb_antivm.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(100, 165, window=self.cb_antivm, anchor='w')
 
