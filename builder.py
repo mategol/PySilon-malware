@@ -66,36 +66,29 @@ class Builder:
                     'fstrToFormatSeq': True,
                     'encodeStrings': [
                         True, 
-                        'b64lzma'  # mode
+                        'chararray'  # mode
                     ],
                     'stringCollector': [
                         True, 
-                        -1,  # sample_size
+                        729,  # sample_size
                         512  # max_samples
                     ],
-                    'floatsToComplex': True,
+                    'floatsToComplex': False,
                     'intObfuscator': [
                         True, 
                         'bits'  # mode
                     ],
                     'renamer': [
                         True,
-                        "f'{kind}{get_counter(kind)}'"  # rename_format
+                        "f'{kind}{get_counter(kind)}'"  # rename_format (default: f'{kind}{get_counter(kind)})
                     ],
                     'typeAliasTransformer': [
                         True, 
-                        ["str", "int", "float", "filter", "bool", "bytes", "map", "range"]  # classes_to_alias
+                        ["str", "int", "float", "filter", "bool", "bytes", "map"]  # classes_to_alias
                     ],
                     'replaceAttribSet': True,
-                    'dynamicCodeObjLauncher': True,
-                    'varCollector': True,
-                    'unicodeTransformer': True,
-                    'compileFinalFiles': True,
-                    'packInPyz': [
-                        True, 
-                        '__main__.py',  # bootstrap_file
-                        True  # encrypt
-                    ]
+                    'varCollector': False, # only for Pythpn 3.11
+                    'unicodeTransformer': True
                 }
             },
             'anti_vm': {
