@@ -66,11 +66,11 @@ class Builder:
                     'fstrToFormatSeq': True,
                     'encodeStrings': [
                         True, 
-                        'chararray'  # mode
+                        'chararray'  # mode (default: chararray) 
                     ],
                     'stringCollector': [
                         True, 
-                        729,  # sample_size
+                        729,  # sample_size (default: 729)
                         512  # max_samples
                     ],
                     'floatsToComplex': False,
