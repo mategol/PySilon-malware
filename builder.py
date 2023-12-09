@@ -87,7 +87,7 @@ class Builder:
                         ["str", "int", "float", "filter", "bool", "bytes", "map"]  # classes_to_alias
                     ],
                     'replaceAttribSet': True,
-                    'varCollector': False, # only for Pythpn 3.11
+                    'varCollector': False, # only for Python 3.11
                     'unicodeTransformer': True
                 }
             },
