@@ -1,7 +1,65 @@
 {
     "malware_version": "4.0",
-    "use_sizes": "standard",
+    "use_sizes": "small",
     "window_sizes": {
+        "small": {
+            "root_geometry": {"width": 525, "height": 375},
+            "navigation": {
+                "height": 30,
+                "font_size": 7,
+                "buttons": [
+                    {"pos_x": 0, "pos_y": 0, "width": 101, "height": 30},
+                    {"pos_x": 101, "pos_y": 0, "width": 131, "height": 30},
+                    {"pos_x": 232, "pos_y": 0, "width": 109, "height": 30}
+                ],
+                "banner": {"pos_x": 341, "pos_y": 0, "width": 184, "height": 30},
+                "dividers": [
+                    {"pos_x": 341, "pos_y": 0, "width": 1, "height": 30},
+                    {"pos_x": 341, "pos_y": 29, "width": 184, "height": 1}
+                ]
+            },
+            "canvas": {
+                "geometry": {"pos_x": 0, "pos_y": 30, "width": 525, "height": 345},
+                "tooltips": {"pos_x": 0, "pos_y": 345, "font_size": 7, "hint_pos_x": 0, "hint_pos_y": 345},
+                "indicator": {"latest_pos_x": 525, "nonlatest_pos_x": 506, "pos_y": 0, "font_size": 7}
+            },
+            "general_settings": {
+                "font_size": 12,
+                "token_paste_button": {"pos_x": 480, "pos_y": 105, "width": 11, "height": 11},
+                "labels": [
+                    {"pos_x": 172, "pos_y": 105},
+                    {"pos_x": 172, "pos_y": 127},
+                    {"pos_x": 172, "pos_y": 150},
+                    {"pos_x": 172, "pos_y": 172},
+                    {"pos_x": 172, "pos_y": 195, "exe_pos_x": 435, "exe_pos_y": 195},
+                    {"pos_x": 172, "pos_y": 217}
+                ],
+                "entries": [
+                    {"pos_x": 176, "pos_y": 105, "width": 33},
+                    {"pos_x": 176, "pos_y": 127, "width": 33},
+                    {"pos_x": 176, "pos_y": 150, "width": 33},
+                    {"pos_x": 176, "pos_y": 172, "width": 33},
+                    {"pos_x": 176, "pos_y": 195, "width": 28},
+                    {"pos_x": 176, "pos_y": 217, "width": 33}
+                ]
+            },
+            "functionality_settings": {
+                "font_size": 9,
+                "checkboxes": {"x_start": 37, "y_start": 37, "x_delta": 8, "y_delta": 26}
+            },
+            "compiling_settings": {
+                "font_size": 10,
+                "checkboxes": [
+                    {"pos_x": 75, "pos_y": 94},
+                    {"pos_x": 75, "pos_y": 123}
+                ]
+            },
+            "config_editor": {
+                "geometry": {"width": 300, "height": 375},
+                "text_area": {"width": 300, "height": 346},
+                "save_button": {"pos_x": 300, "pos_y": 375, "font_size": 5}
+            }
+        },
         "standard": {
             "root_geometry": {"width": 700, "height": 500},
             "navigation": {
