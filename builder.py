@@ -155,7 +155,7 @@ class Builder:
                 relief='flat',
                 command=self.open_pysilon_github
                 )
-            self.canvas.create_window(700, 0, window=self.download, anchor=tk.NE)
+            self.canvas.create_window(builder_configuration['window_sizes'][builder_configuration['use_sizes']]['root_geometry']['width'], 0, window=self.download, anchor=tk.NE)
         else:
             version_indicator = [
                 'Couldn\'t determine latest version.', 
@@ -178,7 +178,7 @@ class Builder:
         self.button_frame.place(
             x=0, 
             y=0, 
-            width=int(builder_configuration['window_sizes'][builder_configuration['use_sizes']]['root']['resolution'][0]), 
+            width=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['root_geometry']['width'], 
             height=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['height'])
 
         self.general_settings_button = tk.Button(
@@ -309,14 +309,23 @@ class Builder:
 
     def configuration_editor(self, file, highlight=['0.0', '1.0']):
         cfg_editor = tk.Tk()
-        cfg_editor.geometry('400x500')
+        cfg_editor.geometry(str(builder_configuration['window_sizes'][builder_configuration['use_sizes']]['config_editor']['geometry']['width']) + 'x' + str(builder_configuration['window_sizes'][builder_configuration['use_sizes']]['config_editor']['geometry']['height']))
+
         cfg_editor.title('Configuration Editor')
 
         frame = tk.Frame(cfg_editor)
-        frame.place(x=0, y=0, width=400, height=500)
+        frame.place(
+            x=0, 
+            y=0, 
+            width=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['config_editor']['geometry']['width'], 
+            height=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['config_editor']['geometry']['height'])
 
         self.text = tk.Text(frame)
-        self.text.place(x=0, y=0, width=400, height=462)
+        self.text.place(
+            x=0, 
+            y=0, 
+            width=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['config_editor']['text_area']['width'], 
+            height=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['config_editor']['text_area']['height'])
 
         with open(file, 'r', encoding='utf-8') as configuration_file:
             self.text.insert('1.0', ''.join(configuration_file.readlines()))
@@ -328,11 +337,16 @@ class Builder:
         btn_savecfg = tk.Button(
             frame,
             text='Save',
-            font=tkFont.Font(family='Consolas', size=5),
+            font=tkFont.Font(
+                family='Consolas', 
+                size=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['config_editor']['save_button']['font_size']),
             disabledforeground='white',
             command=lambda:self.write_configuration(True, cfg_editor)
         )
-        btn_savecfg.place(x=399, y=499, anchor=tk.SE)
+        btn_savecfg.place(
+            x=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['config_editor']['save_button']['pos_x'], 
+            y=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['config_editor']['save_button']['pos_y'], 
+            anchor=tk.SE)
 
         cfg_editor.tk_setPalette(background='#0A0A10', foreground='white', activeBackground='#0A0A10', activeForeground='white')
         cfg_editor.mainloop()
@@ -834,7 +848,7 @@ def main():
     global builder_configuration
     root = tk.Tk()
     Builder(root)
-    root.geometry('x'.join(builder_configuration['window_sizes'][builder_configuration['use_sizes']]['root']['resolution']))
+    root.geometry(str(builder_configuration['window_sizes'][builder_configuration['use_sizes']]['root_geometry']['width'])+'x'+str(builder_configuration['window_sizes'][builder_configuration['use_sizes']]['root_geometry']['height']))
     #root.wm_attributes('-transparentcolor', '#ab23ff')
     root.tk_setPalette(background='#0A0A10', foreground='white', activeBackground='#0A0A10', activeForeground='white')
     root.mainloop()

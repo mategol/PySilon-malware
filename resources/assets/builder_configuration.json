@@ -3,7 +3,7 @@
     "use_sizes": "standard",
     "window_sizes": {
         "standard": {
-            "root": {"resolution": ["700", "500"]},
+            "root_geometry": {"width": 700, "height": 500},
             "navigation": {
                 "height": 40,
                 "font_size": 10,
@@ -53,6 +53,11 @@
                     {"pos_x": 100, "pos_y": 125},
                     {"pos_x": 100, "pos_y": 165}
                 ]
+            },
+            "config_editor": {
+                "geometry": {"width": 400, "height": 500},
+                "text_area": {"width": 400, "height": 462},
+                "save_button": {"pos_x": 399, "pos_y": 499, "font_size": 5}
             }
         }
     },
