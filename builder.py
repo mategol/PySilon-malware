@@ -598,7 +598,7 @@ class Builder:
         self.new_background(2)
         self.load_configuration(True)
 
-        x_start, y_start, x_delta, y_delta = builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['checkbox_list']['x_start'], builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['checkbox_list']['y_start'], builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['checkbox_list']['x_delta'], builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['checkbox_list']['y_delta']
+        x_start, y_start, x_delta, y_delta = builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['checkboxes']['x_start'], builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['checkboxes']['y_start'], builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['checkboxes']['x_delta'], builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['checkboxes']['y_delta']
 
         self.cbvar_keylogr = tk.BooleanVar(value=True)
         self.cb_keylogr = tk.Checkbutton(
@@ -954,21 +954,30 @@ class Builder:
             self.canvas,
             selectcolor='#0A0A10',
             text='obfuscation',
-            font=('Consolas', 14),
+            font=(
+                'Consolas', 
+                builder_configuration['window_sizes'][builder_configuration['use_sizes']]['compiling_settings']['font_size']),
             variable=self.cbvar_obfuscation,
             onvalue=True,
             offvalue=False
         )
         self.cb_obfuscation.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['obfuscation']))
         self.cb_obfuscation.bind("<Leave>", self.hide_tooltip)
-        self.canvas.create_window(100, 125, window=self.cb_obfuscation, anchor='w')
+        
+        self.canvas.create_window(
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['compiling_settings']['checkboxes'][0]['pos_x'], 
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['compiling_settings']['checkboxes'][0]['pos_y'], 
+            window=self.cb_obfuscation, 
+            anchor='w')
 
         self.cbvar_antivm = tk.BooleanVar(value=True)
         self.cb_antivm = tk.Checkbutton(
             self.canvas,
             selectcolor='#0A0A10',
             text='anti-VM',
-            font=('Consolas', 14),
+            font=(
+                'Consolas', 
+                builder_configuration['window_sizes'][builder_configuration['use_sizes']]['compiling_settings']['font_size']),
             variable=self.cbvar_antivm,
             command=lambda:self.double_click_settings('antivm'),
             onvalue=True,
@@ -976,7 +985,12 @@ class Builder:
         )
         self.cb_antivm.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['anti_vm']))
         self.cb_antivm.bind("<Leave>", self.hide_tooltip)
-        self.canvas.create_window(100, 165, window=self.cb_antivm, anchor='w')
+
+        self.canvas.create_window(
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['compiling_settings']['checkboxes'][1]['pos_x'], 
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['compiling_settings']['checkboxes'][1]['pos_y'],
+            window=self.cb_antivm, 
+            anchor='w')
 
 
 

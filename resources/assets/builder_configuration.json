@@ -45,7 +45,7 @@
             },
             "functionality_settings": {
                 "font_size": 12,
-                "checkbox_list": {"x_start": 50, "y_start": 50, "x_delta": 8, "y_delta": 35}
+                "checkboxes": {"x_start": 50, "y_start": 50, "x_delta": 8, "y_delta": 35}
             },
             "compiling_settings": {
                 "font_size": 14,
