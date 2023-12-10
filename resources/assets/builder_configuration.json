@@ -20,7 +20,7 @@
             },
             "canvas": {
                 "geometry": {"pos_x": 0, "pos_y": 40, "width": 700, "height": 460},
-                "tooltips": {"pos_x": 0, "pos_y": 0, "font_size": 10, "hint_pos_x": 0, "hint_pos_y": 460},
+                "tooltips": {"pos_x": 0, "pos_y": 460, "font_size": 10, "hint_pos_x": 0, "hint_pos_y": 460},
                 "indicator": {"latest_pos_x": 700, "nonlatest_pos_x": 675, "pos_y": 0, "font_size": 10}
             },
             "general_settings": {
@@ -31,7 +31,7 @@
                     {"pos_x": 230, "pos_y": 170},
                     {"pos_x": 230, "pos_y": 200},
                     {"pos_x": 230, "pos_y": 230},
-                    {"pos_x": 230, "pos_y": 260},
+                    {"pos_x": 230, "pos_y": 260, "exe_pos_x": 580, "exe_pos_y": 260},
                     {"pos_x": 230, "pos_y": 290}
                 ],
                 "entries": [

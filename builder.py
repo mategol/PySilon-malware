@@ -365,7 +365,10 @@ class Builder:
     
     def show_tooltip(self, event, tooltip_text):
         self.tooltip_label = tk.Label(self.canvas, text=tooltip_text, relief=tk.RIDGE, borderwidth=2, background="#0A0A10")
-        self.tooltip_label.place(x=0, y=460, anchor=tk.SW)
+        self.tooltip_label.place(
+            x=0, 
+            y=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['tooltips']['pos_y'], 
+            anchor=tk.SW)
 
     def hide_tooltip(self, event):
         self.tooltip_label.place_forget()
@@ -386,59 +389,202 @@ class Builder:
         self.new_background(1)
         self.load_configuration(True)
 
-        self.canvas.create_text(230, 140, text='BOT Token:', fill='white', font=('Consolas', 16), anchor=tk.E)
-        self.token_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
+        # BOT Token
+        self.canvas.create_text(
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['labels'][0]['pos_x'], 
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['labels'][0]['pos_y'], 
+            text='BOT Token:', 
+            fill='white', 
+            font=(
+                'Consolas', 
+                builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['font_size']), 
+            anchor=tk.E)
+        
+        self.token_entry = tk.Entry(
+            self.canvas, 
+            font=tkFont.Font(
+                family='Consolas', 
+                size=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['font_size']), 
+            width=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['entries'][0]['width'])
+        
         self.token_entry.insert(0, self.malware_configuration['token'])
         self.token_entry.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['token_entry']))
         self.token_entry.bind("<Leave>", self.hide_tooltip)
-        self.canvas.create_window(235, 140, window=self.token_entry, anchor='w')
+
+        self.canvas.create_window(
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['entries'][0]['pos_x'], 
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['entries'][0]['pos_y'], 
+            window=self.token_entry, 
+            anchor='w')
+        
         self.paste_token_icon = tk.PhotoImage(file='resources/assets/builder_elements/paste_icon.png')
+
         self.paste_token_button = tk.Button(
             self.canvas,
             image=self.paste_token_icon,
             disabledforeground='white',
             relief='flat',
-            width=15,
-            height=15,
+            width=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['token_paste_button']['width'],
+            height=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['token_paste_button']['height'],
             command=self.paste_token
             )
-        self.canvas.create_window(640, 140, window=self.paste_token_button, anchor='w')
+        
+        self.canvas.create_window(
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['token_paste_button']['pos_x'], 
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['token_paste_button']['pos_y'], 
+            window=self.paste_token_button, 
+            anchor='w')
  
-        self.canvas.create_text(230, 170, text='Guild IDs:', fill='white', font=('Consolas', 16), anchor=tk.E)
-        self.guildids_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
+        # Guild IDs
+        self.canvas.create_text(
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['labels'][1]['pos_x'], 
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['labels'][1]['pos_y'], 
+            text='Guild IDs:', 
+            fill='white', 
+            font=(
+                'Consolas', 
+                builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['font_size']), 
+            anchor=tk.E)
+        
+        self.guildids_entry = tk.Entry(
+            self.canvas, 
+            font=tkFont.Font(
+                family='Consolas', 
+                size=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['font_size']), 
+            width=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['entries'][1]['width'])
+        
         self.guildids_entry.insert(0, self.malware_configuration['guild_ids'])
         self.guildids_entry.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['guildids_entry']))
         self.guildids_entry.bind("<Leave>", self.hide_tooltip)
-        self.canvas.create_window(235, 170, window=self.guildids_entry, anchor='w')
 
-        self.canvas.create_text(230, 200, text='Registry Name:', fill='white', font=('Consolas', 16), anchor=tk.E)
-        self.registry_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
+        self.canvas.create_window(
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['entries'][1]['pos_x'], 
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['entries'][1]['pos_y'], 
+            window=self.guildids_entry, 
+            anchor='w')
+
+        # Registry Name
+        self.canvas.create_text(
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['labels'][2]['pos_x'], 
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['labels'][2]['pos_y'], 
+            text='Registry Name:', 
+            fill='white', 
+            font=(
+                'Consolas', 
+                builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['font_size']), 
+            anchor=tk.E)
+        
+        self.registry_entry = tk.Entry(
+            self.canvas, 
+            font=tkFont.Font(
+                family='Consolas', 
+                size=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['font_size']), 
+            width=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['entries'][2]['width'])
+        
         self.registry_entry.insert(0, self.malware_configuration['registry_name'])
         self.registry_entry.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['registry_entry']))
         self.registry_entry.bind("<Leave>", self.hide_tooltip)
-        self.canvas.create_window(235, 200, window=self.registry_entry, anchor='w')
 
-        self.canvas.create_text(230, 230, text='Directory Name:', fill='white', font=('Consolas', 16), anchor=tk.E)
-        self.directory_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33)
+        self.canvas.create_window(
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['entries'][2]['pos_x'], 
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['entries'][2]['pos_y'], 
+            window=self.registry_entry, 
+            anchor='w')
+
+        # Directory Name
+        self.canvas.create_text(
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['labels'][3]['pos_x'], 
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['labels'][3]['pos_y'], 
+            text='Directory Name:', 
+            fill='white', 
+            font=(
+                'Consolas', 
+                builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['font_size']), 
+            anchor=tk.E)
+        
+        self.directory_entry = tk.Entry(
+            self.canvas, 
+            font=tkFont.Font(
+                family='Consolas', 
+                size=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['font_size']), 
+            width=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['entries'][3]['width'])
+        
         self.directory_entry.insert(0, self.malware_configuration['directory_name'])
         self.directory_entry.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['directory_entry']))
         self.directory_entry.bind("<Leave>", self.hide_tooltip)
-        self.canvas.create_window(235, 230, window=self.directory_entry, anchor='w')
 
-        self.canvas.create_text(230, 260, text='Executable Name:', fill='white', font=('Consolas', 16), anchor=tk.E)
-        self.executable_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=28)
+        self.canvas.create_window(
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['entries'][3]['pos_x'], 
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['entries'][3]['pos_y'],
+            window=self.directory_entry, 
+            anchor='w')
+
+        # Executable Name
+        self.canvas.create_text(
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['labels'][4]['pos_x'], 
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['labels'][4]['pos_y'],
+            text='Executable Name:', 
+            fill='white', 
+            font=(
+                'Consolas', 
+                builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['font_size']), 
+            anchor=tk.E)
+        
+        self.executable_entry = tk.Entry(
+            self.canvas, 
+            font=tkFont.Font(
+                family='Consolas', 
+                size=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['font_size']), 
+            width=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['entries'][4]['width'])
+        
         self.executable_entry.insert(0, self.malware_configuration['executable_name'])
         self.executable_entry.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['executable_entry']))
         self.executable_entry.bind("<Leave>", self.hide_tooltip)
-        self.canvas.create_window(235, 260, window=self.executable_entry, anchor='w')
-        self.canvas.create_text(580, 260, text='.exe', fill='white', font=('Consolas', 16), anchor=tk.W)
 
-        self.canvas.create_text(230, 290, text='Implode Password:', fill='white', font=('Consolas', 16), anchor=tk.E)
-        self.implode_entry = tk.Entry(self.canvas, font=tkFont.Font(family='Consolas', size=16), width=33, show='*')
+        self.canvas.create_window(
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['entries'][4]['pos_x'], 
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['entries'][4]['pos_y'],
+            window=self.executable_entry, 
+            anchor='w')
+        
+        self.canvas.create_text(
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['labels'][4]['exe_pos_x'], 
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['labels'][4]['exe_pos_y'],
+            text='.exe', 
+            fill='white', 
+            font=(
+                'Consolas', 
+                builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['font_size']),
+            anchor=tk.W)
+
+        # Implode Password
+        self.canvas.create_text(
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['labels'][5]['pos_x'],
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['labels'][5]['pos_y'],
+            text='Implode Password:', 
+            fill='white', 
+            font=(
+                'Consolas', 
+                builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['font_size']), 
+            anchor=tk.E)
+        
+        self.implode_entry = tk.Entry(
+            self.canvas, 
+            font=tkFont.Font(
+                family='Consolas', 
+                size=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['font_size']), 
+            width=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['entries'][5]['width'],
+            show='*')
+        
         self.implode_entry.insert(0, self.malware_configuration['implode_secret'])
         self.implode_entry.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['implode_entry']))
         self.implode_entry.bind("<Leave>", self.hide_tooltip)
-        self.canvas.create_window(235, 290, window=self.implode_entry, anchor='w')
+
+        self.canvas.create_window(
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['entries'][5]['pos_x'], 
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['entries'][5]['pos_y'],
+            window=self.implode_entry, 
+            anchor='w')
 
     def functionality_settings(self):
         self.general_settings_button['state'] = tk.NORMAL
