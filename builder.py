@@ -163,38 +163,68 @@ class Builder:
                 builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['indicator']['latest_pos_x'], 
                 0]
 
-        self.canvas.create_text(version_indicator[2], version_indicator[3], text=version_indicator[0], fill=version_indicator[1], font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['indicator']['font_size']), anchor=tk.NE)
+        self.canvas.create_text(
+            version_indicator[2], 
+            version_indicator[3], 
+            text=version_indicator[0], 
+            fill=version_indicator[1], 
+            font=(
+                'Consolas', 
+                builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['indicator']['font_size']), 
+            anchor=tk.NE)
 
     def create_navigation(self):
         self.button_frame = tk.Frame(self.master)
-        self.button_frame.place(x=0, y=0, width=700, height=40)
+        self.button_frame.place(
+            x=0, 
+            y=0, 
+            width=int(builder_configuration['window_sizes'][builder_configuration['use_sizes']]['root']['resolution'][0]), 
+            height=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['height'])
 
         self.general_settings_button = tk.Button(
             self.button_frame,
             text='General Settings',
-            font=tkFont.Font(family='Consolas', size=10),
+            font=tkFont.Font(
+                family='Consolas', 
+                size=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['font_size']),
             disabledforeground='white',
             command=self.general_settings
             )
-        self.general_settings_button.place(x=0, y=0, width=135, height=40)
+        self.general_settings_button.place(
+            x=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['buttons'][0]['pos_x'], 
+            y=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['buttons'][0]['pos_y'], 
+            width=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['buttons'][0]['width'], 
+            height=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['buttons'][0]['height'])
 
         self.functionality_settings_button = tk.Button(
             self.button_frame,
             text='Functionality Settings',
-            font=tkFont.Font(family='Consolas', size=10),
+            font=tkFont.Font(
+                family='Consolas', 
+                size=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['font_size']),
             disabledforeground='white',
             command=self.functionality_settings
             )
-        self.functionality_settings_button.place(x=135, y=0, width=175, height=40)
+        self.functionality_settings_button.place(
+            x=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['buttons'][1]['pos_x'], 
+            y=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['buttons'][1]['pos_y'], 
+            width=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['buttons'][1]['width'], 
+            height=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['buttons'][1]['height'])
 
         self.compiling_settings_button = tk.Button(
             self.button_frame,
             text='Compiling Settings',
-            font=tkFont.Font(family='Consolas', size=10),
+            font=tkFont.Font(
+                family='Consolas', 
+                size=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['font_size']),
             disabledforeground='white',
             command=self.compiling_settings
             )
-        self.compiling_settings_button.place(x=310, y=0, width=145, height=40)
+        self.compiling_settings_button.place(
+            x=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['buttons'][2]['pos_x'], 
+            y=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['buttons'][2]['pos_y'], 
+            width=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['buttons'][2]['width'], 
+            height=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['buttons'][2]['height'])
 
         self.banner_image = tk.PhotoImage(file='resources/assets/builder_elements/banner.png')
         self.banner = tk.Button(
@@ -204,13 +234,25 @@ class Builder:
             relief='flat',
             command=self.open_pysilon
             )
-        self.banner.place(x=455, y=0, width=245, height=40)
-
-        vertical_separator = ttk.Separator(self.button_frame, orient='vertical')
-        vertical_separator.place(x=455, y=0, height=40, width=1)
-
+        self.banner.place(
+            x=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['banner']['pos_x'], 
+            y=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['banner']['pos_y'], 
+            width=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['banner']['width'], 
+            height=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['banner']['height'])
+        
         horizontal_separator = ttk.Separator(self.button_frame, orient='horizontal')
-        horizontal_separator.place(x=455, y=39, height=1, width=245)
+        horizontal_separator.place(
+            x=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['dividers'][0]['pos_x'], 
+            y=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['dividers'][0]['pos_y'], 
+            height=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['dividers'][0]['height'], 
+            width=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['dividers'][0]['width'])
+        
+        vertical_separator = ttk.Separator(self.button_frame, orient='vertical')
+        vertical_separator.place(
+            x=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['dividers'][1]['pos_x'], 
+            y=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['dividers'][1]['pos_y'], 
+            height=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['dividers'][1]['height'], 
+            width=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['dividers'][1]['width'])
     
     def save_configuration(self, temporary=True, close=False, configuration=None, from_window=None):
         match from_window:

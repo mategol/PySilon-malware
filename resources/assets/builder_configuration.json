@@ -11,12 +11,13 @@
                     {"pos_x": 0, "pos_y": 0, "width": 135, "height": 40},
                     {"pos_x": 135, "pos_y": 0, "width": 175, "height": 40},
                     {"pos_x": 310, "pos_y": 0, "width": 145, "height": 40}
-                ]},
+                ],
                 "banner": {"pos_x": 455, "pos_y": 0, "width": 245, "height": 40},
                 "dividers": [
                     {"pos_x": 455, "pos_y": 0, "width": 1, "height": 40},
-                    {"pos_x": 455, "pos_y": 0, "width": 245, "height": 1}
-                ],
+                    {"pos_x": 455, "pos_y": 39, "width": 245, "height": 1}
+                ]
+            },
             "canvas": {
                 "geometry": {"pos_x": 0, "pos_y": 40, "width": 700, "height": 460},
                 "tooltips": {"pos_x": 0, "pos_y": 0, "font_size": 10, "hint_pos_x": 0, "hint_pos_y": 460},
