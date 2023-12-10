@@ -22,9 +22,13 @@ class Builder:
         except: self.malware_latest_version = None
 
         self.create_navigation()
-
+        #builder_configuration['window_sizes'][builder_configuration['use_sizes']]
         self.canvas = tk.Canvas(self.master, border=0, highlightthickness=0)
-        self.canvas.place(x=0,y=40,width=700,height=460)
+        self.canvas.place(
+            x=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['geometry']['pos_x'],
+            y=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['geometry']['pos_y'],
+            width=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['geometry']['width'],
+            height=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['geometry']['height'])
         self.current_window = 0
 
         self.malware_configuration = {
@@ -120,13 +124,29 @@ class Builder:
         if demand != None: selected_background = demand
         self.image = ImageTk.PhotoImage(Image.open(f'resources/assets/builder_backgrounds/{selected_background}.jpg'))
         self.canvas.create_image(0, 0, image=self.image, anchor=tk.NW)
-        self.canvas.create_text(0, 460, text='Hover on elements to get more info.', fill='white', font=('Consolas', 10), anchor=tk.SW)
+        self.canvas.create_text(
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['tooltips']['hint_pos_x'], 
+            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['tooltips']['hint_pos_y'], 
+            text='Hover on elements to get more info.', 
+            fill='white', 
+            font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['tooltips']['font_size']), 
+            anchor=tk.SW)
 
  
         if self.malware_latest_version == builder_configuration['malware_version']:
-            version_indicator = [f'Up to date (v{builder_configuration["malware_version"]})', 'lime', 700, 0]
+            version_indicator = [
+                f'Up to date (v{builder_configuration["malware_version"]})', 
+                'lime', 
+                builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['indicator']['latest_pos_x'], 
+                0]
+            
         elif self.malware_latest_version != None:
-            version_indicator = [f'Outdated version (v{builder_configuration["malware_version"]}). Latest: v{self.malware_latest_version}', 'gold', 675, 0]
+            version_indicator = [
+                f'Outdated version (v{builder_configuration["malware_version"]}). Latest: v{self.malware_latest_version}', 
+                'gold', 
+                builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['indicator']['nonlatest_pos_x'], 
+                0]
+            
             self.download_icon = tk.PhotoImage(file='resources/assets/builder_elements/download_icon.png')
             self.download = tk.Button(
                 self.canvas,
@@ -137,9 +157,13 @@ class Builder:
                 )
             self.canvas.create_window(700, 0, window=self.download, anchor=tk.NE)
         else:
-            version_indicator = ['Couldn\'t determine latest version.', 'red', 700, 0]
+            version_indicator = [
+                'Couldn\'t determine latest version.', 
+                'red', 
+                builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['indicator']['latest_pos_x'], 
+                0]
 
-        self.canvas.create_text(version_indicator[2], version_indicator[3], text=version_indicator[0], fill=version_indicator[1], font=('Consolas', 10), anchor=tk.NE)
+        self.canvas.create_text(version_indicator[2], version_indicator[3], text=version_indicator[0], fill=version_indicator[1], font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['indicator']['font_size']), anchor=tk.NE)
 
     def create_navigation(self):
         self.button_frame = tk.Frame(self.master)
