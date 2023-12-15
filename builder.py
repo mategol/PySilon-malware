@@ -17,6 +17,7 @@ class Builder:
     def __init__(self, master):
         self.master = master
         self.master.title('PySilon Malware Builder')
+        self.master.iconbitmap('resources/icons/default_icon.ico')
 
         try: self.malware_latest_version = json.loads(requests.get('https://raw.githubusercontent.com/mategol/PySilon-malware/v4-dev/resources/assets/builder_configuration.json').text.replace('\n', ''))['malware_version']
         except: self.malware_latest_version = None
@@ -226,7 +227,7 @@ class Builder:
             width=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['buttons'][2]['width'], 
             height=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['buttons'][2]['height'])
 
-        self.banner_image = tk.PhotoImage(file='resources/assets/builder_elements/banner.png')
+        self.banner_image = tk.PhotoImage(file='resources/assets/builder_elements/' + builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['banner']['path'])
         self.banner = tk.Button(
             self.button_frame,
             image=self.banner_image,

@@ -12,7 +12,7 @@
                     {"pos_x": 101, "pos_y": 0, "width": 131, "height": 30},
                     {"pos_x": 232, "pos_y": 0, "width": 109, "height": 30}
                 ],
-                "banner": {"pos_x": 341, "pos_y": 0, "width": 184, "height": 30},
+                "banner": {"pos_x": 341, "pos_y": 0, "width": 184, "height": 30, "path": "banner_small.png"},
                 "dividers": [
                     {"pos_x": 341, "pos_y": 0, "width": 1, "height": 30},
                     {"pos_x": 341, "pos_y": 29, "width": 184, "height": 1}
@@ -70,7 +70,7 @@
                     {"pos_x": 135, "pos_y": 0, "width": 175, "height": 40},
                     {"pos_x": 310, "pos_y": 0, "width": 145, "height": 40}
                 ],
-                "banner": {"pos_x": 455, "pos_y": 0, "width": 245, "height": 40},
+                "banner": {"pos_x": 455, "pos_y": 0, "width": 245, "height": 40, "path": "banner_standard.png"},
                 "dividers": [
                     {"pos_x": 455, "pos_y": 0, "width": 1, "height": 40},
                     {"pos_x": 455, "pos_y": 39, "width": 245, "height": 1}
@@ -128,7 +128,7 @@
                     {"pos_x": 202, "pos_y": 0, "width": 262, "height": 60},
                     {"pos_x": 465, "pos_y": 0, "width": 217, "height": 60}
                 ],
-                "banner": {"pos_x": 682, "pos_y": 0, "width": 367, "height": 60},
+                "banner": {"pos_x": 682, "pos_y": 0, "width": 367, "height": 60, "path": "banner_big.png"},
                 "dividers": [
                     {"pos_x": 682, "pos_y": 0, "width": 1, "height": 60},
                     {"pos_x": 682, "pos_y": 59, "width": 367, "height": 1}
