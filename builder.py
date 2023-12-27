@@ -245,6 +245,25 @@ class Builder:
         size_y = 520
         size_x = 700
 
+        for widgets in self.button_frame.winfo_children():
+            widgets.destroy()
+        self.button_frame.configure(background='#fe00ff')
+        self.header.delete('all')
+        self.header.configure(background='#fe00ff')
+        self.canvas.delete('all')
+
+        self.kf = ImageTk.PhotoImage(Image.open('resources/assets/builder_elements/transparency/' + str(builder_configuration['use_sizes']) + '/1.png'))
+        self.asd = self.canvas.create_image(0, 0, image=self.kf, anchor=tk.NW)
+        self.master.update()
+
+        for i in range(23):
+            self.canvas.delete(self.asd)
+            self.kf = ImageTk.PhotoImage(Image.open('resources/assets/builder_elements/transparency/' + str(builder_configuration['use_sizes']) + f'/{i+2}.png'))
+            self.asd = self.canvas.create_image(0, 0, image=self.kf, anchor=tk.NW)
+            self.master.update()
+
+        time.sleep(1)
+
 
 
         for i in range(23):
