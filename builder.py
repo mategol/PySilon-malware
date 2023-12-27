@@ -4,6 +4,7 @@ import random
 import os
 import pyperclip
 import time
+import sys
 import json
 import tkinter.font as tkFont
 from PIL import Image, ImageTk, ImageFont
@@ -22,6 +23,7 @@ class Builder:
         try: self.malware_latest_version = json.loads(requests.get('https://raw.githubusercontent.com/mategol/PySilon-malware/v4-dev/resources/assets/builder_configuration.json').text.replace('\n', ''))['malware_version']
         except: self.malware_latest_version = None
 
+        self.create_header()
         self.create_navigation()
         #builder_configuration['window_sizes'][builder_configuration['use_sizes']]
         self.canvas = tk.Canvas(self.master, border=0, highlightthickness=0)
@@ -123,6 +125,55 @@ class Builder:
 
         self.general_settings()
 
+    def start_move(self, event):
+        self.master.x = event.x
+        self.master.y = event.y
+
+    def stop_move(self, event):
+        self.master.x = None
+        self.master.y = None
+
+    def do_move(self, event):
+        dx = event.x - self.master.x
+        dy = event.y - self.master.y
+        x = self.master.winfo_x() + dx
+        y = self.master.winfo_y() + dy
+        self.master.geometry(f"+{x}+{y}")
+
+    def create_header(self):
+        self.header = tk.Frame(self.master)
+        self.header.place(
+            x=0, 
+            y=0, 
+            width=700, 
+            height=520)
+        
+        separator = tk.Frame(self.header, bg='#292929', height=1)
+        separator.place(x=0, y=19, width=700)
+
+        self.red_circle = tk.PhotoImage(file='resources/assets/builder_elements/red_circle.png')
+        self.general_settings_button = tk.Button(
+            self.header,
+            text='',
+            image=self.red_circle,
+            bd=0,
+            relief=tk.FLAT,
+            font=tkFont.Font(
+                family='Consolas', 
+                size=2),
+            disabledforeground='white',
+            command=self.exit_program
+            )
+        self.general_settings_button.place(
+            x=685, 
+            y=5, 
+            width=10, 
+            height=10)
+        
+        self.header.bind("<ButtonPress-1>", self.start_move)
+        self.header.bind("<ButtonRelease-1>", self.stop_move)
+        self.header.bind("<B1-Motion>", self.do_move)
+
     def new_background(self, demand=None):
         self.canvas.delete('all')
         selected_background = random.randint(1, len(os.listdir('resources/assets/builder_backgrounds')))
@@ -178,11 +229,14 @@ class Builder:
                 builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['indicator']['font_size']), 
             anchor=tk.NE)
 
+    def exit_program(self):
+        sys.exit(0)
+
     def create_navigation(self):
-        self.button_frame = tk.Frame(self.master)
+        self.button_frame = tk.Frame(self.header)
         self.button_frame.place(
             x=0, 
-            y=0, 
+            y=20, 
             width=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['root_geometry']['width'], 
             height=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['height'])
 
@@ -300,6 +354,9 @@ class Builder:
 
         if close != False:
             close.destroy()
+
+    def apply_rounded_corners(self):
+        
 
     def load_configuration(self, temporary):
         with open('configuration.json' if not temporary else 'resources/assets/configuration.tmp', 'r', encoding='utf-8') as configuration_file:
@@ -1018,7 +1075,8 @@ def main():
     root = tk.Tk()
     Builder(root)
     root.geometry(str(builder_configuration['window_sizes'][builder_configuration['use_sizes']]['root_geometry']['width'])+'x'+str(builder_configuration['window_sizes'][builder_configuration['use_sizes']]['root_geometry']['height']))
-    #root.wm_attributes('-transparentcolor', '#ab23ff')
+    root.wm_attributes('-transparentcolor', '#fe00ff')
+    root.overrideredirect(1)
     root.tk_setPalette(background='#0A0A10', foreground='white', activeBackground='#0A0A10', activeForeground='white')
     root.mainloop()
 
