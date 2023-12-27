@@ -152,7 +152,7 @@ class Builder:
         separator.place(x=0, y=19, width=700)
 
         self.red_circle = tk.PhotoImage(file='resources/assets/builder_elements/red_circle.png')
-        self.general_settings_button = tk.Button(
+        self.close_button = tk.Button(
             self.header,
             text='',
             image=self.red_circle,
@@ -164,7 +164,7 @@ class Builder:
             disabledforeground='white',
             command=self.exit_program
             )
-        self.general_settings_button.place(
+        self.close_button.place(
             x=685, 
             y=5, 
             width=10, 
@@ -180,9 +180,12 @@ class Builder:
         if demand != None: selected_background = demand
         self.image = ImageTk.PhotoImage(Image.open(f'resources/assets/builder_backgrounds/{selected_background}.jpg'))
         self.canvas.create_image(0, 0, image=self.image, anchor=tk.NW)
+
+        self.apply_rounded_corners()
+        
         self.canvas.create_text(
-            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['tooltips']['hint_pos_x'], 
-            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['tooltips']['hint_pos_y'], 
+            10, 
+            452, 
             text='Hover on elements to get more info.', 
             fill='white', 
             font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['tooltips']['font_size']), 
@@ -228,6 +231,7 @@ class Builder:
                 'Consolas', 
                 builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['indicator']['font_size']), 
             anchor=tk.NE)
+        
 
     def exit_program(self):
         sys.exit(0)
@@ -356,7 +360,8 @@ class Builder:
             close.destroy()
 
     def apply_rounded_corners(self):
-        
+        self.corners_image = ImageTk.PhotoImage(Image.open(f'resources/assets/builder_elements/corners.png'))
+        self.canvas.create_image(0, 440, image=self.corners_image, anchor=tk.NW)
 
     def load_configuration(self, temporary):
         with open('configuration.json' if not temporary else 'resources/assets/configuration.tmp', 'r', encoding='utf-8') as configuration_file:
@@ -650,6 +655,7 @@ class Builder:
             builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['entries'][5]['pos_y'],
             window=self.implode_entry, 
             anchor='w')
+            
 
     def functionality_settings(self):
         self.general_settings_button['state'] = tk.NORMAL
