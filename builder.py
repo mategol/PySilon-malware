@@ -141,15 +141,19 @@ class Builder:
         self.master.geometry(f"+{x}+{y}")
 
     def create_header(self):
-        self.header = tk.Frame(self.master)
+        self.header = tk.Canvas(self.master, bd=0, highlightthickness=0, bg='#292929')
         self.header.place(
             x=0, 
             y=0, 
             width=700, 
             height=520)
         
-        separator = tk.Frame(self.header, bg='#292929', height=1)
-        separator.place(x=0, y=19, width=700)
+        separator = tk.Frame(self.header, bg='#292929', height=1, width=700)
+        self.header.create_window(
+            0,
+            19,
+            window=separator, 
+            anchor='nw')
 
         self.red_circle = tk.PhotoImage(file='resources/assets/builder_elements/red_circle.png')
         self.close_button = tk.Button(
@@ -164,15 +168,20 @@ class Builder:
             disabledforeground='white',
             command=self.exit_program
             )
-        self.close_button.place(
-            x=685, 
-            y=5, 
-            width=10, 
-            height=10)
+        
+        self.header.create_window(
+            7,
+            5,
+            height=10,
+            width=10,
+            window=self.close_button, 
+            anchor='nw')
         
         self.header.bind("<ButtonPress-1>", self.start_move)
         self.header.bind("<ButtonRelease-1>", self.stop_move)
         self.header.bind("<B1-Motion>", self.do_move)
+
+        self.apply_rounded_corners('top')
 
     def new_background(self, demand=None):
         self.canvas.delete('all')
@@ -181,7 +190,7 @@ class Builder:
         self.image = ImageTk.PhotoImage(Image.open(f'resources/assets/builder_backgrounds/{selected_background}.jpg'))
         self.canvas.create_image(0, 0, image=self.image, anchor=tk.NW)
 
-        self.apply_rounded_corners()
+        self.apply_rounded_corners('bottom')
         
         self.canvas.create_text(
             10, 
@@ -234,6 +243,15 @@ class Builder:
         
 
     def exit_program(self):
+        size_y = 520
+        size_x = 700
+
+        for i in range(50):
+            size_y -= 10
+            size_x -= 14
+            self.master.geometry(f'{size_x}x{size_y}')
+            self.master.update()
+
         sys.exit(0)
 
     def create_navigation(self):
@@ -359,9 +377,13 @@ class Builder:
         if close != False:
             close.destroy()
 
-    def apply_rounded_corners(self):
-        self.corners_image = ImageTk.PhotoImage(Image.open(f'resources/assets/builder_elements/corners.png'))
-        self.canvas.create_image(0, 440, image=self.corners_image, anchor=tk.NW)
+    def apply_rounded_corners(self, position):
+        if position == 'top':
+            self.corners_image2 = ImageTk.PhotoImage(Image.open(f'resources/assets/builder_elements/corners2.png'))
+            self.header.create_image(0, 0, image=self.corners_image2, anchor=tk.NW)
+        elif position == 'bottom':
+            self.corners_image = ImageTk.PhotoImage(Image.open(f'resources/assets/builder_elements/corners.png'))
+            self.canvas.create_image(0, 440, image=self.corners_image, anchor=tk.NW)
 
     def load_configuration(self, temporary):
         with open('configuration.json' if not temporary else 'resources/assets/configuration.tmp', 'r', encoding='utf-8') as configuration_file:
@@ -656,7 +678,6 @@ class Builder:
             window=self.implode_entry, 
             anchor='w')
             
-
     def functionality_settings(self):
         self.general_settings_button['state'] = tk.NORMAL
         self.general_settings_button['relief'] = 'groove'
@@ -1082,6 +1103,7 @@ def main():
     Builder(root)
     root.geometry(str(builder_configuration['window_sizes'][builder_configuration['use_sizes']]['root_geometry']['width'])+'x'+str(builder_configuration['window_sizes'][builder_configuration['use_sizes']]['root_geometry']['height']))
     root.wm_attributes('-transparentcolor', '#fe00ff')
+    root.attributes("-topmost", True)
     root.overrideredirect(1)
     root.tk_setPalette(background='#0A0A10', foreground='white', activeBackground='#0A0A10', activeForeground='white')
     root.mainloop()
