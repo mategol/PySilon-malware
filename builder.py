@@ -245,9 +245,15 @@ class Builder:
         size_y = 520
         size_x = 700
 
-        for i in range(50):
-            size_y -= 10
-            size_x -= 14
+
+
+        for i in range(23):
+            size_y -= 20
+            self.master.geometry(f'{size_x}x{size_y}')
+            self.master.update()
+
+        for i in range(25):
+            size_x -= 28
             self.master.geometry(f'{size_x}x{size_y}')
             self.master.update()
 
@@ -1100,11 +1106,36 @@ def main():
     global builder_configuration
     root = tk.Tk()
     Builder(root)
-    root.geometry(str(builder_configuration['window_sizes'][builder_configuration['use_sizes']]['root_geometry']['width'])+'x'+str(builder_configuration['window_sizes'][builder_configuration['use_sizes']]['root_geometry']['height']))
+    #root.geometry(str(builder_configuration['window_sizes'][builder_configuration['use_sizes']]['root_geometry']['width'])+'x'+str(builder_configuration['window_sizes'][builder_configuration['use_sizes']]['root_geometry']['height']))
+    
+    
     root.wm_attributes('-transparentcolor', '#fe00ff')
     root.attributes("-topmost", True)
     root.overrideredirect(1)
     root.tk_setPalette(background='#0A0A10', foreground='white', activeBackground='#0A0A10', activeForeground='white')
+
+    target_size_y = 520
+    target_size_x = 700
+    size_y = 80
+    size_x = 0
+
+    for i in range(25):
+        size_x += 28
+        root.geometry(f'{size_x}x{size_y}')
+        root.update()
+
+    for i in range(23):
+        size_y += 20
+        root.geometry(f'{size_x}x{size_y}')
+        root.update()
+
+    
+    
+    
+    
+    root.geometry('700x520')
+    
+    
     root.mainloop()
 
 if __name__ == '__main__':
