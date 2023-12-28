@@ -5,6 +5,7 @@ import os
 import pyperclip
 import time
 import sys
+import ctypes
 import json
 import tkinter.font as tkFont
 from PIL import Image, ImageTk, ImageFont, ImageGrab
@@ -19,6 +20,9 @@ class Builder:
         self.master = master
         self.master.title('PySilon Malware Builder')
         self.master.iconbitmap('resources/icons/default_icon.ico')
+
+        myappid = 'mycompany.myproduct.subproduct.version'
+        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 
         try: self.malware_latest_version = json.loads(requests.get('https://raw.githubusercontent.com/mategol/PySilon-malware/v4-dev/resources/assets/builder_configuration.json').text.replace('\n', ''))['malware_version']
         except: self.malware_latest_version = None
@@ -161,6 +165,7 @@ class Builder:
             text='',
             image=self.red_circle,
             bd=0,
+            cursor='hand2',
             relief=tk.FLAT,
             font=tkFont.Font(
                 family='Consolas', 
@@ -183,6 +188,7 @@ class Builder:
             text='',
             image=self.yellow_circle,
             bd=0,
+            cursor='hand2',
             relief=tk.FLAT,
             font=tkFont.Font(
                 family='Consolas', 
