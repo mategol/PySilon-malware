@@ -294,18 +294,6 @@ class Builder:
 
         time.sleep(1)
 
-
-
-        '''for i in range(23):
-            size_y -= 20
-            self.master.geometry(f'{size_x}x{size_y}')
-            self.master.update()
-
-        for i in range(25):
-            size_x -= 28
-            self.master.geometry(f'{size_x}x{size_y}')
-            self.master.update()'''
-
         sys.exit(0)
 
     def minimize_root_threw(self, a):
