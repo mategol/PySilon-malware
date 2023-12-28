@@ -348,6 +348,7 @@ class Builder:
         self.general_settings_button = tk.Button(
             self.button_frame,
             text='General Settings',
+            cursor='hand2',
             font=tkFont.Font(
                 family='Consolas', 
                 size=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['font_size']),
@@ -363,6 +364,7 @@ class Builder:
         self.functionality_settings_button = tk.Button(
             self.button_frame,
             text='Functionality Settings',
+            cursor='hand2',
             font=tkFont.Font(
                 family='Consolas', 
                 size=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['font_size']),
@@ -378,6 +380,7 @@ class Builder:
         self.compiling_settings_button = tk.Button(
             self.button_frame,
             text='Compiling Settings',
+            cursor='hand2',
             font=tkFont.Font(
                 family='Consolas', 
                 size=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['font_size']),
@@ -597,6 +600,7 @@ class Builder:
         self.paste_token_button = tk.Button(
             self.canvas,
             image=self.paste_token_icon,
+            cursor='hand2',
             disabledforeground='white',
             relief='flat',
             width=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['token_paste_button']['width'],
