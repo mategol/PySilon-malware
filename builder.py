@@ -7,7 +7,7 @@ import time
 import sys
 import json
 import tkinter.font as tkFont
-from PIL import Image, ImageTk, ImageFont
+from PIL import Image, ImageTk, ImageFont, ImageGrab
 import requests
 
 with open('resources/assets/builder_configuration.json', 'r', encoding='utf-8') as load_configuration:
@@ -141,14 +141,14 @@ class Builder:
         self.master.geometry(f"+{x}+{y}")
 
     def create_header(self):
-        self.header = tk.Canvas(self.master, bd=0, highlightthickness=0, bg='#292929')
+        self.header = tk.Canvas(self.master, bd=0, highlightthickness=0, bg='#191919')
         self.header.place(
             x=0, 
             y=0, 
             width=700, 
             height=520)
         
-        separator = tk.Frame(self.header, bg='#292929', height=1, width=700)
+        separator = tk.Frame(self.header, bg='#191919', height=1, width=700)
         self.header.create_window(
             0,
             19,
@@ -166,7 +166,7 @@ class Builder:
                 family='Consolas', 
                 size=2),
             disabledforeground='white',
-            command=self.exit_program
+            command=self.exit_app
             )
         
         self.header.create_window(
@@ -176,6 +176,39 @@ class Builder:
             width=10,
             window=self.close_button, 
             anchor='nw')
+        
+        self.yellow_circle = tk.PhotoImage(file='resources/assets/builder_elements/yellow_circle.png')
+        self.minimize_button = tk.Button(
+            self.header,
+            text='',
+            image=self.yellow_circle,
+            bd=0,
+            relief=tk.FLAT,
+            font=tkFont.Font(
+                family='Consolas', 
+                size=2),
+            disabledforeground='white',
+            command=self.minimize_app
+            )
+        
+        self.header.create_window(
+            22,
+            5,
+            height=10,
+            width=10,
+            window=self.minimize_button, 
+            anchor='nw')
+        
+        self.header.create_text(
+            350,
+            10,
+            text='~ PySilon Malware Builder ~',
+            fill='white',
+            font=(
+                'Consolas', 
+                11),
+            anchor=tk.CENTER
+        )
         
         self.header.bind("<ButtonPress-1>", self.start_move)
         self.header.bind("<ButtonRelease-1>", self.stop_move)
@@ -241,10 +274,7 @@ class Builder:
                 builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['indicator']['font_size']), 
             anchor=tk.NE)
         
-    def exit_program(self):
-        size_y = 520
-        size_x = 700
-
+    def exit_app(self):
         for widgets in self.button_frame.winfo_children():
             widgets.destroy()
         self.button_frame.configure(background='#fe00ff')
@@ -277,6 +307,41 @@ class Builder:
             self.master.update()'''
 
         sys.exit(0)
+
+    def minimize_root_threw(self, a):
+        self.master.unbind("<Map>")
+        self.master.overrideredirect(True)
+        size_y = 80
+        size_x = 0
+
+        for i in range(25):
+            size_x += 28
+            self.master.geometry(f'{size_x}x{size_y}')
+            self.master.update()
+
+        for i in range(22):
+            size_y += 20
+            self.master.geometry(f'{size_x}x{size_y}')
+            self.master.update()
+
+    def minimize_app(self):
+        size_y = 520
+        size_x = 700
+
+        for i in range(23):
+            size_y -= 20
+            self.master.geometry(f'{size_x}x{size_y}')
+            self.master.update()
+
+        for i in range(25):
+            size_x -= 28
+            self.master.geometry(f'{size_x}x{size_y}')
+            self.master.update()
+
+        self.master.bind("<Map>", self.minimize_root_threw)
+        self.master.state('withdrawn')
+        self.master.overrideredirect(False)
+        self.master.wm_state('iconic')
 
     def create_navigation(self):
         self.button_frame = tk.Frame(self.header)
@@ -1130,7 +1195,7 @@ def main():
     
     root.wm_attributes('-transparentcolor', '#fe00ff')
     root.attributes("-topmost", True)
-    root.overrideredirect(1)
+    root.overrideredirect(True)
     root.tk_setPalette(background='#0A0A10', foreground='white', activeBackground='#0A0A10', activeForeground='white')
 
     target_size_y = 520
