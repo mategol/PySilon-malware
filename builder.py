@@ -3,6 +3,7 @@ from tkinter import ttk
 import random
 import os
 import pyperclip
+import pyautogui
 import time
 import sys
 import ctypes
@@ -287,6 +288,12 @@ class Builder:
         self.header.delete('all')
         self.header.configure(background='#fe00ff')
         self.canvas.delete('all')
+
+        posx = self.master.winfo_x()
+        posy = self.master.winfo_y()+60
+        self.imgg = ImageGrab.grab(bbox=(posx, posy, posx+700, posy+460))
+        self.imgg = ImageTk.PhotoImage(self.imgg)
+        self.canvas.create_image(0, 0, image=self.imgg, anchor=tk.NW)
 
         self.kf = ImageTk.PhotoImage(Image.open('resources/assets/builder_elements/transparency/' + str(builder_configuration['use_sizes']) + '/1.png'))
         self.asd = self.canvas.create_image(0, 0, image=self.kf, anchor=tk.NW)
