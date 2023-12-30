@@ -210,7 +210,7 @@ class Builder:
             350,
             10,
             text='~ PySilon Malware Builder ~',
-            fill='white',
+            fill='grey',
             font=(
                 'Consolas', 
                 11),
