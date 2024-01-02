@@ -1182,9 +1182,30 @@ class Builder:
             window=self.cb_antivm, 
             anchor='w')
 
-        self.canvas.create_text(
+        self.cbvar_debugmode = tk.BooleanVar(value=False)
+        self.cb_debugmode = tk.Checkbutton(
+            self.canvas,
+            selectcolor='#0A0A10',
+            text='debug mode',
+            font=(
+                'Consolas', 
+                builder_configuration['window_sizes'][builder_configuration['use_sizes']]['compiling_settings']['font_size']),
+            variable=self.cbvar_debugmode,
+            onvalue=True,
+            offvalue=False
+        )
+        self.cb_debugmode.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['debugmode']))
+        self.cb_debugmode.bind("<Leave>", self.hide_tooltip)
+
+        self.canvas.create_window(
             100,
             205,
+            window=self.cb_debugmode, 
+            anchor='w')
+
+        self.canvas.create_text(
+            400,
+            125,
             text='Icon:', 
             fill='white', 
             font=(
@@ -1193,12 +1214,15 @@ class Builder:
             anchor=tk.W)
         
         self.icon_photo = ImageTk.PhotoImage(Image.open('resources/icons/default_icon.png').resize((100, 100)))
-        icon_btn = tk.Button(self.canvas, relief='flat', cursor='hand2', image=self.icon_photo, state=tk.NORMAL, width=100, height=100, command=self.change_icon)
+        self.icon_button = tk.Button(self.canvas, relief='flat', cursor='hand2', image=self.icon_photo, state=tk.NORMAL, width=100, height=100, command=self.change_icon)
+        self.icon_button.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['icon']))
+        self.icon_button.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(
-            100,
-            220,
-            window=icon_btn,
+            400,
+            140,
+            window=self.icon_button,
             anchor='nw')
+        
 
 
 

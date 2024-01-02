@@ -208,6 +208,8 @@
         "scrnman": "Manipulate computer's graphics and display basically anything.",
         "obfuscation": "Obfuscate PySilon's code to make it harder to detect (double-click for advanced settings).",
         "anti_vm": "Prevent PySilon from running on VMs (double-click for advanced settings).",
+        "debugmode": "Get detailed logs of PySilon's activity. Only for troubleshooting use.",
+        "icon": "Set custom icon for PySilon's executable.",
         "advanced_antivm": {
             "FilesCheck": "Check for VM-typical system files.",
             "ProcessesCheck": "Check for VM-typical processes.",
