@@ -650,7 +650,7 @@ class Builder:
         if self.current_window > 0: self.save_configuration(True, from_window=self.current_window)
         self.current_window = 1
         self.new_background(1)
-        self.load_configuration(True)
+        self.load_configuration(False)
 
         # BOT Token
         self.canvas.create_text(
@@ -860,7 +860,7 @@ class Builder:
         self.save_configuration(True, from_window=self.current_window)
         self.current_window = 2
         self.new_background(2)
-        self.load_configuration(True)
+        self.load_configuration(False)
 
         x_start, y_start, x_delta, y_delta = builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['checkboxes']['x_start'], builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['checkboxes']['y_start'], builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['checkboxes']['x_delta'], builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['checkboxes']['y_delta']
 
@@ -1209,6 +1209,7 @@ class Builder:
         self.compiling_settings_button['relief'] = 'flat'
         self.save_configuration(True, from_window=self.current_window)
         self.current_window = 3
+        self.load_configuration(False)
         self.new_background(3)
 
         self.time_check = time.time()
