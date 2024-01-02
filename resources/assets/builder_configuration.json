@@ -72,7 +72,7 @@
                 ],
                 "banner": {"pos_x": 455, "pos_y": 0, "width": 245, "height": 40, "path": "banner_standard.png"},
                 "dividers": [
-                    {"pos_x": 455, "pos_y": 0, "width": 1, "height": 40},
+                    {"pos_x": 455, "pos_y": 1, "width": 1, "height": 39},
                     {"pos_x": 455, "pos_y": 39, "width": 245, "height": 1}
                 ]
             },
@@ -208,6 +208,13 @@
         "scrnman": "Manipulate computer's graphics and display basically anything.",
         "obfuscation": "Obfuscate PySilon's code to make it harder to detect (double-click for advanced settings).",
         "anti_vm": "Prevent PySilon from running on VMs (double-click for advanced settings).",
+        "debugmode": "Get detailed logs of PySilon's activity. Only for troubleshooting use.",
+        "icon": "Set custom icon for PySilon's executable. Click to select new icon.",
+        "compile": "Compile the source code into an executable.",
+        "close": "Exit PySilon Builder.",
+        "minimize": "Minimize PySilon Builder.",
+        "config_load": "Load PySilon configuration from file.",
+        "config_save": "Save PySilon configuration to configuration.json file.",
         "advanced_antivm": {
             "FilesCheck": "Check for VM-typical system files.",
             "ProcessesCheck": "Check for VM-typical processes.",

