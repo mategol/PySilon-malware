@@ -72,7 +72,7 @@
                 ],
                 "banner": {"pos_x": 455, "pos_y": 0, "width": 245, "height": 40, "path": "banner_standard.png"},
                 "dividers": [
-                    {"pos_x": 455, "pos_y": 0, "width": 1, "height": 40},
+                    {"pos_x": 455, "pos_y": 1, "width": 1, "height": 39},
                     {"pos_x": 455, "pos_y": 39, "width": 245, "height": 1}
                 ]
             },

