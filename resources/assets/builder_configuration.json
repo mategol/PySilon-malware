@@ -210,6 +210,7 @@
         "anti_vm": "Prevent PySilon from running on VMs (double-click for advanced settings).",
         "debugmode": "Get detailed logs of PySilon's activity. Only for troubleshooting use.",
         "icon": "Set custom icon for PySilon's executable.",
+        "compile": "Compile the source code into an executable.",
         "advanced_antivm": {
             "FilesCheck": "Check for VM-typical system files.",
             "ProcessesCheck": "Check for VM-typical processes.",

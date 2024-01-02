@@ -1223,7 +1223,17 @@ class Builder:
             window=self.icon_button,
             anchor='nw')
         
+        self.compile_button = tk.Button(self.canvas, cursor='hand2', text='Compile', font='Consolas', state=tk.NORMAL, command=self.compile)
+        self.compile_button.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['compile']))
+        self.compile_button.bind("<Leave>", self.hide_tooltip)
+        self.canvas.create_window(
+            690,
+            450,
+            window=self.compile_button,
+            anchor='se')
 
+    def compile(self):
+        print('compile')
 
 
         # Icon
