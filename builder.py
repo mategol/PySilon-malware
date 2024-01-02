@@ -564,6 +564,9 @@ class Builder:
     def change_icon(self):
         print('asd')
 
+    def compile(self):
+        print('compile')
+
     def general_settings(self):
         self.general_settings_button['state'] = tk.DISABLED
         self.general_settings_button['relief'] = 'flat'
@@ -1232,8 +1235,7 @@ class Builder:
             window=self.compile_button,
             anchor='se')
 
-    def compile(self):
-        print('compile')
+
 
 
         # Icon
