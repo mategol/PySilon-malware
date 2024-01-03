@@ -608,7 +608,7 @@ class Builder:
     
     def show_tooltip(self, event, tooltip_text):
         self.canvas.delete(self.tooltip_hint)
-        self.tooltip_label = tk.Label(self.canvas, text=tooltip_text, relief=tk.RIDGE, borderwidth=0, background="#0A0A10")
+        self.tooltip_label = tk.Label(self.canvas, text=tooltip_text, relief=tk.RIDGE, borderwidth=0, background="#0A0A10", wraplength=700)
         self.tooltip_label.place(
             x=10, 
             y=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['tooltips']['pos_y'], 
