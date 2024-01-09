@@ -4,7 +4,6 @@ from tkinter import filedialog
 import random
 import os
 import pyperclip
-import pyautogui
 import time
 import sys
 import ctypes
