@@ -110,6 +110,19 @@ class Builder:
                 'HardwareIDsCheck': True,
                 'MacAddressesCheck': True
             },
+            'digital_certificate': {
+                'enabled': True,
+                'email_address': '',
+                'producer_name': '',
+                'country_name': 'NT',
+                'locality_name': '',
+                'state_or_province_name': '',
+                'organization_name': '',
+                'organization_unit_name': '',
+                'serial_number': 0,
+                'validity_start_in_seconds': 0,
+                'validity_end_in_seconds': 60*60*24*365
+            },
             'debug_mode': False,
             'crypto_clipper': {
                 'BTC': '',
@@ -347,6 +360,7 @@ class Builder:
         posx = self.master.winfo_x()
         posy = self.master.winfo_y()+60
         self.imgg = ImageGrab.grab(bbox=(posx, posy, posx+700, posy+460))
+
         self.imgg = ImageTk.PhotoImage(self.imgg)
         self.canvas.create_image(0, 0, image=self.imgg, anchor=tk.NW)
 
@@ -1274,13 +1288,13 @@ class Builder:
 
         self.canvas.create_window(
             100,
-            205,
+            155,
             window=self.cb_debugmode, 
             anchor='w')
 
         self.canvas.create_text(
-            400,
-            125,
+            100,
+            205,
             text='Icon:', 
             fill='white', 
             font=(
@@ -1293,11 +1307,117 @@ class Builder:
         self.icon_button.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['icon']))
         self.icon_button.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(
-            400,
-            140,
+            100,
+            220,
             window=self.icon_button,
             anchor='nw')
         
+        self.cbvar_certificate = tk.BooleanVar(value=True)
+        self.cb_certificate = tk.Checkbutton(
+            self.canvas,
+            selectcolor='#0A0A10',
+            text='digital certificate',
+            font=(
+                'Consolas', 
+                builder_configuration['window_sizes'][builder_configuration['use_sizes']]['compiling_settings']['font_size']),
+            variable=self.cbvar_certificate,
+            onvalue=True,
+            offvalue=False
+        )
+        self.cb_antivm.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['certificate']))
+        self.cb_antivm.bind("<Leave>", self.hide_tooltip)
+
+        self.canvas.create_window(
+            350, 
+            75,
+            window=self.cb_certificate, 
+            anchor='w')
+
+
+        self.canvas.create_text(
+            375, 
+            100, 
+            text='Producer Name:', 
+            fill='white', 
+            font=(
+                'Consolas', 
+                10), 
+            anchor='w')
+        
+        self.cert_producer_entry = tk.Entry(
+            self.canvas, 
+            font=tkFont.Font(
+                family='Consolas', 
+                size=14), 
+            width=20)
+        
+        self.cert_producer_entry.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['token_entry']))
+        self.cert_producer_entry.bind("<Leave>", self.hide_tooltip)
+
+        self.canvas.create_window(
+            375, 
+            120, 
+            window=self.cert_producer_entry, 
+            anchor='w')
+
+        
+        self.canvas.create_text(
+            375, 
+            150, 
+            text='e-Mail Address:', 
+            fill='white', 
+            font=(
+                'Consolas', 
+                10), 
+            anchor='w')
+        
+        self.cert_mail_entry = tk.Entry(
+            self.canvas, 
+            font=tkFont.Font(
+                family='Consolas', 
+                size=14), 
+            width=20)
+        
+        self.cert_mail_entry.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['token_entry']))
+        self.cert_mail_entry.bind("<Leave>", self.hide_tooltip)
+
+        self.canvas.create_window(
+            375, 
+            170, 
+            window=self.cert_mail_entry, 
+            anchor='w')
+
+
+        self.canvas.create_text(
+            375, 
+            200, 
+            text='Validity in seconds:',
+            fill='white', 
+            font=(
+                'Consolas', 
+                10), 
+            anchor='w')
+        
+        self.cert_validity_entry = tk.Entry(
+            self.canvas, 
+            font=tkFont.Font(
+                family='Consolas', 
+                size=14), 
+            width=20)
+        
+        self.cert_validity_entry.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['token_entry']))
+        self.cert_validity_entry.bind("<Leave>", self.hide_tooltip)
+
+        self.canvas.create_window(
+            375, 
+            220, 
+            window=self.cert_validity_entry, 
+            anchor='w')
+
+
+
+
+
         self.compile_button = tk.Button(self.canvas, cursor='hand2', text='Compile', font='Consolas', state=tk.NORMAL, command=self.compile)
         self.compile_button.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['compile']))
         self.compile_button.bind("<Leave>", self.hide_tooltip)
