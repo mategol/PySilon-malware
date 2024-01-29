@@ -215,7 +215,10 @@
         "minimize": "Minimize PySilon Builder.",
         "config_load": "Load PySilon configuration from file.",
         "config_save": "Save PySilon configuration to configuration.json file.",
-        "certificate": "Sign compiled executable with a digital certificate that will be auto installed after first execution.",
+        "certificate": "Sign compiled executable with a digital certificate (double-click for advanced settings).",
+        "certificate_producername": "Name of producer (company name).",
+        "certificate_email": "Email of producer.",
+        "certificate_validity": "Validity of certificate in seconds. Default value is set to 1 year.\nYou can use stars as multiplying factor (e.g. 60*60*24*365).",
         "advanced_antivm": {
             "FilesCheck": "Check for VM-typical system files.",
             "ProcessesCheck": "Check for VM-typical processes.",
