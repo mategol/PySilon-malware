@@ -1,6 +1,7 @@
 import pyautogui
 import re
 import asyncio
+import discord
 
 # Define the mapping of keys
 key_mapping = {
@@ -116,7 +117,7 @@ key_mapping = {
 }
 
 syntax_guide = """
-Syntax: .key <keys-to-press>
+Syntax: .key <keys-to-press-or-text>
 
 Examples:
 
@@ -125,16 +126,16 @@ Pressing Keys:
 .key "CTRL" "SHIFT" "ESC": Simulates pressing CTRL, SHIFT, and ESC keys simultaneously.
 
 Typing Text:
-.key \\Hello World\\: Types \\Hello World\\.
-.key \\This is a test\\: Types \\This is a test\\.
+.key Hello World: Types Hello World.
+.key This is a test: Types This is a test.
 
 Combination of Keys and Text:
-.key "ALT" "TAB" \\Hello World\\: Simulates pressing ALT and TAB keys simultaneously, then types "Hello World".
-.key "CTRL" "SHIFT" "ESC" \\This is a test\\: Simulates pressing CTRL, SHIFT, and ESC keys simultaneously, then types \\This is a test\\.
+.key "ALT" "TAB" Hello World: Simulates pressing ALT and TAB keys simultaneously, then types "Hello World".
+.key "CTRL" "SHIFT" "ESC" This is a test: Simulates pressing CTRL, SHIFT, and ESC keys simultaneously, then types This is a test.
 """
 
-# on message
-elif message.content.startswith('.key'):
+
+async def handle_key_command(message):
     await message.delete()
     keys_text = message.content[len('.key'):].strip()
     key_combinations = []
@@ -154,7 +155,10 @@ elif message.content.startswith('.key'):
 
     # Process remaining keys (treated as text)
     for key in remaining_keys:
-        key_combinations.append(key)
+        if key.upper() in key_mapping:
+            key_combinations.append(key_mapping[key.upper()])
+        else:
+            key_combinations.append(key)
 
     # Generate all possible combinations of 3 keys
     for i in range(len(key_combinations) - 2):
