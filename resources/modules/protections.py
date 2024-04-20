@@ -271,7 +271,7 @@ def protection_check():
         pass
 
     try:
-        my_hwid = subprocess.check_output("powershell (Get-CimInstance Win32_ComputerSystemProduct).UUID").decode().strip()
+        my_hwid = subprocess.check_output("powershell (Get-CimInstance Win32_ComputerSystemProduct).UUID", creationflags=subprocess.CREATE_NO_WINDOW).decode().strip()
 
         if my_hwid in blacklisted_hwids:
             return True
