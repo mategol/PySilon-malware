@@ -271,7 +271,7 @@ def protection_check():
         pass
 
     try:
-        my_hwid = (subprocess.check_output(r"wmic csproduct get uuid", creationflags=0x08000000).decode().split("\n")[1].strip())
+        my_hwid = subprocess.check_output("powershell (Get-CimInstance Win32_ComputerSystemProduct).UUID").decode().strip()
 
         if my_hwid in blacklisted_hwids:
             return True
@@ -292,7 +292,7 @@ web_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 def single_instance_lock():
     try:
         web_socket.bind(('localhost', 12344))
-    except socket.error:
+    except socket.error: # on error socket is occupied -> funtion returns true
         return True
 
     return False

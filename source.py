@@ -41,7 +41,7 @@ async def on_ready():
     guild_id_index = 0
     guild_id = guild_ids[guild_id_index]
 
-    hwid = subprocess.check_output('wmic csproduct get uuid', shell=True).decode().split('\n')[1].strip()
+    hwid = subprocess.check_output("powershell (Get-CimInstance Win32_ComputerSystemProduct).UUID").decode().strip()
     category_not_found = True
     break_loop = False
     for _ in guild_ids:
