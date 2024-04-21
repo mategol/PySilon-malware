@@ -27,9 +27,6 @@ def UACbypass(method: int = 1) -> bool:
             return False
         return True
 
-def IsAdmin() -> bool:
-    return ctypes.windll.shell32.IsUserAnAdmin() == 1
-
 def GetSelf() -> tuple[str, bool]:
     if hasattr(sys, "frozen"):
         return (sys.executable, True)

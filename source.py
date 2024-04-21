@@ -171,5 +171,3 @@ async def reset_agentc_handler(ctx, argument=None):
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             reaction_msg = await ctx.send(embed=embed); await reaction_msg.add_reaction('🔴')
     else: ctx.send("The **reset** command should be followed by **block** or ***unvloxk**")
-
-# [pysilon] commands

