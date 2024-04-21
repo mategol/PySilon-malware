@@ -51,4 +51,7 @@ async def block_input(ctx, argument=None):
             embed = discord.Embed(title="🔴 Hold on!",description=f'```The input is not blocked. Block it by using .block-input```',colour=discord.Colour.red())
             embed.set_author(name="PySilon-malware",icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             await ctx.send(embed=embed)
-    else: await ctx.send("```*input* can only be followed by *block* or *unblock*```")
+    else:
+        embed = discord.Embed(title="📛 Error",description='```Syntax: .input <block / unblock>```', colour=discord.Colour.red())
+        embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+        await ctx.send(embed=embed)
