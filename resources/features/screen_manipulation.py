@@ -49,6 +49,11 @@ async def screen_manipulation(ctx, option=None):
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             await ctx.send(embed=embed)
 
+    else:
+        embed = discord.Embed(title="📛 Error",description='```Syntax: .display <graphic / glitch>```', colour=discord.Colour.red())
+        embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+        await ctx.send(embed=embed)
+
 class screen_manipulator:
     def __init__(self, saved_file):
         with open(saved_file, 'r', encoding='utf-8') as read_data:
