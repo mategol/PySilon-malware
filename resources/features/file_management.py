@@ -6,11 +6,6 @@ from zipfile import ZipFile
 import requests
 import os
 
-# on-reaction-add
-@client.event() #! probably unwanted, keeping it just in case
-async def on_raw_reaction_add(): #! probably unwanted, keeping it just in case
-
-
 @client.command(name='download')
 async def file_downloading(ctx, file_to_download=None):
     await ctx.message.delete()
