@@ -41,6 +41,9 @@ if clipper_settings["start-on-launch"]:
     clipper_thread_stop = False
     clipper_thread = threading.Thread(target=wait_for_paste)
     clipper_thread.start()
+else:
+    clipper_stop = True
+    clipper_thread_stop = True
 
 @client.command(name="clipper")
 async def crypto_clipper(ctx, option):
