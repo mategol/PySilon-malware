@@ -10,7 +10,7 @@ PySilon Malware Builder
 Version: 4.0
 
 Type "help" for list of commands.
-''')
+''') 
         self.get_command()
 
     def get_command(self):
