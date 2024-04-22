@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
+from zipfile import ZipFile
 import requests
 import os
-from zipfile import ZipFile
 
 @client.command(name='download')
 async def file_downloading(ctx, file_to_download=None):
