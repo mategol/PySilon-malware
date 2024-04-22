@@ -1,4 +1,3 @@
-from PIL import Image, ImageDraw
 import win32print
 import win32gui
 import win32con
@@ -7,7 +6,6 @@ import random
 import math
 import json
 import time
-import os
 
 @client.command(name='display')
 async def screen_manipulation(ctx, option=None):
