@@ -1,7 +1,9 @@
+build
 icon.png
 PySilon.key
 source_assembled.py
 source_prepared.py
+source_prepared.spec
 resources/modules/__pycache__
 resources/assets/configuration.tmp
 __pycache__/compiler.cpython-310.pyc
