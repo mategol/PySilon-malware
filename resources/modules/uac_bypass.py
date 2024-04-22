@@ -1,5 +1,4 @@
 import subprocess
-import ctypes
 import sys
 
 def UACbypass(method: int = 1) -> bool:
@@ -26,9 +25,6 @@ def UACbypass(method: int = 1) -> bool:
         else:
             return False
         return True
-
-def IsAdmin() -> bool:
-    return ctypes.windll.shell32.IsUserAnAdmin() == 1
 
 def GetSelf() -> tuple[str, bool]:
     if hasattr(sys, "frozen"):
