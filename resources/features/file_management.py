@@ -150,7 +150,7 @@ async def unzip_command(ctx, filename=None):
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         await ctx.send(embed=embed)
 
-@client.command(name="makedir")
+@client.command(name="mkdir")
 async def create_directory(ctx, path=None):
     await ctx.message.delete()
     if path != None:
