@@ -280,7 +280,7 @@ async def remove_files(ctx, argument):
             else:
                 rmtree(argument)
 
-            embed = discord.Embed(title="🟢 Success",description=f'```Successfully removed `{argument}`.```', colour=discord.Colour.green())
+            embed = discord.Embed(title="🟢 Success",description=f'Successfully removed `{argument}`.', colour=discord.Colour.green())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             await ctx.send(embed=embed)
 
