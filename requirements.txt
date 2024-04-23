@@ -3,3 +3,5 @@ discord
 datetime
 pillow
 getmac
+imageio
+imageio.ffmpeg
