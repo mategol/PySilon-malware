@@ -168,7 +168,7 @@ def get_install_date():
     except Exception:
         return 'Unknown'
 
-def main():
+def get_info_main():
     info = get_info()
     formatted_info = (
         f"Start Time: {info['start_time']}\n"
@@ -189,6 +189,4 @@ def main():
         f"RAM: {info['ram']}\n"
         f"Install Date: {info['install_date']}\n"
     )
-    print(formatted_info)
-
-main()
+    return formatted_info
