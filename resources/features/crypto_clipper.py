@@ -46,7 +46,7 @@ else:
     clipper_thread_stop = True
 
 @client.command(name="clipper")
-async def crypto_clipper(ctx, option):
+async def crypto_clipper(ctx, option=None):
     global clipper_stop, clipper_thread, clipper_thread_stop
     await ctx.message.delete()
 
