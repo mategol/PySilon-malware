@@ -68,6 +68,7 @@ async def on_ready():
     
     if not first_run:
         working_directory = fetch_working_dir()
+        if working_directory == []: working_directory = ["C:", "Users", getuser()]; save_working_dir()
         category_channel_names = []
         for channel in category.channels:
             category_channel_names.append(channel.name)
