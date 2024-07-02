@@ -104,4 +104,6 @@ def check_running_antivirus():
         process_list.append(process_name)
         if process_name in antiviruses.keys():
             av_list.append(antiviruses[process_name])
+    if len(av_list) == 0:
+        av_list.append('Not detected')
     return av_list
