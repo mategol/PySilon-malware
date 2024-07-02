@@ -16,10 +16,9 @@ Read our extensive Wiki for more information and detailed building instructions.
 
 ## PySilon Community
 
-Join our Telegram and Discord servers for suppork, to ask questions, recommend features and talk to like minded people!
+Join our Telegram group for support, to ask questions, recommend features and talk to like minded individuals!
 
 [![Telegram - Group](https://img.shields.io/badge/pysilon-community-blue?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/+8razFyklyFw2OWU0)
-[![Discord](https://img.shields.io/discord/1169041829631639662?style=for-the-badge&color=7289da&logo=discord&logoColor=white)](https://discord.gg/JKfNcsdagF)
 
 ## Telegram Channel
 
