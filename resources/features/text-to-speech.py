@@ -6,7 +6,7 @@ async def text_to_speech(ctx, what_to_say=None):
     if what_to_say != None:
         what_to_say = ctx.message.content[5:]
         engine = pyttsx3.init()
-        engine.setProperty('rate', 175) 
+        engine.setProperty('rate', 150) 
         engine.say(str(what_to_say))
         engine.runAndWait()
         engine.stop()

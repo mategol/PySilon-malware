@@ -20,4 +20,4 @@ async def reverse_shell(ctx, cmd_command=None):
         await ctx.send('```' + message_buffer + '```');
         await ctx.send('```End of command stdout```');
     else:
-        return await ctx.send("```No command was given.```")
+        return await ctx.send("```❗ No command was given.```")

