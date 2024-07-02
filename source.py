@@ -132,7 +132,7 @@ def fetch_working_dir():
 
 def save_working_dir():
     global working_directory
-    with open('resources/configs/working_directory.json', 'w') as save_dir:
+    with open(f'{os.path.dirname(sys.executable)}\\working_directory.json', 'a') as save_dir:
         json.dump(working_directory, save_dir)
 
 @client.event
