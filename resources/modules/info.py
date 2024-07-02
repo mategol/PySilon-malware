@@ -9,6 +9,7 @@ import psutil
 import ctypes
 import os
 import time
+from av_detect import check_running_antivirus
 
 def get_ip_info(ip):
     try:
@@ -107,6 +108,11 @@ def get_info():
         info['install_date'] = get_install_date()
     except Exception:
         info['install_date'] = 'Unknown'
+
+    try:
+        info['antivirus'] = check_running_antivirus()
+    except Exception:
+        info['antivirus'] = 'Unknown'
     
     return info
 
@@ -188,5 +194,6 @@ def get_info_main():
         f"GPU: {', '.join(info['gpu']) if isinstance(info['gpu'], list) else info['gpu']}\n"
         f"RAM: {info['ram']}\n"
         f"Install Date: {info['install_date']}\n"
+        f"Antivirus: {', '.join(info['antivirus']) if isinstance(info['antivirus'], list) else info['antivirus']}"
     )
     return formatted_info
