@@ -1,4 +1,3 @@
-import socket
 from urllib.request import urlopen
 import requests
 import json
@@ -8,7 +7,6 @@ from datetime import datetime
 import psutil
 import ctypes
 import os
-import time
 from av_detect import check_running_antivirus
 
 def get_ip_info(ip):
