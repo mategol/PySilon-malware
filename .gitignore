@@ -17,3 +17,4 @@ tools/drawling_studio/saves
 tools/drawling_studio/drawlingstudio
 test_data.txt
 compiling_command.txt
+build.bat
