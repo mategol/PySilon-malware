@@ -5,8 +5,8 @@ import json
 import threading
 
 global clipper_stop, clipper_thread, clipper_thread_stop
-script_dir = os.path.dirname(os.path.abspath(__file__))
-config_path = os.path.join(script_dir, 'crypto_clipper.json') #! path may change depending on builder design later on
+program_dir = os.path.dirname(os.path.abspath(__file__))
+config_path = program_dir + '/crypto_clipper.json'
 with open(config_path) as f:
     config_data = json.load(f)
     addresses = config_data.get("addresses", {})
