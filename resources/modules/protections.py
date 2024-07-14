@@ -74,10 +74,17 @@ def protection_check():
             return False
 
     def rdtsc():
-        libc = ctypes.CDLL('libc.so.6')
-        rdtsc = libc.__rdtsc
-        rdtsc.restype = ctypes.c_uint64
-        return rdtsc()
+        class LARGE_INTEGER(ctypes.Structure):
+            _fields_ = [("LowPart", ctypes.c_uint32),
+                        ("HighPart", ctypes.c_uint32)]
+
+        class RDTSC(ctypes.Union):
+            _fields_ = [("u", LARGE_INTEGER),
+                        ("QuadPart", ctypes.c_uint64)]
+
+        rdtsc_value = RDTSC()
+        ctypes.windll.kernel32.QueryPerformanceCounter(ctypes.byref(rdtsc_value))
+        return rdtsc_value.QuadPart
 
     def collect_rdtsc_data(duration=10):
         timings = []
@@ -100,17 +107,6 @@ def protection_check():
         threshold = 1200000
         if mean_timing < threshold or stddev_timing > (threshold * 0.1):
             return True
-        return False
-
-    def detect_education_software():
-        edu_software_paths = [
-            "C:\\Program Files\\Proctortrack",
-            "C:\\Program Files\\ExamSoft",
-            "C:\\Program Files\\Respondus"
-        ]
-        for path in edu_software_paths:
-            if os.path.exists(path):
-                return True
         return False
 
     def detect_hypervisors():
@@ -167,8 +163,6 @@ def protection_check():
         if detect_cursor_sync():
             return True
         if detect_rdtsc_spoofing():
-            return True
-        if detect_education_software():
             return True
         if detect_hypervisors():
             return True
