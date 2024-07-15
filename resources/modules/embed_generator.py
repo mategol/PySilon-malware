@@ -1,4 +1,5 @@
-def generate_embed(ctx, **kwargs):
+def generate_embed(**kwargs):
+    DEFAULT = 'DEFAULT'
     embed = discord.Embed(title=kwargs['title'], description=kwargs['description'], color=kwargs['color'])
     for cfg in kwargs.keys():
         match cfg:
@@ -12,7 +13,7 @@ def generate_embed(ctx, **kwargs):
                     embed.set_footer(text=footer_text, icon_url=footer_icon)
                 else: embed.set_footer(text=footer_text)
             case 'url': embed.url = kwargs['url'] if kwargs['url'] != DEFAULT else 'https://github.com/mategol/PySilon-malware'
-            case 'timestamp': embed.timestamp = kwargs['timestamp'] if kwargs['timestamp'] != DEFAULT else ctx.message.created_at
+            case 'timestamp': embed.timestamp = kwargs['timestamp']
             case 'image': embed.set_image(url=kwargs['image'])
             case 'author':
                 author_name = (kwargs['author'] if kwargs['author'] != DEFAULT else 'PySilon Malware') if type(kwargs['author']) != list else (kwargs['author'][0] if kwargs['author'][0] != DEFAULT else 'PySilon Malware')
