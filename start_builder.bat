@@ -6,6 +6,8 @@ cls
 call pysilon\Scripts\activate.bat
 python -m pip install --upgrade pip
 pip install pillow
+pip install requests
+pip install pyperclip
 pip install pyinstaller
 cls
 python resources/builder.py

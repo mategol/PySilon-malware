@@ -8,7 +8,7 @@ import subprocess
 from datetime import datetime
 from urllib.request import urlopen
 from screeninfo import get_monitors
-import av_detect as pysilon_av_detect
+import resources.modules.av_detect as pysilon_av_detect
 
 class grab_info:
     def __init__(self):
