@@ -457,11 +457,6 @@ def protection_check():
 
     for process in psutil.process_iter(['pid', 'name']):
         if process.info['name'].lower() in blacklisted_processes:
-            with open(process.exe(), "rb") as file:
-                hash_ = hashlib.sha256(file.read()).hexdigest()
-
-                if hash_ == scarecrow_hash:
-                    return False
             return True
 
     if check_scarecrow():
