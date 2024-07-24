@@ -55,17 +55,8 @@ table = {
     'Z': 'ZŻȤΖẒⱫ',
 }
 
-sentence = 'Grabbed Saved Passwords:'
-
-def render_text(text):
-    result = ''
-    for char in sentence:
+def render_text(text, result=''):
+    for char in text:
         if char in table: result += random.choice(table[char])
         else: result += char
     return result
-
-
-for i in range(100):
-    print(render_text(sentence))
-    
-input()
