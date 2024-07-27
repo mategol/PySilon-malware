@@ -92,7 +92,7 @@ Subscribe to our Telegram channels to always stay up-to-date with the most recen
 
 `git clone https://github.com/mategol/pysilon-malware`<br />
 `cd pysilon-malware`<br />
-<a href="https://github.com/mategol/pysilon-malware#setup">`Create Discord BOT and server`</a><br />
+<a href="https://github.com/mategol/PySilon-malware/wiki/Setup">`Create Discord BOT and server`</a><br />
 ***Windows:*** `Run the PySilon.bat either from Command Line or double clicking on it`<br />
 ***Linux:*** `Run the PySilon.sh from Command Line`<br />
 
