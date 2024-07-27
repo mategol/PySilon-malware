@@ -11,17 +11,6 @@ from urllib.request import urlopen
 #import resources.modules.uac_bypass as uac_bypass
 #import resources.modules.hide_process as proc_hider
 #import resources.modules.protections as pysilon_protections
-import os
-import json
-import ctypes
-import psutil
-import requests
-import platform
-import subprocess
-from datetime import datetime
-from urllib.request import urlopen
-from screeninfo import get_monitors
-import modules.av_detect as pysilon_av_detect
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Don't edit anything in this file. Everything will be handled by compiler. #

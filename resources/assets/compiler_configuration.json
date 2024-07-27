@@ -1,0 +1,4 @@
+{
+    "path": "resources/assets/sass",
+    "output": "public/css"
+}
