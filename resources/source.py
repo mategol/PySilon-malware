@@ -150,7 +150,7 @@ class PySilon(commands.Bot):
                     else: embed.set_author(name=author_name)
         return embed
 
-#misc.intendation=0
+#!misc.intendation=0
 
 bot = PySilon(command_prefix='.', self_bot=False)
 bot.run('')

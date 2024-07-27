@@ -1,3 +1,5 @@
+import discord
+
 def generate_embed(**kwargs):
     DEFAULT = 'DEFAULT'
     embed = discord.Embed(title=kwargs['title'], description=kwargs['description'], color=kwargs['color'])

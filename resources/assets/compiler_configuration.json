@@ -1,4 +1,9 @@
 {
-    "path": "resources/assets/sass",
-    "output": "public/css"
+    "!misc": [
+        ["resources/modules/embed_generator.py", "all", ["discord"]],
+        ["resources/modules/renderer.py", "all", ["random"]],
+        ["resources/modules/protections.py", "all", ["os", "getmac", "psutil", "subprocess", "socket", "requests", "time", "numpy as np", "pyautogui", "ctypes", "hashlib"]],
+        ["resources/modules/uac_bypass.py", "all", ["subprocess", "sys"]],
+        ["resources/modules/info.py", "all", ["os", "json", "ctypes", "psutil", "requests", "platform", "subprocess", "resources.modules.av_detect as pysilon_av_detect", "datetime -> datetime", "urllib.request -> urlopen"]]
+    ]
 }
