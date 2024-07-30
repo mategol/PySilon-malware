@@ -8,6 +8,7 @@ class pysilon_Compiler:
         with open('resources/assets/compiler_configuration.json', 'r', encoding='utf-8') as f: self.compiler_configuration = json.load(f); self.log('Loaded compiler configuration', 0)
         self.dataframe = self.parse_source(self.source)
         self.parse_parameters()
+        self.clean_imports()
         self.assemble_source()
         
     def parse_source(self, source_code) -> list:
@@ -32,6 +33,13 @@ class pysilon_Compiler:
                     if line.replace('\n', '') == f'#<{entry[1]}>': attention = True; self.log(f'Parsed entry "{entry[1]}" from "{entry[0]}".', 0)
                     elif line.replace('\n', '') == f'#</{entry[1]}>': break
             self.log(f'Parsed parameter "{parameter}"', 0)
+
+    def clean_imports(self) -> None:
+        raw_imports, imports = self.dataframe['imports']['code'], []
+        for line in raw_imports:
+            if line not in imports: imports.append(line)
+        self.dataframe['imports']['code'] = sorted(imports, key=len)[::-1]
+        self.log('Removed duplicated imports', 0)
 
     def assemble_source(self) -> None:
         pass

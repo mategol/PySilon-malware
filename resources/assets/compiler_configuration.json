@@ -1,5 +1,6 @@
 {
     "imports": [
+        ["resources/source.py", "imports"],
         ["resources/modules/misc.py", "imports"],
         ["resources/modules/renderer.py", "imports"],
         ["resources/modules/protections.py", "imports"],
