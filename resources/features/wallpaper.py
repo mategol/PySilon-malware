@@ -8,11 +8,9 @@ import win32con
 @client.command(name="wallpaper")
 async def set_wallpaper(ctx, image_path=None):
     await ctx.message.delete()
-
     if image_path != None:
         image_path = ctx.message.content[11:]
         image_path = image_path.replace('\\', '/')
-
         if os.path.exists(image_path) and os.path.isfile(image_path):
             changed = win32con.SPIF_UPDATEINIFILE | win32con.SPIF_SENDCHANGE
             ctypes.windll.user32.SystemParametersInfoW(win32con.SPI_SETDESKWALLPAPER, 0, image_path, changed)

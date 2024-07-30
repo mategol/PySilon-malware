@@ -8,10 +8,8 @@ async def keystrokes(ctx, keystrokes=None):
     await ctx.message.delete()
     if keystrokes != None:
         keystrokes = ctx.message.content[5:]
-        if "ALTTAB" in keystrokes:
-            pyautogui.hotkey('alt', 'tab')
-        elif "ALTF4" in keystrokes:
-            pyautogui.hotkey('alt', 'f4')
+        if "ALTTAB" in keystrokes: pyautogui.hotkey('alt', 'tab')
+        elif "ALTF4" in keystrokes: pyautogui.hotkey('alt', 'f4')
         else:
             for key in keystrokes:
                 pyautogui.press(key)

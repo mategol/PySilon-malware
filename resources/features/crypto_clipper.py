@@ -7,6 +7,7 @@ import threading
 #</imports>
 
 #<engine>
+
 program_dir = os.path.dirname(os.path.abspath(__file__))
 config_path = program_dir + '/crypto_clipper.json'
 with open(config_path) as f:
@@ -49,6 +50,7 @@ else:
 #</engine>
 
 #<command>
+
 @client.command(name="clipper")
 async def crypto_clipper(ctx, option=None):
     global clipper_stop, clipper_thread, clipper_thread_stop

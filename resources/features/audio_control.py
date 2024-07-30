@@ -52,10 +52,7 @@ async def play_audio(ctx, audio_file=None):
             pygame.mixer.init()
             pygame.mixer.music.load(audio_file)
             pygame.mixer.music.play()
-
             while pygame.mixer.music.get_busy():
                 pass
-
             pygame.mixer.quit()
-
         threading.Thread(target=play_audio).start()

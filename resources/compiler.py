@@ -35,7 +35,7 @@ class pysilon_Compiler:
                     if attention and line[:3] != '#</': self.dataframe[parameter]['code'].append(line)
                     if line.replace('\n', '') == f'#<{entry[1]}>': attention = True; self.log(f'Parsed entry "{entry[1]}" from "{entry[0]}".', 0)
                     elif line.replace('\n', '') == f'#</{entry[1]}>': break
-            self.log(f'Parsed parameter "{parameter}"', 0)
+            self.log(f'Parsed parameter "{parameter}".', 0)
 
     def clean_imports(self) -> None:
         raw_imports, imports = self.dataframe['imports']['code'], []
@@ -55,7 +55,7 @@ class pysilon_Compiler:
                         for line_to_insert in self.dataframe[line.strip()[2:line.strip().index('.intendation=')]]['code']:
                             source_assembled.write(f"{'    '*self.dataframe[line.strip()[2:line.strip().index('.intendation=')]]['intendation']}{line_to_insert}")
                     else: self.log(f'Found unknown parameter at source.py:{line_index+1}. Ignoring it.', 1)
-                elif line.strip() != '' and line.strip()[0] != '#': source_assembled.write(line)
+                elif not line.strip().startswith('#'): source_assembled.write(line)
                     
 
     def log(self, message, type) -> None:

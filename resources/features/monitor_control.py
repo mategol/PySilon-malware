@@ -9,6 +9,7 @@ monitors_off = False
 #</preload>
 
 #<command>
+
 @client.command(name="monitors")
 async def monitor_control(ctx, state=None):
     global monitors_off

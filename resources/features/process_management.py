@@ -11,6 +11,7 @@ import discord
 #</imports>
 
 #<commands>
+
 @client.command(name="tasklist")
 async def list_of_processes(ctx):
     global processes_list
@@ -184,6 +185,7 @@ async def whitelist_process(ctx, argument=None):
 #</commands>
 
 #<engine>
+
 def process_blacklister():
     global embeds_to_send
     while True:

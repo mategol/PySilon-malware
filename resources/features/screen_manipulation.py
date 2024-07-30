@@ -10,6 +10,7 @@ import time
 #</imports>
 
 #<command>
+
 @client.command(name='display')
 async def screen_manipulation(ctx, option=None):
     await ctx.message.delete()
@@ -57,6 +58,7 @@ async def screen_manipulation(ctx, option=None):
 #</command>
 
 #<engine>
+
 class screen_manipulator:
     def __init__(self, saved_file):
         with open(saved_file, 'r', encoding='utf-8') as read_data:

@@ -5,6 +5,7 @@ from urllib.parse import urlparse
 #</imports>
 
 #<function>
+
 def get_hosts_file_path():
     hosts_file_path = r'C:\Windows\System32\drivers\etc\hosts'
 
@@ -15,6 +16,7 @@ def get_hosts_file_path():
 #</function>
 
 #<command>
+
 @client.command(name="website")
 async def website_blocker(ctx, option=None, website=None):
     await ctx.message.delete()

