@@ -55,7 +55,7 @@ class pysilon_Compiler:
                         for line_to_insert in self.dataframe[line.strip()[2:line.strip().index('.intendation=')]]['code']:
                             source_assembled.write(f"{'    '*self.dataframe[line.strip()[2:line.strip().index('.intendation=')]]['intendation']}{line_to_insert}")
                     else: self.log(f'Found unknown parameter at source.py:{line_index+1}. Ignoring it.', 1)
-                        
+                elif line.strip() != '' and line.strip()[0] != '#': source_assembled.write(line)
                     
 
     def log(self, message, type) -> None:
