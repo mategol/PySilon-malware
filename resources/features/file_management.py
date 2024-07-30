@@ -1,3 +1,4 @@
+#<imports>
 import resources.modules.misc as pysilon_misc
 from shutil import copy2, rmtree
 from bs4 import BeautifulSoup
@@ -8,6 +9,7 @@ import subprocess
 import requests
 import json
 import os
+#</imports>
 
 @client.command(name='download')
 async def file_downloading(ctx, file_to_download=None):

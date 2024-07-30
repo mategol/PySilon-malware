@@ -1,4 +1,7 @@
+#<imports>
 import pyautogui
+import discord
+#</imports>
 
 @client.command(name="key")
 async def keystrokes(ctx, keystrokes=None):

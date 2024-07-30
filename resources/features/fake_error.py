@@ -1,4 +1,6 @@
+#<imports>
 from tkinter import messagebox
+#</imports>
 
 @client.command(name="fakeerror")
 async def fake_error(ctx, *, args=None):

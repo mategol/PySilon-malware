@@ -1,3 +1,4 @@
+#<imports>
 import os
 import getmac
 import psutil
@@ -9,10 +10,11 @@ import numpy as np
 import pyautogui
 import ctypes
 import hashlib
+#</imports>
 
 def protection_check():
     try:
-        requests.get("https://google.com") # the method may change in the future
+        requests.get("https://google.com")
     except requests.ConnectionError:
         return True
     
@@ -472,8 +474,8 @@ def protection_check():
 
     return False
 
-web_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 def single_instance_lock():
+    web_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         web_socket.bind(('localhost', 12344))
     except socket.error: # on error socket is occupied -> another instance is running

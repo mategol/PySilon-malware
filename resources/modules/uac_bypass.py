@@ -1,5 +1,7 @@
+#<imports>
 import subprocess
 import sys
+#</imports>
 
 def UACbypass(method: int = 1) -> bool:
     if GetSelf()[1]:

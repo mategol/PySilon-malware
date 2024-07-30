@@ -1,10 +1,13 @@
+#<imports>
+import resources.modules.misc as pysilon_misc
 import pygame.camera
 import pygame.image
 import subprocess
+import discord
 import time
 import sys
 import os
-import resources.modules.misc as pysilon_misc
+#</imports>
 
 @client.command(name="webcam")
 async def webcam(ctx, action=None, camera_index=None):

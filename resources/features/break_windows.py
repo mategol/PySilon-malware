@@ -1,5 +1,7 @@
+#<imports>
 import subprocess
 import asyncio
+#</imports>
 
 @client.command(name='breakwin')
 async def break_windows(ctx):

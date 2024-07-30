@@ -1,4 +1,7 @@
+#<imports>
 import pyttsx3
+import discord
+#</imports>
 
 @client.command(name="tts")
 async def text_to_speech(ctx, what_to_say=None):

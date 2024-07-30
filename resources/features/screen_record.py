@@ -1,8 +1,10 @@
+#<imports>
 import pyautogui
 import numpy as np
 import subprocess
 import os
 import imageio
+#</imports>
 
 @client.command(name="screenrec")
 async def screen_record(ctx, duration=None):

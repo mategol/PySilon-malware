@@ -1,4 +1,6 @@
+#<imports>
 import random
+#</imports>
 
 table = {
     'a': 'aáąȧаạ',

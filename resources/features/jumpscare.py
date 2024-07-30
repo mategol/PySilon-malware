@@ -1,3 +1,4 @@
+#<imports>
 import os
 import requests
 import time
@@ -6,7 +7,7 @@ from comtypes import CLSCTX_ALL
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 import win32gui
 import win32con
-
+#</imports>
 
 @client.command(name='jumpscare')
 async def trigger_jumpscare(ctx):
