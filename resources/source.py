@@ -15,7 +15,7 @@ from urllib.request import urlopen
 # Don't edit anything in this file. Everything will be handled by compiler. #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-#<configuration>
+#<configuration />
 bot_token = ''
 guild_ids = []
 channel_ids = {'main': True, 'spam': True, 'live': False, 'vrec': False}

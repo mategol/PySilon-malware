@@ -9,6 +9,7 @@ class pysilon_Compiler:
         self.dataframe = self.parse_source(self.source)
         self.parse_parameters()
         self.clean_imports()
+        self.log('Assembling source code...', 0)
         self.assemble_source()
         
     def parse_source(self, source_code) -> list:
@@ -16,8 +17,10 @@ class pysilon_Compiler:
         for line_index, line in enumerate(source_code):
             line = line.strip()
             if line[:2] == '#!':
-                dataframe[line[2:].split('.')[0]] = {'intendation': int(line.split('=')[1]), 'line': line_index, 'code': []}
-                self.log(f'Found parameter "{line[2:].split(".")[0]}" at line {line_index}.', 0)
+                if line[2:].split('.')[0] in self.compiler_configuration.keys():
+                    dataframe[line[2:].split('.')[0]] = {'intendation': int(line.split('=')[1]), 'line': line_index, 'code': []}
+                    self.log(f'Found parameter "{line[2:].split(".")[0]}" at source.py:{line_index+1}.', 0)
+                else: self.log(f'Found unknown parameter at source.py:{line_index+1}. Ignoring it.', 1)
         if len(dataframe) == 1: self.log('No parameters found. This should not occur. Contact PySilon development staff for help or try to re-clone the repository.', 2)
         else: self.log(f'Successfully parsed source code. Found {len(dataframe)} parameters.', 0)
         return dataframe
@@ -42,7 +45,18 @@ class pysilon_Compiler:
         self.log('Removed duplicated imports', 0)
 
     def assemble_source(self) -> None:
-        pass
+        with open('resources/output/source.py', 'w', encoding='utf-8') as source_assembled:
+            for line in self.dataframe['imports']['code']: source_assembled.write(line)
+            for line_index, line in enumerate(self.source):
+                if line_index <= len(self.source[:self.source.index('#</imports>\n')]): continue
+                if line.strip()[:2] == '#!':
+                    if line.strip()[2:line.strip().index('.intendation=')] in self.dataframe.keys():
+                        self.log(f'Parameter "{line.strip()[2:line.strip().index(".intendation=")]}" found at source.py:{line_index+1}', 0)
+                        for line_to_insert in self.dataframe[line.strip()[2:line.strip().index('.intendation=')]]['code']:
+                            source_assembled.write(f"{'    '*self.dataframe[line.strip()[2:line.strip().index('.intendation=')]]['intendation']}{line_to_insert}")
+                    else: self.log(f'Found unknown parameter at source.py:{line_index+1}. Ignoring it.', 1)
+                        
+                    
 
     def log(self, message, type) -> None:
         if type == 0: prefix = 'INFO'
