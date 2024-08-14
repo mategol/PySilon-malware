@@ -12,7 +12,7 @@ import tkinter.font as tkFont
 from PIL import Image, ImageTk, ImageFont, ImageGrab
 import requests
 
-with open('resources/assets/builder_configuration.json', 'r', encoding='utf-8') as load_configuration:
+with open('resources/cfg/builder_configuration.json', 'r', encoding='utf-8') as load_configuration:
     builder_configuration = json.loads(''.join(load_configuration.readlines()).replace('\n', ''))
 
 class Builder:
@@ -25,7 +25,7 @@ class Builder:
         myappid = 'mycompany.myproduct.subproduct.version'
         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 
-        try: self.malware_latest_version = json.loads(requests.get('https://raw.githubusercontent.com/mategol/PySilon-malware/v4-dev/resources/assets/builder_configuration.json').text.replace('\n', ''))['malware_version']
+        try: self.malware_latest_version = json.loads(requests.get('https://raw.githubusercontent.com/mategol/PySilon-malware/v4-dev/resources/cfg/builder_configuration.json').text.replace('\n', ''))['malware_version']
         except: self.malware_latest_version = None
 
         self.create_header()
@@ -139,7 +139,7 @@ class Builder:
         }
 
         if 'configuration.tmp' not in os.listdir('resources/assets'):
-            with open('resources/assets/configuration.tmp', 'w', encoding='utf-8') as configuration_file:
+            with open('resources/cfg/configuration.json', 'w', encoding='utf-8') as configuration_file:
                 configuration_file.write(json.dumps(self.malware_configuration, indent=4))
 
         self.general_settings()
@@ -539,7 +539,7 @@ class Builder:
                 self.malware_configuration['digital_certificate']['email_address'] = self.cert_mail_entry.get()
                 self.malware_configuration['digital_certificate']['validity_end_in_seconds'] = self.cert_validity_entry.get()
 
-        with open('configuration.json' if not temporary else 'resources/assets/configuration.tmp', 'w', encoding='utf-8') as configuration_file:
+        with open('resources/cfg/configuration.json', 'w', encoding='utf-8') as configuration_file:
             configuration_file.write(json.dumps(self.malware_configuration, indent=4))
 
         if close != False:
@@ -554,11 +554,11 @@ class Builder:
             self.canvas.create_image(0, 440, image=self.corners_image, anchor=tk.NW)
 
     def load_configuration(self, path=False):
-        with open('configuration.json' if path else 'resources/assets/configuration.tmp' if not path else path, 'r', encoding='utf-8') as configuration_file:
+        with open('resources/cfg/configuration.json' if not path else path, 'r', encoding='utf-8') as configuration_file:
             self.malware_configuration = json.loads(''.join(configuration_file.readlines()))
     
     def write_configuration(self, temporary=True, close=False):
-        with open('configuration.json' if not temporary else 'resources/assets/configuration.tmp', 'w', encoding='utf-8') as configuration_file:
+        with open('resources/cfg/configuration.json', 'w', encoding='utf-8') as configuration_file:
             configuration_file.write(self.text.get('1.0', tk.END))
         self.malware_configuration = json.loads(self.text.get('1.0', tk.END))
         if close != False:
@@ -613,11 +613,11 @@ class Builder:
         if context == 'certificate': self.toggle_certificate()
         if time.time() - self.time_check < 0.5:
             if context == 'antivm':
-                self.configuration_editor('resources/assets/configuration.tmp', ['75.0', '79.0'], '73.0')
+                self.configuration_editor('resources/cfg/configuration.json', ['75.0', '79.0'], '73.0')
             elif context == 'obfuscation':
-                self.configuration_editor('resources/assets/configuration.tmp', ['34.0', '71.0'], '32.0')
+                self.configuration_editor('resources/cfg/configuration.json', ['34.0', '71.0'], '32.0')
             elif context == 'certificate':
-                self.configuration_editor('resources/assets/configuration.tmp', ['82.0', '92.0'], '80.0')
+                self.configuration_editor('resources/cfg/configuration.json', ['82.0', '92.0'], '80.0')
         self.time_check = time.time()
 
     def open_pysilon(self):

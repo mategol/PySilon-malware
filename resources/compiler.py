@@ -5,7 +5,7 @@ import os
 class pysilon_Compiler:
     def __init__(self) -> None:
         with open('resources/source.py', 'r', encoding='utf-8') as f: self.source = f.readlines(); self.log('Loaded source.py', 0)
-        with open('resources/assets/compiler_configuration.json', 'r', encoding='utf-8') as f: self.compiler_configuration = json.load(f); self.log('Loaded compiler configuration', 0)
+        with open('resources/cfg/compiler_configuration.json', 'r', encoding='utf-8') as f: self.compiler_configuration = json.load(f); self.log('Loaded compiler configuration', 0)
         self.dataframe = self.parse_source(self.source)
         self.parse_parameters()
         self.clean_imports()
