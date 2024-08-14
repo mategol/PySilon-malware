@@ -1,17 +1,17 @@
-import tkinter as tk
-from tkinter import ttk
+from PIL import Image, ImageTk, ImageFont, ImageGrab
 from tkinter import filedialog
-import random
-import os
+import tkinter.font as tkFont
+from tkinter import ttk
+import tkinter as tk
 import pyperclip
-import time
-import sys
+import requests
+import random
 import shutil
 import ctypes
 import json
-import tkinter.font as tkFont
-from PIL import Image, ImageTk, ImageFont, ImageGrab
-import requests
+import time
+import sys
+import os
 
 with open('resources/cfg/builder_configuration.json', 'r', encoding='utf-8') as load_configuration:
     builder_configuration = json.loads(''.join(load_configuration.readlines()).replace('\n', ''))

