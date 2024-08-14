@@ -6,6 +6,7 @@ class pysilon_Compiler:
     def __init__(self) -> None:
         with open('resources/source.py', 'r', encoding='utf-8') as f: self.source = f.readlines(); self.log('Loaded source.py', 0)
         with open('resources/cfg/compiler_configuration.json', 'r', encoding='utf-8') as f: self.compiler_configuration = json.load(f); self.log('Loaded compiler configuration', 0)
+        with open('resources/cfg/configuration.json', 'r', encoding='utf-8') as f: self.malware_configuration = json.load(f); self.log('Loaded malware configuration', 0)
         self.dataframe = self.parse_source(self.source)
         self.parse_parameters()
         self.clean_imports()
@@ -28,13 +29,19 @@ class pysilon_Compiler:
     def parse_parameters(self) -> None:
         for parameter in self.dataframe.keys():
             for entry in self.compiler_configuration[parameter]:
+                if entry[0] == 'rquired': pass
+                elif entry[0] == 'anti_vm':
+                    if self.malware_configuration['anti_vm']['enabled'] == True: pass
+                    else: continue
+                elif self.malware_configuration['functionalities'][entry[0]] == False: continue
+
                 attention = False
-                with open(entry[0], 'r', encoding='utf-8') as f:
+                with open(entry[1], 'r', encoding='utf-8') as f:
                     parameter_source = f.readlines()
                 for line in parameter_source:
                     if attention and line[:3] != '#</': self.dataframe[parameter]['code'].append(line)
-                    if line.replace('\n', '') == f'#<{entry[1]}>': attention = True; self.log(f'Parsed entry "{entry[1]}" from "{entry[0]}".', 0)
-                    elif line.replace('\n', '') == f'#</{entry[1]}>': break
+                    if line.replace('\n', '') == f'#<{entry[2]}>': attention = True; self.log(f'Parsed entry "{entry[2]}" from "{entry[1]}".', 0)
+                    elif line.replace('\n', '') == f'#</{entry[2]}>': break
             self.log(f'Parsed parameter "{parameter}".', 0)
 
     def clean_imports(self) -> None:
@@ -54,12 +61,11 @@ class pysilon_Compiler:
                         self.log(f'Parameter "{line.strip()[2:line.strip().index(".intendation=")]}" found at source.py:{line_index+1}', 0)
                         for line_to_insert in self.dataframe[line.strip()[2:line.strip().index('.intendation=')]]['code']:
                             source_assembled.write(f"{'    '*self.dataframe[line.strip()[2:line.strip().index('.intendation=')]]['intendation']}{line_to_insert}")
-                            self.log(f'Inserted code from parameter "{line.strip()[2:line.strip().index(".intendation=")]}" at source.py:{line_index+1}', 0)
+                        self.log(f'Inserted code from parameter "{line.strip()[2:line.strip().index(".intendation=")]}" at source.py:{line_index+1}', 0)
                     else: self.log(f'Found unknown parameter at source.py:{line_index+1}. Ignoring it.', 1)
                 elif not line.strip().startswith('#'): source_assembled.write(line)
             self.log('Assembled source code.', 0)
                     
-
     def log(self, message, type) -> None:
         if type == 0: prefix = 'INFO'
         elif type == 1: prefix = 'WARNING'
@@ -69,4 +75,3 @@ class pysilon_Compiler:
 
 os.chdir('.')
 pysilon_Compiler()
-

