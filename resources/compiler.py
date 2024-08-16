@@ -40,6 +40,7 @@ class pysilon_Compiler:
                     parameter_source = f.readlines()
                 for line in parameter_source:
                     if attention and line[:3] != '#</': self.dataframe[parameter]['code'].append(line)
+                    if line.replace('\n', '') == f'#</imports>' and entry[2] == 'all': attention = True
                     if line.replace('\n', '') == f'#<{entry[2]}>': attention = True; self.log(f'Parsed entry "{entry[2]}" from "{entry[1]}".', 0)
                     elif line.replace('\n', '') == f'#</{entry[2]}>': break
             self.log(f'Parsed parameter "{parameter}".', 0)

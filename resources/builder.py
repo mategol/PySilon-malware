@@ -800,7 +800,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_keyctrl.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['keylogr']))
+        self.cb_keyctrl.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['keyctrl']))
         self.cb_keyctrl.bind("<Leave>", self.hide_tooltip)
         self.cbvar_keyctrl.set(self.malware_configuration['functionalities']['keyctrl'])
         self.canvas.create_window(x_start, y_start+y_delta*0, window=self.cb_keyctrl, anchor='w')
@@ -816,7 +816,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_scrnget.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['scrnsht']))
+        self.cb_scrnget.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['scrnget']))
         self.cb_scrnget.bind("<Leave>", self.hide_tooltip)
         self.cbvar_scrnget.set(self.malware_configuration['functionalities']['scrnget'])
         self.canvas.create_window(x_start, y_start+y_delta*1, window=self.cb_scrnget, anchor='w')
@@ -864,7 +864,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_micgrab.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['mc_live']))
+        self.cb_micgrab.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['micgrab']))
         self.cb_micgrab.bind("<Leave>", self.hide_tooltip)
         self.cbvar_micgrab.set(self.malware_configuration['functionalities']['micgrab'])
         self.canvas.create_window(x_start, y_start+y_delta*4, window=self.cb_micgrab, anchor='w')
@@ -960,7 +960,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_communicator.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['messger']))
+        self.cb_communicator.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['commtor']))
         self.cb_communicator.bind("<Leave>", self.hide_tooltip)
         self.cbvar_communicator.set(self.malware_configuration['functionalities']['commtor'])
         self.canvas.create_window(x_start, y_start+y_delta*10, window=self.cb_communicator, anchor='w')
@@ -1008,7 +1008,7 @@ class Builder:
             onvalue=True,
             offvalue=False
         )
-        self.cb_troll.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['jmpscar']))
+        self.cb_troll.bind("<Enter>", lambda event: self.show_tooltip(event, builder_configuration['tooltips']['trollin']))
         self.cb_troll.bind("<Leave>", self.hide_tooltip)
         self.cbvar_troll.set(self.malware_configuration['functionalities']['trollin'])
         self.canvas.create_window(x_start*x_delta, y_start+y_delta*2, window=self.cb_troll, anchor='w')
