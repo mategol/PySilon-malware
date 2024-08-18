@@ -1,5 +1,45 @@
 @echo off
+setlocal enabledelayedexpansion
 title PySilon
+
+set "input_file=resources/cfg/project_tree/40.tree"
+
+set "missing_files=missing_files.txt"
+if exist "%missing_files%" del "%missing_files%"
+
+echo Checking the project tree integrity...
+for /f "usebackq delims=" %%A in ("%input_file%") do (
+    set "path=%%A"
+
+    if not exist "!path!" (
+        echo MISSING: !path!
+        echo %%A >> "%missing_files%"
+    ) else (
+        echo EXISTS: !path!
+    )
+)
+
+if exist "%missing_files%" (
+    echo.
+    echo Some files are missing!
+    type "%missing_files%"
+
+    echo.
+    echo You need to make sure that every file is in it's place, otherwise this project won't work.
+    echo It's common for AVs to remove some files, so you might need to download them again.
+    echo The best solution is to add directory to AVs exclusions list and re-clone the repository.
+    echo.
+    del "%missing_files%"
+    pause
+    exit /b 1
+
+) else (
+    echo The project is integral. Continuing...
+    del "%missing_files%"
+)
+
+echo Proceeding with the script...
+
 echo Initializing the virtual environment...
 python -m venv pysilon
 cls

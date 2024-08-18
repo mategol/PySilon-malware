@@ -5,6 +5,7 @@ import discord
 import win32con
 #</imports>
 
+
 @client.command(name="wallpaper")
 async def set_wallpaper(ctx, image_path=None):
     await ctx.message.delete()

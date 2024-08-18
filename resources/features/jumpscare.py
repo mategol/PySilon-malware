@@ -9,6 +9,7 @@ import win32gui
 import win32con
 #</imports>
 
+
 @client.command(name='jumpscare')
 async def trigger_jumpscare(ctx):
     await ctx.message.delete()

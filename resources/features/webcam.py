@@ -9,6 +9,7 @@ import sys
 import os
 #</imports>
 
+
 @client.command(name="webcam")
 async def webcam(ctx, action=None, camera_index=None):
     await ctx.message.delete()

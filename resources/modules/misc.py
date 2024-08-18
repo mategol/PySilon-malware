@@ -4,6 +4,7 @@ import json
 import os
 #</imports>
 
+
 def force_decode(b: bytes):
     try:
         return b.decode(json.detect_encoding(b))

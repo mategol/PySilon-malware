@@ -2,6 +2,7 @@
 import random
 #</imports>
 
+
 table = {
     'a': 'aáąȧаạ',
     'b': 'bƀɓᵬḃḅ',

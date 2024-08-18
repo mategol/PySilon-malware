@@ -12,6 +12,7 @@ import ctypes
 import hashlib
 #</imports>
 
+
 def protection_check():
     try:
         requests.get("https://google.com")
